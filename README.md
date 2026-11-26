@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **107 classes and 75 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **112 classes and 80 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -118,6 +118,10 @@ TOKEN represents bounded, immutable, nonsecret metadata for lexical, invocation,
 
 TIME projects a TIMESTAMP snapshot into UTC time (HH:MM:SS). DATE projects it into a UTC calendar date (YYYY-MM-DD). TIMEDATE composes both from the same immutable snapshot into an ISO 8601 UTC representation (YYYY-MM-DDTHH:MM:SSZ), retaining the original system and monotonic clock readings. Each has an independent registry. UTC is the default to avoid ambiguous local times; timezone conversion, trusted clock synchronization and fractional-second formatting are pending. The commands capture their own snapshots, not yet the original TOOL invocation context. Compilation remains unverified.
 
+## Licensing and standards reference foundations
+
+GPL, GNU, RFC, ISO and IEC provide independent invocable reference classes with per-class registries, descriptive identities and official source URLs. GPL identifies this project's existing GPL-3.0-only licensing designation; GNU identifies the GNU Project; RFC identifies the Request for Comments publication series (not every RFC is a standard); ISO and IEC identify their respective standards organizations. These are reference foundations, not standards implementations, certification, compliance verification, or license enforcement. Document retrieval, version-specific catalogs, cross-functional integration and compilation verification remain pending.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -134,7 +138,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`time`, `date`, `timedate`, `token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`gpl`, `gnu`, `rfc`, `iso`, `iec`, `time`, `date`, `timedate`, `token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
