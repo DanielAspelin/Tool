@@ -178,6 +178,10 @@ UPTIME and DOWNTIME share up to 256 named availability records and measure cumul
 
 Added LOCATOR, POSITIONER, PREPOSITIONER, PASSTHROUGH, ROUND, THROUGH, VELOCITY, FREQUENCY, ENTRY, EXIT, INPUT, OUTPUT, SHELL, TERMINAL, CONSOLE, PERSISTENCE, VOLATILITY, IDLE, SLEEP. Existing SESSION retained with list and trigger aliases. ROUND and THROUGH produce textual plans only; PASSTHROUGH and SHELL/TERMINAL/CONSOLE dispatch registered Tool commands, not OS shell commands. LOCATOR searches command registrations; POSITIONER and PREPOSITIONER store logical positions. VELOCITY and FREQUENCY calculate supplied ratios. ENTRY/EXIT/INPUT/OUTPUT inspect byte lengths; EXIT uses exit.inspect.boundary to preserve the existing exit command. PERSISTENCE and VOLATILITY delegate to the existing invocation store. IDLE reports policy only; SLEEP waits at most one second on native targets. Expected total: 154 classes and 732 registrations, pending compilation and runtime verification. No automatic circulation, physical positioning, OS terminal or scheduler idle detection is implemented by this expansion.
 
+## Detection
+
+DETECTION checks registered command presence and compares manually supplied observations for up to 256 named entities, tracking state changes under a mutex. Automatic sensing, signal emission on changes, hardware/environment probes and persistent history are not implemented. Expected total: 155 classes and 741 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
