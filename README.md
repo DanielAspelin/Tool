@@ -136,7 +136,11 @@ ASSEMBLER and DISASSEMBLER share a bounded x86_64 instruction encoding table (12
 
 ## Socket and service foundations
 
-SOCKET maintains up to 256 named TCP/UDP port definitions in memory, with define, inspect, remove and list operations. It does not open or bind operating-system sockets. SERVICE maintains up to 256 named local command definitions, with define, run, inspect, remove and list operations. Run dispatches synchronously through TOOL. Definitions survive within an interactive process only. Neither class establishes background daemons, network listeners or remote access. Expected total: 116 classes and 474 registrations, pending compilation and runtime verification.
+SOCKET maintains up to 256 named TCP/UDP port definitions in memory, with define, inspect, remove and list operations. It does not open or bind operating-system sockets. SERVICE maintains up to 256 named local command definitions, with define, run, inspect, remove and list operations. Run dispatches synchronously through TOOL. Definitions survive within an interactive process only. Neither class establishes background daemons, network listeners or remote access. Expected total: 117 classes and 488 registrations, pending compilation and runtime verification.
+
+## Runtime and instance integration
+
+RUNTIME maintains up to 64 named volatile logical environments, each containing up to 64 retained INSTANCE objects. Operations create, inspect, attach, detach, instances, suspend, resume, remove, list and run are independently registered. Run checks active state and instance membership before dispatching an existing command synchronously through TOOL; it does not execute in an isolated instance context. Suspension prevents new direct dispatch but does not interrupt ongoing work. INSTANCE itself is unchanged; subordinate runtimes, reciprocal ownership, background workers, persistence and isolation remain pending. Expected total: 117 classes and 488 registrations, unverified by compilation.
 
 ## Invocation lifecycle
 
