@@ -535,6 +535,34 @@ public:
     std::shared_ptr<OBJECT> resolve() const{return object;}
     const std::string& id() const{return identity;}
 };
+class ARRAY {
+    REGISTRATION registry;
+    mutable std::mutex guard;
+    std::vector<std::shared_ptr<const VALUE>> values;
+public:
+    ARRAY(){registry.add("append","policy","bounded indexed values");registry.add("get","policy","checked index");}
+    bool append(std::shared_ptr<const VALUE> value){
+        std::lock_guard<std::mutex> lock(guard);
+        if(!value||values.size()>=256)return false;
+        values.push_back(std::move(value));return true;
+    }
+    std::shared_ptr<const VALUE> get(std::size_t index) const{
+        std::lock_guard<std::mutex> lock(guard);return index<values.size()?values[index]:nullptr;
+    }
+    std::size_t size() const{std::lock_guard<std::mutex> lock(guard);return values.size();}
+};
+class BOOLEAN {
+    REGISTRATION registry;
+    const bool value;
+public:
+    explicit BOOLEAN(bool v):value(v){registry.add("evaluate","policy","immutable truth value");}
+    bool evaluate() const{return value;}
+    bool negate() const{return !value;}
+    bool conjunction(const BOOLEAN& other) const{return value&&other.value;}
+    bool disjunction(const BOOLEAN& other) const{return value||other.value;}
+    bool exclusive(const BOOLEAN& other) const{return value!=other.value;}
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1614,6 +1642,8 @@ public:
         tool.inject("class","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: class name");CLASS c(a[0]);return c.identity();});
         tool.inject("object","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: object class text");OBJECT o(std::make_shared<const CLASS>(a[0]));o.set("value",std::make_shared<const VALUE>(VALUE::Data{a[1]}));return std::get<std::string>(o.get("value")->get());});
         tool.inject("instance","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: instance id class");INSTANCE i(a[0],std::make_shared<OBJECT>(std::make_shared<const CLASS>(a[1])));return i.id();});
+        tool.inject("array","runtime",[](const TOOL::Arguments& a){ARRAY array;for(const auto& item:a){if(!array.append(std::make_shared<const VALUE>(VALUE::Data{item})))return std::string("Array capacity exceeded");}return std::to_string(array.size());});
+        tool.inject("boolean","runtime",[](const TOOL::Arguments& a){if(a.empty()||a.size()>3)return std::string("Usage: boolean true|false [not|and|or|xor [true|false]]");auto valid=[](const std::string& x){return x=="true"||x=="false";};if(!valid(a[0]))return std::string("Invalid boolean");BOOLEAN b(a[0]=="true");bool result=b.evaluate();if(a.size()==2&&a[1]=="not")result=b.negate();else if(a.size()==3&&valid(a[2])){BOOLEAN other(a[2]=="true");if(a[1]=="and")result=b.conjunction(other);else if(a[1]=="or")result=b.disjunction(other);else if(a[1]=="xor")result=b.exclusive(other);else return std::string("Invalid operation");}else if(a.size()!=1)return std::string("Invalid operation");return std::string(result?"true":"false");});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
