@@ -5,6 +5,7 @@
 #include <future>
 #include <utility>
 #include <exception>
+#include <stdexcept>
 #include <memory>
 #include <set>
 #include <queue>
@@ -492,6 +493,37 @@ public:
     RESPONSE invoke(const REQUEST& r) { return client.send(r); }
 };
 
+class AST {
+    REGISTRATION registry;
+public:
+    struct Node {
+        std::string kind;
+        std::string value;
+        std::vector<Node> children;
+    };
+    AST(){registry.add("parse","grammar","invocation");}
+    Node parse(const REQUEST& r) const {
+        Node root{"invocation",r.method,{}};
+        for(const auto& arg:r.arguments)root.children.push_back({"argument",arg,{}});
+        return root;
+    }
+};
+class IR {
+    AST& ast;
+    REGISTRATION registry;
+public:
+    explicit IR(AST& a):ast(a){registry.add("lower","representation","procedure");}
+    REQUEST lower(const AST::Node& node) const {
+        if(node.kind!="invocation" || node.value.empty())throw std::invalid_argument("Invalid invocation AST");
+        REQUEST result{node.value,{}};
+        for(const auto& child:node.children){
+            if(child.kind!="argument" || !child.children.empty())throw std::invalid_argument("Invalid argument AST");
+            result.arguments.push_back(child.value);
+        }
+        return result;
+    }
+    REQUEST normalize(const REQUEST& r) const {return lower(ast.parse(r));}
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -523,10 +555,11 @@ class FUSION {
     PATH& path;
     COMPATIBILITY& compatibility;
     AUTHORIZATION& authorization;
+    IR& ir;
     REGISTRATION registry;
     std::map<std::string,std::unique_ptr<ADAPTER>> endpoints;
 public:
-    FUSION(PATH& p,COMPATIBILITY& c,AUTHORIZATION& a):path(p),compatibility(c),authorization(a){
+    FUSION(PATH& p,COMPATIBILITY& c,AUTHORIZATION& a,IR& i):path(p),compatibility(c),authorization(a),ir(i){
         registry.add("invoke","policy","deny unsupported");
     }
     void attach(const std::string& name,std::function<RESPONSE(const REQUEST&)> e){
@@ -535,6 +568,7 @@ public:
     std::string invoke(const TOOL::Arguments& args){
         if(args.size()<3)return "Usage: fuse origin destination method [arguments...]";
         REQUEST r{args[2],TOOL::Arguments(args.begin()+3,args.end())};
+        r=ir.normalize(r);
         if(!authorization.permit(r))return "Denied: method not authorized for fusion";
         if(!endpoints.count(args[0])||!endpoints.count(args[1]))return "Unknown interface";
         auto nodes=path.find(args[0],args[1]);
@@ -571,7 +605,9 @@ class HYBRID {
     VNC vnc{dispatcher};
     AUTHORIZATION authorization;
     COMPATIBILITY compatibility{matrix};
-    FUSION fusion{path,compatibility,authorization};
+    AST ast;
+    IR ir{ast};
+    FUSION fusion{path,compatibility,authorization,ir};
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
