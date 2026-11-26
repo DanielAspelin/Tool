@@ -21,6 +21,9 @@
 #include <sstream>
 #include <filesystem>
 #include <cstdio>
+#include <thread>
+#include <condition_variable>
+#include <limits>
 #if defined(__unix__) && !defined(__wasi__)
 #include <arpa/inet.h>
 #include <sys/stat.h>
@@ -136,6 +139,108 @@ public:
     void fire(const std::string& target){signal.emit(target,"trigger");}
     void complete(const std::string& target,bool success){signal.emit(target,success?"returned":"exception");}
 };
+class CPU {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"capacity",{{"source","hardware concurrency"}}}};
+public:
+    unsigned capacity() const {return std::max(1u,std::thread::hardware_concurrency());}
+};
+class MEMORY {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","bounded input"}}}};
+public:
+    bool accept(const std::string& name,const std::vector<std::string>& args) const {
+        if(name.size()>256||args.size()>256)return false;
+        size_t remaining=65536;
+        for(const auto& a:args){if(a.size()>remaining)return false;remaining-=a.size();}
+        return true;
+    }
+};
+class THERMAL {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux thermal zones"}}}};
+public:
+    double observe() const {
+        double peak=-1;
+#if defined(__linux__) && !defined(__wasi__)
+        std::error_code ec;
+        for(const auto& entry:std::filesystem::directory_iterator("/sys/class/thermal",ec)){
+            if(entry.path().filename().string().rfind("thermal_zone",0)!=0)continue;
+            std::ifstream in(entry.path()/"temp");double raw;
+            if(in>>raw && raw>=0 && raw<=150000)peak=std::max(peak,raw/1000.0);
+        }
+#endif
+        return peak;
+    }
+};
+class CAPACITY {
+    CPU& cpu;
+    std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","bounded concurrency"}}}};
+public:
+    explicit CAPACITY(CPU& c):cpu(c){}
+    unsigned limit() const {return std::min(8u,std::max(1u,cpu.capacity()/2));}
+};
+class PRESSURE {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux PSI"}}}};
+public:
+    double observe() const {
+#if defined(__linux__) && !defined(__wasi__)
+        std::ifstream in("/proc/pressure/memory");std::string kind,field;
+        if(in>>kind>>field && field.rfind("avg10=",0)==0){try{return std::stod(field.substr(6));}catch(...){}}
+#endif
+        return -1;
+    }
+};
+class CONFLICT {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","exclusive named operation"}}}};
+    std::mutex guard;
+    std::set<std::string> active;
+public:
+    bool enter(const std::string& name){std::lock_guard<std::mutex> lock(guard);return active.insert(name).second;}
+    void leave(const std::string& name){std::lock_guard<std::mutex> lock(guard);active.erase(name);}
+};
+class THROTTLE {
+    THERMAL& thermal; PRESSURE& pressure; CAPACITY& capacity;
+    std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","conservative adaptive admission"}}}};
+public:
+    THROTTLE(THERMAL& t,PRESSURE& p,CAPACITY& c):thermal(t),pressure(p),capacity(c){}
+    unsigned limit() const {
+        double t=thermal.observe(),p=pressure.observe();
+        if(t>=90)return 0;
+        if(t<0||p<0||t>=80||p>=10)return 1;
+        return capacity.limit();
+    }
+};
+class GUARD {
+    MEMORY& memory;
+    std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","input and depth limits"}}}};
+public:
+    explicit GUARD(MEMORY& m):memory(m){}
+    bool accept(const std::string& n,const std::vector<std::string>& a,unsigned depth) const {return depth<16&&memory.accept(n,a);}
+};
+class QUEUE {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"submit",{{"policy","bounded FIFO"}}}};
+    std::mutex guard;std::queue<std::function<void()>> jobs;
+public:
+    bool submit(std::function<void()> job){std::lock_guard<std::mutex> lock(guard);if(jobs.size()>=64)return false;jobs.push(std::move(job));return true;}
+    std::function<void()> take(){std::lock_guard<std::mutex> lock(guard);if(jobs.empty())return {};auto job=std::move(jobs.front());jobs.pop();return job;}
+};
+class WATCHDOG {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"expired",{{"policy","observe elapsed deadline"}}}};
+public:
+    bool expired(const TIMESTAMP::Snapshot& s) const {return std::chrono::steady_clock::now()-s.monotonic>std::chrono::seconds(30);}
+};
+class CLEANUP {
+    std::map<std::string,std::map<std::string,std::string>> registry{{"release",{{"policy","scope exit"}}}};
+public:
+    struct Lease {std::function<void()> release;explicit Lease(std::function<void()> f):release(std::move(f)){} Lease(const Lease&)=delete;~Lease(){if(release)release();}};
+};
+class SCHEDULER {
+    THROTTLE& throttle;
+    std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","bounded admission"}}}};
+    std::mutex guard;unsigned active=0;
+public:
+    explicit SCHEDULER(THROTTLE& t):throttle(t){}
+    bool enter(){auto limit=throttle.limit();std::lock_guard<std::mutex> lock(guard);if(active>=limit)return false;++active;return true;}
+    void leave(){std::lock_guard<std::mutex> lock(guard);if(active)--active;}
+};
 class TOOL {
 public:
     using Arguments = std::vector<std::string>;
@@ -145,6 +250,18 @@ private:
     std::map<std::string, Entry> registry;
     std::mutex guard;
     std::atomic<bool> running{true};
+    CPU cpu;
+    MEMORY memory;
+    THERMAL thermal;
+    CAPACITY capacity{cpu};
+    PRESSURE pressure;
+    CONFLICT conflict;
+    THROTTLE throttle{thermal,pressure,capacity};
+    GUARD boundary{memory};
+    QUEUE queue;
+    WATCHDOG watchdog;
+    CLEANUP cleanup;
+    SCHEDULER scheduler{throttle};
     TIMESTAMP timestamp;
     IPIFY ipify{timestamp};
     DUMP dump{timestamp};
@@ -232,6 +349,7 @@ private:
     }
 public:
     TOOL() {
+        inject("regulation","core",[this](const Arguments&){return std::string("CPU threads: ")+std::to_string(cpu.capacity())+"; thermal C (-1 unknown): "+std::to_string(thermal.observe())+"; memory PSI (-1 unknown): "+std::to_string(pressure.observe())+"; admission limit: "+std::to_string(throttle.limit());});
         inject("ipify","core",[this](const Arguments& a){return ipify.invoke(a);});
         inject("dump","core",[this](const Arguments& a){if(a.empty()||a[0]=="location")return dump.location();if(a[0]=="unacknowledged")return dump.store(timestamp.capture(),"manual","unacknowledged")?std::string("Stored"):std::string("Dump unavailable");return std::string("Usage: dump location|unacknowledged");});
         inject("invoke","core",[this](const Arguments& a){return lifecycle(a);});
@@ -258,6 +376,16 @@ public:
     }
     std::string invoke(const std::string& name, const Arguments& args) {
         const auto snapshot=timestamp.capture();
+        static thread_local unsigned depth=0;
+        if(!boundary.accept(name,args,depth)){dump.store(snapshot,name,"boundary");return "Invocation boundary exceeded";}
+        const bool outer=depth==0;
+        if(outer&&!scheduler.enter()){dump.store(snapshot,name,"deferred");return "Capacity unavailable; retry later";}
+        CLEANUP::Lease admission([this,outer]{if(outer)scheduler.leave();});
+        ++depth;
+        CLEANUP::Lease nesting([&]{--depth;});
+        const bool exclusive=name=="configure"||name=="invoke"||name=="ipify";
+        if(exclusive&&!conflict.enter(name))return "Conflicting operation; retry later";
+        CLEANUP::Lease ownership([this,&name,exclusive]{if(exclusive)conflict.leave(name);});
         const auto networkSnapshot=ipify.snapshot();
         (void)networkSnapshot;
         trigger.fire(name);
@@ -268,7 +396,7 @@ public:
             if (it == registry.end()) {signal.emit(name,"unresolved");if(!dump.store(snapshot,name,"unresolved"))std::cerr<<"Dump unavailable\n";recordTiming(name,snapshot);return "Unknown invocation";}
             call = it->second.call;
         }
-        try {auto result=call(args);trigger.complete(name,true);recordTiming(name,snapshot);return result;}
+        try {auto result=call(args);if(watchdog.expired(snapshot))dump.store(snapshot,name,"deadline-exceeded");trigger.complete(name,true);recordTiming(name,snapshot);return result;}
         catch(...){if(!dump.store(snapshot,name,"exception"))std::cerr<<"Dump unavailable\n";trigger.complete(name,false);recordTiming(name,snapshot);throw;}
     }
     SIGNAL& signals(){return signal;}
