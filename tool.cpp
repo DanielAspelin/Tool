@@ -1742,6 +1742,867 @@ return "Unknown build target";
 #endif
 }return "Expected target";}
 };
+class TYPE {
+ REGISTRATION registry;
+ 
+public:
+ TYPE(){registry.add("status","TYPE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TYPE: passive foundation; data type; specialized backend unavailable";return "Unsupported operation";}
+};
+class MODE {
+ REGISTRATION registry;
+ 
+public:
+ MODE(){registry.add("status","MODE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MODE: passive foundation; operational mode; specialized backend unavailable";return "Unsupported operation";}
+};
+class CONDITION {
+ REGISTRATION registry;
+ 
+public:
+ CONDITION(){registry.add("status","CONDITION","passive foundation");registry.add("equal","CONDITION","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONDITION: passive foundation; conditional evaluation; limited local operation";if(a.size()==3&&a[0]=="equal")return a[1]==a[2]?"true":"false";return "Unsupported operation";}
+};
+class STATE {
+ REGISTRATION registry;
+ 
+public:
+ STATE(){registry.add("status","STATE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "STATE: passive foundation; operational state; specialized backend unavailable";return "Unsupported operation";}
+};
+class NETWORK {
+ REGISTRATION registry;
+ 
+public:
+ NETWORK(){registry.add("status","NETWORK","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NETWORK: passive foundation; NETWORK profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TCPIP {
+ REGISTRATION registry;
+ 
+public:
+ TCPIP(){registry.add("status","TCPIP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TCPIP: passive foundation; Internet protocol suite; specialized backend unavailable";return "Unsupported operation";}
+};
+class GPS {
+ REGISTRATION registry;
+ 
+public:
+ GPS(){registry.add("status","GPS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GPS: passive foundation; GPS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class GSM {
+ REGISTRATION registry;
+ 
+public:
+ GSM(){registry.add("status","GSM","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GSM: passive foundation; GSM profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IMEI {
+ REGISTRATION registry;
+ 
+public:
+ IMEI(){registry.add("status","IMEI","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMEI: passive foundation; IMEI profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class RFID {
+ REGISTRATION registry;
+ 
+public:
+ RFID(){registry.add("status","RFID","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RFID: passive foundation; RFID profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class RAM {
+ REGISTRATION registry;
+ 
+public:
+ RAM(){registry.add("status","RAM","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RAM: passive foundation; RAM profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class GPU {
+ REGISTRATION registry;
+ 
+public:
+ GPU(){registry.add("status","GPU","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GPU: passive foundation; GPU profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SD {
+ REGISTRATION registry;
+ 
+public:
+ SD(){registry.add("status","SD","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SD: passive foundation; Secure Digital storage; specialized backend unavailable";return "Unsupported operation";}
+};
+class DEV {
+ REGISTRATION registry;
+ 
+public:
+ DEV(){registry.add("status","DEV","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEV: passive foundation; device namespace; specialized backend unavailable";return "Unsupported operation";}
+};
+class LAN {
+ REGISTRATION registry;
+ 
+public:
+ LAN(){registry.add("status","LAN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LAN: passive foundation; LAN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class WAN {
+ REGISTRATION registry;
+ 
+public:
+ WAN(){registry.add("status","WAN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WAN: passive foundation; WAN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class HOST {
+ REGISTRATION registry;
+ 
+public:
+ HOST(){registry.add("status","HOST","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOST: passive foundation; HOST profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class HOSTNAME {
+ REGISTRATION registry;
+ 
+public:
+ HOSTNAME(){registry.add("status","HOSTNAME","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOSTNAME: passive foundation; HOSTNAME profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TCP {
+ REGISTRATION registry;
+ 
+public:
+ TCP(){registry.add("status","TCP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TCP: passive foundation; TCP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IP {
+ REGISTRATION registry;
+ 
+public:
+ IP(){registry.add("status","IP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IP: passive foundation; IP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class UDP {
+ REGISTRATION registry;
+ 
+public:
+ UDP(){registry.add("status","UDP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "UDP: passive foundation; UDP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ICMP {
+ REGISTRATION registry;
+ 
+public:
+ ICMP(){registry.add("status","ICMP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ICMP: passive foundation; ICMP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class NAT {
+ REGISTRATION registry;
+ 
+public:
+ NAT(){registry.add("status","NAT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NAT: passive foundation; NAT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class MAC {
+ REGISTRATION registry;
+ 
+public:
+ MAC(){registry.add("status","MAC","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAC: passive foundation; MAC profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class FAT {
+ REGISTRATION registry;
+ 
+public:
+ FAT(){registry.add("status","FAT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FAT: passive foundation; FAT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class FAT32 {
+ REGISTRATION registry;
+ 
+public:
+ FAT32(){registry.add("status","FAT32","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FAT32: passive foundation; FAT32 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class NTFS {
+ REGISTRATION registry;
+ 
+public:
+ NTFS(){registry.add("status","NTFS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NTFS: passive foundation; NTFS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class APFS {
+ REGISTRATION registry;
+ 
+public:
+ APFS(){registry.add("status","APFS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "APFS: passive foundation; APFS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class EXT4 {
+ REGISTRATION registry;
+ 
+public:
+ EXT4(){registry.add("status","EXT4","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXT4: passive foundation; EXT4 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class EXFAT {
+ REGISTRATION registry;
+ 
+public:
+ EXFAT(){registry.add("status","EXFAT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXFAT: passive foundation; EXFAT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class AARCH {
+ REGISTRATION registry;
+ 
+public:
+ AARCH(){registry.add("status","AARCH","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AARCH: passive foundation; Arm architecture family; specialized backend unavailable";return "Unsupported operation";}
+};
+class ARM {
+ REGISTRATION registry;
+ 
+public:
+ ARM(){registry.add("status","ARM","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ARM: passive foundation; ARM profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class AMR64 {
+ REGISTRATION registry;
+ 
+public:
+ AMR64(){registry.add("status","AMR64","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AMR64: passive foundation; requested identifier; conventional architecture spelling ARM64; specialized backend unavailable";return "Unsupported operation";}
+};
+class X86 {
+ REGISTRATION registry;
+ 
+public:
+ X86(){registry.add("status","X86","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "X86: passive foundation; X86 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class X86_64 {
+ REGISTRATION registry;
+ 
+public:
+ X86_64(){registry.add("status","X86_64","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "X86_64: passive foundation; X86_64 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class AMD64 {
+ REGISTRATION registry;
+ 
+public:
+ AMD64(){registry.add("status","AMD64","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AMD64: passive foundation; AMD64 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class RISCV {
+ REGISTRATION registry;
+ 
+public:
+ RISCV(){registry.add("status","RISCV","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RISCV: passive foundation; RISCV profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class PSU {
+ REGISTRATION registry;
+ 
+public:
+ PSU(){registry.add("status","PSU","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PSU: passive foundation; PSU profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class POWER {
+ REGISTRATION registry;
+ 
+public:
+ POWER(){registry.add("status","POWER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "POWER: passive foundation; POWER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class OAUTH {
+ REGISTRATION registry;
+ 
+public:
+ OAUTH(){registry.add("status","OAUTH","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OAUTH: passive foundation; delegated authorization; specialized backend unavailable";return "Unsupported operation";}
+};
+class SSL {
+ REGISTRATION registry;
+ 
+public:
+ SSL(){registry.add("status","SSL","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SSL: passive foundation; legacy secure transport profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TLS {
+ REGISTRATION registry;
+ 
+public:
+ TLS(){registry.add("status","TLS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TLS: passive foundation; transport layer security; specialized backend unavailable";return "Unsupported operation";}
+};
+class HTTP {
+ REGISTRATION registry;
+ 
+public:
+ HTTP(){registry.add("status","HTTP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HTTP: passive foundation; HTTP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class HTTPS {
+ REGISTRATION registry;
+ 
+public:
+ HTTPS(){registry.add("status","HTTPS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HTTPS: passive foundation; HTTPS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class FTP {
+ REGISTRATION registry;
+ 
+public:
+ FTP(){registry.add("status","FTP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FTP: passive foundation; FTP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class DNS {
+ REGISTRATION registry;
+ 
+public:
+ DNS(){registry.add("status","DNS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DNS: passive foundation; DNS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class DHCP {
+ REGISTRATION registry;
+ 
+public:
+ DHCP(){registry.add("status","DHCP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DHCP: passive foundation; DHCP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class VPN {
+ REGISTRATION registry;
+ 
+public:
+ VPN(){registry.add("status","VPN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VPN: passive foundation; VPN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class PROXY {
+ REGISTRATION registry;
+ 
+public:
+ PROXY(){registry.add("status","PROXY","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROXY: passive foundation; PROXY profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class FIREWALL {
+ REGISTRATION registry;
+ 
+public:
+ FIREWALL(){registry.add("status","FIREWALL","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FIREWALL: passive foundation; FIREWALL profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class UUID {
+ REGISTRATION registry;
+ 
+public:
+ UUID(){registry.add("status","UUID","passive foundation");registry.add("validate","UUID","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "UUID: passive foundation; UUID profile; limited local operation";if(a.size()==2&&a[0]=="validate"){const auto& v=a[1];if(v.size()!=36)return "Invalid UUID shape";for(std::size_t i=0;i<v.size();++i){if(i==8||i==13||i==18||i==23){if(v[i]!='-')return "Invalid UUID shape";}else if(!std::isxdigit(static_cast<unsigned char>(v[i])))return "Invalid UUID shape";}return "Valid UUID shape";}return "Unsupported operation";}
+};
+class ENTER {
+ REGISTRATION registry;
+ 
+public:
+ ENTER(){registry.add("status","ENTER","passive foundation");registry.add("code","ENTER","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENTER: passive foundation; ENTER profile; limited local operation";if(a.size()==1&&a[0]=="code")return "13";return "Unsupported operation";}
+};
+class ESC {
+ REGISTRATION registry;
+ 
+public:
+ ESC(){registry.add("status","ESC","passive foundation");registry.add("code","ESC","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ESC: passive foundation; ESC profile; limited local operation";if(a.size()==1&&a[0]=="code")return "27";return "Unsupported operation";}
+};
+class CTRL {
+ REGISTRATION registry;
+ 
+public:
+ CTRL(){registry.add("status","CTRL","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CTRL: passive foundation; CTRL profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ALT {
+ REGISTRATION registry;
+ 
+public:
+ ALT(){registry.add("status","ALT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALT: passive foundation; ALT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SPACE {
+ REGISTRATION registry;
+ 
+public:
+ SPACE(){registry.add("status","SPACE","passive foundation");registry.add("code","SPACE","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SPACE: passive foundation; space key; limited local operation";if(a.size()==1&&a[0]=="code")return "32";return "Unsupported operation";}
+};
+class SHIFT {
+ REGISTRATION registry;
+ 
+public:
+ SHIFT(){registry.add("status","SHIFT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SHIFT: passive foundation; SHIFT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TAB {
+ REGISTRATION registry;
+ 
+public:
+ TAB(){registry.add("status","TAB","passive foundation");registry.add("code","TAB","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TAB: passive foundation; TAB profile; limited local operation";if(a.size()==1&&a[0]=="code")return "9";return "Unsupported operation";}
+};
+class NAME {
+ REGISTRATION registry;
+ 
+public:
+ NAME(){registry.add("status","NAME","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NAME: passive foundation; NAME profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class NUMBER {
+ REGISTRATION registry;
+ 
+public:
+ NUMBER(){registry.add("status","NUMBER","passive foundation");registry.add("validate","NUMBER","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NUMBER: passive foundation; NUMBER profile; limited local operation";if(a.size()==2&&a[0]=="validate"){long long v=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),v);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()?"Valid integer":"Invalid integer";}return "Unsupported operation";}
+};
+class PID {
+ REGISTRATION registry;
+ 
+public:
+ PID(){registry.add("status","PID","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PID: passive foundation; PID profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class USB {
+ REGISTRATION registry;
+ 
+public:
+ USB(){registry.add("status","USB","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USB: passive foundation; USB profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ARPA {
+ REGISTRATION registry;
+ 
+public:
+ ARPA(){registry.add("status","ARPA","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ARPA: passive foundation; Internet infrastructure domain; specialized backend unavailable";return "Unsupported operation";}
+};
+class PROVIDER {
+ REGISTRATION registry;
+ 
+public:
+ PROVIDER(){registry.add("status","PROVIDER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROVIDER: passive foundation; PROVIDER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SMS {
+ REGISTRATION registry;
+ 
+public:
+ SMS(){registry.add("status","SMS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SMS: passive foundation; SMS profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TLD {
+ REGISTRATION registry;
+ 
+public:
+ TLD(){registry.add("status","TLD","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TLD: passive foundation; TLD profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ICANN {
+ REGISTRATION registry;
+ 
+public:
+ ICANN(){registry.add("status","ICANN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ICANN: passive foundation; ICANN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IANA {
+ REGISTRATION registry;
+ 
+public:
+ IANA(){registry.add("status","IANA","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IANA: passive foundation; IANA profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IETF {
+ REGISTRATION registry;
+ 
+public:
+ IETF(){registry.add("status","IETF","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IETF: passive foundation; IETF profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class W3C {
+ REGISTRATION registry;
+ 
+public:
+ W3C(){registry.add("status","W3C","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "W3C: passive foundation; W3C profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class WWW {
+ REGISTRATION registry;
+ 
+public:
+ WWW(){registry.add("status","WWW","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WWW: passive foundation; WWW profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class NODE {
+ REGISTRATION registry;
+ 
+public:
+ NODE(){registry.add("status","NODE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NODE: passive foundation; NODE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class NODEJS {
+ REGISTRATION registry;
+ 
+public:
+ NODEJS(){registry.add("status","NODEJS","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NODEJS: passive foundation; Node.js runtime; specialized backend unavailable";return "Unsupported operation";}
+};
+class IMAGE {
+ REGISTRATION registry;
+ 
+public:
+ IMAGE(){registry.add("status","IMAGE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMAGE: passive foundation; IMAGE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IMG {
+ REGISTRATION registry;
+ 
+public:
+ IMG(){registry.add("status","IMG","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMG: passive foundation; image representation; specialized backend unavailable";return "Unsupported operation";}
+};
+class BLOCK {
+ REGISTRATION registry;
+ 
+public:
+ BLOCK(){registry.add("status","BLOCK","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BLOCK: passive foundation; BLOCK profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class LINE {
+ REGISTRATION registry;
+ 
+public:
+ LINE(){registry.add("status","LINE","passive foundation");registry.add("count","LINE","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LINE: passive foundation; LINE profile; limited local operation";if(a.size()==2&&a[0]=="count")return std::to_string(a[1].empty()?0:1+std::count(a[1].begin(),a[1].end(),'\n'));return "Unsupported operation";}
+};
+class ENDOFFILE {
+ REGISTRATION registry;
+ 
+public:
+ ENDOFFILE(){registry.add("status","EOF","passive foundation");registry.add("marker","EOF","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EOF: passive foundation; end of file; limited local operation";if(a.size()==1&&a[0]=="marker")return "End-of-file indicator; not a data byte";return "Unsupported operation";}
+};
+class SCRIPT {
+ REGISTRATION registry;
+ 
+public:
+ SCRIPT(){registry.add("status","SCRIPT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SCRIPT: passive foundation; SCRIPT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SOURCECODE {
+ REGISTRATION registry;
+ 
+public:
+ SOURCECODE(){registry.add("status","SOURCECODE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SOURCECODE: passive foundation; SOURCECODE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class BINARY {
+ REGISTRATION registry;
+ 
+public:
+ BINARY(){registry.add("status","BINARY","passive foundation");registry.add("validate","BINARY","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BINARY: passive foundation; BINARY profile; limited local operation";if(a.size()==2&&a[0]=="validate")return !a[1].empty()&&a[1].find_first_not_of("01")==std::string::npos?"Valid binary digits":"Invalid binary digits";return "Unsupported operation";}
+};
+class SOURCE {
+ REGISTRATION registry;
+ 
+public:
+ SOURCE(){registry.add("status","SOURCE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SOURCE: passive foundation; SOURCE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class DESTINATION {
+ REGISTRATION registry;
+ 
+public:
+ DESTINATION(){registry.add("status","DESTINATION","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DESTINATION: passive foundation; DESTINATION profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TARGET {
+ REGISTRATION registry;
+ 
+public:
+ TARGET(){registry.add("status","TARGET","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TARGET: passive foundation; TARGET profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class CERTIFICATE {
+ REGISTRATION registry;
+ 
+public:
+ CERTIFICATE(){registry.add("status","CERTIFICATE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CERTIFICATE: passive foundation; CERTIFICATE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class PASSPHRASE {
+ REGISTRATION registry;
+ 
+public:
+ PASSPHRASE(){registry.add("status","PASSPHRASE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PASSPHRASE: passive foundation; passphrase metadata only; specialized backend unavailable";return "Unsupported operation";}
+};
+class PASSWORD {
+ REGISTRATION registry;
+ 
+public:
+ PASSWORD(){registry.add("status","PASSWORD","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PASSWORD: passive foundation; password metadata only; specialized backend unavailable";return "Unsupported operation";}
+};
+class USERNAME {
+ REGISTRATION registry;
+ 
+public:
+ USERNAME(){registry.add("status","USERNAME","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USERNAME: passive foundation; USERNAME profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class USER {
+ REGISTRATION registry;
+ 
+public:
+ USER(){registry.add("status","USER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USER: passive foundation; USER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SECRET {
+ REGISTRATION registry;
+ 
+public:
+ SECRET(){registry.add("status","SECRET","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SECRET: passive foundation; secret metadata only; specialized backend unavailable";return "Unsupported operation";}
+};
+class DATABASE {
+ REGISTRATION registry;
+ 
+public:
+ DATABASE(){registry.add("status","DATABASE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DATABASE: passive foundation; DATABASE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TABLE {
+ REGISTRATION registry;
+ 
+public:
+ TABLE(){registry.add("status","TABLE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TABLE: passive foundation; TABLE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class COLUMN {
+ REGISTRATION registry;
+ 
+public:
+ COLUMN(){registry.add("status","COLUMN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COLUMN: passive foundation; COLUMN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ROW {
+ REGISTRATION registry;
+ 
+public:
+ ROW(){registry.add("status","ROW","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ROW: passive foundation; ROW profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TUPLE {
+ REGISTRATION registry;
+ 
+public:
+ TUPLE(){registry.add("status","TUPLE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TUPLE: passive foundation; TUPLE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class QUERY {
+ REGISTRATION registry;
+ 
+public:
+ QUERY(){registry.add("status","QUERY","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "QUERY: passive foundation; QUERY profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class POLICY {
+ REGISTRATION registry;
+ 
+public:
+ POLICY(){registry.add("status","POLICY","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "POLICY: passive foundation; POLICY profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class MAP {
+ REGISTRATION registry;
+ 
+public:
+ MAP(){registry.add("status","MAP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAP: passive foundation; MAP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TREE {
+ REGISTRATION registry;
+ 
+public:
+ TREE(){registry.add("status","TREE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TREE: passive foundation; TREE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class MINDMAP {
+ REGISTRATION registry;
+ 
+public:
+ MINDMAP(){registry.add("status","MINDMAP","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MINDMAP: passive foundation; MINDMAP profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class MARKDOWN {
+ REGISTRATION registry;
+ 
+public:
+ MARKDOWN(){registry.add("status","MARKDOWN","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MARKDOWN: passive foundation; MARKDOWN profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class PDF {
+ REGISTRATION registry;
+ 
+public:
+ PDF(){registry.add("status","PDF","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PDF: passive foundation; PDF profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class JSON {
+ REGISTRATION registry;
+ 
+public:
+ JSON(){registry.add("status","JSON","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JSON: passive foundation; JSON profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class XML {
+ REGISTRATION registry;
+ 
+public:
+ XML(){registry.add("status","XML","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "XML: passive foundation; XML profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class CSV {
+ REGISTRATION registry;
+ 
+public:
+ CSV(){registry.add("status","CSV","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CSV: passive foundation; CSV profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SIGNATURE {
+ REGISTRATION registry;
+ 
+public:
+ SIGNATURE(){registry.add("status","SIGNATURE","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SIGNATURE: passive foundation; SIGNATURE profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class AUTHOR {
+ REGISTRATION registry;
+ 
+public:
+ AUTHOR(){registry.add("status","AUTHOR","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTHOR: passive foundation; AUTHOR profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SENDER {
+ REGISTRATION registry;
+ 
+public:
+ SENDER(){registry.add("status","SENDER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SENDER: passive foundation; SENDER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class RECEIVER {
+ REGISTRATION registry;
+ 
+public:
+ RECEIVER(){registry.add("status","RECEIVER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RECEIVER: passive foundation; RECEIVER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TRANSMISSION {
+ REGISTRATION registry;
+ 
+public:
+ TRANSMISSION(){registry.add("status","TRANSMISSION","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSMISSION: passive foundation; TRANSMISSION profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class WIFI {
+ REGISTRATION registry;
+ 
+public:
+ WIFI(){registry.add("status","WIFI","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WIFI: passive foundation; WIFI profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class HOTSPOT {
+ REGISTRATION registry;
+ 
+public:
+ HOTSPOT(){registry.add("status","HOTSPOT","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOTSPOT: passive foundation; HOTSPOT profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class TETHER {
+ REGISTRATION registry;
+ 
+public:
+ TETHER(){registry.add("status","TETHER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TETHER: passive foundation; TETHER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class LEDGER {
+ REGISTRATION registry;
+ 
+public:
+ LEDGER(){registry.add("status","LEDGER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEDGER: passive foundation; LEDGER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class ROUTER {
+ REGISTRATION registry;
+ 
+public:
+ ROUTER(){registry.add("status","ROUTER","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ROUTER: passive foundation; ROUTER profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SWITCH {
+ REGISTRATION registry;
+ 
+public:
+ SWITCH(){registry.add("status","SWITCH","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SWITCH: passive foundation; SWITCH profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class GATEWAY {
+ REGISTRATION registry;
+ 
+public:
+ GATEWAY(){registry.add("status","GATEWAY","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GATEWAY: passive foundation; GATEWAY profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class SUBNET {
+ REGISTRATION registry;
+ 
+public:
+ SUBNET(){registry.add("status","SUBNET","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUBNET: passive foundation; SUBNET profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IPV4 {
+ REGISTRATION registry;
+ 
+public:
+ IPV4(){registry.add("status","IPV4","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IPV4: passive foundation; IPV4 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class IPV6 {
+ REGISTRATION registry;
+ 
+public:
+ IPV6(){registry.add("status","IPV6","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IPV6: passive foundation; IPV6 profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class PAGING {
+ REGISTRATION registry;
+ 
+public:
+ PAGING(){registry.add("status","PAGING","passive foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PAGING: passive foundation; PAGING profile; specialized backend unavailable";return "Unsupported operation";}
+};
+class COMMAND {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit COMMAND(TOOL& t):tool(t){registry.add("status","COMMAND","passive foundation");registry.add("check","COMMAND","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COMMAND: passive foundation; COMMAND profile; limited local operation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown command";return "Unsupported operation";}
+};
+class INSTRUCTION {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit INSTRUCTION(TOOL& t):tool(t){registry.add("status","INSTRUCTION","passive foundation");registry.add("check","INSTRUCTION","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSTRUCTION: passive foundation; INSTRUCTION profile; limited local operation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown instruction";return "Unsupported operation";}
+};
 class REQUEST {
 public:
     std::string method;
@@ -2881,6 +3742,129 @@ class HYBRID {
     CONTROLLER controller{tool};
     DEVICE device;
     SYSTEM system;
+    TYPE passive_type;
+    MODE passive_mode;
+    CONDITION passive_condition;
+    STATE passive_state;
+    NETWORK passive_network;
+    TCPIP passive_tcpip;
+    GPS passive_gps;
+    GSM passive_gsm;
+    IMEI passive_imei;
+    RFID passive_rfid;
+    RAM passive_ram;
+    GPU passive_gpu;
+    SD passive_sd;
+    DEV passive_dev;
+    LAN passive_lan;
+    WAN passive_wan;
+    HOST passive_host;
+    HOSTNAME passive_hostname;
+    TCP passive_tcp;
+    IP passive_ip;
+    UDP passive_udp;
+    ICMP passive_icmp;
+    NAT passive_nat;
+    MAC passive_mac;
+    FAT passive_fat;
+    FAT32 passive_fat32;
+    NTFS passive_ntfs;
+    APFS passive_apfs;
+    EXT4 passive_ext4;
+    EXFAT passive_exfat;
+    AARCH passive_aarch;
+    ARM passive_arm;
+    AMR64 passive_amr64;
+    X86 passive_x86;
+    X86_64 passive_x86_64;
+    AMD64 passive_amd64;
+    RISCV passive_riscv;
+    PSU passive_psu;
+    POWER passive_power;
+    OAUTH passive_oauth;
+    SSL passive_ssl;
+    TLS passive_tls;
+    HTTP passive_http;
+    HTTPS passive_https;
+    FTP passive_ftp;
+    DNS passive_dns;
+    DHCP passive_dhcp;
+    VPN passive_vpn;
+    PROXY passive_proxy;
+    FIREWALL passive_firewall;
+    UUID passive_uuid;
+    ENTER passive_enter;
+    ESC passive_esc;
+    CTRL passive_ctrl;
+    ALT passive_alt;
+    SPACE passive_space;
+    SHIFT passive_shift;
+    TAB passive_tab;
+    NAME passive_name;
+    NUMBER passive_number;
+    PID passive_pid;
+    USB passive_usb;
+    ARPA passive_arpa;
+    PROVIDER passive_provider;
+    SMS passive_sms;
+    TLD passive_tld;
+    ICANN passive_icann;
+    IANA passive_iana;
+    IETF passive_ietf;
+    W3C passive_w3c;
+    WWW passive_www;
+    NODE passive_node;
+    NODEJS passive_nodejs;
+    IMAGE passive_image;
+    IMG passive_img;
+    BLOCK passive_block;
+    LINE passive_line;
+    ENDOFFILE passive_eof;
+    SCRIPT passive_script;
+    SOURCECODE passive_sourcecode;
+    BINARY passive_binary;
+    SOURCE passive_source;
+    DESTINATION passive_destination;
+    TARGET passive_target;
+    CERTIFICATE passive_certificate;
+    PASSPHRASE passive_passphrase;
+    PASSWORD passive_password;
+    USERNAME passive_username;
+    USER passive_user;
+    SECRET passive_secret;
+    DATABASE passive_database;
+    TABLE passive_table;
+    COLUMN passive_column;
+    ROW passive_row;
+    TUPLE passive_tuple;
+    QUERY passive_query;
+    POLICY passive_policy;
+    MAP passive_map;
+    TREE passive_tree;
+    MINDMAP passive_mindmap;
+    MARKDOWN passive_markdown;
+    PDF passive_pdf;
+    JSON passive_json;
+    XML passive_xml;
+    CSV passive_csv;
+    SIGNATURE passive_signature;
+    AUTHOR passive_author;
+    SENDER passive_sender;
+    RECEIVER passive_receiver;
+    TRANSMISSION passive_transmission;
+    WIFI passive_wifi;
+    HOTSPOT passive_hotspot;
+    TETHER passive_tether;
+    LEDGER passive_ledger;
+    ROUTER passive_router;
+    SWITCH passive_switch;
+    GATEWAY passive_gateway;
+    SUBNET passive_subnet;
+    IPV4 passive_ipv4;
+    IPV6 passive_ipv6;
+    PAGING passive_paging;
+    COMMAND passive_command{tool};
+    INSTRUCTION passive_instruction{tool};
     DETECTION detection{tool};
     HOTCODE hotcode{tool};
     QR qr;
@@ -3101,11 +4085,134 @@ public:
         tool.inject("controller","runtime",[this](const TOOL::Arguments& a){return controller.invoke(a);});
         tool.inject("device","runtime",[this](const TOOL::Arguments& a){return device.invoke(a);});
         tool.inject("system","runtime",[this](const TOOL::Arguments& a){return system.invoke(a);});
+        tool.inject("type","runtime",[this](const TOOL::Arguments& a){return passive_type.invoke(a);});
+        tool.inject("mode","runtime",[this](const TOOL::Arguments& a){return passive_mode.invoke(a);});
+        tool.inject("condition","runtime",[this](const TOOL::Arguments& a){return passive_condition.invoke(a);});
+        tool.inject("state","runtime",[this](const TOOL::Arguments& a){return passive_state.invoke(a);});
+        tool.inject("network","runtime",[this](const TOOL::Arguments& a){return passive_network.invoke(a);});
+        tool.inject("tcpip","runtime",[this](const TOOL::Arguments& a){return passive_tcpip.invoke(a);});
+        tool.inject("gps","runtime",[this](const TOOL::Arguments& a){return passive_gps.invoke(a);});
+        tool.inject("gsm","runtime",[this](const TOOL::Arguments& a){return passive_gsm.invoke(a);});
+        tool.inject("imei","runtime",[this](const TOOL::Arguments& a){return passive_imei.invoke(a);});
+        tool.inject("rfid","runtime",[this](const TOOL::Arguments& a){return passive_rfid.invoke(a);});
+        tool.inject("ram","runtime",[this](const TOOL::Arguments& a){return passive_ram.invoke(a);});
+        tool.inject("gpu","runtime",[this](const TOOL::Arguments& a){return passive_gpu.invoke(a);});
+        tool.inject("sd","runtime",[this](const TOOL::Arguments& a){return passive_sd.invoke(a);});
+        tool.inject("dev","runtime",[this](const TOOL::Arguments& a){return passive_dev.invoke(a);});
+        tool.inject("lan","runtime",[this](const TOOL::Arguments& a){return passive_lan.invoke(a);});
+        tool.inject("wan","runtime",[this](const TOOL::Arguments& a){return passive_wan.invoke(a);});
+        tool.inject("host","runtime",[this](const TOOL::Arguments& a){return passive_host.invoke(a);});
+        tool.inject("hostname","runtime",[this](const TOOL::Arguments& a){return passive_hostname.invoke(a);});
+        tool.inject("tcp","runtime",[this](const TOOL::Arguments& a){return passive_tcp.invoke(a);});
+        tool.inject("ip","runtime",[this](const TOOL::Arguments& a){return passive_ip.invoke(a);});
+        tool.inject("udp","runtime",[this](const TOOL::Arguments& a){return passive_udp.invoke(a);});
+        tool.inject("icmp","runtime",[this](const TOOL::Arguments& a){return passive_icmp.invoke(a);});
+        tool.inject("nat","runtime",[this](const TOOL::Arguments& a){return passive_nat.invoke(a);});
+        tool.inject("mac","runtime",[this](const TOOL::Arguments& a){return passive_mac.invoke(a);});
+        tool.inject("fat","runtime",[this](const TOOL::Arguments& a){return passive_fat.invoke(a);});
+        tool.inject("fat32","runtime",[this](const TOOL::Arguments& a){return passive_fat32.invoke(a);});
+        tool.inject("ntfs","runtime",[this](const TOOL::Arguments& a){return passive_ntfs.invoke(a);});
+        tool.inject("apfs","runtime",[this](const TOOL::Arguments& a){return passive_apfs.invoke(a);});
+        tool.inject("ext4","runtime",[this](const TOOL::Arguments& a){return passive_ext4.invoke(a);});
+        tool.inject("exfat","runtime",[this](const TOOL::Arguments& a){return passive_exfat.invoke(a);});
+        tool.inject("aarch","runtime",[this](const TOOL::Arguments& a){return passive_aarch.invoke(a);});
+        tool.inject("arm","runtime",[this](const TOOL::Arguments& a){return passive_arm.invoke(a);});
+        tool.inject("amr64","runtime",[this](const TOOL::Arguments& a){return passive_amr64.invoke(a);});
+        tool.inject("x86","runtime",[this](const TOOL::Arguments& a){return passive_x86.invoke(a);});
+        tool.inject("x86_64","runtime",[this](const TOOL::Arguments& a){return passive_x86_64.invoke(a);});
+        tool.inject("amd64","runtime",[this](const TOOL::Arguments& a){return passive_amd64.invoke(a);});
+        tool.inject("riscv","runtime",[this](const TOOL::Arguments& a){return passive_riscv.invoke(a);});
+        tool.inject("psu","runtime",[this](const TOOL::Arguments& a){return passive_psu.invoke(a);});
+        tool.inject("power","runtime",[this](const TOOL::Arguments& a){return passive_power.invoke(a);});
+        tool.inject("oauth","runtime",[this](const TOOL::Arguments& a){return passive_oauth.invoke(a);});
+        tool.inject("ssl","runtime",[this](const TOOL::Arguments& a){return passive_ssl.invoke(a);});
+        tool.inject("tls","runtime",[this](const TOOL::Arguments& a){return passive_tls.invoke(a);});
+        tool.inject("http","runtime",[this](const TOOL::Arguments& a){return passive_http.invoke(a);});
+        tool.inject("https","runtime",[this](const TOOL::Arguments& a){return passive_https.invoke(a);});
+        tool.inject("ftp","runtime",[this](const TOOL::Arguments& a){return passive_ftp.invoke(a);});
+        tool.inject("dns","runtime",[this](const TOOL::Arguments& a){return passive_dns.invoke(a);});
+        tool.inject("dhcp","runtime",[this](const TOOL::Arguments& a){return passive_dhcp.invoke(a);});
+        tool.inject("vpn","runtime",[this](const TOOL::Arguments& a){return passive_vpn.invoke(a);});
+        tool.inject("proxy","runtime",[this](const TOOL::Arguments& a){return passive_proxy.invoke(a);});
+        tool.inject("firewall","runtime",[this](const TOOL::Arguments& a){return passive_firewall.invoke(a);});
+        tool.inject("uuid","runtime",[this](const TOOL::Arguments& a){return passive_uuid.invoke(a);});
+        tool.inject("enter","runtime",[this](const TOOL::Arguments& a){return passive_enter.invoke(a);});
+        tool.inject("esc","runtime",[this](const TOOL::Arguments& a){return passive_esc.invoke(a);});
+        tool.inject("ctrl","runtime",[this](const TOOL::Arguments& a){return passive_ctrl.invoke(a);});
+        tool.inject("alt","runtime",[this](const TOOL::Arguments& a){return passive_alt.invoke(a);});
+        tool.inject("space","runtime",[this](const TOOL::Arguments& a){return passive_space.invoke(a);});
+        tool.inject("shift","runtime",[this](const TOOL::Arguments& a){return passive_shift.invoke(a);});
+        tool.inject("tab","runtime",[this](const TOOL::Arguments& a){return passive_tab.invoke(a);});
+        tool.inject("name","runtime",[this](const TOOL::Arguments& a){return passive_name.invoke(a);});
+        tool.inject("number","runtime",[this](const TOOL::Arguments& a){return passive_number.invoke(a);});
+        tool.inject("pid","runtime",[this](const TOOL::Arguments& a){return passive_pid.invoke(a);});
+        tool.inject("usb","runtime",[this](const TOOL::Arguments& a){return passive_usb.invoke(a);});
+        tool.inject("arpa","runtime",[this](const TOOL::Arguments& a){return passive_arpa.invoke(a);});
+        tool.inject("provider","runtime",[this](const TOOL::Arguments& a){return passive_provider.invoke(a);});
+        tool.inject("sms","runtime",[this](const TOOL::Arguments& a){return passive_sms.invoke(a);});
+        tool.inject("tld","runtime",[this](const TOOL::Arguments& a){return passive_tld.invoke(a);});
+        tool.inject("icann","runtime",[this](const TOOL::Arguments& a){return passive_icann.invoke(a);});
+        tool.inject("iana","runtime",[this](const TOOL::Arguments& a){return passive_iana.invoke(a);});
+        tool.inject("ietf","runtime",[this](const TOOL::Arguments& a){return passive_ietf.invoke(a);});
+        tool.inject("w3c","runtime",[this](const TOOL::Arguments& a){return passive_w3c.invoke(a);});
+        tool.inject("www","runtime",[this](const TOOL::Arguments& a){return passive_www.invoke(a);});
+        tool.inject("node","runtime",[this](const TOOL::Arguments& a){return passive_node.invoke(a);});
+        tool.inject("nodejs","runtime",[this](const TOOL::Arguments& a){return passive_nodejs.invoke(a);});
+        tool.inject("image","runtime",[this](const TOOL::Arguments& a){return passive_image.invoke(a);});
+        tool.inject("img","runtime",[this](const TOOL::Arguments& a){return passive_img.invoke(a);});
+        tool.inject("block","runtime",[this](const TOOL::Arguments& a){return passive_block.invoke(a);});
+        tool.inject("line","runtime",[this](const TOOL::Arguments& a){return passive_line.invoke(a);});
+        tool.inject("eof","runtime",[this](const TOOL::Arguments& a){return passive_eof.invoke(a);});
+        tool.inject("script","runtime",[this](const TOOL::Arguments& a){return passive_script.invoke(a);});
+        tool.inject("sourcecode","runtime",[this](const TOOL::Arguments& a){return passive_sourcecode.invoke(a);});
+        tool.inject("binary","runtime",[this](const TOOL::Arguments& a){return passive_binary.invoke(a);});
+        tool.inject("source","runtime",[this](const TOOL::Arguments& a){return passive_source.invoke(a);});
+        tool.inject("destination","runtime",[this](const TOOL::Arguments& a){return passive_destination.invoke(a);});
+        tool.inject("target","runtime",[this](const TOOL::Arguments& a){return passive_target.invoke(a);});
+        tool.inject("certificate","runtime",[this](const TOOL::Arguments& a){return passive_certificate.invoke(a);});
+        tool.inject("passphrase","runtime",[this](const TOOL::Arguments& a){return passive_passphrase.invoke(a);});
+        tool.inject("password","runtime",[this](const TOOL::Arguments& a){return passive_password.invoke(a);});
+        tool.inject("username","runtime",[this](const TOOL::Arguments& a){return passive_username.invoke(a);});
+        tool.inject("user","runtime",[this](const TOOL::Arguments& a){return passive_user.invoke(a);});
+        tool.inject("secret","runtime",[this](const TOOL::Arguments& a){return passive_secret.invoke(a);});
+        tool.inject("database","runtime",[this](const TOOL::Arguments& a){return passive_database.invoke(a);});
+        tool.inject("table","runtime",[this](const TOOL::Arguments& a){return passive_table.invoke(a);});
+        tool.inject("column","runtime",[this](const TOOL::Arguments& a){return passive_column.invoke(a);});
+        tool.inject("row","runtime",[this](const TOOL::Arguments& a){return passive_row.invoke(a);});
+        tool.inject("tuple","runtime",[this](const TOOL::Arguments& a){return passive_tuple.invoke(a);});
+        tool.inject("query","runtime",[this](const TOOL::Arguments& a){return passive_query.invoke(a);});
+        tool.inject("policy","runtime",[this](const TOOL::Arguments& a){return passive_policy.invoke(a);});
+        tool.inject("map","runtime",[this](const TOOL::Arguments& a){return passive_map.invoke(a);});
+        tool.inject("tree","runtime",[this](const TOOL::Arguments& a){return passive_tree.invoke(a);});
+        tool.inject("mindmap","runtime",[this](const TOOL::Arguments& a){return passive_mindmap.invoke(a);});
+        tool.inject("markdown","runtime",[this](const TOOL::Arguments& a){return passive_markdown.invoke(a);});
+        tool.inject("pdf","runtime",[this](const TOOL::Arguments& a){return passive_pdf.invoke(a);});
+        tool.inject("json","runtime",[this](const TOOL::Arguments& a){return passive_json.invoke(a);});
+        tool.inject("xml","runtime",[this](const TOOL::Arguments& a){return passive_xml.invoke(a);});
+        tool.inject("csv","runtime",[this](const TOOL::Arguments& a){return passive_csv.invoke(a);});
+        tool.inject("signature","runtime",[this](const TOOL::Arguments& a){return passive_signature.invoke(a);});
+        tool.inject("author","runtime",[this](const TOOL::Arguments& a){return passive_author.invoke(a);});
+        tool.inject("sender","runtime",[this](const TOOL::Arguments& a){return passive_sender.invoke(a);});
+        tool.inject("receiver","runtime",[this](const TOOL::Arguments& a){return passive_receiver.invoke(a);});
+        tool.inject("transmission","runtime",[this](const TOOL::Arguments& a){return passive_transmission.invoke(a);});
+        tool.inject("wifi","runtime",[this](const TOOL::Arguments& a){return passive_wifi.invoke(a);});
+        tool.inject("hotspot","runtime",[this](const TOOL::Arguments& a){return passive_hotspot.invoke(a);});
+        tool.inject("tether","runtime",[this](const TOOL::Arguments& a){return passive_tether.invoke(a);});
+        tool.inject("ledger","runtime",[this](const TOOL::Arguments& a){return passive_ledger.invoke(a);});
+        tool.inject("router","runtime",[this](const TOOL::Arguments& a){return passive_router.invoke(a);});
+        tool.inject("switch","runtime",[this](const TOOL::Arguments& a){return passive_switch.invoke(a);});
+        tool.inject("gateway","runtime",[this](const TOOL::Arguments& a){return passive_gateway.invoke(a);});
+        tool.inject("subnet","runtime",[this](const TOOL::Arguments& a){return passive_subnet.invoke(a);});
+        tool.inject("ipv4","runtime",[this](const TOOL::Arguments& a){return passive_ipv4.invoke(a);});
+        tool.inject("ipv6","runtime",[this](const TOOL::Arguments& a){return passive_ipv6.invoke(a);});
+        tool.inject("paging","runtime",[this](const TOOL::Arguments& a){return passive_paging.invoke(a);});
+        tool.inject("command","runtime",[this](const TOOL::Arguments& a){return passive_command.invoke(a);});
+        tool.inject("instruction","runtime",[this](const TOOL::Arguments& a){return passive_instruction.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"TYPE","type"},{"MODE","mode"},{"CONDITION","condition"},{"STATE","state"},{"NETWORK","network"},{"TCPIP","tcpip"},{"GPS","gps"},{"GSM","gsm"},{"IMEI","imei"},{"RFID","rfid"},{"RAM","ram"},{"GPU","gpu"},{"SD","sd"},{"DEV","dev"},{"LAN","lan"},{"WAN","wan"},{"HOST","host"},{"HOSTNAME","hostname"},{"TCP","tcp"},{"IP","ip"},{"UDP","udp"},{"ICMP","icmp"},{"NAT","nat"},{"MAC","mac"},{"FAT","fat"},{"FAT32","fat32"},{"NTFS","ntfs"},{"APFS","apfs"},{"EXT4","ext4"},{"EXFAT","exfat"},{"AARCH","aarch"},{"ARM","arm"},{"AMR64","amr64"},{"X86","x86"},{"X86_64","x86_64"},{"AMD64","amd64"},{"RISCV","riscv"},{"PSU","psu"},{"POWER","power"},{"OAUTH","oauth"},{"SSL","ssl"},{"TLS","tls"},{"HTTP","http"},{"HTTPS","https"},{"FTP","ftp"},{"DNS","dns"},{"DHCP","dhcp"},{"VPN","vpn"},{"PROXY","proxy"},{"FIREWALL","firewall"},{"UUID","uuid"},{"ENTER","enter"},{"ESC","esc"},{"CTRL","ctrl"},{"ALT","alt"},{"SPACE","space"},{"SHIFT","shift"},{"TAB","tab"},{"NAME","name"},{"NUMBER","number"},{"PID","pid"},{"USB","usb"},{"ARPA","arpa"},{"PROVIDER","provider"},{"SMS","sms"},{"TLD","tld"},{"ICANN","icann"},{"IANA","iana"},{"IETF","ietf"},{"W3C","w3c"},{"WWW","www"},{"NODE","node"},{"NODEJS","nodejs"},{"IMAGE","image"},{"IMG","img"},{"BLOCK","block"},{"LINE","line"},{"EOF","eof"},{"SCRIPT","script"},{"SOURCECODE","sourcecode"},{"BINARY","binary"},{"SOURCE","source"},{"DESTINATION","destination"},{"TARGET","target"},{"CERTIFICATE","certificate"},{"PASSPHRASE","passphrase"},{"PASSWORD","password"},{"USERNAME","username"},{"USER","user"},{"SECRET","secret"},{"DATABASE","database"},{"TABLE","table"},{"COLUMN","column"},{"ROW","row"},{"TUPLE","tuple"},{"QUERY","query"},{"POLICY","policy"},{"MAP","map"},{"TREE","tree"},{"MINDMAP","mindmap"},{"MARKDOWN","markdown"},{"PDF","pdf"},{"JSON","json"},{"XML","xml"},{"CSV","csv"},{"SIGNATURE","signature"},{"AUTHOR","author"},{"SENDER","sender"},{"RECEIVER","receiver"},{"TRANSMISSION","transmission"},{"WIFI","wifi"},{"HOTSPOT","hotspot"},{"TETHER","tether"},{"LEDGER","ledger"},{"ROUTER","router"},{"SWITCH","switch"},{"GATEWAY","gateway"},{"SUBNET","subnet"},{"IPV4","ipv4"},{"IPV6","ipv6"},{"PAGING","paging"},{"COMMAND","command"},{"INSTRUCTION","instruction"},{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -3178,7 +4285,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"compiler",{"status"}},{"decompiler",{"status"}},{"hex",{"status","encode","decode"}},{"hexadecimal",{"status","encode","decode"}},{"hextable",{"status","list"}},{"automation",{"status","run"}},{"generation",{"status","repeat"}},{"encryption",{"status"}},{"decryption",{"status"}},{"encoding",{"status","hex"}},{"decoding",{"status","hex"}},{"lexer",{"status","split"}},{"delexer",{"status","join"}},{"lexicaliser",{"status","split"}},{"delexicaliser",{"status","join"}},{"tokeniser",{"status","split"}},{"detokeniser",{"status","join"}},{"parser",{"status","split"}},{"transparser",{"status","split"}},{"crossparser",{"status","split"}},{"process",{"status","run"}},{"processor",{"status","run"}},{"allocator",{"status","check"}},{"serialiser",{"status","pack"}},{"deserialiser",{"status","unpack"}},{"hasher",{"status"}},{"salter",{"status"}},{"lockmaker",{"status"}},{"keymaker",{"status"}},{"builder",{"status"}},{"linker",{"status"}},{"debugger",{"status"}},{"scanner",{"status","find"}},{"printer",{"status","format"}},{"port",{"status","validate"}},{"finder",{"status","find"}},{"search",{"status","find"}},{"cloaker",{"status","redact"}},{"concealer",{"status","mask"}},{"exposer",{"status","inspect"}},{"importer",{"status","accept"}},{"exporter",{"status","format"}},{"clipboard",{"status","set","get","clear"}},{"cacher",{"status","set","get","remove","clear"}},{"interface",{"status","list","check"}},{"driver",{"status"}},{"controller",{"status","check","run"}},{"device",{"status"}},{"system",{"status","target"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"compiler",{"status"}},{"decompiler",{"status"}},{"hex",{"status","encode","decode"}},{"hexadecimal",{"status","encode","decode"}},{"hextable",{"status","list"}},{"automation",{"status","run"}},{"generation",{"status","repeat"}},{"encryption",{"status"}},{"decryption",{"status"}},{"encoding",{"status","hex"}},{"decoding",{"status","hex"}},{"lexer",{"status","split"}},{"delexer",{"status","join"}},{"lexicaliser",{"status","split"}},{"delexicaliser",{"status","join"}},{"tokeniser",{"status","split"}},{"detokeniser",{"status","join"}},{"parser",{"status","split"}},{"transparser",{"status","split"}},{"crossparser",{"status","split"}},{"process",{"status","run"}},{"processor",{"status","run"}},{"allocator",{"status","check"}},{"serialiser",{"status","pack"}},{"deserialiser",{"status","unpack"}},{"hasher",{"status"}},{"salter",{"status"}},{"lockmaker",{"status"}},{"keymaker",{"status"}},{"builder",{"status"}},{"linker",{"status"}},{"debugger",{"status"}},{"scanner",{"status","find"}},{"printer",{"status","format"}},{"port",{"status","validate"}},{"finder",{"status","find"}},{"search",{"status","find"}},{"cloaker",{"status","redact"}},{"concealer",{"status","mask"}},{"exposer",{"status","inspect"}},{"importer",{"status","accept"}},{"exporter",{"status","format"}},{"clipboard",{"status","set","get","clear"}},{"cacher",{"status","set","get","remove","clear"}},{"interface",{"status","list","check"}},{"driver",{"status"}},{"controller",{"status","check","run"}},{"device",{"status"}},{"system",{"status","target"}},{"type",{"status"}},{"mode",{"status"}},{"condition",{"status","equal"}},{"state",{"status"}},{"network",{"status"}},{"tcpip",{"status"}},{"gps",{"status"}},{"gsm",{"status"}},{"imei",{"status"}},{"rfid",{"status"}},{"ram",{"status"}},{"gpu",{"status"}},{"sd",{"status"}},{"dev",{"status"}},{"lan",{"status"}},{"wan",{"status"}},{"host",{"status"}},{"hostname",{"status"}},{"tcp",{"status"}},{"ip",{"status"}},{"udp",{"status"}},{"icmp",{"status"}},{"nat",{"status"}},{"mac",{"status"}},{"fat",{"status"}},{"fat32",{"status"}},{"ntfs",{"status"}},{"apfs",{"status"}},{"ext4",{"status"}},{"exfat",{"status"}},{"aarch",{"status"}},{"arm",{"status"}},{"amr64",{"status"}},{"x86",{"status"}},{"x86_64",{"status"}},{"amd64",{"status"}},{"riscv",{"status"}},{"psu",{"status"}},{"power",{"status"}},{"oauth",{"status"}},{"ssl",{"status"}},{"tls",{"status"}},{"http",{"status"}},{"https",{"status"}},{"ftp",{"status"}},{"dns",{"status"}},{"dhcp",{"status"}},{"vpn",{"status"}},{"proxy",{"status"}},{"firewall",{"status"}},{"uuid",{"status","validate"}},{"enter",{"status","code"}},{"esc",{"status","code"}},{"ctrl",{"status"}},{"alt",{"status"}},{"space",{"status","code"}},{"shift",{"status"}},{"tab",{"status","code"}},{"name",{"status"}},{"number",{"status","validate"}},{"pid",{"status"}},{"usb",{"status"}},{"arpa",{"status"}},{"provider",{"status"}},{"sms",{"status"}},{"tld",{"status"}},{"icann",{"status"}},{"iana",{"status"}},{"ietf",{"status"}},{"w3c",{"status"}},{"www",{"status"}},{"node",{"status"}},{"nodejs",{"status"}},{"image",{"status"}},{"img",{"status"}},{"block",{"status"}},{"line",{"status","count"}},{"eof",{"status","marker"}},{"script",{"status"}},{"sourcecode",{"status"}},{"binary",{"status","validate"}},{"source",{"status"}},{"destination",{"status"}},{"target",{"status"}},{"certificate",{"status"}},{"passphrase",{"status"}},{"password",{"status"}},{"username",{"status"}},{"user",{"status"}},{"secret",{"status"}},{"database",{"status"}},{"table",{"status"}},{"column",{"status"}},{"row",{"status"}},{"tuple",{"status"}},{"query",{"status"}},{"policy",{"status"}},{"map",{"status"}},{"tree",{"status"}},{"mindmap",{"status"}},{"markdown",{"status"}},{"pdf",{"status"}},{"json",{"status"}},{"xml",{"status"}},{"csv",{"status"}},{"signature",{"status"}},{"author",{"status"}},{"sender",{"status"}},{"receiver",{"status"}},{"transmission",{"status"}},{"wifi",{"status"}},{"hotspot",{"status"}},{"tether",{"status"}},{"ledger",{"status"}},{"router",{"status"}},{"switch",{"status"}},{"gateway",{"status"}},{"subnet",{"status"}},{"ipv4",{"status"}},{"ipv6",{"status"}},{"paging",{"status"}},{"command",{"status","check"}},{"instruction",{"status","check"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
