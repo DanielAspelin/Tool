@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <fstream>
 #include <chrono>
+#include <ctime>
 #include <iomanip>
 #include <atomic>
 #include <future>
@@ -670,6 +671,35 @@ public:
     const std::string& domain() const{return scope;}
     bool expired(std::chrono::seconds ttl) const{return ttl.count()<=0||std::chrono::system_clock::now()-created>=ttl;}
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{identity});}
+};
+class TIME {
+    REGISTRATION registry;
+    const TIMESTAMP::Snapshot snapshot;
+public:
+    explicit TIME(const TIMESTAMP::Snapshot& s):snapshot(s){registry.add("utc","policy","UTC clock projection");}
+    static std::tm calendar(const TIMESTAMP::Snapshot& s){
+        auto t=std::chrono::system_clock::to_time_t(s.utc);
+        static std::mutex guard;std::lock_guard<std::mutex> lock(guard);
+        auto p=std::gmtime(&t);if(!p)throw std::runtime_error("UTC conversion failed");return *p;
+    }
+    std::string utc() const{auto tm=calendar(snapshot);std::ostringstream out;out.imbue(std::locale::classic());out<<std::put_time(&tm,"%H:%M:%S");return out.str();}
+};
+class DATE {
+    REGISTRATION registry;
+    const TIMESTAMP::Snapshot snapshot;
+public:
+    explicit DATE(const TIMESTAMP::Snapshot& s):snapshot(s){registry.add("utc","policy","UTC calendar projection");}
+    std::string utc() const{auto tm=TIME::calendar(snapshot);std::ostringstream out;out.imbue(std::locale::classic());out<<std::put_time(&tm,"%Y-%m-%d");return out.str();}
+};
+class TIMEDATE {
+    REGISTRATION registry;
+    const TIMESTAMP::Snapshot snapshot;
+    TIME time;
+    DATE date;
+public:
+    explicit TIMEDATE(const TIMESTAMP::Snapshot& s):snapshot(s),time(snapshot),date(snapshot){registry.add("utc","policy","combined UTC snapshot");}
+    std::string utc() const{return date.utc()+"T"+time.utc()+"Z";}
+    const TIMESTAMP::Snapshot& captured() const{return snapshot;}
 };
 class REQUEST {
 public:
@@ -1758,6 +1788,9 @@ public:
         tool.inject("character","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: character scalar");CHARACTER c(CHARACTER::parse(a[0]));return c.utf8();});
         tool.inject("string","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: string text");STRING v(a[0]);return v.get();});
         tool.inject("token","runtime",[](const TOOL::Arguments& a){if(a.size()!=4)return std::string("Usage: token category nonsecret-id origin scope");TOKEN t(a[0],a[1],a[2],a[3]);return t.kind()+": metadata validated";});
+        tool.inject("time","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: time");TIMESTAMP clock;TIME t(clock.capture());return t.utc();});
+        tool.inject("date","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: date");TIMESTAMP clock;DATE d(clock.capture());return d.utc();});
+        tool.inject("timedate","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: timedate");TIMESTAMP clock;TIMEDATE dt(clock.capture());return dt.utc();});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
