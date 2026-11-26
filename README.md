@@ -214,6 +214,10 @@ Added HEADER, METADATA, CONSTANT, MUTABLE, IMMUTABLE, CLASSIFICATION, CLASSIFIER
 
 All 528 top-level class definitions contain their own nested MODELER and COMMANDER types and private per-instance MODELS and COMMANDS nested associative maps. The nested types expose metadata definition and inspection helpers, with no autonomous execution. Initial entries identify the owning class and invocation-bound activation, and a status metadata entry. Existing function registration and dispatch remain separate; full model/command synchronization, callable binding, concurrency protection and native persistence are pending. The convention applies to primary classes, not recursively to the nested helper types. Compilation remains unverified.
 
+## Universal specification and transversioning foundations
+
+All 528 primary classes now declare a private SPECIFICATION nested associative map and nested SPECIFIER helper. Initial class and helper operation versions are 0.1.0. SPECIFIER provides explicit revision replacement with previous revision metadata, array projection and a per-class atomic construction counter. These are foundations only: ordinary functions, functors, variables and all nested arrays are not automatically enumerated or synchronized, instance copying does not allocate a new index, revision updates are not automatically triggered, and no persistent revision history is implemented. The counter retry loop requires reconciliation with the function-call-only loop convention. Specification access, concurrency safety, full callable indexing, compilation and runtime validation remain pending. The intended canonical class array is SPECIFICATION; runtime ownership remains invocation-bound.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
