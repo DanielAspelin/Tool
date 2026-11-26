@@ -108,6 +108,16 @@ private:
     ToolLocalRegistry MODEL{{"TIMESTAMP",{{"class","TIMESTAMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMESTAMP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -212,6 +222,16 @@ private:
     ToolLocalRegistry MODEL{{"IPIFY",{{"class","IPIFY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPIFY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -337,6 +357,16 @@ private:
     ToolLocalRegistry MODEL{{"DUMP",{{"class","DUMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DUMP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -450,6 +480,16 @@ private:
     ToolLocalRegistry MODEL{{"SIGNAL",{{"class","SIGNAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -559,6 +599,16 @@ private:
     ToolLocalRegistry MODEL{{"TRIGGER",{{"class","TRIGGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -654,6 +704,16 @@ private:
     ToolLocalRegistry MODEL{{"CPU",{{"class","CPU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPU"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -745,6 +805,16 @@ private:
     ToolLocalRegistry MODEL{{"MEMORY",{{"class","MEMORY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MEMORY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -841,6 +911,16 @@ private:
     ToolLocalRegistry MODEL{{"THERMAL",{{"class","THERMAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THERMAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -943,6 +1023,16 @@ private:
     ToolLocalRegistry MODEL{{"CAPACITY",{{"class","CAPACITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPACITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1036,6 +1126,16 @@ private:
     ToolLocalRegistry MODEL{{"PRESSURE",{{"class","PRESSURE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRESSURE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1133,6 +1233,16 @@ private:
     ToolLocalRegistry MODEL{{"CONFLICT",{{"class","CONFLICT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFLICT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1227,6 +1337,16 @@ private:
     ToolLocalRegistry MODEL{{"THROTTLE",{{"class","THROTTLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROTTLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1325,6 +1445,16 @@ private:
     ToolLocalRegistry MODEL{{"GUARD",{{"class","GUARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GUARD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1418,6 +1548,16 @@ private:
     ToolLocalRegistry MODEL{{"QUEUE",{{"class","QUEUE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUEUE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1511,6 +1651,16 @@ private:
     ToolLocalRegistry MODEL{{"WATCHDOG",{{"class","WATCHDOG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WATCHDOG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1602,6 +1752,16 @@ private:
     ToolLocalRegistry MODEL{{"CLEANUP",{{"class","CLEANUP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLEANUP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1693,6 +1853,16 @@ private:
     ToolLocalRegistry MODEL{{"SCHEDULER",{{"class","SCHEDULER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCHEDULER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -1788,6 +1958,16 @@ private:
     ToolLocalRegistry MODEL{{"TOOL",{{"class","TOOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOOL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2058,6 +2238,16 @@ private:
     ToolLocalRegistry MODEL{{"REGISTRATION",{{"class","REGISTRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGISTRATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2154,6 +2344,16 @@ private:
     ToolLocalRegistry MODEL{{"VALUE",{{"class","VALUE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALUE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2250,6 +2450,16 @@ private:
     ToolLocalRegistry MODEL{{"PARAMETER",{{"class","PARAMETER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARAMETER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2349,6 +2559,16 @@ private:
     ToolLocalRegistry MODEL{{"REFERENCE",{{"class","REFERENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFERENCE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2443,6 +2663,16 @@ private:
     ToolLocalRegistry MODEL{{"ARGUMENT",{{"class","ARGUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARGUMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2537,6 +2767,16 @@ private:
     ToolLocalRegistry MODEL{{"VARIABLE",{{"class","VARIABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VARIABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2632,6 +2872,16 @@ private:
     ToolLocalRegistry MODEL{{"RETURN",{{"class","RETURN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2725,6 +2975,16 @@ private:
     ToolLocalRegistry MODEL{{"FUNCTION",{{"class","FUNCTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2821,6 +3081,16 @@ private:
     ToolLocalRegistry MODEL{{"CALL",{{"class","CALL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -2916,6 +3186,16 @@ private:
     ToolLocalRegistry MODEL{{"CLASS",{{"class","CLASS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3009,6 +3289,16 @@ private:
     ToolLocalRegistry MODEL{{"OBJECT",{{"class","OBJECT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3111,6 +3401,16 @@ private:
     ToolLocalRegistry MODEL{{"INSTANCE",{{"class","INSTANCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTANCE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3206,6 +3506,16 @@ private:
     ToolLocalRegistry MODEL{{"ARRAY",{{"class","ARRAY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARRAY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3308,6 +3618,16 @@ private:
     ToolLocalRegistry MODEL{{"BOOLEAN",{{"class","BOOLEAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOLEAN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3406,6 +3726,16 @@ private:
     ToolLocalRegistry MODEL{{"INTEGER",{{"class","INTEGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTEGER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3505,6 +3835,16 @@ private:
     ToolLocalRegistry MODEL{{"FLOAT",{{"class","FLOAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOAT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3604,6 +3944,16 @@ private:
     ToolLocalRegistry MODEL{{"DOUBLE",{{"class","DOUBLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOUBLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3703,6 +4053,16 @@ private:
     ToolLocalRegistry MODEL{{"CHARACTER",{{"class","CHARACTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHARACTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3818,6 +4178,16 @@ private:
     ToolLocalRegistry MODEL{{"STRING",{{"class","STRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STRING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -3919,6 +4289,16 @@ private:
     ToolLocalRegistry MODEL{{"TOKEN",{{"class","TOKEN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKEN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4027,6 +4407,16 @@ private:
     ToolLocalRegistry MODEL{{"TIME",{{"class","TIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4125,6 +4515,16 @@ private:
     ToolLocalRegistry MODEL{{"DATE",{{"class","DATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4218,6 +4618,16 @@ private:
     ToolLocalRegistry MODEL{{"TIMEDATE",{{"class","TIMEDATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMEDATE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4314,6 +4724,16 @@ private:
     ToolLocalRegistry MODEL{{"GPL",{{"class","GPL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4408,6 +4828,16 @@ private:
     ToolLocalRegistry MODEL{{"GNU",{{"class","GNU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GNU"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4502,6 +4932,16 @@ private:
     ToolLocalRegistry MODEL{{"RFC",{{"class","RFC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4596,6 +5036,16 @@ private:
     ToolLocalRegistry MODEL{{"ISO",{{"class","ISO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ISO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4690,6 +5140,16 @@ private:
     ToolLocalRegistry MODEL{{"IEC",{{"class","IEC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IEC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4784,6 +5244,16 @@ private:
     ToolLocalRegistry MODEL{{"ASSEMBLER",{{"class","ASSEMBLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4885,6 +5355,16 @@ private:
     ToolLocalRegistry MODEL{{"DISASSEMBLER",{{"class","DISASSEMBLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISASSEMBLER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -4990,6 +5470,16 @@ private:
     ToolLocalRegistry MODEL{{"SOCKET",{{"class","SOCKET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOCKET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5097,6 +5587,16 @@ private:
     ToolLocalRegistry MODEL{{"SERVICE",{{"class","SERVICE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVICE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5204,6 +5704,16 @@ private:
     ToolLocalRegistry MODEL{{"RUNTIME",{{"class","RUNTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUNTIME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5333,6 +5843,16 @@ private:
     ToolLocalRegistry MODEL{{"CAPSULE",{{"class","CAPSULE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPSULE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5455,6 +5975,16 @@ private:
     ToolLocalRegistry MODEL{{"QUARANTINE",{{"class","QUARANTINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUARANTINE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5548,6 +6078,16 @@ private:
     ToolLocalRegistry MODEL{{"ENVIRONMENT",{{"class","ENVIRONMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENVIRONMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5658,6 +6198,16 @@ private:
     ToolLocalRegistry MODEL{{"FACILITY",{{"class","FACILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FACILITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5765,6 +6315,16 @@ private:
     ToolLocalRegistry MODEL{{"AUDIT",{{"class","AUDIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUDIT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5866,6 +6426,16 @@ private:
     ToolLocalRegistry MODEL{{"FORENSIC",{{"class","FORENSIC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSIC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -5964,6 +6534,16 @@ private:
     ToolLocalRegistry MODEL{{"STATISTICAL",{{"class","STATISTICAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6066,6 +6646,16 @@ private:
     ToolLocalRegistry MODEL{{"ANALYTICAL",{{"class","ANALYTICAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6163,6 +6753,16 @@ private:
     ToolLocalRegistry MODEL{{"STATUS",{{"class","STATUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATUS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6264,6 +6864,16 @@ private:
     ToolLocalRegistry MODEL{{"QR",{{"class","QR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6370,6 +6980,16 @@ private:
     ToolLocalRegistry MODEL{{"EAN",{{"class","EAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EAN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6470,6 +7090,16 @@ private:
     ToolLocalRegistry MODEL{{"HOTCODE",{{"class","HOTCODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTCODE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6585,6 +7215,16 @@ private:
     ToolLocalRegistry MODEL{{"UPTIME",{{"class","UPTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UPTIME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6700,6 +7340,16 @@ private:
     ToolLocalRegistry MODEL{{"DOWNTIME",{{"class","DOWNTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOWNTIME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6799,6 +7449,16 @@ private:
     ToolLocalRegistry MODEL{{"TRIGGERED",{{"class","TRIGGERED"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGERED"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -6914,6 +7574,16 @@ private:
     ToolLocalRegistry MODEL{{"RESOLVED",{{"class","RESOLVED"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOLVED"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7011,6 +7681,16 @@ private:
     ToolLocalRegistry MODEL{{"LOCATOR",{{"class","LOCATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7104,6 +7784,16 @@ private:
     ToolLocalRegistry MODEL{{"POSITIONER",{{"class","POSITIONER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POSITIONER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7197,6 +7887,16 @@ private:
     ToolLocalRegistry MODEL{{"PREPOSITIONER",{{"class","PREPOSITIONER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PREPOSITIONER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7290,6 +7990,16 @@ private:
     ToolLocalRegistry MODEL{{"PASSTHROUGH",{{"class","PASSTHROUGH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSTHROUGH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7383,6 +8093,16 @@ private:
     ToolLocalRegistry MODEL{{"ROUND",{{"class","ROUND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUND"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7476,6 +8196,16 @@ private:
     ToolLocalRegistry MODEL{{"THROUGH",{{"class","THROUGH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROUGH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7569,6 +8299,16 @@ private:
     ToolLocalRegistry MODEL{{"VELOCITY",{{"class","VELOCITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VELOCITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7662,6 +8402,16 @@ private:
     ToolLocalRegistry MODEL{{"FREQUENCY",{{"class","FREQUENCY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FREQUENCY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7755,6 +8505,16 @@ private:
     ToolLocalRegistry MODEL{{"ENTRY",{{"class","ENTRY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTRY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7848,6 +8608,16 @@ private:
     ToolLocalRegistry MODEL{{"EXIT",{{"class","EXIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXIT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -7941,6 +8711,16 @@ private:
     ToolLocalRegistry MODEL{{"INPUT",{{"class","INPUT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INPUT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8034,6 +8814,16 @@ private:
     ToolLocalRegistry MODEL{{"OUTPUT",{{"class","OUTPUT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OUTPUT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8127,6 +8917,16 @@ private:
     ToolLocalRegistry MODEL{{"SHELL",{{"class","SHELL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHELL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8220,6 +9020,16 @@ private:
     ToolLocalRegistry MODEL{{"TERMINAL",{{"class","TERMINAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TERMINAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8313,6 +9123,16 @@ private:
     ToolLocalRegistry MODEL{{"CONSOLE",{{"class","CONSOLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSOLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8406,6 +9226,16 @@ private:
     ToolLocalRegistry MODEL{{"PERSISTENCE",{{"class","PERSISTENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PERSISTENCE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8499,6 +9329,16 @@ private:
     ToolLocalRegistry MODEL{{"VOLATILITY",{{"class","VOLATILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLATILITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8592,6 +9432,16 @@ private:
     ToolLocalRegistry MODEL{{"IDLE",{{"class","IDLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8685,6 +9535,16 @@ private:
     ToolLocalRegistry MODEL{{"SLEEP",{{"class","SLEEP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SLEEP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8784,6 +9644,16 @@ private:
     ToolLocalRegistry MODEL{{"DETECTION",{{"class","DETECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETECTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8894,6 +9764,16 @@ private:
     ToolLocalRegistry MODEL{{"CALLABLE",{{"class","CALLABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALLABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -8993,6 +9873,16 @@ private:
     ToolLocalRegistry MODEL{{"INVOKABLE",{{"class","INVOKABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INVOKABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9090,6 +9980,16 @@ private:
     ToolLocalRegistry MODEL{{"RETURNABLE",{{"class","RETURNABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURNABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9195,6 +10095,16 @@ private:
     ToolLocalRegistry MODEL{{"COMPILER",{{"class","COMPILER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPILER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9288,6 +10198,16 @@ private:
     ToolLocalRegistry MODEL{{"DECOMPILER",{{"class","DECOMPILER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECOMPILER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9381,6 +10301,16 @@ private:
     ToolLocalRegistry MODEL{{"HEX",{{"class","HEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9474,6 +10404,16 @@ private:
     ToolLocalRegistry MODEL{{"HEXADECIMAL",{{"class","HEXADECIMAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXADECIMAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9567,6 +10507,16 @@ private:
     ToolLocalRegistry MODEL{{"HEXTABLE",{{"class","HEXTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXTABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9660,6 +10610,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTOMATION",{{"class","AUTOMATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9753,6 +10713,16 @@ private:
     ToolLocalRegistry MODEL{{"GENERATION",{{"class","GENERATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9846,6 +10816,16 @@ private:
     ToolLocalRegistry MODEL{{"ENCRYPTION",{{"class","ENCRYPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCRYPTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -9939,6 +10919,16 @@ private:
     ToolLocalRegistry MODEL{{"DECRYPTION",{{"class","DECRYPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECRYPTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10032,6 +11022,16 @@ private:
     ToolLocalRegistry MODEL{{"ENCODING",{{"class","ENCODING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCODING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10125,6 +11125,16 @@ private:
     ToolLocalRegistry MODEL{{"DECODING",{{"class","DECODING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECODING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10218,6 +11228,16 @@ private:
     ToolLocalRegistry MODEL{{"LEXER",{{"class","LEXER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10311,6 +11331,16 @@ private:
     ToolLocalRegistry MODEL{{"DELEXER",{{"class","DELEXER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10404,6 +11434,16 @@ private:
     ToolLocalRegistry MODEL{{"LEXICALISER",{{"class","LEXICALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXICALISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10497,6 +11537,16 @@ private:
     ToolLocalRegistry MODEL{{"DELEXICALISER",{{"class","DELEXICALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXICALISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10590,6 +11640,16 @@ private:
     ToolLocalRegistry MODEL{{"TOKENISER",{{"class","TOKENISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKENISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10683,6 +11743,16 @@ private:
     ToolLocalRegistry MODEL{{"DETOKENISER",{{"class","DETOKENISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETOKENISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10776,6 +11846,16 @@ private:
     ToolLocalRegistry MODEL{{"PARSER",{{"class","PARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARSER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10869,6 +11949,16 @@ private:
     ToolLocalRegistry MODEL{{"TRANSPARSER",{{"class","TRANSPARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPARSER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -10962,6 +12052,16 @@ private:
     ToolLocalRegistry MODEL{{"CROSSPARSER",{{"class","CROSSPARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CROSSPARSER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11055,6 +12155,16 @@ private:
     ToolLocalRegistry MODEL{{"PROCESS",{{"class","PROCESS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11148,6 +12258,16 @@ private:
     ToolLocalRegistry MODEL{{"PROCESSOR",{{"class","PROCESSOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11241,6 +12361,16 @@ private:
     ToolLocalRegistry MODEL{{"ALLOCATOR",{{"class","ALLOCATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11334,6 +12464,16 @@ private:
     ToolLocalRegistry MODEL{{"SERIALISER",{{"class","SERIALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERIALISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11427,6 +12567,16 @@ private:
     ToolLocalRegistry MODEL{{"DESERIALISER",{{"class","DESERIALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESERIALISER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11520,6 +12670,16 @@ private:
     ToolLocalRegistry MODEL{{"HASHER",{{"class","HASHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HASHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11613,6 +12773,16 @@ private:
     ToolLocalRegistry MODEL{{"SALTER",{{"class","SALTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SALTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11706,6 +12876,16 @@ private:
     ToolLocalRegistry MODEL{{"LOCKMAKER",{{"class","LOCKMAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCKMAKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11799,6 +12979,16 @@ private:
     ToolLocalRegistry MODEL{{"KEYMAKER",{{"class","KEYMAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KEYMAKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11892,6 +13082,16 @@ private:
     ToolLocalRegistry MODEL{{"BUILDER",{{"class","BUILDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BUILDER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -11985,6 +13185,16 @@ private:
     ToolLocalRegistry MODEL{{"LINKER",{{"class","LINKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12078,6 +13288,16 @@ private:
     ToolLocalRegistry MODEL{{"DEBUGGER",{{"class","DEBUGGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBUGGER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12171,6 +13391,16 @@ private:
     ToolLocalRegistry MODEL{{"SCANNER",{{"class","SCANNER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCANNER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12264,6 +13494,16 @@ private:
     ToolLocalRegistry MODEL{{"PRINTER",{{"class","PRINTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRINTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12357,6 +13597,16 @@ private:
     ToolLocalRegistry MODEL{{"PORT",{{"class","PORT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PORT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12450,6 +13700,16 @@ private:
     ToolLocalRegistry MODEL{{"FINDER",{{"class","FINDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FINDER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12543,6 +13803,16 @@ private:
     ToolLocalRegistry MODEL{{"SEARCH",{{"class","SEARCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEARCH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12636,6 +13906,16 @@ private:
     ToolLocalRegistry MODEL{{"CLOAKER",{{"class","CLOAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOAKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12729,6 +14009,16 @@ private:
     ToolLocalRegistry MODEL{{"CONCEALER",{{"class","CONCEALER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONCEALER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12822,6 +14112,16 @@ private:
     ToolLocalRegistry MODEL{{"EXPOSER",{{"class","EXPOSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPOSER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -12915,6 +14215,16 @@ private:
     ToolLocalRegistry MODEL{{"IMPORTER",{{"class","IMPORTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMPORTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13008,6 +14318,16 @@ private:
     ToolLocalRegistry MODEL{{"EXPORTER",{{"class","EXPORTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPORTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13101,6 +14421,16 @@ private:
     ToolLocalRegistry MODEL{{"CLIPBOARD",{{"class","CLIPBOARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIPBOARD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13194,6 +14524,16 @@ private:
     ToolLocalRegistry MODEL{{"CACHER",{{"class","CACHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CACHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13287,6 +14627,16 @@ private:
     ToolLocalRegistry MODEL{{"INTERFACE",{{"class","INTERFACE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERFACE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13380,6 +14730,16 @@ private:
     ToolLocalRegistry MODEL{{"DRIVER",{{"class","DRIVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DRIVER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13473,6 +14833,16 @@ private:
     ToolLocalRegistry MODEL{{"CONTROLLER",{{"class","CONTROLLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONTROLLER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13566,6 +14936,16 @@ private:
     ToolLocalRegistry MODEL{{"DEVICE",{{"class","DEVICE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEVICE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13659,6 +15039,16 @@ private:
     ToolLocalRegistry MODEL{{"SYSTEM",{{"class","SYSTEM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYSTEM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13766,6 +15156,16 @@ private:
     ToolLocalRegistry MODEL{{"TYPE",{{"class","TYPE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TYPE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13859,6 +15259,16 @@ private:
     ToolLocalRegistry MODEL{{"MODE",{{"class","MODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MODE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -13952,6 +15362,16 @@ private:
     ToolLocalRegistry MODEL{{"CONDITION",{{"class","CONDITION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONDITION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14045,6 +15465,16 @@ private:
     ToolLocalRegistry MODEL{{"STATE",{{"class","STATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14138,6 +15568,16 @@ private:
     ToolLocalRegistry MODEL{{"NETWORK",{{"class","NETWORK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NETWORK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14231,6 +15671,16 @@ private:
     ToolLocalRegistry MODEL{{"TCPIP",{{"class","TCPIP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCPIP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14324,6 +15774,16 @@ private:
     ToolLocalRegistry MODEL{{"GPS",{{"class","GPS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14417,6 +15877,16 @@ private:
     ToolLocalRegistry MODEL{{"GSM",{{"class","GSM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GSM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14510,6 +15980,16 @@ private:
     ToolLocalRegistry MODEL{{"IMEI",{{"class","IMEI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMEI"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14603,6 +16083,16 @@ private:
     ToolLocalRegistry MODEL{{"RFID",{{"class","RFID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14696,6 +16186,16 @@ private:
     ToolLocalRegistry MODEL{{"RAM",{{"class","RAM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RAM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14789,6 +16289,16 @@ private:
     ToolLocalRegistry MODEL{{"GPU",{{"class","GPU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPU"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14882,6 +16392,16 @@ private:
     ToolLocalRegistry MODEL{{"SD",{{"class","SD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -14975,6 +16495,16 @@ private:
     ToolLocalRegistry MODEL{{"DEV",{{"class","DEV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEV"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15068,6 +16598,16 @@ private:
     ToolLocalRegistry MODEL{{"LAN",{{"class","LAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15161,6 +16701,16 @@ private:
     ToolLocalRegistry MODEL{{"WAN",{{"class","WAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15254,6 +16804,16 @@ private:
     ToolLocalRegistry MODEL{{"HOST",{{"class","HOST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15347,6 +16907,16 @@ private:
     ToolLocalRegistry MODEL{{"HOSTNAME",{{"class","HOSTNAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTNAME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15440,6 +17010,16 @@ private:
     ToolLocalRegistry MODEL{{"TCP",{{"class","TCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15533,6 +17113,16 @@ private:
     ToolLocalRegistry MODEL{{"IP",{{"class","IP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15626,6 +17216,16 @@ private:
     ToolLocalRegistry MODEL{{"UDP",{{"class","UDP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UDP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15719,6 +17319,16 @@ private:
     ToolLocalRegistry MODEL{{"ICMP",{{"class","ICMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICMP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15812,6 +17422,16 @@ private:
     ToolLocalRegistry MODEL{{"NAT",{{"class","NAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15905,6 +17525,16 @@ private:
     ToolLocalRegistry MODEL{{"MAC",{{"class","MAC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -15998,6 +17628,16 @@ private:
     ToolLocalRegistry MODEL{{"FAT",{{"class","FAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16091,6 +17731,16 @@ private:
     ToolLocalRegistry MODEL{{"FAT32",{{"class","FAT32"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT32"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16184,6 +17834,16 @@ private:
     ToolLocalRegistry MODEL{{"NTFS",{{"class","NTFS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NTFS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16277,6 +17937,16 @@ private:
     ToolLocalRegistry MODEL{{"APFS",{{"class","APFS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APFS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16370,6 +18040,16 @@ private:
     ToolLocalRegistry MODEL{{"EXT4",{{"class","EXT4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXT4"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16463,6 +18143,16 @@ private:
     ToolLocalRegistry MODEL{{"EXFAT",{{"class","EXFAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXFAT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16556,6 +18246,16 @@ private:
     ToolLocalRegistry MODEL{{"AARCH",{{"class","AARCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AARCH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16649,6 +18349,16 @@ private:
     ToolLocalRegistry MODEL{{"ARM",{{"class","ARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16742,6 +18452,16 @@ private:
     ToolLocalRegistry MODEL{{"AMR64",{{"class","AMR64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMR64"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16835,6 +18555,16 @@ private:
     ToolLocalRegistry MODEL{{"X86",{{"class","X86"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -16928,6 +18658,16 @@ private:
     ToolLocalRegistry MODEL{{"X86_64",{{"class","X86_64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86_64"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17021,6 +18761,16 @@ private:
     ToolLocalRegistry MODEL{{"AMD64",{{"class","AMD64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMD64"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17114,6 +18864,16 @@ private:
     ToolLocalRegistry MODEL{{"RISCV",{{"class","RISCV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RISCV"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17207,6 +18967,16 @@ private:
     ToolLocalRegistry MODEL{{"PSU",{{"class","PSU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSU"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17300,6 +19070,16 @@ private:
     ToolLocalRegistry MODEL{{"POWER",{{"class","POWER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POWER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17393,6 +19173,16 @@ private:
     ToolLocalRegistry MODEL{{"OAUTH",{{"class","OAUTH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAUTH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17486,6 +19276,16 @@ private:
     ToolLocalRegistry MODEL{{"SSL",{{"class","SSL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17579,6 +19379,16 @@ private:
     ToolLocalRegistry MODEL{{"TLS",{{"class","TLS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17672,6 +19482,16 @@ private:
     ToolLocalRegistry MODEL{{"HTTP",{{"class","HTTP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17765,6 +19585,16 @@ private:
     ToolLocalRegistry MODEL{{"HTTPS",{{"class","HTTPS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTPS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17858,6 +19688,16 @@ private:
     ToolLocalRegistry MODEL{{"FTP",{{"class","FTP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FTP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -17951,6 +19791,16 @@ private:
     ToolLocalRegistry MODEL{{"DNS",{{"class","DNS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DNS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18044,6 +19894,16 @@ private:
     ToolLocalRegistry MODEL{{"DHCP",{{"class","DHCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DHCP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18137,6 +19997,16 @@ private:
     ToolLocalRegistry MODEL{{"VPN",{{"class","VPN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VPN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18230,6 +20100,16 @@ private:
     ToolLocalRegistry MODEL{{"PROXY",{{"class","PROXY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18323,6 +20203,16 @@ private:
     ToolLocalRegistry MODEL{{"FIREWALL",{{"class","FIREWALL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIREWALL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18416,6 +20306,16 @@ private:
     ToolLocalRegistry MODEL{{"UUID",{{"class","UUID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UUID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18509,6 +20409,16 @@ private:
     ToolLocalRegistry MODEL{{"ENTER",{{"class","ENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18602,6 +20512,16 @@ private:
     ToolLocalRegistry MODEL{{"ESC",{{"class","ESC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ESC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18695,6 +20615,16 @@ private:
     ToolLocalRegistry MODEL{{"CTRL",{{"class","CTRL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CTRL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18788,6 +20718,16 @@ private:
     ToolLocalRegistry MODEL{{"ALT",{{"class","ALT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18881,6 +20821,16 @@ private:
     ToolLocalRegistry MODEL{{"SPACE",{{"class","SPACE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SPACE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -18974,6 +20924,16 @@ private:
     ToolLocalRegistry MODEL{{"SHIFT",{{"class","SHIFT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHIFT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19067,6 +21027,16 @@ private:
     ToolLocalRegistry MODEL{{"TAB",{{"class","TAB"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TAB"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19160,6 +21130,16 @@ private:
     ToolLocalRegistry MODEL{{"NAME",{{"class","NAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19253,6 +21233,16 @@ private:
     ToolLocalRegistry MODEL{{"NUMBER",{{"class","NUMBER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NUMBER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19346,6 +21336,16 @@ private:
     ToolLocalRegistry MODEL{{"PID",{{"class","PID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19439,6 +21439,16 @@ private:
     ToolLocalRegistry MODEL{{"USB",{{"class","USB"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USB"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19532,6 +21542,16 @@ private:
     ToolLocalRegistry MODEL{{"ARPA",{{"class","ARPA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARPA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19625,6 +21645,16 @@ private:
     ToolLocalRegistry MODEL{{"PROVIDER",{{"class","PROVIDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROVIDER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19718,6 +21748,16 @@ private:
     ToolLocalRegistry MODEL{{"SMS",{{"class","SMS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SMS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19811,6 +21851,16 @@ private:
     ToolLocalRegistry MODEL{{"TLD",{{"class","TLD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19904,6 +21954,16 @@ private:
     ToolLocalRegistry MODEL{{"ICANN",{{"class","ICANN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICANN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -19997,6 +22057,16 @@ private:
     ToolLocalRegistry MODEL{{"IANA",{{"class","IANA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IANA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20090,6 +22160,16 @@ private:
     ToolLocalRegistry MODEL{{"IETF",{{"class","IETF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IETF"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20183,6 +22263,16 @@ private:
     ToolLocalRegistry MODEL{{"W3C",{{"class","W3C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","W3C"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20276,6 +22366,16 @@ private:
     ToolLocalRegistry MODEL{{"WWW",{{"class","WWW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WWW"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20369,6 +22469,16 @@ private:
     ToolLocalRegistry MODEL{{"NODE",{{"class","NODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20462,6 +22572,16 @@ private:
     ToolLocalRegistry MODEL{{"NODEJS",{{"class","NODEJS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODEJS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20555,6 +22675,16 @@ private:
     ToolLocalRegistry MODEL{{"IMAGE",{{"class","IMAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMAGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20648,6 +22778,16 @@ private:
     ToolLocalRegistry MODEL{{"IMG",{{"class","IMG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20741,6 +22881,16 @@ private:
     ToolLocalRegistry MODEL{{"BLOCK",{{"class","BLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLOCK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20834,6 +22984,16 @@ private:
     ToolLocalRegistry MODEL{{"LINE",{{"class","LINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -20927,6 +23087,16 @@ private:
     ToolLocalRegistry MODEL{{"ENDOFFILE",{{"class","ENDOFFILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENDOFFILE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21020,6 +23190,16 @@ private:
     ToolLocalRegistry MODEL{{"SCRIPT",{{"class","SCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCRIPT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21113,6 +23293,16 @@ private:
     ToolLocalRegistry MODEL{{"SOURCECODE",{{"class","SOURCECODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCECODE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21206,6 +23396,16 @@ private:
     ToolLocalRegistry MODEL{{"BINARY",{{"class","BINARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BINARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21299,6 +23499,16 @@ private:
     ToolLocalRegistry MODEL{{"SOURCE",{{"class","SOURCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21392,6 +23602,16 @@ private:
     ToolLocalRegistry MODEL{{"DESTINATION",{{"class","DESTINATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESTINATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21485,6 +23705,16 @@ private:
     ToolLocalRegistry MODEL{{"TARGET",{{"class","TARGET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TARGET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21578,6 +23808,16 @@ private:
     ToolLocalRegistry MODEL{{"CERTIFICATE",{{"class","CERTIFICATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CERTIFICATE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21671,6 +23911,16 @@ private:
     ToolLocalRegistry MODEL{{"PASSPHRASE",{{"class","PASSPHRASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSPHRASE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21764,6 +24014,16 @@ private:
     ToolLocalRegistry MODEL{{"PASSWORD",{{"class","PASSWORD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSWORD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21857,6 +24117,16 @@ private:
     ToolLocalRegistry MODEL{{"USERNAME",{{"class","USERNAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USERNAME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -21950,6 +24220,16 @@ private:
     ToolLocalRegistry MODEL{{"USER",{{"class","USER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22043,6 +24323,16 @@ private:
     ToolLocalRegistry MODEL{{"SECRET",{{"class","SECRET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SECRET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22136,6 +24426,16 @@ private:
     ToolLocalRegistry MODEL{{"DATABASE",{{"class","DATABASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATABASE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22229,6 +24529,16 @@ private:
     ToolLocalRegistry MODEL{{"TABLE",{{"class","TABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22322,6 +24632,16 @@ private:
     ToolLocalRegistry MODEL{{"COLUMN",{{"class","COLUMN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COLUMN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22415,6 +24735,16 @@ private:
     ToolLocalRegistry MODEL{{"ROW",{{"class","ROW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROW"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22508,6 +24838,16 @@ private:
     ToolLocalRegistry MODEL{{"TUPLE",{{"class","TUPLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TUPLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22601,6 +24941,16 @@ private:
     ToolLocalRegistry MODEL{{"QUERY",{{"class","QUERY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUERY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22694,6 +25044,16 @@ private:
     ToolLocalRegistry MODEL{{"POLICY",{{"class","POLICY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POLICY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22787,6 +25147,16 @@ private:
     ToolLocalRegistry MODEL{{"MAP",{{"class","MAP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22880,6 +25250,16 @@ private:
     ToolLocalRegistry MODEL{{"TREE",{{"class","TREE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TREE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -22973,6 +25353,16 @@ private:
     ToolLocalRegistry MODEL{{"MINDMAP",{{"class","MINDMAP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MINDMAP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23066,6 +25456,16 @@ private:
     ToolLocalRegistry MODEL{{"MARKDOWN",{{"class","MARKDOWN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MARKDOWN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23159,6 +25559,16 @@ private:
     ToolLocalRegistry MODEL{{"PDF",{{"class","PDF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PDF"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23252,6 +25662,16 @@ private:
     ToolLocalRegistry MODEL{{"JSON",{{"class","JSON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JSON"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23345,6 +25765,16 @@ private:
     ToolLocalRegistry MODEL{{"XML",{{"class","XML"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","XML"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23438,6 +25868,16 @@ private:
     ToolLocalRegistry MODEL{{"CSV",{{"class","CSV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSV"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23531,6 +25971,16 @@ private:
     ToolLocalRegistry MODEL{{"SIGNATURE",{{"class","SIGNATURE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNATURE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23624,6 +26074,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTHOR",{{"class","AUTHOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23717,6 +26177,16 @@ private:
     ToolLocalRegistry MODEL{{"SENDER",{{"class","SENDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENDER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23810,6 +26280,16 @@ private:
     ToolLocalRegistry MODEL{{"RECEIVER",{{"class","RECEIVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECEIVER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23903,6 +26383,16 @@ private:
     ToolLocalRegistry MODEL{{"TRANSMISSION",{{"class","TRANSMISSION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSMISSION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -23996,6 +26486,16 @@ private:
     ToolLocalRegistry MODEL{{"WIFI",{{"class","WIFI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIFI"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24089,6 +26589,16 @@ private:
     ToolLocalRegistry MODEL{{"HOTSPOT",{{"class","HOTSPOT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTSPOT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24182,6 +26692,16 @@ private:
     ToolLocalRegistry MODEL{{"TETHER",{{"class","TETHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TETHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24275,6 +26795,16 @@ private:
     ToolLocalRegistry MODEL{{"LEDGER",{{"class","LEDGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEDGER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24368,6 +26898,16 @@ private:
     ToolLocalRegistry MODEL{{"ROUTER",{{"class","ROUTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24461,6 +27001,16 @@ private:
     ToolLocalRegistry MODEL{{"SWITCH",{{"class","SWITCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWITCH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24554,6 +27104,16 @@ private:
     ToolLocalRegistry MODEL{{"GATEWAY",{{"class","GATEWAY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GATEWAY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24647,6 +27207,16 @@ private:
     ToolLocalRegistry MODEL{{"SUBNET",{{"class","SUBNET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUBNET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24740,6 +27310,16 @@ private:
     ToolLocalRegistry MODEL{{"IPV4",{{"class","IPV4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV4"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24833,6 +27413,16 @@ private:
     ToolLocalRegistry MODEL{{"IPV6",{{"class","IPV6"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV6"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -24926,6 +27516,16 @@ private:
     ToolLocalRegistry MODEL{{"PAGING",{{"class","PAGING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PAGING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25019,6 +27619,16 @@ private:
     ToolLocalRegistry MODEL{{"COMMAND",{{"class","COMMAND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMMAND"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25112,6 +27722,16 @@ private:
     ToolLocalRegistry MODEL{{"INSTRUCTION",{{"class","INSTRUCTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUCTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25205,6 +27825,16 @@ private:
     ToolLocalRegistry MODEL{{"BASH",{{"class","BASH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25297,6 +27927,16 @@ private:
     ToolLocalRegistry MODEL{{"PS1",{{"class","PS1"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PS1"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25389,6 +28029,16 @@ private:
     ToolLocalRegistry MODEL{{"APPLESCRIPT",{{"class","APPLESCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPLESCRIPT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25481,6 +28131,16 @@ private:
     ToolLocalRegistry MODEL{{"CMD",{{"class","CMD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CMD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25573,6 +28233,16 @@ private:
     ToolLocalRegistry MODEL{{"BATCH",{{"class","BATCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BATCH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25665,6 +28335,16 @@ private:
     ToolLocalRegistry MODEL{{"WINDOWS",{{"class","WINDOWS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WINDOWS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25757,6 +28437,16 @@ private:
     ToolLocalRegistry MODEL{{"MACOS",{{"class","MACOS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MACOS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25849,6 +28539,16 @@ private:
     ToolLocalRegistry MODEL{{"LINUX",{{"class","LINUX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINUX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -25941,6 +28641,16 @@ private:
     ToolLocalRegistry MODEL{{"ANDROID",{{"class","ANDROID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANDROID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26033,6 +28743,16 @@ private:
     ToolLocalRegistry MODEL{{"IOS",{{"class","IOS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IOS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26125,6 +28845,16 @@ private:
     ToolLocalRegistry MODEL{{"DEBIAN",{{"class","DEBIAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBIAN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26217,6 +28947,16 @@ private:
     ToolLocalRegistry MODEL{{"FEDORA",{{"class","FEDORA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FEDORA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26309,6 +29049,16 @@ private:
     ToolLocalRegistry MODEL{{"GENTOO",{{"class","GENTOO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENTOO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26401,6 +29151,16 @@ private:
     ToolLocalRegistry MODEL{{"PATCHER",{{"class","PATCHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATCHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26493,6 +29253,16 @@ private:
     ToolLocalRegistry MODEL{{"WRAPPER",{{"class","WRAPPER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WRAPPER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26585,6 +29355,16 @@ private:
     ToolLocalRegistry MODEL{{"FORKER",{{"class","FORKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26677,6 +29457,16 @@ private:
     ToolLocalRegistry MODEL{{"WIRING",{{"class","WIRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIRING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26769,6 +29559,16 @@ private:
     ToolLocalRegistry MODEL{{"VOLUME",{{"class","VOLUME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLUME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26861,6 +29661,16 @@ private:
     ToolLocalRegistry MODEL{{"CLUSTER",{{"class","CLUSTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLUSTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -26953,6 +29763,16 @@ private:
     ToolLocalRegistry MODEL{{"REPLICATION",{{"class","REPLICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPLICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27045,6 +29865,16 @@ private:
     ToolLocalRegistry MODEL{{"MIGRATION",{{"class","MIGRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MIGRATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27137,6 +29967,16 @@ private:
     ToolLocalRegistry MODEL{{"UNIT",{{"class","UNIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UNIT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27229,6 +30069,16 @@ private:
     ToolLocalRegistry MODEL{{"INSTALLATION",{{"class","INSTALLATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTALLATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27321,6 +30171,16 @@ private:
     ToolLocalRegistry MODEL{{"PACKAGING",{{"class","PACKAGING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27413,6 +30273,16 @@ private:
     ToolLocalRegistry MODEL{{"PACKAGE",{{"class","PACKAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27505,6 +30375,16 @@ private:
     ToolLocalRegistry MODEL{{"PACKET",{{"class","PACKET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27597,6 +30477,16 @@ private:
     ToolLocalRegistry MODEL{{"FILTER",{{"class","FILTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27689,6 +30579,16 @@ private:
     ToolLocalRegistry MODEL{{"SENSOR",{{"class","SENSOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENSOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27781,6 +30681,16 @@ private:
     ToolLocalRegistry MODEL{{"PROXIMITY",{{"class","PROXIMITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXIMITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27873,6 +30783,16 @@ private:
     ToolLocalRegistry MODEL{{"DISTRIBUTION",{{"class","DISTRIBUTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISTRIBUTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -27965,6 +30885,16 @@ private:
     ToolLocalRegistry MODEL{{"GROUPING",{{"class","GROUPING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GROUPING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28057,6 +30987,16 @@ private:
     ToolLocalRegistry MODEL{{"RESOURCING",{{"class","RESOURCING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOURCING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28149,6 +31089,16 @@ private:
     ToolLocalRegistry MODEL{{"HARDWARE",{{"class","HARDWARE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HARDWARE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28241,6 +31191,16 @@ private:
     ToolLocalRegistry MODEL{{"FIRMWARE",{{"class","FIRMWARE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIRMWARE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28333,6 +31293,16 @@ private:
     ToolLocalRegistry MODEL{{"BOOTLOADING",{{"class","BOOTLOADING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTLOADING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28425,6 +31395,16 @@ private:
     ToolLocalRegistry MODEL{{"BOOTSTRAPPING",{{"class","BOOTSTRAPPING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSTRAPPING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28517,6 +31497,16 @@ private:
     ToolLocalRegistry MODEL{{"HOSTING",{{"class","HOSTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28609,6 +31599,16 @@ private:
     ToolLocalRegistry MODEL{{"SITE",{{"class","SITE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SITE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28701,6 +31701,16 @@ private:
     ToolLocalRegistry MODEL{{"DOMAIN",{{"class","DOMAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOMAIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28793,6 +31803,16 @@ private:
     ToolLocalRegistry MODEL{{"FOREST",{{"class","FOREST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOREST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28885,6 +31905,16 @@ private:
     ToolLocalRegistry MODEL{{"GLOBAL",{{"class","GLOBAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOBAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -28977,6 +32007,16 @@ private:
     ToolLocalRegistry MODEL{{"LOCAL",{{"class","LOCAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29069,6 +32109,16 @@ private:
     ToolLocalRegistry MODEL{{"JOINER",{{"class","JOINER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JOINER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29161,6 +32211,16 @@ private:
     ToolLocalRegistry MODEL{{"LEAVER",{{"class","LEAVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEAVER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29253,6 +32313,16 @@ private:
     ToolLocalRegistry MODEL{{"ONLINE",{{"class","ONLINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ONLINE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29345,6 +32415,16 @@ private:
     ToolLocalRegistry MODEL{{"OFFLINE",{{"class","OFFLINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OFFLINE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29437,6 +32517,16 @@ private:
     ToolLocalRegistry MODEL{{"DAEMON",{{"class","DAEMON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DAEMON"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29529,6 +32619,16 @@ private:
     ToolLocalRegistry MODEL{{"KERNEL",{{"class","KERNEL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KERNEL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29621,6 +32721,16 @@ private:
     ToolLocalRegistry MODEL{{"KO",{{"class","KO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29713,6 +32823,16 @@ private:
     ToolLocalRegistry MODEL{{"KBUILD",{{"class","KBUILD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KBUILD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29805,6 +32925,16 @@ private:
     ToolLocalRegistry MODEL{{"INSTRUMENT",{{"class","INSTRUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29897,6 +33027,16 @@ private:
     ToolLocalRegistry MODEL{{"CLOUD",{{"class","CLOUD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOUD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -29989,6 +33129,16 @@ private:
     ToolLocalRegistry MODEL{{"DATACENTER",{{"class","DATACENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATACENTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30081,6 +33231,16 @@ private:
     ToolLocalRegistry MODEL{{"FRAME",{{"class","FRAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAME"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30173,6 +33333,16 @@ private:
     ToolLocalRegistry MODEL{{"MAIN",{{"class","MAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30265,6 +33435,16 @@ private:
     ToolLocalRegistry MODEL{{"MAINSYSTEM",{{"class","MAINSYSTEM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAINSYSTEM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30357,6 +33537,16 @@ private:
     ToolLocalRegistry MODEL{{"ALLOCATION",{{"class","ALLOCATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30449,6 +33639,16 @@ private:
     ToolLocalRegistry MODEL{{"PROCESSING",{{"class","PROCESSING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30541,6 +33741,16 @@ private:
     ToolLocalRegistry MODEL{{"VERSIONING",{{"class","VERSIONING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERSIONING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30633,6 +33843,16 @@ private:
     ToolLocalRegistry MODEL{{"TRANSVERSIONING",{{"class","TRANSVERSIONING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSVERSIONING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30725,6 +33945,16 @@ private:
     ToolLocalRegistry MODEL{{"QUALIFICATION",{{"class","QUALIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30817,6 +34047,16 @@ private:
     ToolLocalRegistry MODEL{{"VERIFICATION",{{"class","VERIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERIFICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -30909,6 +34149,16 @@ private:
     ToolLocalRegistry MODEL{{"VALIDATION",{{"class","VALIDATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALIDATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31001,6 +34251,16 @@ private:
     ToolLocalRegistry MODEL{{"CONFIRMATION",{{"class","CONFIRMATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIRMATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31093,6 +34353,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTHENTICATION",{{"class","AUTHENTICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHENTICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31185,6 +34455,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTHORISATION",{{"class","AUTHORISATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORISATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31277,6 +34557,16 @@ private:
     ToolLocalRegistry MODEL{{"APPROVAL",{{"class","APPROVAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPROVAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31369,6 +34659,16 @@ private:
     ToolLocalRegistry MODEL{{"MONITORING",{{"class","MONITORING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MONITORING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31461,6 +34761,16 @@ private:
     ToolLocalRegistry MODEL{{"ANALYSIS",{{"class","ANALYSIS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYSIS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31553,6 +34863,16 @@ private:
     ToolLocalRegistry MODEL{{"STATISTICS",{{"class","STATISTICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31645,6 +34965,16 @@ private:
     ToolLocalRegistry MODEL{{"SCIENCE",{{"class","SCIENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCIENCE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31737,6 +35067,16 @@ private:
     ToolLocalRegistry MODEL{{"CALCULATOR",{{"class","CALCULATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALCULATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31829,6 +35169,16 @@ private:
     ToolLocalRegistry MODEL{{"ARITHMETICS",{{"class","ARITHMETICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARITHMETICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -31921,6 +35271,16 @@ private:
     ToolLocalRegistry MODEL{{"QUALIFIER",{{"class","QUALIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFIER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32013,6 +35373,16 @@ private:
     ToolLocalRegistry MODEL{{"IDENTIFICATION",{{"class","IDENTIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32105,6 +35475,16 @@ private:
     ToolLocalRegistry MODEL{{"IDENTIFIER",{{"class","IDENTIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFIER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32197,6 +35577,16 @@ private:
     ToolLocalRegistry MODEL{{"QUANTIFIER",{{"class","QUANTIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUANTIFIER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32289,6 +35679,16 @@ private:
     ToolLocalRegistry MODEL{{"JAVASCRIPT",{{"class","JAVASCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVASCRIPT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32381,6 +35781,16 @@ private:
     ToolLocalRegistry MODEL{{"R",{{"class","R"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","R"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32473,6 +35883,16 @@ private:
     ToolLocalRegistry MODEL{{"C",{{"class","C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","C"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32565,6 +35985,16 @@ private:
     ToolLocalRegistry MODEL{{"ASSEMBLY",{{"class","ASSEMBLY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32657,6 +36087,16 @@ private:
     ToolLocalRegistry MODEL{{"LUA",{{"class","LUA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LUA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32749,6 +36189,16 @@ private:
     ToolLocalRegistry MODEL{{"CSS",{{"class","CSS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32841,6 +36291,16 @@ private:
     ToolLocalRegistry MODEL{{"HTML",{{"class","HTML"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTML"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -32933,6 +36393,16 @@ private:
     ToolLocalRegistry MODEL{{"BLUETOOTH",{{"class","BLUETOOTH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLUETOOTH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33025,6 +36495,16 @@ private:
     ToolLocalRegistry MODEL{{"NFC",{{"class","NFC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NFC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33117,6 +36597,16 @@ private:
     ToolLocalRegistry MODEL{{"MICROSD",{{"class","MICROSD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MICROSD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33209,6 +36699,16 @@ private:
     ToolLocalRegistry MODEL{{"STORAGE",{{"class","STORAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STORAGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33301,6 +36801,16 @@ private:
     ToolLocalRegistry MODEL{{"DISK",{{"class","DISK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33393,6 +36903,16 @@ private:
     ToolLocalRegistry MODEL{{"REST",{{"class","REST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33485,6 +37005,16 @@ private:
     ToolLocalRegistry MODEL{{"DIRECTORY",{{"class","DIRECTORY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIRECTORY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33577,6 +37107,16 @@ private:
     ToolLocalRegistry MODEL{{"FILE",{{"class","FILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33669,6 +37209,16 @@ private:
     ToolLocalRegistry MODEL{{"MANAGEMENT",{{"class","MANAGEMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGEMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33761,6 +37311,16 @@ private:
     ToolLocalRegistry MODEL{{"MANAGER",{{"class","MANAGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33853,6 +37413,16 @@ private:
     ToolLocalRegistry MODEL{{"OPERATOR",{{"class","OPERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPERATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -33945,6 +37515,16 @@ private:
     ToolLocalRegistry MODEL{{"TRANSPORT",{{"class","TRANSPORT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPORT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34037,6 +37617,16 @@ private:
     ToolLocalRegistry MODEL{{"CLOCK",{{"class","CLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOCK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34129,6 +37719,16 @@ private:
     ToolLocalRegistry MODEL{{"INFO",{{"class","INFO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INFO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34221,6 +37821,16 @@ private:
     ToolLocalRegistry MODEL{{"DASHBOARD",{{"class","DASHBOARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DASHBOARD"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34313,6 +37923,16 @@ private:
     ToolLocalRegistry MODEL{{"AVERAGE",{{"class","AVERAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AVERAGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34405,6 +38025,16 @@ private:
     ToolLocalRegistry MODEL{{"SUM",{{"class","SUM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34497,6 +38127,16 @@ private:
     ToolLocalRegistry MODEL{{"SUMMARY",{{"class","SUMMARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34589,6 +38229,16 @@ private:
     ToolLocalRegistry MODEL{{"SUMMARISATION",{{"class","SUMMARISATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARISATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34681,6 +38331,16 @@ private:
     ToolLocalRegistry MODEL{{"GLOSSARY",{{"class","GLOSSARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOSSARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34773,6 +38433,16 @@ private:
     ToolLocalRegistry MODEL{{"DOCUMENT",{{"class","DOCUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34865,6 +38535,16 @@ private:
     ToolLocalRegistry MODEL{{"DOCUMENTATION",{{"class","DOCUMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENTATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -34957,6 +38637,16 @@ private:
     ToolLocalRegistry MODEL{{"RECORDING",{{"class","RECORDING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECORDING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35049,6 +38739,16 @@ private:
     ToolLocalRegistry MODEL{{"BLACKBOX",{{"class","BLACKBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLACKBOX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35141,6 +38841,16 @@ private:
     ToolLocalRegistry MODEL{{"WHITEBOX",{{"class","WHITEBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHITEBOX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35233,6 +38943,16 @@ private:
     ToolLocalRegistry MODEL{{"LEGEND",{{"class","LEGEND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEGEND"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35325,6 +39045,16 @@ private:
     ToolLocalRegistry MODEL{{"BOUNDARY",{{"class","BOUNDARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOUNDARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35417,6 +39147,16 @@ private:
     ToolLocalRegistry MODEL{{"RULE",{{"class","RULE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RULE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35509,6 +39249,16 @@ private:
     ToolLocalRegistry MODEL{{"REGULATOR",{{"class","REGULATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35601,6 +39351,16 @@ private:
     ToolLocalRegistry MODEL{{"REGULATION",{{"class","REGULATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35693,6 +39453,16 @@ private:
     ToolLocalRegistry MODEL{{"LOOP",{{"class","LOOP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOOP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35785,6 +39555,16 @@ private:
     ToolLocalRegistry MODEL{{"WHILE",{{"class","WHILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHILE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35877,6 +39657,16 @@ private:
     ToolLocalRegistry MODEL{{"FOR",{{"class","FOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -35969,6 +39759,16 @@ private:
     ToolLocalRegistry MODEL{{"IF",{{"class","IF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IF"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36061,6 +39861,16 @@ private:
     ToolLocalRegistry MODEL{{"ELSE",{{"class","ELSE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36153,6 +39963,16 @@ private:
     ToolLocalRegistry MODEL{{"ELSEIF",{{"class","ELSEIF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSEIF"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36245,6 +40065,16 @@ private:
     ToolLocalRegistry MODEL{{"INJECTION",{{"class","INJECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INJECTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36337,6 +40167,16 @@ private:
     ToolLocalRegistry MODEL{{"FUNCTOR",{{"class","FUNCTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36429,6 +40269,16 @@ private:
     ToolLocalRegistry MODEL{{"FUNCTIONAL",{{"class","FUNCTIONAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTIONAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36521,6 +40371,16 @@ private:
     ToolLocalRegistry MODEL{{"VECTOR",{{"class","VECTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VECTOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36613,6 +40473,16 @@ private:
     ToolLocalRegistry MODEL{{"GRAPHICS",{{"class","GRAPHICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAPHICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36705,6 +40575,16 @@ private:
     ToolLocalRegistry MODEL{{"GDT",{{"class","GDT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GDT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36797,6 +40677,16 @@ private:
     ToolLocalRegistry MODEL{{"MBR",{{"class","MBR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MBR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36889,6 +40779,16 @@ private:
     ToolLocalRegistry MODEL{{"BOOTSECTOR",{{"class","BOOTSECTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSECTOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -36981,6 +40881,16 @@ private:
     ToolLocalRegistry MODEL{{"SUPERBLOCK",{{"class","SUPERBLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUPERBLOCK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37073,6 +40983,16 @@ private:
     ToolLocalRegistry MODEL{{"CHUNK",{{"class","CHUNK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHUNK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37165,6 +41085,16 @@ private:
     ToolLocalRegistry MODEL{{"BITRATE",{{"class","BITRATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BITRATE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37257,6 +41187,16 @@ private:
     ToolLocalRegistry MODEL{{"SAMPLE",{{"class","SAMPLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAMPLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37349,6 +41289,16 @@ private:
     ToolLocalRegistry MODEL{{"EXAMINATION",{{"class","EXAMINATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXAMINATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37441,6 +41391,16 @@ private:
     ToolLocalRegistry MODEL{{"INSPECTION",{{"class","INSPECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSPECTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37533,6 +41493,16 @@ private:
     ToolLocalRegistry MODEL{{"FORENSICS",{{"class","FORENSICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37625,6 +41595,16 @@ private:
     ToolLocalRegistry MODEL{{"ANALYTICS",{{"class","ANALYTICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37717,6 +41697,16 @@ private:
     ToolLocalRegistry MODEL{{"FORECAST",{{"class","FORECAST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORECAST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37809,6 +41799,16 @@ private:
     ToolLocalRegistry MODEL{{"WEATHER",{{"class","WEATHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WEATHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37901,6 +41901,16 @@ private:
     ToolLocalRegistry MODEL{{"ALERT",{{"class","ALERT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALERT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -37993,6 +42003,16 @@ private:
     ToolLocalRegistry MODEL{{"ALARM",{{"class","ALARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALARM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38085,6 +42105,16 @@ private:
     ToolLocalRegistry MODEL{{"CALENDAR",{{"class","CALENDAR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALENDAR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38177,6 +42207,16 @@ private:
     ToolLocalRegistry MODEL{{"EPHEMERAL",{{"class","EPHEMERAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EPHEMERAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38269,6 +42309,16 @@ private:
     ToolLocalRegistry MODEL{{"TEMPORARY",{{"class","TEMPORARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TEMPORARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38361,6 +42411,16 @@ private:
     ToolLocalRegistry MODEL{{"DEPLOYMENT",{{"class","DEPLOYMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEPLOYMENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38453,6 +42513,16 @@ private:
     ToolLocalRegistry MODEL{{"FLAG",{{"class","FLAG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38545,6 +42615,16 @@ private:
     ToolLocalRegistry MODEL{{"TESTING",{{"class","TESTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38637,6 +42717,16 @@ private:
     ToolLocalRegistry MODEL{{"MOCKING",{{"class","MOCKING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38729,6 +42819,16 @@ private:
     ToolLocalRegistry MODEL{{"TESTER",{{"class","TESTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38821,6 +42921,16 @@ private:
     ToolLocalRegistry MODEL{{"MOCKER",{{"class","MOCKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -38913,6 +43023,16 @@ private:
     ToolLocalRegistry MODEL{{"ANTIPENETRATION",{{"class","ANTIPENETRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIPENETRATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39005,6 +43125,16 @@ private:
     ToolLocalRegistry MODEL{{"ANTICORRUPTION",{{"class","ANTICORRUPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTICORRUPTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39097,6 +43227,16 @@ private:
     ToolLocalRegistry MODEL{{"ANTIVIRUS",{{"class","ANTIVIRUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIVIRUS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39189,6 +43329,16 @@ private:
     ToolLocalRegistry MODEL{{"SELF",{{"class","SELF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SELF"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39281,6 +43431,16 @@ private:
     ToolLocalRegistry MODEL{{"HEADER",{{"class","HEADER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEADER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39373,6 +43533,16 @@ private:
     ToolLocalRegistry MODEL{{"METADATA",{{"class","METADATA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","METADATA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39465,6 +43635,16 @@ private:
     ToolLocalRegistry MODEL{{"CONSTANT",{{"class","CONSTANT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSTANT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39557,6 +43737,16 @@ private:
     ToolLocalRegistry MODEL{{"MUTABLE",{{"class","MUTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MUTABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39649,6 +43839,16 @@ private:
     ToolLocalRegistry MODEL{{"IMMUTABLE",{{"class","IMMUTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMMUTABLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39741,6 +43941,16 @@ private:
     ToolLocalRegistry MODEL{{"CLASSIFICATION",{{"class","CLASSIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFICATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39833,6 +44043,16 @@ private:
     ToolLocalRegistry MODEL{{"CLASSIFIER",{{"class","CLASSIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFIER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -39925,6 +44145,16 @@ private:
     ToolLocalRegistry MODEL{{"SAVER",{{"class","SAVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAVER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40017,6 +44247,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTOMATOR",{{"class","AUTOMATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40109,6 +44349,16 @@ private:
     ToolLocalRegistry MODEL{{"GENERATOR",{{"class","GENERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40201,6 +44451,16 @@ private:
     ToolLocalRegistry MODEL{{"PNG",{{"class","PNG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PNG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40293,6 +44553,16 @@ private:
     ToolLocalRegistry MODEL{{"SVG",{{"class","SVG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SVG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40385,6 +44655,16 @@ private:
     ToolLocalRegistry MODEL{{"MP4",{{"class","MP4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP4"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40477,6 +44757,16 @@ private:
     ToolLocalRegistry MODEL{{"WAV",{{"class","WAV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAV"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40569,6 +44859,16 @@ private:
     ToolLocalRegistry MODEL{{"MP3",{{"class","MP3"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP3"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40661,6 +44961,16 @@ private:
     ToolLocalRegistry MODEL{{"OGG",{{"class","OGG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OGG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40753,6 +45063,16 @@ private:
     ToolLocalRegistry MODEL{{"OPUS",{{"class","OPUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPUS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40845,6 +45165,16 @@ private:
     ToolLocalRegistry MODEL{{"FLAC",{{"class","FLAC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -40937,6 +45267,16 @@ private:
     ToolLocalRegistry MODEL{{"JPEG",{{"class","JPEG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JPEG"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41029,6 +45369,16 @@ private:
     ToolLocalRegistry MODEL{{"TXT",{{"class","TXT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TXT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41121,6 +45471,16 @@ private:
     ToolLocalRegistry MODEL{{"SH",{{"class","SH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41213,6 +45573,16 @@ private:
     ToolLocalRegistry MODEL{{"JS",{{"class","JS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41305,6 +45675,16 @@ private:
     ToolLocalRegistry MODEL{{"JAVA",{{"class","JAVA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41397,6 +45777,16 @@ private:
     ToolLocalRegistry MODEL{{"GRADLE",{{"class","GRADLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRADLE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41489,6 +45879,16 @@ private:
     ToolLocalRegistry MODEL{{"SWIFT",{{"class","SWIFT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWIFT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41581,6 +45981,16 @@ private:
     ToolLocalRegistry MODEL{{"OBJECTIVE_C",{{"class","OBJECTIVE_C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_C"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41673,6 +46083,16 @@ private:
     ToolLocalRegistry MODEL{{"OBJECTIVE_CPP",{{"class","OBJECTIVE_CPP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_CPP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41765,6 +46185,16 @@ private:
     ToolLocalRegistry MODEL{{"RUST",{{"class","RUST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41857,6 +46287,16 @@ private:
     ToolLocalRegistry MODEL{{"DART",{{"class","DART"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DART"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -41949,6 +46389,16 @@ private:
     ToolLocalRegistry MODEL{{"PYTHON",{{"class","PYTHON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PYTHON"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42041,6 +46491,16 @@ private:
     ToolLocalRegistry MODEL{{"HAL",{{"class","HAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HAL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42133,6 +46593,16 @@ private:
     ToolLocalRegistry MODEL{{"SYNTAX",{{"class","SYNTAX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYNTAX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42225,6 +46695,16 @@ private:
     ToolLocalRegistry MODEL{{"LANGUAGE",{{"class","LANGUAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANGUAGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42317,6 +46797,16 @@ private:
     ToolLocalRegistry MODEL{{"SQL",{{"class","SQL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SQL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42409,6 +46899,16 @@ private:
     ToolLocalRegistry MODEL{{"NOSQL",{{"class","NOSQL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NOSQL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42501,6 +47001,16 @@ private:
     ToolLocalRegistry MODEL{{"GRAMMAR",{{"class","GRAMMAR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAMMAR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42593,6 +47103,16 @@ private:
     ToolLocalRegistry MODEL{{"VOCABULARY",{{"class","VOCABULARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOCABULARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42685,6 +47205,16 @@ private:
     ToolLocalRegistry MODEL{{"DICTIONARY",{{"class","DICTIONARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DICTIONARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42777,6 +47307,16 @@ private:
     ToolLocalRegistry MODEL{{"SYMBOL",{{"class","SYMBOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYMBOL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42869,6 +47409,16 @@ private:
     ToolLocalRegistry MODEL{{"ALPHABET",{{"class","ALPHABET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALPHABET"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -42961,6 +47511,16 @@ private:
     ToolLocalRegistry MODEL{{"LETTER",{{"class","LETTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LETTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43053,6 +47613,16 @@ private:
     ToolLocalRegistry MODEL{{"DIGIT",{{"class","DIGIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIGIT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43145,6 +47715,16 @@ private:
     ToolLocalRegistry MODEL{{"FORMATSTRING",{{"class","FORMATSTRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATSTRING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43237,6 +47817,16 @@ private:
     ToolLocalRegistry MODEL{{"FORMATTING",{{"class","FORMATTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATTING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43329,6 +47919,16 @@ private:
     ToolLocalRegistry MODEL{{"FRAGMENTATION",{{"class","FRAGMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAGMENTATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43421,6 +48021,16 @@ private:
     ToolLocalRegistry MODEL{{"SEGMENTATION",{{"class","SEGMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43513,6 +48123,16 @@ private:
     ToolLocalRegistry MODEL{{"SEQUENCING",{{"class","SEQUENCING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43605,6 +48225,16 @@ private:
     ToolLocalRegistry MODEL{{"SEQUENCER",{{"class","SEQUENCER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43697,6 +48327,16 @@ private:
     ToolLocalRegistry MODEL{{"SEGMENTER",{{"class","SEGMENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43789,6 +48429,16 @@ private:
     ToolLocalRegistry MODEL{{"CAPTURER",{{"class","CAPTURER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPTURER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43881,6 +48531,16 @@ private:
     ToolLocalRegistry MODEL{{"EXPLORER",{{"class","EXPLORER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPLORER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -43973,6 +48633,16 @@ private:
     ToolLocalRegistry MODEL{{"DISCOVERER",{{"class","DISCOVERER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISCOVERER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44065,6 +48735,16 @@ private:
     ToolLocalRegistry MODEL{{"LISTENER",{{"class","LISTENER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LISTENER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44157,6 +48837,16 @@ private:
     ToolLocalRegistry MODEL{{"INTERPRETER",{{"class","INTERPRETER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERPRETER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44249,6 +48939,16 @@ private:
     ToolLocalRegistry MODEL{{"ITERATOR",{{"class","ITERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ITERATOR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44341,6 +49041,16 @@ private:
     ToolLocalRegistry MODEL{{"REPRESENTER",{{"class","REPRESENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44433,6 +49143,16 @@ private:
     ToolLocalRegistry MODEL{{"REPRESENTATION",{{"class","REPRESENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44530,6 +49250,16 @@ private:
     ToolLocalRegistry MODEL{{"MODELING",{{"class","MODELING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MODELING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44622,6 +49352,16 @@ private:
     ToolLocalRegistry MODEL{{"LAUNCHING",{{"class","LAUNCHING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAUNCHING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44714,6 +49454,16 @@ private:
     ToolLocalRegistry MODEL{{"INITIATION",{{"class","INITIATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INITIATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44806,6 +49556,16 @@ private:
     ToolLocalRegistry MODEL{{"IGNITION",{{"class","IGNITION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IGNITION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44898,6 +49658,16 @@ private:
     ToolLocalRegistry MODEL{{"STARTUP",{{"class","STARTUP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STARTUP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -44990,6 +49760,16 @@ private:
     ToolLocalRegistry MODEL{{"SHUTDOWN",{{"class","SHUTDOWN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHUTDOWN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45082,6 +49862,16 @@ private:
     ToolLocalRegistry MODEL{{"BOOTUP",{{"class","BOOTUP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTUP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45174,6 +49964,16 @@ private:
     ToolLocalRegistry MODEL{{"TIMELINE",{{"class","TIMELINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMELINE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45266,6 +50066,16 @@ private:
     ToolLocalRegistry MODEL{{"EVENT",{{"class","EVENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EVENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45358,6 +50168,16 @@ private:
     ToolLocalRegistry MODEL{{"DIAGNOSTICS",{{"class","DIAGNOSTICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIAGNOSTICS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45450,6 +50270,16 @@ private:
     ToolLocalRegistry MODEL{{"DIAGNOSIS",{{"class","DIAGNOSIS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIAGNOSIS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45542,6 +50372,16 @@ private:
     ToolLocalRegistry MODEL{{"VOICE",{{"class","VOICE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOICE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45634,6 +50474,16 @@ private:
     ToolLocalRegistry MODEL{{"SPEECH",{{"class","SPEECH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SPEECH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45726,6 +50576,16 @@ private:
     ToolLocalRegistry MODEL{{"TEXT",{{"class","TEXT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TEXT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45818,6 +50678,16 @@ private:
     ToolLocalRegistry MODEL{{"UNARY",{{"class","UNARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UNARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -45910,6 +50780,16 @@ private:
     ToolLocalRegistry MODEL{{"TRINARY",{{"class","TRINARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRINARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46002,6 +50882,16 @@ private:
     ToolLocalRegistry MODEL{{"QUARANARY",{{"class","QUARANARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUARANARY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46094,6 +50984,16 @@ private:
     ToolLocalRegistry MODEL{{"BIT",{{"class","BIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BIT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46186,6 +51086,16 @@ private:
     ToolLocalRegistry MODEL{{"BYTE",{{"class","BYTE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BYTE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46278,6 +51188,16 @@ private:
     ToolLocalRegistry MODEL{{"CHART",{{"class","CHART"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHART"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46370,6 +51290,16 @@ private:
     ToolLocalRegistry MODEL{{"GRAPH",{{"class","GRAPH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAPH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46462,6 +51392,16 @@ private:
     ToolLocalRegistry MODEL{{"PLOT",{{"class","PLOT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PLOT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46554,6 +51494,16 @@ private:
     ToolLocalRegistry MODEL{{"PLOTGRAPH",{{"class","PLOTGRAPH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PLOTGRAPH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46646,6 +51596,16 @@ private:
     ToolLocalRegistry MODEL{{"SNAPSHOT",{{"class","SNAPSHOT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SNAPSHOT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46738,6 +51698,16 @@ private:
     ToolLocalRegistry MODEL{{"IO",{{"class","IO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46830,6 +51800,16 @@ private:
     ToolLocalRegistry MODEL{{"IN",{{"class","IN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -46922,6 +51902,16 @@ private:
     ToolLocalRegistry MODEL{{"OUT",{{"class","OUT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OUT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47014,6 +52004,16 @@ private:
     ToolLocalRegistry MODEL{{"BY",{{"class","BY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47106,6 +52106,16 @@ private:
     ToolLocalRegistry MODEL{{"FROM",{{"class","FROM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FROM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47198,6 +52208,16 @@ private:
     ToolLocalRegistry MODEL{{"TO",{{"class","TO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47290,6 +52310,16 @@ private:
     ToolLocalRegistry MODEL{{"WITH",{{"class","WITH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WITH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47382,6 +52412,16 @@ private:
     ToolLocalRegistry MODEL{{"USING",{{"class","USING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47474,6 +52514,16 @@ private:
     ToolLocalRegistry MODEL{{"WHERE",{{"class","WHERE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHERE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47566,6 +52616,16 @@ private:
     ToolLocalRegistry MODEL{{"WHO",{{"class","WHO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHO"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47658,6 +52718,16 @@ private:
     ToolLocalRegistry MODEL{{"WHOIS",{{"class","WHOIS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHOIS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47750,6 +52820,16 @@ private:
     ToolLocalRegistry MODEL{{"UPLOOKING",{{"class","UPLOOKING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UPLOOKING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47842,6 +52922,16 @@ private:
     ToolLocalRegistry MODEL{{"RDAP",{{"class","RDAP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RDAP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -47934,6 +53024,16 @@ private:
     ToolLocalRegistry MODEL{{"PING",{{"class","PING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48026,6 +53126,16 @@ private:
     ToolLocalRegistry MODEL{{"REQUEST",{{"class","REQUEST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REQUEST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48118,6 +53228,16 @@ private:
     ToolLocalRegistry MODEL{{"RESPONSE",{{"class","RESPONSE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESPONSE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48209,6 +53329,16 @@ private:
     ToolLocalRegistry MODEL{{"DISPATCHER",{{"class","DISPATCHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISPATCHER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48305,6 +53435,16 @@ private:
     ToolLocalRegistry MODEL{{"SERVER",{{"class","SERVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48401,6 +53541,16 @@ private:
     ToolLocalRegistry MODEL{{"CLIENT",{{"class","CLIENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIENT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48505,6 +53655,16 @@ private:
     ToolLocalRegistry MODEL{{"API",{{"class","API"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","API"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48610,6 +53770,16 @@ private:
     ToolLocalRegistry MODEL{{"CLI",{{"class","CLI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLI"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48715,6 +53885,16 @@ private:
     ToolLocalRegistry MODEL{{"MCP",{{"class","MCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MCP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48820,6 +54000,16 @@ private:
     ToolLocalRegistry MODEL{{"SSH",{{"class","SSH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -48917,6 +54107,16 @@ private:
     ToolLocalRegistry MODEL{{"URI",{{"class","URI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URI"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49017,6 +54217,16 @@ private:
     ToolLocalRegistry MODEL{{"URL",{{"class","URL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49119,6 +54329,16 @@ private:
     ToolLocalRegistry MODEL{{"CONFIGURATION",{{"class","CONFIGURATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIGURATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49242,6 +54462,16 @@ private:
     ToolLocalRegistry MODEL{{"SESSION",{{"class","SESSION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SESSION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49371,6 +54601,16 @@ private:
     ToolLocalRegistry MODEL{{"MESH",{{"class","MESH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MESH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49469,6 +54709,16 @@ private:
     ToolLocalRegistry MODEL{{"CHAIN",{{"class","CHAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHAIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49564,6 +54814,16 @@ private:
     ToolLocalRegistry MODEL{{"RING",{{"class","RING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RING"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49661,6 +54921,16 @@ private:
     ToolLocalRegistry MODEL{{"MATRIX",{{"class","MATRIX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MATRIX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49761,6 +55031,16 @@ private:
     ToolLocalRegistry MODEL{{"GRID",{{"class","GRID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49855,6 +55135,16 @@ private:
     ToolLocalRegistry MODEL{{"PATH",{{"class","PATH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATH"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -49962,6 +55252,16 @@ private:
     ToolLocalRegistry MODEL{{"ROUTE",{{"class","ROUTE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50059,6 +55359,16 @@ private:
     ToolLocalRegistry MODEL{{"LANE",{{"class","LANE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50162,6 +55472,16 @@ private:
     ToolLocalRegistry MODEL{{"BRIDGE",{{"class","BRIDGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BRIDGE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50275,6 +55595,16 @@ private:
     ToolLocalRegistry MODEL{{"RPC",{{"class","RPC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RPC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50386,6 +55716,16 @@ private:
     ToolLocalRegistry MODEL{{"RDP",{{"class","RDP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RDP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50492,6 +55832,16 @@ private:
     ToolLocalRegistry MODEL{{"VNC",{{"class","VNC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VNC"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50590,6 +55940,16 @@ private:
     ToolLocalRegistry MODEL{{"AST",{{"class","AST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AST"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50691,6 +56051,16 @@ private:
     ToolLocalRegistry MODEL{{"IR",{{"class","IR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IR"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50793,6 +56163,16 @@ private:
     ToolLocalRegistry MODEL{{"CPP",{{"class","CPP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50892,6 +56272,16 @@ private:
     ToolLocalRegistry MODEL{{"WASM",{{"class","WASM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WASM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -50992,6 +56382,16 @@ private:
     ToolLocalRegistry MODEL{{"CODE",{{"class","CODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51086,6 +56486,16 @@ private:
     ToolLocalRegistry MODEL{{"CODEBASE",{{"class","CODEBASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODEBASE"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51197,6 +56607,16 @@ private:
     ToolLocalRegistry MODEL{{"SANDBOX",{{"class","SANDBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SANDBOX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51295,6 +56715,16 @@ private:
     ToolLocalRegistry MODEL{{"SDK",{{"class","SDK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SDK"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51401,6 +56831,16 @@ private:
     ToolLocalRegistry MODEL{{"AES",{{"class","AES"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AES"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51497,6 +56937,16 @@ private:
     ToolLocalRegistry MODEL{{"GCM",{{"class","GCM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GCM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51596,6 +57046,16 @@ private:
     ToolLocalRegistry MODEL{{"RSA",{{"class","RSA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RSA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51692,6 +57152,16 @@ private:
     ToolLocalRegistry MODEL{{"SHA",{{"class","SHA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51794,6 +57264,16 @@ private:
     ToolLocalRegistry MODEL{{"OAEP",{{"class","OAEP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAEP"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51896,6 +57376,16 @@ private:
     ToolLocalRegistry MODEL{{"PSS",{{"class","PSS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSS"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -51999,6 +57489,16 @@ private:
     ToolLocalRegistry MODEL{{"BASE64",{{"class","BASE64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASE64"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52136,6 +57636,16 @@ private:
     ToolLocalRegistry MODEL{{"AUTHORIZATION",{{"class","AUTHORIZATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORIZATION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52155,7 +57665,7 @@ private:
 
     REGISTRATION registry;
 public:
-    AUTHORIZATION(){registry.add("permit","scope","local read-only fusion");}
+    AUTHORIZATION(){registry.add("permit","scope","local read-only integration");}
     bool permit(const REQUEST& r) const {return r.method=="echo" || r.method=="help";}
 };
 class COMPATIBILITY {
@@ -52228,6 +57738,16 @@ private:
     ToolLocalRegistry MODEL{{"COMPATIBILITY",{{"class","COMPATIBILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPATIBILITY"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52250,10 +57770,10 @@ private:
 public:
     explicit COMPATIBILITY(MATRIX& m):matrix(m){registry.add("accept","scope","local procedure");}
     bool accept(const std::string& a,const std::string& b){
-        return matrix.get({"fusion",a,b})=="local-procedure";
+        return matrix.get({"integration",a,b})=="local-procedure";
     }
     void registerPair(const std::string& a,const std::string& b){
-        matrix.set({"fusion",a,b},"local-procedure");
+        matrix.set({"integration",a,b},"local-procedure");
     }
 };
 class ADAPTER {
@@ -52326,6 +57846,16 @@ private:
     ToolLocalRegistry MODEL{{"ADAPTER",{{"class","ADAPTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ADAPTER"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52351,123 +57881,6 @@ public:
     }
     REQUEST transit(const REQUEST& r, const IR& ir) const {return ir.normalize(r);}
     RESPONSE invoke(const REQUEST& r){return endpoint(r);}
-};
-class FUSION {
-public:
-    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
-    class SPECIFIER {
-    public:
-        static bool transversion(ToolLocalRegistry& specification,const std::string& category,const std::string& identity,const std::string& revision){
-            if(category.empty()||identity.empty()||revision.empty())return false;
-            const auto key=category+":"+identity;
-            auto& record=specification[key];
-            const auto previous=record.find("version");
-            if(previous!=record.end()&&previous->second==revision)return false;
-            if(previous!=record.end())record["previous_version"]=previous->second;
-            record["version"]=revision;
-            return true;
-        }
-        static void generate(ToolLocalRegistry& specification,const std::string& name,const ToolLocalRegistry& array){
-            for(const auto& entry:array){
-                auto& record=specification["array:"+name+":"+entry.first];
-                record=entry.second;
-            }
-        }
-        static std::uint64_t index(std::atomic<std::uint64_t>& counter){
-            auto current=counter.load();
-            bool complete=false;
-            while(!complete){advance(counter,current,complete);}
-            return current+1;
-        }
-        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
-            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
-            complete=counter.compare_exchange_weak(current,current+1);
-        }
-    };
-private:
-    inline static std::atomic<std::uint64_t> specificationInstanceCounter{0};
-    static ToolLocalRegistry initialSpecification(){
-        return {{"class",{{"identity","FUSION"},{"version","0.1.0"},{"activation","invocation-bound"}}},
-                {"array:ARCHITECTURE",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:DESIGN",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:VERSION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:INFORMATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:DESCRIPTION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:MODEL",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:COMMANDS",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:SPECIFICATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"function:COMMANDER.define",{{"version","0.1.0"}}},
-                {"function:COMMANDER.inspect",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.transversion",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.generate",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.index",{{"version","0.1.0"}}}};
-    }
-    ToolLocalRegistry VERSION{{"class",{{"version","0.1.0"}}}};
-    ToolLocalRegistry INFORMATION{{"lifecycle",{{"ownership","invoker"},{"runtime","optional"}}}};
-    ToolLocalRegistry DESCRIPTION{{"structure",{{"architecture","reciprocal"},{"design","invocation-bound"}}}};
-    ToolLocalRegistry SPECIFICATION=initialSpecification();
-    std::uint64_t specificationInstanceIndex=SPECIFIER::index(specificationInstanceCounter);
-public:
-
-    private:
-    ToolLocalRegistry ARCHITECTURE{{"structure",{{"ownership","invoker"},{"connectivity","reciprocal"}}}};
-    ToolLocalRegistry DESIGN{{"behavior",{{"activation","invocation-bound"},{"runtime","optional"}}}};
-    public:
-    class COMMANDER {
-    public:
-        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
-        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
-    };
-private:
-    ToolLocalRegistry MODEL{{"FUSION",{{"class","FUSION"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUSION"}}}};
-public:
-    ToolLocalRegistry specificationSnapshot() const {
-        auto result=SPECIFICATION;
-        SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
-        SPECIFIER::generate(result,"DESIGN",DESIGN);
-        SPECIFIER::generate(result,"VERSION",VERSION);
-        SPECIFIER::generate(result,"INFORMATION",INFORMATION);
-        SPECIFIER::generate(result,"DESCRIPTION",DESCRIPTION);
-        SPECIFIER::generate(result,"MODEL",MODEL);
-        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
-        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
-        result["instance"]["spid"]=result["class"]["identity"]+":"+std::to_string(specificationInstanceIndex);
-        for(const auto* name: {"instantiate","initialize","load","run","execute","finalize","terminate","clean","flush","reconcile","automate","generate","copy","dump","delete","create","construct","reconstruct","deliver","serve","obtain","retain","resume","try","catch","throw","retry","request","respond","negotiate","pidkill","destroy","cleanup","commence","await","preprocess","postprocess","read","write","declare","scale","schedule","allocate","locate","resolve","returnResult","release"}){auto& entry=result[std::string("foundation:")+name];entry["version"]="0.1.0";entry["status"]="planned";}
-        return result;
-    }
-private:
-
-
-    PATH& path;
-    COMPATIBILITY& compatibility;
-    AUTHORIZATION& authorization;
-    IR& ir;
-    REGISTRATION registry;
-    std::map<std::string,std::unique_ptr<ADAPTER>> endpoints;
-public:
-    FUSION(PATH& p,COMPATIBILITY& c,AUTHORIZATION& a,IR& i):path(p),compatibility(c),authorization(a),ir(i){
-        registry.add("invoke","policy","deny unsupported");
-    }
-    void attach(const std::string& name,std::function<RESPONSE(const REQUEST&)> e){
-        endpoints.emplace(name,std::make_unique<ADAPTER>(std::move(e)));
-    }
-    std::string invoke(const TOOL::Arguments& args){
-        if(args.size()<3)return "Usage: fuse origin destination method [arguments...]";
-        REQUEST r{args[2],TOOL::Arguments(args.begin()+3,args.end())};
-        r=ir.normalize(r);
-        if(!authorization.permit(r))return "Denied: method not authorized for fusion";
-        if(!endpoints.count(args[0])||!endpoints.count(args[1]))return "Unknown interface";
-        auto nodes=path.find(args[0],args[1],[this](const std::string& a,const std::string& b){return endpoints.count(a)&&endpoints.count(b)&&compatibility.accept(a,b);});
-        if(nodes.empty())return "No passage";
-        for(std::size_t i=0;i<nodes.size();++i){
-            if(!endpoints.count(nodes[i]))return "Unregistered passage";
-            if(i && !compatibility.accept(nodes[i-1],nodes[i]))return "Incompatible passage";
-            r=endpoints.at(nodes[i])->transit(r,ir);
-            if(!authorization.permit(r))return "Denied after transit";
-        }
-        return endpoints.at(nodes.back())->invoke(r).value;
-    }
 };
 class TRACEROBIN {
 public:
@@ -52539,6 +57952,16 @@ private:
     ToolLocalRegistry MODEL{{"TRACEROBIN",{{"class","TRACEROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRACEROBIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52657,6 +58080,16 @@ private:
     ToolLocalRegistry MODEL{{"WAVEROBIN",{{"class","WAVEROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAVEROBIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52762,6 +58195,16 @@ private:
     ToolLocalRegistry MODEL{{"ROUNDROBIN",{{"class","ROUNDROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUNDROBIN"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52866,6 +58309,16 @@ private:
     ToolLocalRegistry MODEL{{"HEARTBEAT",{{"class","HEARTBEAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEARTBEAT"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52970,6 +58423,16 @@ private:
     ToolLocalRegistry MODEL{{"FLOW",{{"class","FLOW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOW"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -52987,12 +58450,13 @@ public:
 private:
 
 
-    FUSION& fusion;
+    TOOL& tool;
+    AUTHORIZATION& authorization;
     ROUNDROBIN& robin;
     HEARTBEAT& heartbeat;
     REGISTRATION registry;
 public:
-    FLOW(FUSION& f,ROUNDROBIN& r,HEARTBEAT& h):fusion(f),robin(r),heartbeat(h){
+    FLOW(TOOL& t,AUTHORIZATION& a,ROUNDROBIN& r,HEARTBEAT& h):tool(t),authorization(a),robin(r),heartbeat(h){
         registry.add("invoke","policy","cyclic destination selection");
     }
     std::string invoke(const TOOL::Arguments& a){
@@ -53006,7 +58470,9 @@ public:
         TOOL::Arguments request{a[0],destination,a[1]};
         request.insert(request.end(),a.begin()+3,a.end());
         heartbeat.pulse("flow");
-        return fusion.invoke(request);
+        REQUEST instruction{a[1],TOOL::Arguments(a.begin()+3,a.end())};
+        if(!authorization.permit(instruction))return "Denied: method not authorized";
+        return "Destination selected: "+destination+"; reciprocal participant testimony required";
     }
 };
 class LAMBDA {
@@ -53079,6 +58545,16 @@ private:
     ToolLocalRegistry MODEL{{"LAMBDA",{{"class","LAMBDA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAMBDA"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53200,6 +58676,16 @@ private:
     ToolLocalRegistry MODEL{{"INDEX",{{"class","INDEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INDEX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53316,6 +58802,16 @@ private:
     ToolLocalRegistry MODEL{{"POOL",{{"class","POOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POOL"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53441,6 +58937,16 @@ private:
     ToolLocalRegistry MODEL{{"FARM",{{"class","FARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FARM"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53565,6 +59071,16 @@ private:
     ToolLocalRegistry MODEL{{"REFLEX",{{"class","REFLEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFLEX"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53664,6 +59180,16 @@ private:
     ToolLocalRegistry MODEL{{"REACTION",{{"class","REACTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REACTION"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53772,6 +59298,16 @@ private:
     ToolLocalRegistry MODEL{{"HYBRID",{{"class","HYBRID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HYBRID"}}}};
 public:
+    ToolLocalRegistry testifyIntegration() const {
+        ToolLocalRegistry testimony;
+        SPECIFIER::generate(testimony,"ARCHITECTURE",ARCHITECTURE);
+        SPECIFIER::generate(testimony,"DESIGN",DESIGN);
+        SPECIFIER::generate(testimony,"MODEL",MODEL);
+        SPECIFIER::generate(testimony,"VERSION",VERSION);
+        testimony["participant"]=SPECIFICATION.at("class");
+        testimony["integration"]["status"]="declared; reciprocal verification required";
+        return testimony;
+    }
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
         SPECIFIER::generate(result,"ARCHITECTURE",ARCHITECTURE);
@@ -53828,12 +59364,11 @@ private:
     CODEBASE codebase{code};
     SANDBOX sandbox{ir};
     SDK sdk{cpp,wasm,sandbox,codebase};
-    FUSION fusion{path,compatibility,authorization,ir};
     ROUNDROBIN roundrobin;
     HEARTBEAT heartbeat;
     TRACEROBIN tracerobin;
     WAVEROBIN waverobin{heartbeat};
-    FLOW flow{fusion,roundrobin,heartbeat};
+    FLOW flow{tool,authorization,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
     UPTIME uptime;
@@ -54305,13 +59840,6 @@ private:
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
-        fusion.attach("api",[this](const REQUEST& r){return api.invoke(r);});
-        fusion.attach("cli",[this](const REQUEST& r){return cli.invoke(r);});
-        fusion.attach("mcp",[this](const REQUEST& r){return mcp.invoke(r);});
-        fusion.attach("ssh",[this](const REQUEST& r){return ssh.invoke(r);});
-        fusion.attach("rdp",[this](const REQUEST& r){return rdp.invoke(r);});
-        fusion.attach("vnc",[this](const REQUEST& r){return vnc.invoke(r);});
-        fusion.attach("rpc",[this](const REQUEST& r){return rpc.call(r);});
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
         roundrobin.attach(tool.signals());
         tool.signals().attachWave([this](const std::string& target,const std::string& event){tracerobin.record(target,event);waverobin.echo(target,event);});
@@ -54335,9 +59863,8 @@ public:
         tool.inject("base64","encoding",[this](const TOOL::Arguments& a){return base64.invoke(a);});
         tool.inject("roundrobin","runtime",[this](const TOOL::Arguments& a){return roundrobin.select(a);});
         tool.inject("heartbeat","runtime",[this](const TOOL::Arguments& a){if(a.size()==2&&a[0]=="pulse"){heartbeat.pulse(a[1]);return std::string("Pulse recorded");}if(a.size()==2&&a[0]=="status")return heartbeat.status(a[1]);return std::string("Usage: heartbeat pulse|status name");});
-        tool.inject("flow","fusion",[this](const TOOL::Arguments& a){return flow.invoke(a);});
+        tool.inject("flow","integration",[this](const TOOL::Arguments& a){return flow.invoke(a);});
         lambda.bind("flow",[this](const TOOL::Arguments& a){return flow.invoke(a);});
-        lambda.bind("fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         tool.inject("lambda","runtime",[this](const TOOL::Arguments& a){return lambda.invoke(a);});
         index.set("runtime","lambda","callable registry");
         index.set("runtime","flow","operational circulation");
@@ -54353,7 +59880,6 @@ public:
         index.set("runtime","reflex","immediate heartbeat acknowledgement");
         tool.inject("reaction","runtime",[this](const TOOL::Arguments& a){return reaction.invoke(a);});
         tool.inject("reflex","runtime",[this](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: reflex target");reflex.respond(a[0]);return std::string("Reflex acknowledged");});
-        tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
@@ -54877,7 +60403,7 @@ public:
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"MODELING","modeling"},{"LAUNCHING","launching"},{"INITIATION","initiation"},{"IGNITION","ignition"},{"STARTUP","startup"},{"SHUTDOWN","shutdown"},{"BOOTUP","bootup"},{"TIMELINE","timeline"},{"EVENT","event"},{"DIAGNOSTICS","diagnostics"},{"DIAGNOSIS","diagnosis"},{"VOICE","voice"},{"SPEECH","speech"},{"TEXT","text"},{"UNARY","unary"},{"TRINARY","trinary"},{"QUARANARY","quaranary"},{"BIT","bit"},{"BYTE","byte"},{"CHART","chart"},{"GRAPH","graph"},{"PLOT","plot"},{"PLOTGRAPH","plotgraph"},{"SNAPSHOT","snapshot"},{"IO","io"},{"IN","in"},{"OUT","out"},{"BY","by"},{"FROM","from"},{"TO","to"},{"WITH","with"},{"USING","using"},{"WHERE","where"},{"WHO","who"},{"WHOIS","whois"},{"UPLOOKING","uplooking"},{"RDAP","rdap"},{"PING","ping"},{"HEADER","header"},{"METADATA","metadata"},{"CONSTANT","constant"},{"MUTABLE","mutable"},{"IMMUTABLE","immutable"},{"CLASSIFICATION","classification"},{"CLASSIFIER","classifier"},{"SAVER","saver"},{"AUTOMATOR","automator"},{"GENERATOR","generator"},{"PNG","png"},{"SVG","svg"},{"MP4","mp4"},{"WAV","wav"},{"MP3","mp3"},{"OGG","ogg"},{"OPUS","opus"},{"FLAC","flac"},{"JPEG","jpeg"},{"TXT","txt"},{"SH","sh"},{"JS","js"},{"JAVA","java"},{"GRADLE","gradle"},{"SWIFT","swift"},{"OBJECTIVE_C","objective_c"},{"OBJECTIVE_CPP","objective_cpp"},{"RUST","rust"},{"DART","dart"},{"PYTHON","python"},{"HAL","hal"},{"SYNTAX","syntax"},{"LANGUAGE","language"},{"SQL","sql"},{"NOSQL","nosql"},{"GRAMMAR","grammar"},{"VOCABULARY","vocabulary"},{"DICTIONARY","dictionary"},{"SYMBOL","symbol"},{"ALPHABET","alphabet"},{"LETTER","letter"},{"DIGIT","digit"},{"FORMATSTRING","formatstring"},{"FORMATTING","formatting"},{"FRAGMENTATION","fragmentation"},{"SEGMENTATION","segmentation"},{"SEQUENCING","sequencing"},{"SEQUENCER","sequencer"},{"SEGMENTER","segmenter"},{"CAPTURER","capturer"},{"EXPLORER","explorer"},{"DISCOVERER","discoverer"},{"LISTENER","listener"},{"INTERPRETER","interpreter"},{"ITERATOR","iterator"},{"REPRESENTER","representer"},{"REPRESENTATION","representation"},{"DAEMON","daemon"},{"KERNEL","kernel"},{"KO","ko"},{"KBUILD","kbuild"},{"INSTRUMENT","instrument"},{"CLOUD","cloud"},{"DATACENTER","datacenter"},{"FRAME","frame"},{"MAIN","main"},{"MAINSYSTEM","mainsystem"},{"ALLOCATION","allocation"},{"PROCESSING","processing"},{"VERSIONING","versioning"},{"TRANSVERSIONING","transversioning"},{"QUALIFICATION","qualification"},{"VERIFICATION","verification"},{"VALIDATION","validation"},{"CONFIRMATION","confirmation"},{"AUTHENTICATION","authentication"},{"AUTHORISATION","authorisation"},{"APPROVAL","approval"},{"MONITORING","monitoring"},{"ANALYSIS","analysis"},{"STATISTICS","statistics"},{"SCIENCE","science"},{"CALCULATOR","calculator"},{"ARITHMETICS","arithmetics"},{"QUALIFIER","qualifier"},{"IDENTIFICATION","identification"},{"IDENTIFIER","identifier"},{"QUANTIFIER","quantifier"},{"JAVASCRIPT","javascript"},{"R","r"},{"C","c"},{"ASSEMBLY","assembly"},{"LUA","lua"},{"CSS","css"},{"HTML","html"},{"BLUETOOTH","bluetooth"},{"NFC","nfc"},{"MICROSD","microsd"},{"STORAGE","storage"},{"DISK","disk"},{"REST","rest"},{"DIRECTORY","directory"},{"FILE","file"},{"MANAGEMENT","management"},{"MANAGER","manager"},{"OPERATOR","operator"},{"TRANSPORT","transport"},{"CLOCK","clock"},{"INFO","info"},{"DASHBOARD","dashboard"},{"AVERAGE","average"},{"SUM","sum"},{"SUMMARY","summary"},{"SUMMARISATION","summarisation"},{"GLOSSARY","glossary"},{"DOCUMENT","document"},{"DOCUMENTATION","documentation"},{"RECORDING","recording"},{"BLACKBOX","blackbox"},{"WHITEBOX","whitebox"},{"LEGEND","legend"},{"BOUNDARY","boundary"},{"RULE","rule"},{"REGULATOR","regulator"},{"REGULATION","regulation"},{"LOOP","loop"},{"WHILE","while"},{"FOR","for"},{"IF","if"},{"ELSE","else"},{"ELSEIF","elseif"},{"INJECTION","injection"},{"FUNCTOR","functor"},{"FUNCTIONAL","functional"},{"VECTOR","vector"},{"GRAPHICS","graphics"},{"GDT","gdt"},{"MBR","mbr"},{"BOOTSECTOR","bootsector"},{"SUPERBLOCK","superblock"},{"CHUNK","chunk"},{"BITRATE","bitrate"},{"SAMPLE","sample"},{"EXAMINATION","examination"},{"INSPECTION","inspection"},{"FORENSICS","forensics"},{"ANALYTICS","analytics"},{"FORECAST","forecast"},{"WEATHER","weather"},{"ALERT","alert"},{"ALARM","alarm"},{"CALENDAR","calendar"},{"EPHEMERAL","ephemeral"},{"TEMPORARY","temporary"},{"DEPLOYMENT","deployment"},{"FLAG","flag"},{"TESTING","testing"},{"MOCKING","mocking"},{"TESTER","tester"},{"MOCKER","mocker"},{"ANTIPENETRATION","antipenetration"},{"ANTICORRUPTION","anticorruption"},{"ANTIVIRUS","antivirus"},{"SELF","self"},{"BASH","bash"},{"PS1","ps1"},{"APPLESCRIPT","applescript"},{"CMD","cmd"},{"BATCH","batch"},{"WINDOWS","windows"},{"MACOS","macos"},{"LINUX","linux"},{"ANDROID","android"},{"IOS","ios"},{"DEBIAN","debian"},{"FEDORA","fedora"},{"GENTOO","gentoo"},{"PATCHER","patcher"},{"WRAPPER","wrapper"},{"FORKER","forker"},{"WIRING","wiring"},{"VOLUME","volume"},{"CLUSTER","cluster"},{"REPLICATION","replication"},{"MIGRATION","migration"},{"UNIT","unit"},{"INSTALLATION","installation"},{"PACKAGING","packaging"},{"PACKAGE","package"},{"PACKET","packet"},{"FILTER","filter"},{"SENSOR","sensor"},{"PROXIMITY","proximity"},{"DISTRIBUTION","distribution"},{"GROUPING","grouping"},{"RESOURCING","resourcing"},{"HARDWARE","hardware"},{"FIRMWARE","firmware"},{"BOOTLOADING","bootloading"},{"BOOTSTRAPPING","bootstrapping"},{"HOSTING","hosting"},{"SITE","site"},{"DOMAIN","domain"},{"FOREST","forest"},{"GLOBAL","global"},{"LOCAL","local"},{"JOINER","joiner"},{"LEAVER","leaver"},{"ONLINE","online"},{"OFFLINE","offline"},{"TYPE","type"},{"MODE","mode"},{"CONDITION","condition"},{"STATE","state"},{"NETWORK","network"},{"TCPIP","tcpip"},{"GPS","gps"},{"GSM","gsm"},{"IMEI","imei"},{"RFID","rfid"},{"RAM","ram"},{"GPU","gpu"},{"SD","sd"},{"DEV","dev"},{"LAN","lan"},{"WAN","wan"},{"HOST","host"},{"HOSTNAME","hostname"},{"TCP","tcp"},{"IP","ip"},{"UDP","udp"},{"ICMP","icmp"},{"NAT","nat"},{"MAC","mac"},{"FAT","fat"},{"FAT32","fat32"},{"NTFS","ntfs"},{"APFS","apfs"},{"EXT4","ext4"},{"EXFAT","exfat"},{"AARCH","aarch"},{"ARM","arm"},{"AMR64","amr64"},{"X86","x86"},{"X86_64","x86_64"},{"AMD64","amd64"},{"RISCV","riscv"},{"PSU","psu"},{"POWER","power"},{"OAUTH","oauth"},{"SSL","ssl"},{"TLS","tls"},{"HTTP","http"},{"HTTPS","https"},{"FTP","ftp"},{"DNS","dns"},{"DHCP","dhcp"},{"VPN","vpn"},{"PROXY","proxy"},{"FIREWALL","firewall"},{"UUID","uuid"},{"ENTER","enter"},{"ESC","esc"},{"CTRL","ctrl"},{"ALT","alt"},{"SPACE","space"},{"SHIFT","shift"},{"TAB","tab"},{"NAME","name"},{"NUMBER","number"},{"PID","pid"},{"USB","usb"},{"ARPA","arpa"},{"PROVIDER","provider"},{"SMS","sms"},{"TLD","tld"},{"ICANN","icann"},{"IANA","iana"},{"IETF","ietf"},{"W3C","w3c"},{"WWW","www"},{"NODE","node"},{"NODEJS","nodejs"},{"IMAGE","image"},{"IMG","img"},{"BLOCK","block"},{"LINE","line"},{"EOF","eof"},{"SCRIPT","script"},{"SOURCECODE","sourcecode"},{"BINARY","binary"},{"SOURCE","source"},{"DESTINATION","destination"},{"TARGET","target"},{"CERTIFICATE","certificate"},{"PASSPHRASE","passphrase"},{"PASSWORD","password"},{"USERNAME","username"},{"USER","user"},{"SECRET","secret"},{"DATABASE","database"},{"TABLE","table"},{"COLUMN","column"},{"ROW","row"},{"TUPLE","tuple"},{"QUERY","query"},{"POLICY","policy"},{"MAP","map"},{"TREE","tree"},{"MINDMAP","mindmap"},{"MARKDOWN","markdown"},{"PDF","pdf"},{"JSON","json"},{"XML","xml"},{"CSV","csv"},{"SIGNATURE","signature"},{"AUTHOR","author"},{"SENDER","sender"},{"RECEIVER","receiver"},{"TRANSMISSION","transmission"},{"WIFI","wifi"},{"HOTSPOT","hotspot"},{"TETHER","tether"},{"LEDGER","ledger"},{"ROUTER","router"},{"SWITCH","switch"},{"GATEWAY","gateway"},{"SUBNET","subnet"},{"IPV4","ipv4"},{"IPV6","ipv6"},{"PAGING","paging"},{"COMMAND","command"},{"INSTRUCTION","instruction"},{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"API","api"},{"CLI","cli"},{"MCP","mcp"},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDP","rdp"},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"MODELING","modeling"},{"LAUNCHING","launching"},{"INITIATION","initiation"},{"IGNITION","ignition"},{"STARTUP","startup"},{"SHUTDOWN","shutdown"},{"BOOTUP","bootup"},{"TIMELINE","timeline"},{"EVENT","event"},{"DIAGNOSTICS","diagnostics"},{"DIAGNOSIS","diagnosis"},{"VOICE","voice"},{"SPEECH","speech"},{"TEXT","text"},{"UNARY","unary"},{"TRINARY","trinary"},{"QUARANARY","quaranary"},{"BIT","bit"},{"BYTE","byte"},{"CHART","chart"},{"GRAPH","graph"},{"PLOT","plot"},{"PLOTGRAPH","plotgraph"},{"SNAPSHOT","snapshot"},{"IO","io"},{"IN","in"},{"OUT","out"},{"BY","by"},{"FROM","from"},{"TO","to"},{"WITH","with"},{"USING","using"},{"WHERE","where"},{"WHO","who"},{"WHOIS","whois"},{"UPLOOKING","uplooking"},{"RDAP","rdap"},{"PING","ping"},{"HEADER","header"},{"METADATA","metadata"},{"CONSTANT","constant"},{"MUTABLE","mutable"},{"IMMUTABLE","immutable"},{"CLASSIFICATION","classification"},{"CLASSIFIER","classifier"},{"SAVER","saver"},{"AUTOMATOR","automator"},{"GENERATOR","generator"},{"PNG","png"},{"SVG","svg"},{"MP4","mp4"},{"WAV","wav"},{"MP3","mp3"},{"OGG","ogg"},{"OPUS","opus"},{"FLAC","flac"},{"JPEG","jpeg"},{"TXT","txt"},{"SH","sh"},{"JS","js"},{"JAVA","java"},{"GRADLE","gradle"},{"SWIFT","swift"},{"OBJECTIVE_C","objective_c"},{"OBJECTIVE_CPP","objective_cpp"},{"RUST","rust"},{"DART","dart"},{"PYTHON","python"},{"HAL","hal"},{"SYNTAX","syntax"},{"LANGUAGE","language"},{"SQL","sql"},{"NOSQL","nosql"},{"GRAMMAR","grammar"},{"VOCABULARY","vocabulary"},{"DICTIONARY","dictionary"},{"SYMBOL","symbol"},{"ALPHABET","alphabet"},{"LETTER","letter"},{"DIGIT","digit"},{"FORMATSTRING","formatstring"},{"FORMATTING","formatting"},{"FRAGMENTATION","fragmentation"},{"SEGMENTATION","segmentation"},{"SEQUENCING","sequencing"},{"SEQUENCER","sequencer"},{"SEGMENTER","segmenter"},{"CAPTURER","capturer"},{"EXPLORER","explorer"},{"DISCOVERER","discoverer"},{"LISTENER","listener"},{"INTERPRETER","interpreter"},{"ITERATOR","iterator"},{"REPRESENTER","representer"},{"REPRESENTATION","representation"},{"DAEMON","daemon"},{"KERNEL","kernel"},{"KO","ko"},{"KBUILD","kbuild"},{"INSTRUMENT","instrument"},{"CLOUD","cloud"},{"DATACENTER","datacenter"},{"FRAME","frame"},{"MAIN","main"},{"MAINSYSTEM","mainsystem"},{"ALLOCATION","allocation"},{"PROCESSING","processing"},{"VERSIONING","versioning"},{"TRANSVERSIONING","transversioning"},{"QUALIFICATION","qualification"},{"VERIFICATION","verification"},{"VALIDATION","validation"},{"CONFIRMATION","confirmation"},{"AUTHENTICATION","authentication"},{"AUTHORISATION","authorisation"},{"APPROVAL","approval"},{"MONITORING","monitoring"},{"ANALYSIS","analysis"},{"STATISTICS","statistics"},{"SCIENCE","science"},{"CALCULATOR","calculator"},{"ARITHMETICS","arithmetics"},{"QUALIFIER","qualifier"},{"IDENTIFICATION","identification"},{"IDENTIFIER","identifier"},{"QUANTIFIER","quantifier"},{"JAVASCRIPT","javascript"},{"R","r"},{"C","c"},{"ASSEMBLY","assembly"},{"LUA","lua"},{"CSS","css"},{"HTML","html"},{"BLUETOOTH","bluetooth"},{"NFC","nfc"},{"MICROSD","microsd"},{"STORAGE","storage"},{"DISK","disk"},{"REST","rest"},{"DIRECTORY","directory"},{"FILE","file"},{"MANAGEMENT","management"},{"MANAGER","manager"},{"OPERATOR","operator"},{"TRANSPORT","transport"},{"CLOCK","clock"},{"INFO","info"},{"DASHBOARD","dashboard"},{"AVERAGE","average"},{"SUM","sum"},{"SUMMARY","summary"},{"SUMMARISATION","summarisation"},{"GLOSSARY","glossary"},{"DOCUMENT","document"},{"DOCUMENTATION","documentation"},{"RECORDING","recording"},{"BLACKBOX","blackbox"},{"WHITEBOX","whitebox"},{"LEGEND","legend"},{"BOUNDARY","boundary"},{"RULE","rule"},{"REGULATOR","regulator"},{"REGULATION","regulation"},{"LOOP","loop"},{"WHILE","while"},{"FOR","for"},{"IF","if"},{"ELSE","else"},{"ELSEIF","elseif"},{"INJECTION","injection"},{"FUNCTOR","functor"},{"FUNCTIONAL","functional"},{"VECTOR","vector"},{"GRAPHICS","graphics"},{"GDT","gdt"},{"MBR","mbr"},{"BOOTSECTOR","bootsector"},{"SUPERBLOCK","superblock"},{"CHUNK","chunk"},{"BITRATE","bitrate"},{"SAMPLE","sample"},{"EXAMINATION","examination"},{"INSPECTION","inspection"},{"FORENSICS","forensics"},{"ANALYTICS","analytics"},{"FORECAST","forecast"},{"WEATHER","weather"},{"ALERT","alert"},{"ALARM","alarm"},{"CALENDAR","calendar"},{"EPHEMERAL","ephemeral"},{"TEMPORARY","temporary"},{"DEPLOYMENT","deployment"},{"FLAG","flag"},{"TESTING","testing"},{"MOCKING","mocking"},{"TESTER","tester"},{"MOCKER","mocker"},{"ANTIPENETRATION","antipenetration"},{"ANTICORRUPTION","anticorruption"},{"ANTIVIRUS","antivirus"},{"SELF","self"},{"BASH","bash"},{"PS1","ps1"},{"APPLESCRIPT","applescript"},{"CMD","cmd"},{"BATCH","batch"},{"WINDOWS","windows"},{"MACOS","macos"},{"LINUX","linux"},{"ANDROID","android"},{"IOS","ios"},{"DEBIAN","debian"},{"FEDORA","fedora"},{"GENTOO","gentoo"},{"PATCHER","patcher"},{"WRAPPER","wrapper"},{"FORKER","forker"},{"WIRING","wiring"},{"VOLUME","volume"},{"CLUSTER","cluster"},{"REPLICATION","replication"},{"MIGRATION","migration"},{"UNIT","unit"},{"INSTALLATION","installation"},{"PACKAGING","packaging"},{"PACKAGE","package"},{"PACKET","packet"},{"FILTER","filter"},{"SENSOR","sensor"},{"PROXIMITY","proximity"},{"DISTRIBUTION","distribution"},{"GROUPING","grouping"},{"RESOURCING","resourcing"},{"HARDWARE","hardware"},{"FIRMWARE","firmware"},{"BOOTLOADING","bootloading"},{"BOOTSTRAPPING","bootstrapping"},{"HOSTING","hosting"},{"SITE","site"},{"DOMAIN","domain"},{"FOREST","forest"},{"GLOBAL","global"},{"LOCAL","local"},{"JOINER","joiner"},{"LEAVER","leaver"},{"ONLINE","online"},{"OFFLINE","offline"},{"TYPE","type"},{"MODE","mode"},{"CONDITION","condition"},{"STATE","state"},{"NETWORK","network"},{"TCPIP","tcpip"},{"GPS","gps"},{"GSM","gsm"},{"IMEI","imei"},{"RFID","rfid"},{"RAM","ram"},{"GPU","gpu"},{"SD","sd"},{"DEV","dev"},{"LAN","lan"},{"WAN","wan"},{"HOST","host"},{"HOSTNAME","hostname"},{"TCP","tcp"},{"IP","ip"},{"UDP","udp"},{"ICMP","icmp"},{"NAT","nat"},{"MAC","mac"},{"FAT","fat"},{"FAT32","fat32"},{"NTFS","ntfs"},{"APFS","apfs"},{"EXT4","ext4"},{"EXFAT","exfat"},{"AARCH","aarch"},{"ARM","arm"},{"AMR64","amr64"},{"X86","x86"},{"X86_64","x86_64"},{"AMD64","amd64"},{"RISCV","riscv"},{"PSU","psu"},{"POWER","power"},{"OAUTH","oauth"},{"SSL","ssl"},{"TLS","tls"},{"HTTP","http"},{"HTTPS","https"},{"FTP","ftp"},{"DNS","dns"},{"DHCP","dhcp"},{"VPN","vpn"},{"PROXY","proxy"},{"FIREWALL","firewall"},{"UUID","uuid"},{"ENTER","enter"},{"ESC","esc"},{"CTRL","ctrl"},{"ALT","alt"},{"SPACE","space"},{"SHIFT","shift"},{"TAB","tab"},{"NAME","name"},{"NUMBER","number"},{"PID","pid"},{"USB","usb"},{"ARPA","arpa"},{"PROVIDER","provider"},{"SMS","sms"},{"TLD","tld"},{"ICANN","icann"},{"IANA","iana"},{"IETF","ietf"},{"W3C","w3c"},{"WWW","www"},{"NODE","node"},{"NODEJS","nodejs"},{"IMAGE","image"},{"IMG","img"},{"BLOCK","block"},{"LINE","line"},{"EOF","eof"},{"SCRIPT","script"},{"SOURCECODE","sourcecode"},{"BINARY","binary"},{"SOURCE","source"},{"DESTINATION","destination"},{"TARGET","target"},{"CERTIFICATE","certificate"},{"PASSPHRASE","passphrase"},{"PASSWORD","password"},{"USERNAME","username"},{"USER","user"},{"SECRET","secret"},{"DATABASE","database"},{"TABLE","table"},{"COLUMN","column"},{"ROW","row"},{"TUPLE","tuple"},{"QUERY","query"},{"POLICY","policy"},{"MAP","map"},{"TREE","tree"},{"MINDMAP","mindmap"},{"MARKDOWN","markdown"},{"PDF","pdf"},{"JSON","json"},{"XML","xml"},{"CSV","csv"},{"SIGNATURE","signature"},{"AUTHOR","author"},{"SENDER","sender"},{"RECEIVER","receiver"},{"TRANSMISSION","transmission"},{"WIFI","wifi"},{"HOTSPOT","hotspot"},{"TETHER","tether"},{"LEDGER","ledger"},{"ROUTER","router"},{"SWITCH","switch"},{"GATEWAY","gateway"},{"SUBNET","subnet"},{"IPV4","ipv4"},{"IPV6","ipv6"},{"PAGING","paging"},{"COMMAND","command"},{"INSTRUCTION","instruction"},{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"API","api"},{"CLI","cli"},{"MCP","mcp"},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDP","rdp"},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
