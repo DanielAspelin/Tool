@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <algorithm>
 #include <fstream>
 #include <chrono>
 #include <iomanip>
@@ -1010,6 +1011,83 @@ public:
         return "Usage: index list [namespace] | index get namespace key | index set namespace key value";
     }
 };
+class POOL {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,std::map<std::string,bool>> resources;
+public:
+    POOL(){registry.add("acquire","policy","exclusive logical lease");}
+    bool add(const std::string& pool,const std::string& resource){
+        if(pool.empty()||resource.empty())return false;
+        std::lock_guard<std::mutex> lock(guard);
+        return resources[pool].emplace(resource,false).second;
+    }
+    std::string acquire(const std::string& pool){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=resources.find(pool);
+        if(it==resources.end())return {};
+        for(auto& r:it->second)if(!r.second){r.second=true;return r.first;}
+        return {};
+    }
+    bool release(const std::string& pool,const std::string& resource){
+        std::lock_guard<std::mutex> lock(guard);
+        auto p=resources.find(pool);
+        if(p==resources.end())return false;
+        auto r=p->second.find(resource);
+        if(r==p->second.end()||!r->second)return false;
+        r->second=false;return true;
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==3&&a[0]=="add")return add(a[1],a[2])?"Registered":"Rejected";
+        if(a.size()==2&&a[0]=="acquire"){auto r=acquire(a[1]);return r.empty()?"No available resource":r;}
+        if(a.size()==3&&a[0]=="release")return release(a[1],a[2])?"Released":"Rejected";
+        if(a.empty()||a[0]=="list"){
+            std::lock_guard<std::mutex> lock(guard);
+            std::string out;
+            for(const auto& p:resources)for(const auto& r:p.second)out+=p.first+"/"+r.first+(r.second?" leased\n":" available\n");
+            return out;
+        }
+        return "Usage: pool add|release pool resource | pool acquire pool | pool list";
+    }
+};
+class FARM {
+    POOL& pool;
+    ROUNDROBIN& robin;
+    HEARTBEAT& heartbeat;
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,TOOL::Arguments> farms;
+public:
+    FARM(POOL& p,ROUNDROBIN& r,HEARTBEAT& h):pool(p),robin(r),heartbeat(h){registry.add("acquire","policy","cyclic pool selection");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()>=3&&a[0]=="define"){
+            TOOL::Arguments names;
+            for(auto i=a.begin()+2;i!=a.end();++i)if(!i->empty()&&std::find(names.begin(),names.end(),*i)==names.end())names.push_back(*i);
+            if(names.empty()||a[1].empty())return "Invalid farm";
+            std::lock_guard<std::mutex> lock(guard);
+            farms[a[1]]=names;return "Farm defined";
+        }
+        if(a.size()==2&&a[0]=="acquire"){
+            TOOL::Arguments names;
+            {std::lock_guard<std::mutex> lock(guard);auto it=farms.find(a[1]);if(it==farms.end())return "Unknown farm";names=it->second;}
+            auto first=robin.select(names);
+            auto start=std::find(names.begin(),names.end(),first)-names.begin();
+            for(std::size_t i=0;i<names.size();++i){
+                const auto& p=names[(start+i)%names.size()];
+                auto r=pool.acquire(p);
+                if(!r.empty()){heartbeat.pulse("farm/"+a[1]);return p+"/"+r;}
+            }
+            return "No available resource";
+        }
+        if(a.empty()||a[0]=="list"){
+            std::lock_guard<std::mutex> lock(guard);
+            std::string out;
+            for(const auto& f:farms)for(const auto& p:f.second)out+=f.first+"/"+p+"\n";
+            return out;
+        }
+        return "Usage: farm define name pool... | farm acquire name | farm list";
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -1056,6 +1134,8 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    POOL pool;
+    FARM farm{pool,roundrobin,heartbeat};
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
@@ -1095,6 +1175,12 @@ public:
         index.set("runtime","flow","operational circulation");
         lambda.bind("index",[this](const TOOL::Arguments& a){return index.invoke(a);});
         tool.inject("index","runtime",[this](const TOOL::Arguments& a){return index.invoke(a);});
+        index.set("runtime","pool","logical resource allocation");
+        index.set("runtime","farm","grouped pool allocation");
+        lambda.bind("pool",[this](const TOOL::Arguments& a){return pool.invoke(a);});
+        lambda.bind("farm",[this](const TOOL::Arguments& a){return farm.invoke(a);});
+        tool.inject("pool","runtime",[this](const TOOL::Arguments& a){return pool.invoke(a);});
+        tool.inject("farm","runtime",[this](const TOOL::Arguments& a){return farm.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
