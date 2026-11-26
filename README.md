@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **101 classes and 69 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **103 classes and 71 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -106,6 +106,10 @@ ARRAY provides synchronized indexed storage of up to 256 immutable shared VALUE 
 
 INTEGER represents signed 64-bit integers; FLOAT and DOUBLE represent native single- and double-precision floating-point values. Each maintains an independent registry, immutable numeric state, validated text parsing and conversion to VALUE. Nonfinite floating-point values and malformed or out-of-range input are rejected by the parsing boundary; floating-point rounding and underflow remain subject to native representation and parsing behavior. FLOAT widens to double when converted to VALUE because VALUE currently has no separate float alternative. The integer, float and double commands demonstrate parsing and representation; checked arithmetic, universal typed invocation integration and compilation verification remain pending.
 
+## Character and string foundations
+
+CHARACTER represents one Unicode scalar value, with strict UTF-8 decoding and encoding. STRING represents immutable validated UTF-8 text bounded to 64 KiB, with byte and Unicode scalar counts. Both maintain independent registries and convert to the existing string alternative of VALUE. The character and string commands demonstrate validation and representation. Scalar counts are not grapheme counts; normalization, grapheme segmentation, distinct character typing in VALUE, universal integration and compilation verification remain pending.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -122,7 +126,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
