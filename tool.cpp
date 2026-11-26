@@ -229,7 +229,7 @@ class CONFIGURATION {
     std::mutex guard;
 public:
     CONFIGURATION(URI& u, URL& l): uri(u), url(l) {
-        for (const auto* name : {"api","cli","mcp","ssh"}) {
+        for (const auto* name : {"api","cli","mcp","ssh","rdp","vnc"}) {
             settings[name]["mode"]="hybrid";
             settings[name]["endpoint"]="";
         }
@@ -448,6 +448,46 @@ public:
     }
 };
 
+class RDPSERVER : public SERVER {
+public:
+    explicit RDPSERVER(DISPATCHER& d): SERVER(d,"RDP") {}
+};
+class RDPCLIENT : public CLIENT {
+public:
+    explicit RDPCLIENT(RDPSERVER& s): CLIENT(s,"RDP") {}
+};
+class RDP {
+    REGISTRATION registry;
+public:
+    RDPSERVER server;
+    RDPCLIENT client;
+    explicit RDP(DISPATCHER& d): server(d), client(server) {
+        registry.add("invoke","transport","local");
+        registry.add("invoke","route","RDPCLIENT -> RDPSERVER");
+    }
+    RESPONSE invoke(const REQUEST& r) { return client.send(r); }
+};
+
+class VNCSERVER : public SERVER {
+public:
+    explicit VNCSERVER(DISPATCHER& d): SERVER(d,"VNC") {}
+};
+class VNCCLIENT : public CLIENT {
+public:
+    explicit VNCCLIENT(VNCSERVER& s): CLIENT(s,"VNC") {}
+};
+class VNC {
+    REGISTRATION registry;
+public:
+    VNCSERVER server;
+    VNCCLIENT client;
+    explicit VNC(DISPATCHER& d): server(d), client(server) {
+        registry.add("invoke","transport","local");
+        registry.add("invoke","route","VNCCLIENT -> VNCSERVER");
+    }
+    RESPONSE invoke(const REQUEST& r) { return client.send(r); }
+};
+
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -469,6 +509,8 @@ class HYBRID {
     CLI cli;
     MCP mcp;
     SSH ssh;
+    RDP rdp{dispatcher};
+    VNC vnc{dispatcher};
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
@@ -493,6 +535,10 @@ public:
         tool.inject("api","hybrid",[this](const TOOL::Arguments& a){return route(api,a);});
         tool.inject("cli","hybrid",[this](const TOOL::Arguments& a){return route(cli,a);});
         tool.inject("mcp","hybrid",[this](const TOOL::Arguments& a){return route(mcp,a);});
+        registry.add("route","RDP","local");
+        registry.add("route","VNC","local");
+        tool.inject("rdp","hybrid",[this](const TOOL::Arguments& a){return route(rdp,a);});
+        tool.inject("vnc","hybrid",[this](const TOOL::Arguments& a){return route(vnc,a);});
         tool.inject("ssh","hybrid",[this](const TOOL::Arguments& a){return route(ssh,a);});
     }
     template<class INTERFACE>
