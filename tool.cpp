@@ -701,6 +701,46 @@ public:
     std::string utc() const{return date.utc()+"T"+time.utc()+"Z";}
     const TIMESTAMP::Snapshot& captured() const{return snapshot;}
 };
+class GPL {
+    REGISTRATION registry;
+public:
+    GPL(){registry.add("describe","reference","GPL-3.0-only");registry.add("source","reference","https://www.gnu.org/licenses/gpl-3.0.html");}
+    std::string describe() const{return "GNU General Public License";}
+    std::string source() const{return "https://www.gnu.org/licenses/gpl-3.0.html";}
+    std::string reference() const{return "GPL-3.0-only";}
+};
+class GNU {
+    REGISTRATION registry;
+public:
+    GNU(){registry.add("describe","reference","GNU");registry.add("source","reference","https://www.gnu.org/");}
+    std::string describe() const{return "GNU Project";}
+    std::string source() const{return "https://www.gnu.org/";}
+    std::string reference() const{return "GNU";}
+};
+class RFC {
+    REGISTRATION registry;
+public:
+    RFC(){registry.add("describe","reference","RFC");registry.add("source","reference","https://www.rfc-editor.org/");}
+    std::string describe() const{return "Request for Comments";}
+    std::string source() const{return "https://www.rfc-editor.org/";}
+    std::string reference() const{return "RFC";}
+};
+class ISO {
+    REGISTRATION registry;
+public:
+    ISO(){registry.add("describe","reference","ISO");registry.add("source","reference","https://www.iso.org/");}
+    std::string describe() const{return "International Organization for Standardization";}
+    std::string source() const{return "https://www.iso.org/";}
+    std::string reference() const{return "ISO";}
+};
+class IEC {
+    REGISTRATION registry;
+public:
+    IEC(){registry.add("describe","reference","IEC");registry.add("source","reference","https://www.iec.ch/");}
+    std::string describe() const{return "International Electrotechnical Commission";}
+    std::string source() const{return "https://www.iec.ch/";}
+    std::string reference() const{return "IEC";}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1791,6 +1831,11 @@ public:
         tool.inject("time","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: time");TIMESTAMP clock;TIME t(clock.capture());return t.utc();});
         tool.inject("date","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: date");TIMESTAMP clock;DATE d(clock.capture());return d.utc();});
         tool.inject("timedate","runtime",[](const TOOL::Arguments& a){if(!a.empty())return std::string("Usage: timedate");TIMESTAMP clock;TIMEDATE dt(clock.capture());return dt.utc();});
+        tool.inject("gpl","runtime",[](const TOOL::Arguments& a){GPL v;if(a.empty()||(a.size()==1&&a[0]=="describe"))return v.describe();if(a.size()==1&&a[0]=="source")return v.source();if(a.size()==1&&a[0]=="reference")return v.reference();return std::string("Usage: gpl [describe|source|reference]");});
+        tool.inject("gnu","runtime",[](const TOOL::Arguments& a){GNU v;if(a.empty()||(a.size()==1&&a[0]=="describe"))return v.describe();if(a.size()==1&&a[0]=="source")return v.source();if(a.size()==1&&a[0]=="reference")return v.reference();return std::string("Usage: gnu [describe|source|reference]");});
+        tool.inject("rfc","runtime",[](const TOOL::Arguments& a){RFC v;if(a.empty()||(a.size()==1&&a[0]=="describe"))return v.describe();if(a.size()==1&&a[0]=="source")return v.source();if(a.size()==1&&a[0]=="reference")return v.reference();return std::string("Usage: rfc [describe|source|reference]");});
+        tool.inject("iso","runtime",[](const TOOL::Arguments& a){ISO v;if(a.empty()||(a.size()==1&&a[0]=="describe"))return v.describe();if(a.size()==1&&a[0]=="source")return v.source();if(a.size()==1&&a[0]=="reference")return v.reference();return std::string("Usage: iso [describe|source|reference]");});
+        tool.inject("iec","runtime",[](const TOOL::Arguments& a){IEC v;if(a.empty()||(a.size()==1&&a[0]=="describe"))return v.describe();if(a.size()==1&&a[0]=="source")return v.source();if(a.size()==1&&a[0]=="reference")return v.reference();return std::string("Usage: iec [describe|source|reference]");});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
