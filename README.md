@@ -182,6 +182,10 @@ Added LOCATOR, POSITIONER, PREPOSITIONER, PASSTHROUGH, ROUND, THROUGH, VELOCITY,
 
 DETECTION checks registered command presence and compares manually supplied observations for up to 256 named entities, tracking state changes under a mutex. Automatic sensing, signal emission on changes, hardware/environment probes and persistent history are not implemented. Expected total: 155 classes and 741 registrations, pending compilation and runtime verification.
 
+## Operational capabilities
+
+CALLABLE checks registered command presence and dispatches calls through TOOL. INVOKABLE delegates to CALLABLE for operational dispatch; registration is not proof of authorization or readiness. RETURNABLE retains up to 256 manually declared success/failure outcomes with bounded text values. Automatic typed return propagation, invocation correlation and universal capability integration remain pending. Expected total: 158 classes and 761 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
