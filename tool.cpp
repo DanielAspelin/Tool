@@ -22,6 +22,8 @@
 #include <filesystem>
 #include <cstdio>
 #include <thread>
+#include <variant>
+#include <cstdint>
 #include <condition_variable>
 #include <limits>
 #if defined(__unix__) && !defined(__wasi__)
@@ -427,6 +429,45 @@ public:
     }
 };
 
+class VALUE {
+    REGISTRATION registry;
+public:
+    using Data=std::variant<std::monostate,bool,std::int64_t,double,std::string>;
+private:
+    Data data;
+public:
+    explicit VALUE(Data v={}):data(std::move(v)){registry.add("get","policy","typed value");}
+    const Data& get() const{return data;}
+};
+class PARAMETER {
+    REGISTRATION registry;
+    std::string name;
+    bool required;
+    std::size_t type;
+public:
+    PARAMETER(std::string n,std::size_t t,bool r=true):name(std::move(n)),required(r),type(t){
+        if(name.empty()||type>4)throw std::invalid_argument("Invalid parameter");
+        registry.add("accept","name",name);
+    }
+    const std::string& identity() const{return name;}
+    bool accept(const VALUE& v) const{return (!required&&v.get().index()==0)||v.get().index()==type;}
+};
+class REFERENCE {
+    REGISTRATION registry;
+    std::string identity;
+    std::weak_ptr<const VALUE> target;
+public:
+    REFERENCE(std::string id,const std::shared_ptr<const VALUE>& v):identity(std::move(id)),target(v){registry.add("resolve","identity",identity);}
+    std::shared_ptr<const VALUE> resolve() const{return target.lock();}
+};
+class ARGUMENT {
+    REGISTRATION registry;
+    std::shared_ptr<const VALUE> value;
+public:
+    explicit ARGUMENT(std::shared_ptr<const VALUE> v):value(std::move(v)){registry.add("bind","policy","validated immutable value");}
+    bool bind(const PARAMETER& p) const{return value&&p.accept(*value);}
+    std::shared_ptr<const VALUE> get() const{return value;}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1499,6 +1540,10 @@ public:
         registry.add("route","SSH","local");
         tool.inject("rpc","rpc",[this](const TOOL::Arguments& a){return rpc.invoke(a);});
         tool.inject("bridge","topology",[this](const TOOL::Arguments& a){if(a.size()==3)return bridge.connect(a[0],a[1],a[2]);if(a.size()==1)return bridge.resolve(a[0]);return std::string("Usage: bridge name [from to]");});
+        tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
+        tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
+        tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
+        tool.inject("reference","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: reference id text");auto v=std::make_shared<const VALUE>(VALUE::Data{a[1]});REFERENCE ref(a[0],v);auto resolved=ref.resolve();return resolved?std::get<std::string>(resolved->get()):std::string("Expired");});
         tool.inject("mesh","topology",[this](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: mesh from to");mesh.connect(a[0],a[1]);return std::string("Connected");});
         tool.inject("chain","topology",[this](const TOOL::Arguments& a){chain.connect(a);return std::string("Chain registered");});
         tool.inject("ring","topology",[this](const TOOL::Arguments& a){ring.connect(a);return std::string("Ring registered");});
