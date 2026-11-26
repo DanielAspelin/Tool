@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **73 classes and 52 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **85 classes and 53 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -67,6 +67,27 @@ The signal-blast concept distributes operational awareness to eligible participa
 | Security | AES, GCM, RSA, SHA, OAEP, PSS, BASE64 | Cryptographic profiles only, except actual Base64 encoding/decoding; Base64 is not encryption |
 | Observation | TIMESTAMP, IPIFY, DUMP | Local time capture, optional native public-IP observation, local anomaly records |
 
+## Resource regulation and simultaneous invocation
+
+| Class | Current responsibility |
+| --- | --- |
+| CPU | Hardware thread count |
+| MEMORY | Per-invocation input size and argument limits |
+| THERMAL | Linux thermal-zone observations |
+| CAPACITY | Conservative concurrency ceiling |
+| PRESSURE | Linux memory pressure observation |
+| CONFLICT | Exclusive admission for selected named operations |
+| THROTTLE | Adaptive admission limits |
+| GUARD | Input and nested invocation depth checks |
+| QUEUE | Bounded FIFO scaffolding |
+| WATCHDOG | Post-completion deadline observation |
+| CLEANUP | Scope-based release of admission and conflict leases |
+| SCHEDULER | Bounded concurrent admission |
+
+The invocation boundary now checks input size (64 KiB of argument content, 256 arguments and 256-byte method name), nested depth (16), selected operation conflicts and outer invocation capacity. Capacity is capped at eight and normally no more than half the reported hardware concurrency. Missing thermal or pressure telemetry reduces admission to one; observed thermal-zone values at or above 90 C stop new outer admissions. These are provisional conservative policies, not hardware-certified thresholds. Existing running work is not interrupted. The regulation command reports available telemetry and admission limit, but is itself subject to admission.
+
+QUEUE is not yet connected to a worker executor; simultaneous callers may be deferred rather than queued. WATCHDOG observes deadlines after completion, not during a stall. MEMORY limits input, not total process memory. CONFLICT protects selected same-name operations, not all shared resources. Thermal sensing is Linux-specific and may be absent or unrelated to CPU temperature. No guarantees against overheating, deadlock, overflow or hardware failure are claimed. OS resource controls, host capability adapters, reserved control capacity, actual worker scheduling, bounded registries and stress tests remain pending.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -83,7 +104,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
