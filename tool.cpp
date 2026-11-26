@@ -188,8 +188,78 @@ public:
     RESPONSE invoke(const REQUEST& r) { return client.send(r); }
 };
 
+class URI {
+    REGISTRATION registry;
+public:
+    URI() { registry.add("validate","kind","scheme"); }
+    bool validate(const std::string& value) const {
+        auto p = value.find(':');
+        if (p == std::string::npos || p == 0) return false;
+        const std::string letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (letters.find(value[0]) == std::string::npos) return false;
+        return value.substr(0,p).find_first_not_of(letters+"0123456789+.-") == std::string::npos
+            && value.find_first_of(" \t\r\n") == std::string::npos;
+    }
+};
+
+class URL {
+    URI& uri;
+    REGISTRATION registry;
+public:
+    explicit URL(URI& u): uri(u) { registry.add("validate","kind","network endpoint"); }
+    bool validate(const std::string& value) const {
+        if (!uri.validate(value)) return false;
+        auto p = value.find("://");
+        if (p == std::string::npos) return false;
+        auto start = p+3;
+        auto end = value.find_first_of("/?#",start);
+        auto authority = value.substr(start,end-start);
+        return !authority.empty() && authority.find('@') == std::string::npos;
+    }
+};
+
+class CONFIGURATION {
+    URI& uri;
+    URL& url;
+    REGISTRATION registry;
+    std::map<std::string,std::map<std::string,std::string>> settings;
+    std::mutex guard;
+public:
+    CONFIGURATION(URI& u, URL& l): uri(u), url(l) {
+        for (const auto* name : {"api","cli","mcp","ssh"}) {
+            settings[name]["mode"]="hybrid";
+            settings[name]["endpoint"]="";
+        }
+        registry.add("invoke","scope","session");
+    }
+    std::string invoke(const TOOL::Arguments& a) {
+        std::lock_guard<std::mutex> lock(guard);
+        if (a.empty() || a[0]=="list") {
+            std::string out;
+            for (const auto& group: settings)
+                for (const auto& item: group.second)
+                    out += group.first+"."+item.first+"="+item.second+"\n";
+            return out;
+        }
+        if (a.size()<3) return "Usage: configure get|set interface key [value]";
+        auto g=settings.find(a[1]);
+        if (g==settings.end()) return "Unknown interface";
+        auto k=g->second.find(a[2]);
+        if (k==g->second.end()) return "Unknown key";
+        if (a[0]=="get" && a.size()==3) return k->second;
+        if (a[0]!="set" || a.size()!=4) return "Invalid configuration command";
+        if (a[2]=="mode" && a[3]!="server" && a[3]!="client" && a[3]!="hybrid") return "Invalid mode";
+        if (a[2]=="endpoint" && !url.validate(a[3])) return "Invalid endpoint";
+        k->second=a[3];
+        return "Configured for this session; transport activation not implemented";
+    }
+};
+
 class HYBRID {
     TOOL tool;
+    URI uri;
+    URL url;
+    CONFIGURATION configuration;
     DISPATCHER dispatcher;
     API api;
     CLI cli;
@@ -197,11 +267,14 @@ class HYBRID {
     SSH ssh;
     REGISTRATION registry;
 public:
-    HYBRID(): dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
+    HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
         registry.add("route","API","local");
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
         registry.add("route","SSH","local");
+        tool.inject("configure","configuration",[this](const TOOL::Arguments& a){return configuration.invoke(a);});
+        tool.inject("uri","validation",[this](const TOOL::Arguments& a){return a.size()==1 && uri.validate(a[0]) ? "Valid scheme syntax" : "Invalid URI";});
+        tool.inject("url","validation",[this](const TOOL::Arguments& a){return a.size()==1 && url.validate(a[0]) ? "Valid endpoint shape" : "Invalid URL";});
         tool.inject("api","hybrid",[this](const TOOL::Arguments& a){return route(api,a);});
         tool.inject("cli","hybrid",[this](const TOOL::Arguments& a){return route(cli,a);});
         tool.inject("mcp","hybrid",[this](const TOOL::Arguments& a){return route(mcp,a);});
@@ -212,7 +285,13 @@ public:
         if (args.empty()) return "Missing invocation";
         return interface.invoke({args.front(), TOOL::Arguments(args.begin()+1,args.end())}).value;
     }
-    int run() { return tool.run(); }
+    int run(int argc, char** argv) {
+        if (argc<=1) return tool.run();
+        TOOL::Arguments args;
+        for (int i=2;i<argc;++i) args.emplace_back(argv[i]);
+        std::cout << tool.invoke(argv[1],args) << std::endl;
+        return 0;
+    }
 };
 
-int main() { return HYBRID{}.run(); }
+int main(int argc, char** argv) { return HYBRID{}.run(argc,argv); }
