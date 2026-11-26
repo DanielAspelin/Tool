@@ -911,6 +911,51 @@ public:
     explicit QUARANTINE(CAPSULE& c):capsule(c){for(const std::string op:{"hold","inspect","release","list"})registry.add(op,"quarantine","capsule access restriction");}
     std::string invoke(const TOOL::Arguments& a){return capsule.quarantine(a);}
 };
+class ENVIRONMENT {
+    REGISTRATION registry;
+    std::mutex guard;
+    struct Record {bool active=true;std::map<std::string,std::string> settings;};
+    std::map<std::string,Record> records;
+public:
+    ENVIRONMENT(){for(const std::string op:{"create","inspect","set","get","suspend","resume","list","remove"})registry.add(op,"environment","logical context");}
+    bool exists(const std::string& id){std::lock_guard<std::mutex> lock(guard);return records.count(id)!=0;}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:records)out+=p.first+"\n";return out;}
+        if(a.size()<2)return "Expected operation and environment identity";
+        if(a[0]=="create"&&a.size()==2){if(a[1].empty()||a[1].size()>128||records.size()>=64||records.count(a[1]))return "Invalid environment or capacity reached";records.emplace(a[1],Record{});return "Environment created";}
+        auto it=records.find(a[1]);if(it==records.end())return "Unknown environment";
+        auto& r=it->second;
+        if(a[0]=="inspect"&&a.size()==2)return std::string(r.active?"active":"suspended")+"; settings: "+std::to_string(r.settings.size());
+        if(a[0]=="suspend"&&a.size()==2){r.active=false;return "Environment suspended";}
+        if(a[0]=="resume"&&a.size()==2){r.active=true;return "Environment resumed";}
+        if(a[0]=="remove"&&a.size()==2){records.erase(it);return "Environment removed";}
+        if(a[0]=="get"&&a.size()==3){auto p=r.settings.find(a[2]);return p==r.settings.end()?"Unknown setting":p->second;}
+        if(a[0]=="set"&&a.size()==4&&r.active){if(a[2].empty()||a[2].size()>128||a[3].size()>4096||(!r.settings.count(a[2])&&r.settings.size()>=64))return "Invalid setting or capacity reached";r.settings[a[2]]=a[3];return "Setting registered";}
+        return "Invalid environment operation";
+    }
+};
+class FACILITY {
+    REGISTRATION registry;
+    ENVIRONMENT& environment;
+    std::mutex guard;
+    std::map<std::string,std::set<std::string>> facilities;
+public:
+    explicit FACILITY(ENVIRONMENT& e):environment(e){for(const std::string op:{"create","attach","detach","inspect","list","remove"})registry.add(op,"facility","logical organization");}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:facilities)out+=p.first+"\n";return out;}
+        if(a.size()<2)return "Expected operation and facility identity";
+        if(a[0]=="create"&&a.size()==2){if(a[1].empty()||a[1].size()>128||facilities.size()>=64||facilities.count(a[1]))return "Invalid facility or capacity reached";facilities.emplace(a[1],std::set<std::string>{});return "Facility created";}
+        auto it=facilities.find(a[1]);if(it==facilities.end())return "Unknown facility";
+        auto& members=it->second;
+        if(a[0]=="attach"&&a.size()==3){if(!environment.exists(a[2])||members.size()>=64)return "Unknown environment or capacity reached";return members.insert(a[2]).second?"Environment attached":"Already attached";}
+        if(a[0]=="detach"&&a.size()==3)return members.erase(a[2])?"Environment detached":"Unknown membership";
+        if(a[0]=="inspect"&&a.size()==2){std::string out;for(const auto& id:members)out+=id+(environment.exists(id)?"":" (missing)")+"\n";return out;}
+        if(a[0]=="remove"&&a.size()==2){facilities.erase(it);return "Facility removed";}
+        return "Invalid facility operation";
+    }
+};
 class REQUEST {
 public:
     std::string method;
@@ -1922,6 +1967,8 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    ENVIRONMENT environment;
+    FACILITY facility{environment};
     CAPSULE capsule;
     QUARANTINE quarantine{capsule};
     RUNTIME runtime{tool};
@@ -2042,11 +2089,13 @@ public:
         tool.inject("runtime","runtime",[this](const TOOL::Arguments& a){return runtime.invoke(a);});
         tool.inject("capsule","runtime",[this](const TOOL::Arguments& a){return capsule.invoke(a);});
         tool.inject("quarantine","runtime",[this](const TOOL::Arguments& a){return quarantine.invoke(a);});
+        tool.inject("environment","runtime",[this](const TOOL::Arguments& a){return environment.invoke(a);});
+        tool.inject("facility","runtime",[this](const TOOL::Arguments& a){return facility.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2119,7 +2168,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
