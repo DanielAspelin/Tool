@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **112 classes and 80 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **112 classes and 80 original commands, plus 334 generated registrations (414 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -121,6 +121,10 @@ TIME projects a TIMESTAMP snapshot into UTC time (HH:MM:SS). DATE projects it in
 ## Licensing and standards reference foundations
 
 GPL, GNU, RFC, ISO and IEC provide independent invocable reference classes with per-class registries, descriptive identities and official source URLs. GPL identifies this project's existing GPL-3.0-only licensing designation; GNU identifies the GNU Project; RFC identifies the Request for Comments publication series (not every RFC is a standard); ISO and IEC identify their respective standards organizations. These are reference foundations, not standards implementations, certification, compliance verification, or license enforcement. Document retrieval, version-specific catalogs, cross-functional integration and compilation verification remain pending.
+
+## Universal invocation coverage — first stage
+
+Every class has generated CLASS.describe and CLASS.status commands for discovery and registration inspection (not runtime health). 77 class names map to existing command handlers through CLASS.invoke; TOOL and HYBRID map to help only. 32 operation aliases forward to existing handlers, e.g. gpl.source and heartbeat.pulse. The coverage command lists classes, filters registered commands by prefix, and inspects candidate class passages without claiming compatibility. Expected registrations: 414, including the 80 original commands. Aliases reuse functionality, not new independent implementations. No arbitrary class-to-class execution is enabled. Runtime counts and compilation remain unverified.
 
 ## Invocation lifecycle
 
