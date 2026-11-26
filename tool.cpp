@@ -956,6 +956,75 @@ public:
         return "Invalid facility operation";
     }
 };
+class AUDIT {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::vector<std::pair<std::string,std::string>> events;
+public:
+    AUDIT(){for(const std::string op:{"record","count","inspect"})registry.add(op,"audit","volatile event record");}
+    std::vector<std::pair<std::string,std::string>> snapshot(){std::lock_guard<std::mutex> lock(guard);return events;}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==3&&a[0]=="record"){if(a[1].empty()||a[1].size()>128||a[2].size()>1024||events.size()>=1024)return "Invalid event or capacity reached";events.emplace_back(a[1],a[2]);return "Audit event recorded";}
+        if(a.size()==1&&a[0]=="count")return std::to_string(events.size());
+        if(a.size()==2&&a[0]=="inspect"){std::string out;for(const auto& e:events)if(e.first==a[1])out+=e.second+"\n";return out;}
+        return "Invalid audit operation";
+    }
+};
+class FORENSIC {
+    REGISTRATION registry;
+    AUDIT& audit;
+public:
+    explicit FORENSIC(AUDIT& a):audit(a){registry.add("trace","audit","ordered matching records");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()!=2||a[0]!="trace")return "Usage: forensic trace category";
+        auto events=audit.snapshot();std::string out;
+        for(std::size_t i=0;i<events.size();++i)if(events[i].first==a[1])out+=std::to_string(i+1)+": "+events[i].second+"\n";
+        return out;
+    }
+};
+class STATISTICAL {
+    REGISTRATION registry;
+public:
+    STATISTICAL(){registry.add("summary","numbers","count mean min max");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()<2||a[0]!="summary"||a.size()>257)return "Usage: statistical summary number [number...]";
+        long double mean=0;double lo=0,hi=0;
+        for(std::size_t i=1;i<a.size();++i){
+            std::istringstream in(a[i]);in.imbue(std::locale::classic());double v;in>>std::noskipws>>v;
+            if(!in||!in.eof()||!std::isfinite(v))return "Invalid number";
+            if(i==1){lo=hi=v;mean=v;}else{lo=std::min(lo,v);hi=std::max(hi,v);mean=mean*(static_cast<long double>(i-1)/i)+static_cast<long double>(v)/i;}
+        }
+        if(!std::isfinite(mean))return "Numeric overflow";
+        std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(17)<<"count="<<a.size()-1<<" mean="<<mean<<" min="<<lo<<" max="<<hi;return out.str();
+    }
+};
+class ANALYTICAL {
+    REGISTRATION registry;
+    AUDIT& audit;
+public:
+    explicit ANALYTICAL(AUDIT& a):audit(a){registry.add("frequency","audit","category counts");registry.add("compare","text","exact comparison");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==3&&a[0]=="compare")return a[1]==a[2]?"equal":"different";
+        if(a.size()==1&&a[0]=="frequency"){std::map<std::string,std::size_t> counts;for(const auto& e:audit.snapshot())++counts[e.first];std::string out;for(const auto& p:counts)out+=p.first+": "+std::to_string(p.second)+"\n";return out;}
+        return "Invalid analytical operation";
+    }
+};
+class STATUS {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,std::string> states;
+public:
+    STATUS(){for(const std::string op:{"set","get","list","remove"})registry.add(op,"status","declared state");}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==3&&a[0]=="set"){if(a[1].empty()||a[1].size()>128||a[2].empty()||a[2].size()>256||(!states.count(a[1])&&states.size()>=256))return "Invalid state or capacity reached";states[a[1]]=a[2];return "Status recorded";}
+        if(a.size()==2&&a[0]=="get"){auto it=states.find(a[1]);return it==states.end()?"Unknown status":it->second;}
+        if(a.size()==2&&a[0]=="remove")return states.erase(a[1])?"Removed":"Unknown status";
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:states)out+=p.first+": "+p.second+"\n";return out;}
+        return "Invalid status operation";
+    }
+};
 class REQUEST {
 public:
     std::string method;
@@ -1967,6 +2036,11 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    AUDIT audit;
+    FORENSIC forensic{audit};
+    STATISTICAL statistical;
+    ANALYTICAL analytical{audit};
+    STATUS status;
     ENVIRONMENT environment;
     FACILITY facility{environment};
     CAPSULE capsule;
@@ -2091,11 +2165,16 @@ public:
         tool.inject("quarantine","runtime",[this](const TOOL::Arguments& a){return quarantine.invoke(a);});
         tool.inject("environment","runtime",[this](const TOOL::Arguments& a){return environment.invoke(a);});
         tool.inject("facility","runtime",[this](const TOOL::Arguments& a){return facility.invoke(a);});
+        tool.inject("audit","runtime",[this](const TOOL::Arguments& a){return audit.invoke(a);});
+        tool.inject("forensic","runtime",[this](const TOOL::Arguments& a){return forensic.invoke(a);});
+        tool.inject("statistical","runtime",[this](const TOOL::Arguments& a){return statistical.invoke(a);});
+        tool.inject("analytical","runtime",[this](const TOOL::Arguments& a){return analytical.invoke(a);});
+        tool.inject("status","runtime",[this](const TOOL::Arguments& a){return status.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2168,7 +2247,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
