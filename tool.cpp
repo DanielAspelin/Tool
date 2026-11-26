@@ -649,16 +649,33 @@ public:
         return "RSA operation unavailable: no cryptographic backend";
     }
 };
+class SHA {
+    REGISTRATION registry;
+    const std::map<std::string,unsigned> profiles{
+        {"sha224",224},{"sha256",256},{"sha384",384},{"sha512",512},
+        {"sha512/224",224},{"sha512/256",256},{"sha3-224",224},
+        {"sha3-256",256},{"sha3-384",384},{"sha3-512",512}
+    };
+public:
+    SHA(){registry.add("digest","standard","FIPS 180-4 and FIPS 202");registry.add("digest","backend","unavailable");}
+    bool supports(const std::string& name) const {return profiles.count(name)!=0;}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "SHA: SHA-2 and SHA-3 profiles; hashing backend unavailable";
+        if(a[0]=="list"){std::string out;for(const auto& p:profiles)out+=p.first+" "+std::to_string(p.second)+" bits\n";return out;}
+        return "SHA operation unavailable: no cryptographic backend";
+    }
+};
 class OAEP {
     RSA& rsa;
+    SHA& sha;
     REGISTRATION registry;
 public:
-    explicit OAEP(RSA& r):rsa(r){
+    OAEP(RSA& r,SHA& h):rsa(r),sha(h){
         registry.add("encrypt","standard","RFC 8017 RSAES-OAEP");
         registry.add("encrypt","hash","SHA-256");
         registry.add("encrypt","mask","MGF1-SHA-256");
     }
-    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits);}
+    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits)&&sha.supports("sha256");}
     std::string invoke(const TOOL::Arguments& a) const {
         if(a.empty()||a[0]=="status")return "OAEP: RSA encryption profile, SHA-256, MGF1-SHA-256; backend unavailable";
         return "OAEP operation unavailable: no cryptographic backend";
@@ -666,15 +683,16 @@ public:
 };
 class PSS {
     RSA& rsa;
+    SHA& sha;
     REGISTRATION registry;
 public:
-    explicit PSS(RSA& r):rsa(r){
+    PSS(RSA& r,SHA& h):rsa(r),sha(h){
         registry.add("sign","standard","RFC 8017 RSASSA-PSS");
         registry.add("sign","hash","SHA-256");
         registry.add("sign","mask","MGF1-SHA-256");
         registry.add("sign","saltBytes","32");
     }
-    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits);}
+    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits)&&sha.supports("sha256");}
     std::string invoke(const TOOL::Arguments& a) const {
         if(a.empty()||a[0]=="status")return "PSS: RSA signature profile, SHA-256, MGF1-SHA-256, 32-byte salt; backend unavailable";
         return "PSS operation unavailable: no cryptographic backend";
@@ -762,8 +780,9 @@ class HYBRID {
     AES aes;
     GCM gcm{aes};
     RSA rsa;
-    OAEP oaep{rsa};
-    PSS pss{rsa};
+    SHA sha;
+    OAEP oaep{rsa,sha};
+    PSS pss{rsa,sha};
     AUTHORIZATION authorization;
     COMPATIBILITY compatibility{matrix};
     AST ast;
@@ -799,6 +818,7 @@ public:
         tool.inject("rsa","cryptography",[this](const TOOL::Arguments& a){return rsa.invoke(a);});
         tool.inject("oaep","cryptography",[this](const TOOL::Arguments& a){return oaep.invoke(a);});
         tool.inject("pss","cryptography",[this](const TOOL::Arguments& a){return pss.invoke(a);});
+        tool.inject("sha","cryptography",[this](const TOOL::Arguments& a){return sha.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
