@@ -39,6 +39,22 @@
 #endif
 
 class TIMESTAMP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TIMESTAMP",{{"class","TIMESTAMP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMESTAMP"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry;
 public:
     struct Snapshot {
@@ -57,6 +73,22 @@ public:
     }
 };
 class IPIFY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IPIFY",{{"class","IPIFY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPIFY"}}}};
+
     TIMESTAMP& clock;
     std::mutex guard;
     std::future<void> worker;
@@ -96,6 +128,22 @@ public:
     }
 };
 class DUMP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DUMP",{{"class","DUMP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DUMP"}}}};
+
     TIMESTAMP& clock;
     std::mutex guard;
     std::map<std::string,std::map<std::string,std::string>> registry;
@@ -123,6 +171,22 @@ public:
     std::string location() const {return (std::filesystem::current_path()/"tool.dump").string();}
 };
 class SIGNAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SIGNAL",{{"class","SIGNAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNAL"}}}};
+
     std::mutex guard;
     std::map<std::string,std::map<std::string,unsigned long long>> registry;
     std::function<void(const std::string&,const std::string&)> wave;
@@ -146,6 +210,22 @@ public:
     }
 };
 class TRIGGER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRIGGER",{{"class","TRIGGER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGER"}}}};
+
     SIGNAL& signal;
     std::mutex guard;
     std::map<std::string,std::map<std::string,std::string>> registry;
@@ -155,11 +235,43 @@ public:
     void complete(const std::string& target,bool success){signal.emit(target,success?"returned":"exception");}
 };
 class CPU {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CPU",{{"class","CPU"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPU"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"capacity",{{"source","hardware concurrency"}}}};
 public:
     unsigned capacity() const {return std::max(1u,std::thread::hardware_concurrency());}
 };
 class MEMORY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MEMORY",{{"class","MEMORY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MEMORY"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","bounded input"}}}};
 public:
     bool accept(const std::string& name,const std::vector<std::string>& args) const {
@@ -170,6 +282,22 @@ public:
     }
 };
 class THERMAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"THERMAL",{{"class","THERMAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THERMAL"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux thermal zones"}}}};
 public:
     double observe() const {
@@ -186,6 +314,22 @@ public:
     }
 };
 class CAPACITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CAPACITY",{{"class","CAPACITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPACITY"}}}};
+
     CPU& cpu;
     std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","bounded concurrency"}}}};
 public:
@@ -193,6 +337,22 @@ public:
     unsigned limit() const {return std::min(8u,std::max(1u,cpu.capacity()/2));}
 };
 class PRESSURE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PRESSURE",{{"class","PRESSURE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRESSURE"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux PSI"}}}};
 public:
     double observe() const {
@@ -204,6 +364,22 @@ public:
     }
 };
 class CONFLICT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONFLICT",{{"class","CONFLICT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFLICT"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","exclusive named operation"}}}};
     std::mutex guard;
     std::set<std::string> active;
@@ -212,6 +388,22 @@ public:
     void leave(const std::string& name){std::lock_guard<std::mutex> lock(guard);active.erase(name);}
 };
 class THROTTLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"THROTTLE",{{"class","THROTTLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROTTLE"}}}};
+
     THERMAL& thermal; PRESSURE& pressure; CAPACITY& capacity;
     std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","conservative adaptive admission"}}}};
 public:
@@ -224,6 +416,22 @@ public:
     }
 };
 class GUARD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GUARD",{{"class","GUARD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GUARD"}}}};
+
     MEMORY& memory;
     std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","input and depth limits"}}}};
 public:
@@ -231,6 +439,22 @@ public:
     bool accept(const std::string& n,const std::vector<std::string>& a,unsigned depth) const {return depth<16&&memory.accept(n,a);}
 };
 class QUEUE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUEUE",{{"class","QUEUE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUEUE"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"submit",{{"policy","bounded FIFO"}}}};
     std::mutex guard;std::queue<std::function<void()>> jobs;
 public:
@@ -238,16 +462,64 @@ public:
     std::function<void()> take(){std::lock_guard<std::mutex> lock(guard);if(jobs.empty())return {};auto job=std::move(jobs.front());jobs.pop();return job;}
 };
 class WATCHDOG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WATCHDOG",{{"class","WATCHDOG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WATCHDOG"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"expired",{{"policy","observe elapsed deadline"}}}};
 public:
     bool expired(const TIMESTAMP::Snapshot& s) const {return std::chrono::steady_clock::now()-s.monotonic>std::chrono::seconds(30);}
 };
 class CLEANUP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLEANUP",{{"class","CLEANUP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLEANUP"}}}};
+
     std::map<std::string,std::map<std::string,std::string>> registry{{"release",{{"policy","scope exit"}}}};
 public:
     struct Lease {std::function<void()> release;explicit Lease(std::function<void()> f):release(std::move(f)){} Lease(const Lease&)=delete;~Lease(){if(release)release();}};
 };
 class SCHEDULER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SCHEDULER",{{"class","SCHEDULER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCHEDULER"}}}};
+
     THROTTLE& throttle;
     std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","bounded admission"}}}};
     std::mutex guard;unsigned active=0;
@@ -257,6 +529,22 @@ public:
     void leave(){std::lock_guard<std::mutex> lock(guard);if(active)--active;}
 };
 class TOOL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TOOL",{{"class","TOOL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOOL"}}}};
+
 public:
     using Arguments = std::vector<std::string>;
     using Invocation = std::function<std::string(const Arguments&)>;
@@ -441,6 +729,22 @@ public:
     }
 };
 class REGISTRATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REGISTRATION",{{"class","REGISTRATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGISTRATION"}}}};
+
     std::map<std::string, std::map<std::string, std::string>> records;
     mutable std::mutex guard;
 public:
@@ -451,6 +755,22 @@ public:
 };
 
 class VALUE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VALUE",{{"class","VALUE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALUE"}}}};
+
     REGISTRATION registry;
 public:
     using Data=std::variant<std::monostate,bool,std::int64_t,double,std::string>;
@@ -461,6 +781,22 @@ public:
     const Data& get() const{return data;}
 };
 class PARAMETER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PARAMETER",{{"class","PARAMETER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARAMETER"}}}};
+
     REGISTRATION registry;
     std::string name;
     bool required;
@@ -474,6 +810,22 @@ public:
     bool accept(const VALUE& v) const{return (!required&&v.get().index()==0)||v.get().index()==type;}
 };
 class REFERENCE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REFERENCE",{{"class","REFERENCE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFERENCE"}}}};
+
     REGISTRATION registry;
     std::string identity;
     std::weak_ptr<const VALUE> target;
@@ -482,6 +834,22 @@ public:
     std::shared_ptr<const VALUE> resolve() const{return target.lock();}
 };
 class ARGUMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ARGUMENT",{{"class","ARGUMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARGUMENT"}}}};
+
     REGISTRATION registry;
     std::shared_ptr<const VALUE> value;
 public:
@@ -490,6 +858,22 @@ public:
     std::shared_ptr<const VALUE> get() const{return value;}
 };
 class VARIABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VARIABLE",{{"class","VARIABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VARIABLE"}}}};
+
     REGISTRATION registry;
     mutable std::mutex guard;
     std::shared_ptr<const VALUE> value;
@@ -499,6 +883,22 @@ public:
     std::shared_ptr<const VALUE> read() const {std::lock_guard<std::mutex> lock(guard);return value;}
 };
 class RETURN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RETURN",{{"class","RETURN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURN"}}}};
+
     REGISTRATION registry;
 public:
     const bool success;
@@ -506,6 +906,22 @@ public:
     RETURN(bool ok,std::string r):success(ok),result(std::move(r)){registry.add("result","policy","explicit outcome");}
 };
 class FUNCTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FUNCTION",{{"class","FUNCTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTION"}}}};
+
     REGISTRATION registry;
     TOOL::Invocation callable;
 public:
@@ -516,6 +932,22 @@ public:
     }
 };
 class CALL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CALL",{{"class","CALL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALL"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
 public:
@@ -525,6 +957,22 @@ public:
     }
 };
 class CLASS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLASS",{{"class","CLASS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASS"}}}};
+
     REGISTRATION registry;
     const std::string name;
 public:
@@ -532,6 +980,22 @@ public:
     const std::string& identity() const{return name;}
 };
 class OBJECT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OBJECT",{{"class","OBJECT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECT"}}}};
+
     REGISTRATION registry;
     std::shared_ptr<const CLASS> definition;
     std::mutex guard;
@@ -548,6 +1012,22 @@ public:
     }
 };
 class INSTANCE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INSTANCE",{{"class","INSTANCE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTANCE"}}}};
+
     REGISTRATION registry;
     const std::string identity;
     std::shared_ptr<OBJECT> object;
@@ -557,6 +1037,22 @@ public:
     const std::string& id() const{return identity;}
 };
 class ARRAY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ARRAY",{{"class","ARRAY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARRAY"}}}};
+
     REGISTRATION registry;
     mutable std::mutex guard;
     std::vector<std::shared_ptr<const VALUE>> values;
@@ -573,6 +1069,22 @@ public:
     std::size_t size() const{std::lock_guard<std::mutex> lock(guard);return values.size();}
 };
 class BOOLEAN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BOOLEAN",{{"class","BOOLEAN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOLEAN"}}}};
+
     REGISTRATION registry;
     const bool value;
 public:
@@ -585,6 +1097,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
 class INTEGER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INTEGER",{{"class","INTEGER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTEGER"}}}};
+
     REGISTRATION registry;
     const std::int64_t value;
 public:
@@ -598,6 +1126,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
 class FLOAT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FLOAT",{{"class","FLOAT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOAT"}}}};
+
     REGISTRATION registry;
     const float value;
 public:
@@ -611,6 +1155,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{static_cast<double>(value)});}
 };
 class DOUBLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DOUBLE",{{"class","DOUBLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOUBLE"}}}};
+
     REGISTRATION registry;
     const double value;
 public:
@@ -624,6 +1184,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
 class CHARACTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CHARACTER",{{"class","CHARACTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHARACTER"}}}};
+
     REGISTRATION registry;
     const char32_t value;
 public:
@@ -653,6 +1229,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{utf8()});}
 };
 class STRING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STRING",{{"class","STRING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STRING"}}}};
+
     REGISTRATION registry;
     const std::string value;
     std::size_t scalars=0;
@@ -668,6 +1260,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
 class TOKEN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TOKEN",{{"class","TOKEN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKEN"}}}};
+
     REGISTRATION registry;
     const std::string category,identity,origin,scope;
     const std::chrono::system_clock::time_point created;
@@ -690,6 +1298,22 @@ public:
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{identity});}
 };
 class TIME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TIME",{{"class","TIME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIME"}}}};
+
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
 public:
@@ -702,6 +1326,22 @@ public:
     std::string utc() const{auto tm=calendar(snapshot);std::ostringstream out;out.imbue(std::locale::classic());out<<std::put_time(&tm,"%H:%M:%S");return out.str();}
 };
 class DATE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DATE",{{"class","DATE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATE"}}}};
+
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
 public:
@@ -709,6 +1349,22 @@ public:
     std::string utc() const{auto tm=TIME::calendar(snapshot);std::ostringstream out;out.imbue(std::locale::classic());out<<std::put_time(&tm,"%Y-%m-%d");return out.str();}
 };
 class TIMEDATE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TIMEDATE",{{"class","TIMEDATE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMEDATE"}}}};
+
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
     TIME time;
@@ -719,6 +1375,22 @@ public:
     const TIMESTAMP::Snapshot& captured() const{return snapshot;}
 };
 class GPL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GPL",{{"class","GPL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPL"}}}};
+
     REGISTRATION registry;
 public:
     GPL(){registry.add("describe","reference","GPL-3.0-only");registry.add("source","reference","https://www.gnu.org/licenses/gpl-3.0.html");}
@@ -727,6 +1399,22 @@ public:
     std::string reference() const{return "GPL-3.0-only";}
 };
 class GNU {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GNU",{{"class","GNU"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GNU"}}}};
+
     REGISTRATION registry;
 public:
     GNU(){registry.add("describe","reference","GNU");registry.add("source","reference","https://www.gnu.org/");}
@@ -735,6 +1423,22 @@ public:
     std::string reference() const{return "GNU";}
 };
 class RFC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RFC",{{"class","RFC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFC"}}}};
+
     REGISTRATION registry;
 public:
     RFC(){registry.add("describe","reference","RFC");registry.add("source","reference","https://www.rfc-editor.org/");}
@@ -743,6 +1447,22 @@ public:
     std::string reference() const{return "RFC";}
 };
 class ISO {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ISO",{{"class","ISO"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ISO"}}}};
+
     REGISTRATION registry;
 public:
     ISO(){registry.add("describe","reference","ISO");registry.add("source","reference","https://www.iso.org/");}
@@ -751,6 +1471,22 @@ public:
     std::string reference() const{return "ISO";}
 };
 class IEC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IEC",{{"class","IEC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IEC"}}}};
+
     REGISTRATION registry;
 public:
     IEC(){registry.add("describe","reference","IEC");registry.add("source","reference","https://www.iec.ch/");}
@@ -759,6 +1495,22 @@ public:
     std::string reference() const{return "IEC";}
 };
 class ASSEMBLER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ASSEMBLER",{{"class","ASSEMBLER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLER"}}}};
+
     REGISTRATION registry;
 public:
     ASSEMBLER(){registry.add("assemble","architecture","x86_64 subset");}
@@ -774,6 +1526,22 @@ public:
     }
 };
 class DISASSEMBLER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DISASSEMBLER",{{"class","DISASSEMBLER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISASSEMBLER"}}}};
+
     REGISTRATION registry;
 public:
     DISASSEMBLER(){registry.add("disassemble","architecture","x86_64 subset");}
@@ -793,6 +1561,22 @@ public:
     }
 };
 class SOCKET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SOCKET",{{"class","SOCKET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOCKET"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::pair<std::string,unsigned>> endpoints;
@@ -814,6 +1598,22 @@ public:
     }
 };
 class SERVICE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SERVICE",{{"class","SERVICE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVICE"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
     std::mutex guard;
@@ -835,6 +1635,22 @@ public:
     }
 };
 class RUNTIME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RUNTIME",{{"class","RUNTIME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUNTIME"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
     std::mutex guard;
@@ -878,6 +1694,22 @@ public:
     }
 };
 class CAPSULE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CAPSULE",{{"class","CAPSULE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPSULE"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     struct Record {std::string payload;bool sealed=false;bool quarantined=false;std::string reason;};
@@ -914,6 +1746,22 @@ public:
     }
 };
 class QUARANTINE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUARANTINE",{{"class","QUARANTINE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUARANTINE"}}}};
+
     REGISTRATION registry;
     CAPSULE& capsule;
 public:
@@ -921,6 +1769,22 @@ public:
     std::string invoke(const TOOL::Arguments& a){return capsule.quarantine(a);}
 };
 class ENVIRONMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENVIRONMENT",{{"class","ENVIRONMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENVIRONMENT"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     struct Record {bool active=true;std::map<std::string,std::string> settings;};
@@ -945,6 +1809,22 @@ public:
     }
 };
 class FACILITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FACILITY",{{"class","FACILITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FACILITY"}}}};
+
     REGISTRATION registry;
     ENVIRONMENT& environment;
     std::mutex guard;
@@ -966,6 +1846,22 @@ public:
     }
 };
 class AUDIT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUDIT",{{"class","AUDIT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUDIT"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::vector<std::pair<std::string,std::string>> events;
@@ -981,6 +1877,22 @@ public:
     }
 };
 class FORENSIC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORENSIC",{{"class","FORENSIC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSIC"}}}};
+
     REGISTRATION registry;
     AUDIT& audit;
 public:
@@ -993,6 +1905,22 @@ public:
     }
 };
 class STATISTICAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STATISTICAL",{{"class","STATISTICAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICAL"}}}};
+
     REGISTRATION registry;
 public:
     STATISTICAL(){registry.add("summary","numbers","count mean min max");}
@@ -1009,6 +1937,22 @@ public:
     }
 };
 class ANALYTICAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANALYTICAL",{{"class","ANALYTICAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICAL"}}}};
+
     REGISTRATION registry;
     AUDIT& audit;
 public:
@@ -1020,6 +1964,22 @@ public:
     }
 };
 class STATUS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STATUS",{{"class","STATUS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATUS"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::string> states;
@@ -1035,6 +1995,22 @@ public:
     }
 };
 class QR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QR",{{"class","QR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QR"}}}};
+
     REGISTRATION registry;
 public:
     QR(){registry.add("capacity","byte mode","standard QR version 1-40");registry.add("inspect","payload","byte length only");}
@@ -1055,6 +2031,22 @@ public:
     }
 };
 class EAN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EAN",{{"class","EAN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EAN"}}}};
+
     REGISTRATION registry;
     static bool digits(const std::string& s){return !s.empty()&&s.find_first_not_of("0123456789")==std::string::npos;}
     static char check(const std::string& s){unsigned sum=0,weight=3;for(auto it=s.rbegin();it!=s.rend();++it){sum+=static_cast<unsigned>(*it-'0')*weight;weight=4-weight;}return static_cast<char>('0'+(10-sum%10)%10);}
@@ -1069,6 +2061,22 @@ public:
     }
 };
 class HOTCODE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HOTCODE",{{"class","HOTCODE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTCODE"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
     std::mutex guard;
@@ -1098,6 +2106,22 @@ public:
     }
 };
 class UPTIME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"UPTIME",{{"class","UPTIME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UPTIME"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     using Clock=std::chrono::steady_clock;
@@ -1127,6 +2151,22 @@ public:
     }
 };
 class DOWNTIME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DOWNTIME",{{"class","DOWNTIME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOWNTIME"}}}};
+
     REGISTRATION registry;
     UPTIME& uptime;
 public:
@@ -1140,6 +2180,22 @@ public:
     }
 };
 class TRIGGERED {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRIGGERED",{{"class","TRIGGERED"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGERED"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     using Clock=std::chrono::steady_clock;
@@ -1169,6 +2225,22 @@ public:
     }
 };
 class RESOLVED {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RESOLVED",{{"class","RESOLVED"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOLVED"}}}};
+
     REGISTRATION registry;
     TRIGGERED& triggered;
 public:
@@ -1180,6 +2252,22 @@ public:
     }
 };
 class LOCATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LOCATOR",{{"class","LOCATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCATOR"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1187,6 +2275,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==2&&a[0]=="find")return tool.registered(a[1])?"Registered":"Unknown invocation";if(a.size()==2&&a[0]=="list")return tool.catalogue(a[1]);return "Expected find or list and name";}
 };
 class POSITIONER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"POSITIONER",{{"class","POSITIONER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POSITIONER"}}}};
+
  REGISTRATION registry;
  std::mutex guard;std::map<std::string,std::string> positions;
 public:
@@ -1194,6 +2298,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){std::lock_guard<std::mutex> lock(guard);if(a.size()==3&&a[0]=="set"){if(!positions.count(a[1])&&positions.size()>=256)return "Capacity reached";positions[a[1]]=a[2];return "Position set";}if(a.size()==2&&a[0]=="get"){auto i=positions.find(a[1]);return i==positions.end()?"Unknown position":i->second;}if(a.size()==2&&a[0]=="remove")return positions.erase(a[1])?"Removed":"Unknown position";return "Invalid position operation";}
 };
 class PREPOSITIONER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PREPOSITIONER",{{"class","PREPOSITIONER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PREPOSITIONER"}}}};
+
  REGISTRATION registry;
  POSITIONER& positioner;
 public:
@@ -1201,6 +2321,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==3&&a[0]=="prepare")return positioner.invoke({"set",a[1],a[2]});return "Expected prepare identity position";}
 };
 class PASSTHROUGH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PASSTHROUGH",{{"class","PASSTHROUGH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSTHROUGH"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1208,6 +2344,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()>=2&&a[0]=="forward")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected forward command";}
 };
 class ROUND {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ROUND",{{"class","ROUND"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUND"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1215,6 +2367,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()<2||a[0]!="plan")return "Expected plan origin [participants]";std::string out;for(std::size_t i=1;i<a.size();++i)out+=a[i]+" -> ";return out+a[1];}
 };
 class THROUGH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"THROUGH",{{"class","THROUGH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROUGH"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1222,6 +2390,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()<3||a[0]!="plan")return "Expected plan origin destination [passages]";std::string out;for(std::size_t i=1;i<a.size();++i)out+=(i==1?"":" -> ")+a[i];return out;}
 };
 class VELOCITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VELOCITY",{{"class","VELOCITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VELOCITY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1229,6 +2413,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=3||a[0]!="calculate")return "Expected calculate distance seconds";try{std::size_t x=0,y=0;double n=std::stod(a[1],&x),t=std::stod(a[2],&y);if(x!=a[1].size()||y!=a[2].size()||!std::isfinite(n)||!std::isfinite(t)||n<0||t<=0||!std::isfinite(n/t))return "Invalid measurement";return std::to_string(n/t)+" units/s";}catch(...){return "Invalid measurement";}}
 };
 class FREQUENCY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FREQUENCY",{{"class","FREQUENCY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FREQUENCY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1236,6 +2436,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=3||a[0]!="calculate")return "Expected calculate count seconds";try{std::size_t x=0,y=0;double n=std::stod(a[1],&x),t=std::stod(a[2],&y);if(x!=a[1].size()||y!=a[2].size()||!std::isfinite(n)||!std::isfinite(t)||n<0||t<=0||!std::isfinite(n/t))return "Invalid measurement";return std::to_string(n/t)+" Hz";}catch(...){return "Invalid measurement";}}
 };
 class ENTRY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENTRY",{{"class","ENTRY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTRY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1243,6 +2459,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("entry bytes=")+std::to_string(a[1].size());}
 };
 class EXIT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXIT",{{"class","EXIT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXIT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1250,6 +2482,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("exit bytes=")+std::to_string(a[1].size());}
 };
 class INPUT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INPUT",{{"class","INPUT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INPUT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1257,6 +2505,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("input bytes=")+std::to_string(a[1].size());}
 };
 class OUTPUT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OUTPUT",{{"class","OUTPUT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OUTPUT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1264,6 +2528,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("output bytes=")+std::to_string(a[1].size());}
 };
 class SHELL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SHELL",{{"class","SHELL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHELL"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1271,6 +2551,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
 };
 class TERMINAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TERMINAL",{{"class","TERMINAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TERMINAL"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1278,6 +2574,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
 };
 class CONSOLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONSOLE",{{"class","CONSOLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSOLE"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1285,6 +2597,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
 };
 class PERSISTENCE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PERSISTENCE",{{"class","PERSISTENCE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PERSISTENCE"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1292,6 +2620,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.invoke("invoke",{"list"});if(a.size()==2&&a[0]=="transition")return tool.invoke("invoke",{"transition",a[1],"persistent"});if(a.size()>=3&&a[0]=="define"){TOOL::Arguments args{"define","persistent"};args.insert(args.end(),a.begin()+1,a.end());return tool.invoke("invoke",args);}return "Invalid lifecycle operation";}
 };
 class VOLATILITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VOLATILITY",{{"class","VOLATILITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLATILITY"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1299,6 +2643,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.invoke("invoke",{"list"});if(a.size()==2&&a[0]=="transition")return tool.invoke("invoke",{"transition",a[1],"volatile"});if(a.size()>=3&&a[0]=="define"){TOOL::Arguments args{"define","volatile"};args.insert(args.end(),a.begin()+1,a.end());return tool.invoke("invoke",args);}return "Invalid lifecycle operation";}
 };
 class IDLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IDLE",{{"class","IDLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDLE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1306,6 +2666,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="status")return "Idle policy: no work requested; actual scheduler idleness not measured";return "Expected status";}
 };
 class SLEEP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SLEEP",{{"class","SLEEP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SLEEP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1319,6 +2695,22 @@ std::this_thread::sleep_for(std::chrono::milliseconds(ms));return "Wait complete
 }
 };
 class DETECTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DETECTION",{{"class","DETECTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETECTION"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
     std::mutex guard;
@@ -1343,6 +2735,22 @@ public:
     }
 };
 class CALLABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CALLABLE",{{"class","CALLABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALLABLE"}}}};
+
     REGISTRATION registry;
     TOOL& tool;
 public:
@@ -1356,6 +2764,22 @@ public:
     }
 };
 class INVOKABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INVOKABLE",{{"class","INVOKABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INVOKABLE"}}}};
+
     REGISTRATION registry;
     CALLABLE& callable;
 public:
@@ -1367,6 +2791,22 @@ public:
     }
 };
 class RETURNABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RETURNABLE",{{"class","RETURNABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURNABLE"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::pair<bool,std::string>> outcomes;
@@ -1386,6 +2826,22 @@ public:
     }
 };
 class COMPILER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"COMPILER",{{"class","COMPILER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPILER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1393,6 +2849,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COMPILER: backend unavailable";return "Backend not implemented";}
 };
 class DECOMPILER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DECOMPILER",{{"class","DECOMPILER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECOMPILER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1400,6 +2872,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECOMPILER: backend unavailable";return "Backend not implemented";}
 };
 class HEX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HEX",{{"class","HEX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEX"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1407,6 +2895,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEX: local foundation";if(a.size()!=2)return "Expected operation and value";const std::string digits="0123456789abcdef";if(a[0]=="encode"){std::string out;for(unsigned char ch:a[1]){out+=digits[ch>>4];out+=digits[ch&15];}return out;}if(a[0]=="decode"){if(a[1].size()%2)return "Invalid hex length";std::string out;for(std::size_t i=0;i<a[1].size();i+=2){auto x=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i])))),y=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i+1]))));if(x==std::string::npos||y==std::string::npos)return "Invalid hex";out+=static_cast<char>(x*16+y);}return out;}return "Unknown operation";}
 };
 class HEXADECIMAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HEXADECIMAL",{{"class","HEXADECIMAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXADECIMAL"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1414,6 +2918,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEXADECIMAL: local foundation";if(a.size()!=2)return "Expected operation and value";const std::string digits="0123456789abcdef";if(a[0]=="encode"){std::string out;for(unsigned char ch:a[1]){out+=digits[ch>>4];out+=digits[ch&15];}return out;}if(a[0]=="decode"){if(a[1].size()%2)return "Invalid hex length";std::string out;for(std::size_t i=0;i<a[1].size();i+=2){auto x=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i])))),y=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i+1]))));if(x==std::string::npos||y==std::string::npos)return "Invalid hex";out+=static_cast<char>(x*16+y);}return out;}return "Unknown operation";}
 };
 class HEXTABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HEXTABLE",{{"class","HEXTABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXTABLE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1421,6 +2941,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEXTABLE: local foundation";if(a.size()==1&&a[0]=="list")return "0 1 2 3 4 5 6 7 8 9 a b c d e f";return "Expected list";}
 };
 class AUTOMATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTOMATION",{{"class","AUTOMATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATION"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1428,6 +2964,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTOMATION: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
 };
 class GENERATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GENERATION",{{"class","GENERATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1435,6 +2987,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GENERATION: local foundation";if(a.size()!=3||a[0]!="repeat")return "Expected repeat count text";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);if(p.ec!=std::errc{}||p.ptr!=a[1].data()+a[1].size()||n>256||a[2].size()>256)return "Generation limit";std::string out;for(unsigned i=0;i<n;++i)out+=a[2];return out;}
 };
 class ENCRYPTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENCRYPTION",{{"class","ENCRYPTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCRYPTION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1442,6 +3010,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENCRYPTION: backend unavailable";return "Backend not implemented";}
 };
 class DECRYPTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DECRYPTION",{{"class","DECRYPTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECRYPTION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1449,6 +3033,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECRYPTION: backend unavailable";return "Backend not implemented";}
 };
 class ENCODING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENCODING",{{"class","ENCODING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCODING"}}}};
+
  REGISTRATION registry;
  HEX& hex;
 public:
@@ -1456,6 +3056,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENCODING: local foundation";if(a.size()==2&&a[0]=="hex")return hex.invoke({"encode",a[1]});return "Expected hex value";}
 };
 class DECODING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DECODING",{{"class","DECODING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECODING"}}}};
+
  REGISTRATION registry;
  HEX& hex;
 public:
@@ -1463,6 +3079,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECODING: local foundation";if(a.size()==2&&a[0]=="hex")return hex.invoke({"decode",a[1]});return "Expected hex value";}
 };
 class LEXER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LEXER",{{"class","LEXER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1470,6 +3102,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEXER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
 };
 class DELEXER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DELEXER",{{"class","DELEXER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1477,6 +3125,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DELEXER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
 };
 class LEXICALISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LEXICALISER",{{"class","LEXICALISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXICALISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1484,6 +3148,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEXICALISER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
 };
 class DELEXICALISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DELEXICALISER",{{"class","DELEXICALISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXICALISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1491,6 +3171,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DELEXICALISER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
 };
 class TOKENISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TOKENISER",{{"class","TOKENISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKENISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1498,6 +3194,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TOKENISER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
 };
 class DETOKENISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DETOKENISER",{{"class","DETOKENISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETOKENISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1505,6 +3217,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DETOKENISER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
 };
 class PARSER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PARSER",{{"class","PARSER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARSER"}}}};
+
  REGISTRATION registry;
  LEXER& lexer;
 public:
@@ -1512,6 +3240,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
 };
 class TRANSPARSER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRANSPARSER",{{"class","TRANSPARSER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPARSER"}}}};
+
  REGISTRATION registry;
  LEXER& lexer;
 public:
@@ -1519,6 +3263,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSPARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
 };
 class CROSSPARSER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CROSSPARSER",{{"class","CROSSPARSER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CROSSPARSER"}}}};
+
  REGISTRATION registry;
  LEXER& lexer;
 public:
@@ -1526,6 +3286,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CROSSPARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
 };
 class PROCESS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROCESS",{{"class","PROCESS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESS"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1533,6 +3309,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROCESS: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
 };
 class PROCESSOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROCESSOR",{{"class","PROCESSOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSOR"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1540,6 +3332,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROCESSOR: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
 };
 class ALLOCATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALLOCATOR",{{"class","ALLOCATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATOR"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1547,6 +3355,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALLOCATOR: local foundation";if(a.size()!=2||a[0]!="check")return "Expected check bytes";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()&&n<=65536?"Within local size limit":"Outside local size limit";}
 };
 class SERIALISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SERIALISER",{{"class","SERIALISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERIALISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1554,6 +3378,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SERIALISER: local foundation";if(a.empty()||a[0]!="pack")return "Expected pack values";std::ostringstream out;for(std::size_t i=1;i<a.size();++i)out<<std::quoted(a[i])<<" ";return out.str();}
 };
 class DESERIALISER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DESERIALISER",{{"class","DESERIALISER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESERIALISER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1561,6 +3401,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DESERIALISER: local foundation";if(a.size()!=2||a[0]!="unpack")return "Expected unpack text";std::istringstream in(a[1]);std::string item,out;for(;in>>std::quoted(item);)out+=item+"\n";if(!in.eof())return "Invalid quoted data";return out;}
 };
 class HASHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HASHER",{{"class","HASHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HASHER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1568,6 +3424,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HASHER: backend unavailable";return "Backend not implemented";}
 };
 class SALTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SALTER",{{"class","SALTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SALTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1575,6 +3447,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SALTER: backend unavailable";return "Backend not implemented";}
 };
 class LOCKMAKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LOCKMAKER",{{"class","LOCKMAKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCKMAKER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1582,6 +3470,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LOCKMAKER: backend unavailable";return "Backend not implemented";}
 };
 class KEYMAKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"KEYMAKER",{{"class","KEYMAKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KEYMAKER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1589,6 +3493,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "KEYMAKER: backend unavailable";return "Backend not implemented";}
 };
 class BUILDER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BUILDER",{{"class","BUILDER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BUILDER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1596,6 +3516,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BUILDER: backend unavailable";return "Backend not implemented";}
 };
 class LINKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LINKER",{{"class","LINKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINKER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1603,6 +3539,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LINKER: backend unavailable";return "Backend not implemented";}
 };
 class DEBUGGER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DEBUGGER",{{"class","DEBUGGER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBUGGER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1610,6 +3562,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEBUGGER: backend unavailable";return "Backend not implemented";}
 };
 class SCANNER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SCANNER",{{"class","SCANNER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCANNER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1617,6 +3585,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SCANNER: local foundation";if(a.size()!=3||a[0]!="find")return "Expected find text pattern";auto p=a[1].find(a[2]);return p==std::string::npos?"Not found":std::to_string(p);}
 };
 class PRINTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PRINTER",{{"class","PRINTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRINTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1624,6 +3608,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PRINTER: local foundation";if(a.size()==2&&a[0]=="format")return a[1];return "Expected format text";}
 };
 class PORT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PORT",{{"class","PORT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PORT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1631,6 +3631,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PORT: local foundation";if(a.size()!=2||a[0]!="validate")return "Expected validate port";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()&&n<=65535?"Valid port number":"Invalid port";}
 };
 class FINDER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FINDER",{{"class","FINDER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FINDER"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1638,6 +3654,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FINDER: local foundation";if(a.size()==2&&a[0]=="find")return tool.catalogue(a[1]);return "Expected find prefix";}
 };
 class SEARCH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SEARCH",{{"class","SEARCH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEARCH"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1645,6 +3677,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEARCH: local foundation";if(a.size()==2&&a[0]=="find")return tool.catalogue(a[1]);return "Expected find prefix";}
 };
 class CLOAKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLOAKER",{{"class","CLOAKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOAKER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1652,6 +3700,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLOAKER: on-demand local foundation";if(a.size()==2&&a[0]=="redact")return "[redacted]";return "Expected redact value";}
 };
 class CONCEALER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONCEALER",{{"class","CONCEALER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONCEALER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1659,6 +3723,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONCEALER: on-demand local foundation";if(a.size()==2&&a[0]=="mask")return std::string(a[1].size(),'*');return "Expected mask value";}
 };
 class EXPOSER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXPOSER",{{"class","EXPOSER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPOSER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1666,6 +3746,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXPOSER: on-demand local foundation";if(a.size()==2&&a[0]=="inspect")return "Supplied value bytes="+std::to_string(a[1].size());return "Expected inspect value";}
 };
 class IMPORTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IMPORTER",{{"class","IMPORTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMPORTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1673,6 +3769,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMPORTER: on-demand local foundation";if(a.size()==2&&a[0]=="accept"&&a[1].size()<=4096)return a[1];return "Expected bounded supplied text";}
 };
 class EXPORTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXPORTER",{{"class","EXPORTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPORTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1680,6 +3792,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXPORTER: on-demand local foundation";if(a.size()==2&&a[0]=="format"&&a[1].size()<=4096){std::ostringstream out;out<<std::quoted(a[1]);return out.str();}return "Expected bounded supplied text";}
 };
 class CLIPBOARD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLIPBOARD",{{"class","CLIPBOARD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIPBOARD"}}}};
+
  REGISTRATION registry;
  std::mutex guard;std::string value;
 public:
@@ -1687,6 +3815,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLIPBOARD: on-demand local foundation";std::lock_guard<std::mutex> lock(guard);if(a.size()==2&&a[0]=="set"&&a[1].size()<=4096){value=a[1];return "Local clipboard set";}if(a.size()==1&&a[0]=="get")return value;if(a.size()==1&&a[0]=="clear"){value.clear();return "Cleared";}return "Invalid clipboard operation";}
 };
 class CACHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CACHER",{{"class","CACHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CACHER"}}}};
+
  REGISTRATION registry;
  std::mutex guard;std::map<std::string,std::string> values;
 public:
@@ -1694,6 +3838,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CACHER: on-demand local foundation";std::lock_guard<std::mutex> lock(guard);if(a.size()==3&&a[0]=="set"&&a[1].size()<=128&&a[2].size()<=4096){if(!values.count(a[1])&&values.size()>=256)return "Cache capacity reached";values[a[1]]=a[2];return "Cached";}if(a.size()==2&&a[0]=="get"){auto it=values.find(a[1]);return it==values.end()?"Cache miss":it->second;}if(a.size()==2&&a[0]=="remove")return values.erase(a[1])?"Removed":"Cache miss";if(a.size()==1&&a[0]=="clear"){values.clear();return "Cleared";}return "Invalid cache operation";}
 };
 class INTERFACE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INTERFACE",{{"class","INTERFACE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERFACE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1701,6 +3861,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INTERFACE: on-demand local foundation";if(a.size()==1&&a[0]=="list")return "API CLI MCP SSH RPC RDP VNC";if(a.size()==2&&a[0]=="check"){const std::set<std::string> supported{"API","CLI","MCP","SSH","RPC","RDP","VNC"};return supported.count(a[1])?"Known interface profile":"Unknown profile";}return "Expected list or check";}
 };
 class DRIVER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DRIVER",{{"class","DRIVER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DRIVER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1708,6 +3884,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DRIVER: backend unavailable";return "Driver backend unavailable";}
 };
 class CONTROLLER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONTROLLER",{{"class","CONTROLLER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONTROLLER"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -1715,6 +3907,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONTROLLER: on-demand local foundation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown command";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected check or run";}
 };
 class DEVICE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DEVICE",{{"class","DEVICE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEVICE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1722,6 +3930,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEVICE: backend unavailable";return "Device discovery backend unavailable";}
 };
 class SYSTEM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SYSTEM",{{"class","SYSTEM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYSTEM"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1743,6 +3967,22 @@ return "Unknown build target";
 }return "Expected target";}
 };
 class TYPE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TYPE",{{"class","TYPE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TYPE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1750,6 +3990,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TYPE: passive foundation; data type; specialized backend unavailable";return "Unsupported operation";}
 };
 class MODE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MODE",{{"class","MODE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MODE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1757,6 +4013,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MODE: passive foundation; operational mode; specialized backend unavailable";return "Unsupported operation";}
 };
 class CONDITION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONDITION",{{"class","CONDITION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONDITION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1764,6 +4036,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONDITION: passive foundation; conditional evaluation; limited local operation";if(a.size()==3&&a[0]=="equal")return a[1]==a[2]?"true":"false";return "Unsupported operation";}
 };
 class STATE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STATE",{{"class","STATE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1771,6 +4059,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "STATE: passive foundation; operational state; specialized backend unavailable";return "Unsupported operation";}
 };
 class NETWORK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NETWORK",{{"class","NETWORK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NETWORK"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1778,6 +4082,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NETWORK: passive foundation; NETWORK profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TCPIP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TCPIP",{{"class","TCPIP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCPIP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1785,6 +4105,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TCPIP: passive foundation; Internet protocol suite; specialized backend unavailable";return "Unsupported operation";}
 };
 class GPS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GPS",{{"class","GPS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1792,6 +4128,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GPS: passive foundation; GPS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class GSM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GSM",{{"class","GSM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GSM"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1799,6 +4151,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GSM: passive foundation; GSM profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IMEI {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IMEI",{{"class","IMEI"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMEI"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1806,6 +4174,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMEI: passive foundation; IMEI profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class RFID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RFID",{{"class","RFID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFID"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1813,6 +4197,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RFID: passive foundation; RFID profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class RAM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RAM",{{"class","RAM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RAM"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1820,6 +4220,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RAM: passive foundation; RAM profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class GPU {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GPU",{{"class","GPU"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPU"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1827,6 +4243,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GPU: passive foundation; GPU profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SD",{{"class","SD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SD"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1834,6 +4266,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SD: passive foundation; Secure Digital storage; specialized backend unavailable";return "Unsupported operation";}
 };
 class DEV {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DEV",{{"class","DEV"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEV"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1841,6 +4289,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEV: passive foundation; device namespace; specialized backend unavailable";return "Unsupported operation";}
 };
 class LAN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LAN",{{"class","LAN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1848,6 +4312,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LAN: passive foundation; LAN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class WAN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WAN",{{"class","WAN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1855,6 +4335,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WAN: passive foundation; WAN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class HOST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HOST",{{"class","HOST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOST"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1862,6 +4358,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOST: passive foundation; HOST profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class HOSTNAME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HOSTNAME",{{"class","HOSTNAME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTNAME"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1869,6 +4381,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOSTNAME: passive foundation; HOSTNAME profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TCP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TCP",{{"class","TCP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1876,6 +4404,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TCP: passive foundation; TCP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IP",{{"class","IP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1883,6 +4427,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IP: passive foundation; IP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class UDP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"UDP",{{"class","UDP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UDP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1890,6 +4450,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "UDP: passive foundation; UDP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ICMP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ICMP",{{"class","ICMP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICMP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1897,6 +4473,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ICMP: passive foundation; ICMP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class NAT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NAT",{{"class","NAT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1904,6 +4496,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NAT: passive foundation; NAT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class MAC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MAC",{{"class","MAC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAC"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1911,6 +4519,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAC: passive foundation; MAC profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class FAT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FAT",{{"class","FAT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1918,6 +4542,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FAT: passive foundation; FAT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class FAT32 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FAT32",{{"class","FAT32"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT32"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1925,6 +4565,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FAT32: passive foundation; FAT32 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class NTFS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NTFS",{{"class","NTFS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NTFS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1932,6 +4588,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NTFS: passive foundation; NTFS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class APFS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"APFS",{{"class","APFS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APFS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1939,6 +4611,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "APFS: passive foundation; APFS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class EXT4 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXT4",{{"class","EXT4"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXT4"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1946,6 +4634,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXT4: passive foundation; EXT4 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class EXFAT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXFAT",{{"class","EXFAT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXFAT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1953,6 +4657,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXFAT: passive foundation; EXFAT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class AARCH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AARCH",{{"class","AARCH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AARCH"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1960,6 +4680,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AARCH: passive foundation; Arm architecture family; specialized backend unavailable";return "Unsupported operation";}
 };
 class ARM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ARM",{{"class","ARM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARM"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1967,6 +4703,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ARM: passive foundation; ARM profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class AMR64 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AMR64",{{"class","AMR64"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMR64"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1974,6 +4726,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AMR64: passive foundation; requested identifier; conventional architecture spelling ARM64; specialized backend unavailable";return "Unsupported operation";}
 };
 class X86 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"X86",{{"class","X86"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1981,6 +4749,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "X86: passive foundation; X86 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class X86_64 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"X86_64",{{"class","X86_64"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86_64"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1988,6 +4772,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "X86_64: passive foundation; X86_64 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class AMD64 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AMD64",{{"class","AMD64"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMD64"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -1995,6 +4795,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AMD64: passive foundation; AMD64 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class RISCV {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RISCV",{{"class","RISCV"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RISCV"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2002,6 +4818,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RISCV: passive foundation; RISCV profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class PSU {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PSU",{{"class","PSU"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSU"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2009,6 +4841,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PSU: passive foundation; PSU profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class POWER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"POWER",{{"class","POWER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POWER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2016,6 +4864,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "POWER: passive foundation; POWER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class OAUTH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OAUTH",{{"class","OAUTH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAUTH"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2023,6 +4887,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OAUTH: passive foundation; delegated authorization; specialized backend unavailable";return "Unsupported operation";}
 };
 class SSL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SSL",{{"class","SSL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSL"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2030,6 +4910,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SSL: passive foundation; legacy secure transport profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TLS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TLS",{{"class","TLS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2037,6 +4933,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TLS: passive foundation; transport layer security; specialized backend unavailable";return "Unsupported operation";}
 };
 class HTTP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HTTP",{{"class","HTTP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2044,6 +4956,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HTTP: passive foundation; HTTP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class HTTPS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HTTPS",{{"class","HTTPS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTPS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2051,6 +4979,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HTTPS: passive foundation; HTTPS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class FTP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FTP",{{"class","FTP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FTP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2058,6 +5002,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FTP: passive foundation; FTP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class DNS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DNS",{{"class","DNS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DNS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2065,6 +5025,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DNS: passive foundation; DNS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class DHCP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DHCP",{{"class","DHCP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DHCP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2072,6 +5048,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DHCP: passive foundation; DHCP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class VPN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VPN",{{"class","VPN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VPN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2079,6 +5071,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VPN: passive foundation; VPN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class PROXY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROXY",{{"class","PROXY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2086,6 +5094,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROXY: passive foundation; PROXY profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class FIREWALL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FIREWALL",{{"class","FIREWALL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIREWALL"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2093,6 +5117,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FIREWALL: passive foundation; FIREWALL profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class UUID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"UUID",{{"class","UUID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UUID"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2100,6 +5140,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "UUID: passive foundation; UUID profile; limited local operation";if(a.size()==2&&a[0]=="validate"){const auto& v=a[1];if(v.size()!=36)return "Invalid UUID shape";for(std::size_t i=0;i<v.size();++i){if(i==8||i==13||i==18||i==23){if(v[i]!='-')return "Invalid UUID shape";}else if(!std::isxdigit(static_cast<unsigned char>(v[i])))return "Invalid UUID shape";}return "Valid UUID shape";}return "Unsupported operation";}
 };
 class ENTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENTER",{{"class","ENTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2107,6 +5163,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENTER: passive foundation; ENTER profile; limited local operation";if(a.size()==1&&a[0]=="code")return "13";return "Unsupported operation";}
 };
 class ESC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ESC",{{"class","ESC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ESC"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2114,6 +5186,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ESC: passive foundation; ESC profile; limited local operation";if(a.size()==1&&a[0]=="code")return "27";return "Unsupported operation";}
 };
 class CTRL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CTRL",{{"class","CTRL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CTRL"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2121,6 +5209,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CTRL: passive foundation; CTRL profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ALT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALT",{{"class","ALT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2128,6 +5232,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALT: passive foundation; ALT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SPACE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SPACE",{{"class","SPACE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SPACE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2135,6 +5255,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SPACE: passive foundation; space key; limited local operation";if(a.size()==1&&a[0]=="code")return "32";return "Unsupported operation";}
 };
 class SHIFT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SHIFT",{{"class","SHIFT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHIFT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2142,6 +5278,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SHIFT: passive foundation; SHIFT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TAB {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TAB",{{"class","TAB"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TAB"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2149,6 +5301,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TAB: passive foundation; TAB profile; limited local operation";if(a.size()==1&&a[0]=="code")return "9";return "Unsupported operation";}
 };
 class NAME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NAME",{{"class","NAME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAME"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2156,6 +5324,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NAME: passive foundation; NAME profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class NUMBER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NUMBER",{{"class","NUMBER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NUMBER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2163,6 +5347,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NUMBER: passive foundation; NUMBER profile; limited local operation";if(a.size()==2&&a[0]=="validate"){long long v=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),v);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()?"Valid integer":"Invalid integer";}return "Unsupported operation";}
 };
 class PID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PID",{{"class","PID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PID"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2170,6 +5370,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PID: passive foundation; PID profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class USB {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"USB",{{"class","USB"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USB"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2177,6 +5393,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USB: passive foundation; USB profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ARPA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ARPA",{{"class","ARPA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARPA"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2184,6 +5416,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ARPA: passive foundation; Internet infrastructure domain; specialized backend unavailable";return "Unsupported operation";}
 };
 class PROVIDER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROVIDER",{{"class","PROVIDER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROVIDER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2191,6 +5439,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROVIDER: passive foundation; PROVIDER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SMS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SMS",{{"class","SMS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SMS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2198,6 +5462,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SMS: passive foundation; SMS profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TLD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TLD",{{"class","TLD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLD"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2205,6 +5485,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TLD: passive foundation; TLD profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ICANN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ICANN",{{"class","ICANN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICANN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2212,6 +5508,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ICANN: passive foundation; ICANN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IANA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IANA",{{"class","IANA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IANA"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2219,6 +5531,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IANA: passive foundation; IANA profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IETF {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IETF",{{"class","IETF"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IETF"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2226,6 +5554,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IETF: passive foundation; IETF profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class W3C {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"W3C",{{"class","W3C"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","W3C"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2233,6 +5577,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "W3C: passive foundation; W3C profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class WWW {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WWW",{{"class","WWW"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WWW"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2240,6 +5600,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WWW: passive foundation; WWW profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class NODE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NODE",{{"class","NODE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2247,6 +5623,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NODE: passive foundation; NODE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class NODEJS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NODEJS",{{"class","NODEJS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODEJS"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2254,6 +5646,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NODEJS: passive foundation; Node.js runtime; specialized backend unavailable";return "Unsupported operation";}
 };
 class IMAGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IMAGE",{{"class","IMAGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMAGE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2261,6 +5669,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMAGE: passive foundation; IMAGE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IMG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IMG",{{"class","IMG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMG"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2268,6 +5692,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMG: passive foundation; image representation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BLOCK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BLOCK",{{"class","BLOCK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLOCK"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2275,6 +5715,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BLOCK: passive foundation; BLOCK profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class LINE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LINE",{{"class","LINE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2282,6 +5738,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LINE: passive foundation; LINE profile; limited local operation";if(a.size()==2&&a[0]=="count")return std::to_string(a[1].empty()?0:1+std::count(a[1].begin(),a[1].end(),'\n'));return "Unsupported operation";}
 };
 class ENDOFFILE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ENDOFFILE",{{"class","ENDOFFILE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENDOFFILE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2289,6 +5761,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EOF: passive foundation; end of file; limited local operation";if(a.size()==1&&a[0]=="marker")return "End-of-file indicator; not a data byte";return "Unsupported operation";}
 };
 class SCRIPT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SCRIPT",{{"class","SCRIPT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCRIPT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2296,6 +5784,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SCRIPT: passive foundation; SCRIPT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SOURCECODE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SOURCECODE",{{"class","SOURCECODE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCECODE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2303,6 +5807,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SOURCECODE: passive foundation; SOURCECODE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class BINARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BINARY",{{"class","BINARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BINARY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2310,6 +5830,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BINARY: passive foundation; BINARY profile; limited local operation";if(a.size()==2&&a[0]=="validate")return !a[1].empty()&&a[1].find_first_not_of("01")==std::string::npos?"Valid binary digits":"Invalid binary digits";return "Unsupported operation";}
 };
 class SOURCE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SOURCE",{{"class","SOURCE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2317,6 +5853,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SOURCE: passive foundation; SOURCE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class DESTINATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DESTINATION",{{"class","DESTINATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESTINATION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2324,6 +5876,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DESTINATION: passive foundation; DESTINATION profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TARGET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TARGET",{{"class","TARGET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TARGET"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2331,6 +5899,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TARGET: passive foundation; TARGET profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class CERTIFICATE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CERTIFICATE",{{"class","CERTIFICATE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CERTIFICATE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2338,6 +5922,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CERTIFICATE: passive foundation; CERTIFICATE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class PASSPHRASE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PASSPHRASE",{{"class","PASSPHRASE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSPHRASE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2345,6 +5945,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PASSPHRASE: passive foundation; passphrase metadata only; specialized backend unavailable";return "Unsupported operation";}
 };
 class PASSWORD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PASSWORD",{{"class","PASSWORD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSWORD"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2352,6 +5968,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PASSWORD: passive foundation; password metadata only; specialized backend unavailable";return "Unsupported operation";}
 };
 class USERNAME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"USERNAME",{{"class","USERNAME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USERNAME"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2359,6 +5991,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USERNAME: passive foundation; USERNAME profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class USER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"USER",{{"class","USER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2366,6 +6014,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "USER: passive foundation; USER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SECRET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SECRET",{{"class","SECRET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SECRET"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2373,6 +6037,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SECRET: passive foundation; secret metadata only; specialized backend unavailable";return "Unsupported operation";}
 };
 class DATABASE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DATABASE",{{"class","DATABASE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATABASE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2380,6 +6060,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DATABASE: passive foundation; DATABASE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TABLE",{{"class","TABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TABLE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2387,6 +6083,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TABLE: passive foundation; TABLE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class COLUMN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"COLUMN",{{"class","COLUMN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COLUMN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2394,6 +6106,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COLUMN: passive foundation; COLUMN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ROW {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ROW",{{"class","ROW"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROW"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2401,6 +6129,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ROW: passive foundation; ROW profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TUPLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TUPLE",{{"class","TUPLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TUPLE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2408,6 +6152,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TUPLE: passive foundation; TUPLE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class QUERY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUERY",{{"class","QUERY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUERY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2415,6 +6175,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "QUERY: passive foundation; QUERY profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class POLICY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"POLICY",{{"class","POLICY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POLICY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2422,6 +6198,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "POLICY: passive foundation; POLICY profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class MAP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MAP",{{"class","MAP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2429,6 +6221,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAP: passive foundation; MAP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TREE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TREE",{{"class","TREE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TREE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2436,6 +6244,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TREE: passive foundation; TREE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class MINDMAP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MINDMAP",{{"class","MINDMAP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MINDMAP"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2443,6 +6267,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MINDMAP: passive foundation; MINDMAP profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class MARKDOWN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MARKDOWN",{{"class","MARKDOWN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MARKDOWN"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2450,6 +6290,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MARKDOWN: passive foundation; MARKDOWN profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class PDF {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PDF",{{"class","PDF"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PDF"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2457,6 +6313,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PDF: passive foundation; PDF profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class JSON {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JSON",{{"class","JSON"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JSON"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2464,6 +6336,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JSON: passive foundation; JSON profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class XML {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"XML",{{"class","XML"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","XML"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2471,6 +6359,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "XML: passive foundation; XML profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class CSV {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CSV",{{"class","CSV"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSV"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2478,6 +6382,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CSV: passive foundation; CSV profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SIGNATURE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SIGNATURE",{{"class","SIGNATURE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNATURE"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2485,6 +6405,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SIGNATURE: passive foundation; SIGNATURE profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class AUTHOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTHOR",{{"class","AUTHOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHOR"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2492,6 +6428,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTHOR: passive foundation; AUTHOR profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SENDER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SENDER",{{"class","SENDER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENDER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2499,6 +6451,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SENDER: passive foundation; SENDER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class RECEIVER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RECEIVER",{{"class","RECEIVER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECEIVER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2506,6 +6474,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RECEIVER: passive foundation; RECEIVER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TRANSMISSION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRANSMISSION",{{"class","TRANSMISSION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSMISSION"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2513,6 +6497,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSMISSION: passive foundation; TRANSMISSION profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class WIFI {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WIFI",{{"class","WIFI"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIFI"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2520,6 +6520,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WIFI: passive foundation; WIFI profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class HOTSPOT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HOTSPOT",{{"class","HOTSPOT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTSPOT"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2527,6 +6543,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOTSPOT: passive foundation; HOTSPOT profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class TETHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TETHER",{{"class","TETHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TETHER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2534,6 +6566,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TETHER: passive foundation; TETHER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class LEDGER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LEDGER",{{"class","LEDGER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEDGER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2541,6 +6589,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEDGER: passive foundation; LEDGER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class ROUTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ROUTER",{{"class","ROUTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTER"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2548,6 +6612,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ROUTER: passive foundation; ROUTER profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SWITCH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SWITCH",{{"class","SWITCH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWITCH"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2555,6 +6635,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SWITCH: passive foundation; SWITCH profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class GATEWAY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GATEWAY",{{"class","GATEWAY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GATEWAY"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2562,6 +6658,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GATEWAY: passive foundation; GATEWAY profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class SUBNET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SUBNET",{{"class","SUBNET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUBNET"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2569,6 +6681,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUBNET: passive foundation; SUBNET profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IPV4 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IPV4",{{"class","IPV4"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV4"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2576,6 +6704,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IPV4: passive foundation; IPV4 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class IPV6 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IPV6",{{"class","IPV6"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV6"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2583,6 +6727,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IPV6: passive foundation; IPV6 profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class PAGING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PAGING",{{"class","PAGING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PAGING"}}}};
+
  REGISTRATION registry;
  
 public:
@@ -2590,6 +6750,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PAGING: passive foundation; PAGING profile; specialized backend unavailable";return "Unsupported operation";}
 };
 class COMMAND {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"COMMAND",{{"class","COMMAND"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMMAND"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -2597,6 +6773,22 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COMMAND: passive foundation; COMMAND profile; limited local operation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown command";return "Unsupported operation";}
 };
 class INSTRUCTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INSTRUCTION",{{"class","INSTRUCTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUCTION"}}}};
+
  REGISTRATION registry;
  TOOL& tool;
 public:
@@ -2604,1260 +6796,4620 @@ public:
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSTRUCTION: passive foundation; INSTRUCTION profile; limited local operation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown instruction";return "Unsupported operation";}
 };
 class BASH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BASH",{{"class","BASH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASH"}}}};
+
  REGISTRATION registry;
 public:
  BASH(){registry.add("status","BASH","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BASH: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PS1 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PS1",{{"class","PS1"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PS1"}}}};
+
  REGISTRATION registry;
 public:
  PS1(){registry.add("status","PS1","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PS1: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class APPLESCRIPT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"APPLESCRIPT",{{"class","APPLESCRIPT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPLESCRIPT"}}}};
+
  REGISTRATION registry;
 public:
  APPLESCRIPT(){registry.add("status","APPLESCRIPT","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "APPLESCRIPT: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CMD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CMD",{{"class","CMD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CMD"}}}};
+
  REGISTRATION registry;
 public:
  CMD(){registry.add("status","CMD","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CMD: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BATCH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BATCH",{{"class","BATCH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BATCH"}}}};
+
  REGISTRATION registry;
 public:
  BATCH(){registry.add("status","BATCH","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BATCH: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WINDOWS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WINDOWS",{{"class","WINDOWS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WINDOWS"}}}};
+
  REGISTRATION registry;
 public:
  WINDOWS(){registry.add("status","WINDOWS","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WINDOWS: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MACOS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MACOS",{{"class","MACOS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MACOS"}}}};
+
  REGISTRATION registry;
 public:
  MACOS(){registry.add("status","MACOS","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MACOS: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LINUX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LINUX",{{"class","LINUX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINUX"}}}};
+
  REGISTRATION registry;
 public:
  LINUX(){registry.add("status","LINUX","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LINUX: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANDROID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANDROID",{{"class","ANDROID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANDROID"}}}};
+
  REGISTRATION registry;
 public:
  ANDROID(){registry.add("status","ANDROID","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANDROID: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class IOS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IOS",{{"class","IOS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IOS"}}}};
+
  REGISTRATION registry;
 public:
  IOS(){registry.add("status","IOS","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IOS: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DEBIAN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DEBIAN",{{"class","DEBIAN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBIAN"}}}};
+
  REGISTRATION registry;
 public:
  DEBIAN(){registry.add("status","DEBIAN","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEBIAN: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FEDORA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FEDORA",{{"class","FEDORA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FEDORA"}}}};
+
  REGISTRATION registry;
 public:
  FEDORA(){registry.add("status","FEDORA","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FEDORA: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GENTOO {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GENTOO",{{"class","GENTOO"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENTOO"}}}};
+
  REGISTRATION registry;
 public:
  GENTOO(){registry.add("status","GENTOO","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GENTOO: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PATCHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PATCHER",{{"class","PATCHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATCHER"}}}};
+
  REGISTRATION registry;
 public:
  PATCHER(){registry.add("status","PATCHER","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PATCHER: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WRAPPER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WRAPPER",{{"class","WRAPPER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WRAPPER"}}}};
+
  REGISTRATION registry;
 public:
  WRAPPER(){registry.add("status","WRAPPER","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WRAPPER: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FORKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORKER",{{"class","FORKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORKER"}}}};
+
  REGISTRATION registry;
 public:
  FORKER(){registry.add("status","FORKER","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FORKER: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WIRING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WIRING",{{"class","WIRING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIRING"}}}};
+
  REGISTRATION registry;
 public:
  WIRING(){registry.add("status","WIRING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WIRING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VOLUME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VOLUME",{{"class","VOLUME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLUME"}}}};
+
  REGISTRATION registry;
 public:
  VOLUME(){registry.add("status","VOLUME","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VOLUME: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CLUSTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLUSTER",{{"class","CLUSTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLUSTER"}}}};
+
  REGISTRATION registry;
 public:
  CLUSTER(){registry.add("status","CLUSTER","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLUSTER: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class REPLICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REPLICATION",{{"class","REPLICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPLICATION"}}}};
+
  REGISTRATION registry;
 public:
  REPLICATION(){registry.add("status","REPLICATION","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "REPLICATION: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MIGRATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MIGRATION",{{"class","MIGRATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MIGRATION"}}}};
+
  REGISTRATION registry;
 public:
  MIGRATION(){registry.add("status","MIGRATION","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MIGRATION: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class UNIT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"UNIT",{{"class","UNIT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UNIT"}}}};
+
  REGISTRATION registry;
 public:
  UNIT(){registry.add("status","UNIT","passive foundation");registry.add("describe","UNIT","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "UNIT: passive foundation; limited local operation";if(a.size()==2&&a[0]=="describe")return "Supplied unit identifier: "+a[1];return "Unsupported operation";}
 };
 class INSTALLATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INSTALLATION",{{"class","INSTALLATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTALLATION"}}}};
+
  REGISTRATION registry;
 public:
  INSTALLATION(){registry.add("status","INSTALLATION","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSTALLATION: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PACKAGING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PACKAGING",{{"class","PACKAGING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGING"}}}};
+
  REGISTRATION registry;
 public:
  PACKAGING(){registry.add("status","PACKAGING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PACKAGING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PACKAGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PACKAGE",{{"class","PACKAGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGE"}}}};
+
  REGISTRATION registry;
 public:
  PACKAGE(){registry.add("status","PACKAGE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PACKAGE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PACKET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PACKET",{{"class","PACKET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKET"}}}};
+
  REGISTRATION registry;
 public:
  PACKET(){registry.add("status","PACKET","passive foundation");registry.add("size","PACKET","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PACKET: passive foundation; limited local operation";if(a.size()==2&&a[0]=="size")return std::to_string(a[1].size());return "Unsupported operation";}
 };
 class FILTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FILTER",{{"class","FILTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILTER"}}}};
+
  REGISTRATION registry;
 public:
  FILTER(){registry.add("status","FILTER","passive foundation");registry.add("contains","FILTER","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FILTER: passive foundation; limited local operation";if(a.size()==3&&a[0]=="contains")return a[1].find(a[2])!=std::string::npos?"true":"false";return "Unsupported operation";}
 };
 class SENSOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SENSOR",{{"class","SENSOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENSOR"}}}};
+
  REGISTRATION registry;
 public:
  SENSOR(){registry.add("status","SENSOR","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SENSOR: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PROXIMITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROXIMITY",{{"class","PROXIMITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXIMITY"}}}};
+
  REGISTRATION registry;
 public:
  PROXIMITY(){registry.add("status","PROXIMITY","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROXIMITY: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DISTRIBUTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DISTRIBUTION",{{"class","DISTRIBUTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISTRIBUTION"}}}};
+
  REGISTRATION registry;
 public:
  DISTRIBUTION(){registry.add("status","DISTRIBUTION","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DISTRIBUTION: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GROUPING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GROUPING",{{"class","GROUPING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GROUPING"}}}};
+
  REGISTRATION registry;
 public:
  GROUPING(){registry.add("status","GROUPING","passive foundation");registry.add("count","GROUPING","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GROUPING: passive foundation; limited local operation";if(!a.empty()&&a[0]=="count")return std::to_string(a.size()-1);return "Unsupported operation";}
 };
 class RESOURCING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RESOURCING",{{"class","RESOURCING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOURCING"}}}};
+
  REGISTRATION registry;
 public:
  RESOURCING(){registry.add("status","RESOURCING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RESOURCING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class HARDWARE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HARDWARE",{{"class","HARDWARE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HARDWARE"}}}};
+
  REGISTRATION registry;
 public:
  HARDWARE(){registry.add("status","HARDWARE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HARDWARE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FIRMWARE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FIRMWARE",{{"class","FIRMWARE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIRMWARE"}}}};
+
  REGISTRATION registry;
 public:
  FIRMWARE(){registry.add("status","FIRMWARE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FIRMWARE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BOOTLOADING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BOOTLOADING",{{"class","BOOTLOADING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTLOADING"}}}};
+
  REGISTRATION registry;
 public:
  BOOTLOADING(){registry.add("status","BOOTLOADING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BOOTLOADING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BOOTSTRAPPING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BOOTSTRAPPING",{{"class","BOOTSTRAPPING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSTRAPPING"}}}};
+
  REGISTRATION registry;
 public:
  BOOTSTRAPPING(){registry.add("status","BOOTSTRAPPING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BOOTSTRAPPING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class HOSTING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HOSTING",{{"class","HOSTING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTING"}}}};
+
  REGISTRATION registry;
 public:
  HOSTING(){registry.add("status","HOSTING","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HOSTING: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SITE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SITE",{{"class","SITE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SITE"}}}};
+
  REGISTRATION registry;
 public:
  SITE(){registry.add("status","SITE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SITE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DOMAIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DOMAIN",{{"class","DOMAIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOMAIN"}}}};
+
  REGISTRATION registry;
 public:
  DOMAIN(){registry.add("status","DOMAIN","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DOMAIN: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FOREST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FOREST",{{"class","FOREST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOREST"}}}};
+
  REGISTRATION registry;
 public:
  FOREST(){registry.add("status","FOREST","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FOREST: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GLOBAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GLOBAL",{{"class","GLOBAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOBAL"}}}};
+
  REGISTRATION registry;
 public:
  GLOBAL(){registry.add("status","GLOBAL","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GLOBAL: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LOCAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LOCAL",{{"class","LOCAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCAL"}}}};
+
  REGISTRATION registry;
 public:
  LOCAL(){registry.add("status","LOCAL","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LOCAL: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class JOINER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JOINER",{{"class","JOINER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JOINER"}}}};
+
  REGISTRATION registry;
 public:
  JOINER(){registry.add("status","JOINER","passive foundation");registry.add("join","JOINER","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JOINER: passive foundation; limited local operation";if(a.size()>=2&&a[0]=="join"){std::string out;for(std::size_t i=2;i<a.size();++i){if(i>2)out+=a[1];out+=a[i];if(out.size()>65536)return "Output limit";}return out;}return "Unsupported operation";}
 };
 class LEAVER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LEAVER",{{"class","LEAVER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEAVER"}}}};
+
  REGISTRATION registry;
 public:
  LEAVER(){registry.add("status","LEAVER","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEAVER: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ONLINE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ONLINE",{{"class","ONLINE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ONLINE"}}}};
+
  REGISTRATION registry;
 public:
  ONLINE(){registry.add("status","ONLINE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ONLINE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OFFLINE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OFFLINE",{{"class","OFFLINE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OFFLINE"}}}};
+
  REGISTRATION registry;
 public:
  OFFLINE(){registry.add("status","OFFLINE","passive foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OFFLINE: passive foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DAEMON {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DAEMON",{{"class","DAEMON"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DAEMON"}}}};
+
  REGISTRATION registry;
 public:
  DAEMON(){registry.add("status","DAEMON","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DAEMON: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class KERNEL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"KERNEL",{{"class","KERNEL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KERNEL"}}}};
+
  REGISTRATION registry;
 public:
  KERNEL(){registry.add("status","KERNEL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "KERNEL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class KO {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"KO",{{"class","KO"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KO"}}}};
+
  REGISTRATION registry;
 public:
  KO(){registry.add("status","KO","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "KO: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class KBUILD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"KBUILD",{{"class","KBUILD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KBUILD"}}}};
+
  REGISTRATION registry;
 public:
  KBUILD(){registry.add("status","KBUILD","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "KBUILD: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class INSTRUMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INSTRUMENT",{{"class","INSTRUMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUMENT"}}}};
+
  REGISTRATION registry;
 public:
  INSTRUMENT(){registry.add("status","INSTRUMENT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSTRUMENT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CLOUD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLOUD",{{"class","CLOUD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOUD"}}}};
+
  REGISTRATION registry;
 public:
  CLOUD(){registry.add("status","CLOUD","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLOUD: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DATACENTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DATACENTER",{{"class","DATACENTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATACENTER"}}}};
+
  REGISTRATION registry;
 public:
  DATACENTER(){registry.add("status","DATACENTER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DATACENTER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FRAME {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FRAME",{{"class","FRAME"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAME"}}}};
+
  REGISTRATION registry;
 public:
  FRAME(){registry.add("status","FRAME","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FRAME: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MAIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MAIN",{{"class","MAIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAIN"}}}};
+
  REGISTRATION registry;
 public:
  MAIN(){registry.add("status","MAIN","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAIN: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MAINSYSTEM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MAINSYSTEM",{{"class","MAINSYSTEM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAINSYSTEM"}}}};
+
  REGISTRATION registry;
 public:
  MAINSYSTEM(){registry.add("status","MAINSYSTEM","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MAINSYSTEM: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ALLOCATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALLOCATION",{{"class","ALLOCATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATION"}}}};
+
  REGISTRATION registry;
 public:
  ALLOCATION(){registry.add("status","ALLOCATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALLOCATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PROCESSING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PROCESSING",{{"class","PROCESSING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSING"}}}};
+
  REGISTRATION registry;
 public:
  PROCESSING(){registry.add("status","PROCESSING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROCESSING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VERSIONING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VERSIONING",{{"class","VERSIONING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERSIONING"}}}};
+
  REGISTRATION registry;
 public:
  VERSIONING(){registry.add("status","VERSIONING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VERSIONING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class TRANSVERSIONING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRANSVERSIONING",{{"class","TRANSVERSIONING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSVERSIONING"}}}};
+
  REGISTRATION registry;
 public:
  TRANSVERSIONING(){registry.add("status","TRANSVERSIONING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSVERSIONING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class QUALIFICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUALIFICATION",{{"class","QUALIFICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFICATION"}}}};
+
  REGISTRATION registry;
 public:
  QUALIFICATION(){registry.add("status","QUALIFICATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "QUALIFICATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VERIFICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VERIFICATION",{{"class","VERIFICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERIFICATION"}}}};
+
  REGISTRATION registry;
 public:
  VERIFICATION(){registry.add("status","VERIFICATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VERIFICATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VALIDATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VALIDATION",{{"class","VALIDATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALIDATION"}}}};
+
  REGISTRATION registry;
 public:
  VALIDATION(){registry.add("status","VALIDATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VALIDATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CONFIRMATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONFIRMATION",{{"class","CONFIRMATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIRMATION"}}}};
+
  REGISTRATION registry;
 public:
  CONFIRMATION(){registry.add("status","CONFIRMATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONFIRMATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class AUTHENTICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTHENTICATION",{{"class","AUTHENTICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHENTICATION"}}}};
+
  REGISTRATION registry;
 public:
  AUTHENTICATION(){registry.add("status","AUTHENTICATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTHENTICATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class AUTHORISATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTHORISATION",{{"class","AUTHORISATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORISATION"}}}};
+
  REGISTRATION registry;
 public:
  AUTHORISATION(){registry.add("status","AUTHORISATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTHORISATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class APPROVAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"APPROVAL",{{"class","APPROVAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPROVAL"}}}};
+
  REGISTRATION registry;
 public:
  APPROVAL(){registry.add("status","APPROVAL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "APPROVAL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MONITORING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MONITORING",{{"class","MONITORING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MONITORING"}}}};
+
  REGISTRATION registry;
 public:
  MONITORING(){registry.add("status","MONITORING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MONITORING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANALYSIS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANALYSIS",{{"class","ANALYSIS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYSIS"}}}};
+
  REGISTRATION registry;
 public:
  ANALYSIS(){registry.add("status","ANALYSIS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANALYSIS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class STATISTICS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STATISTICS",{{"class","STATISTICS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICS"}}}};
+
  REGISTRATION registry;
 public:
  STATISTICS(){registry.add("status","STATISTICS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "STATISTICS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SCIENCE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SCIENCE",{{"class","SCIENCE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCIENCE"}}}};
+
  REGISTRATION registry;
 public:
  SCIENCE(){registry.add("status","SCIENCE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SCIENCE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CALCULATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CALCULATOR",{{"class","CALCULATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALCULATOR"}}}};
+
  REGISTRATION registry;
 public:
  CALCULATOR(){registry.add("status","CALCULATOR","invocation-bound foundation");registry.add("calculate","CALCULATOR","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CALCULATOR: passive invocation-bound foundation; limited local operation";if(a.size()>=2&&a[0]=="calculate"){long double total=0;for(std::size_t i=1;i<a.size();++i){std::istringstream in(a[i]);in.imbue(std::locale::classic());long double v;if(!(in>>std::noskipws>>v)||!in.eof()||!std::isfinite(v))return "Invalid number";total+=v;if(!std::isfinite(total))return "Overflow";}std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<long double>::max_digits10)<<total;return out.str();}return "Unsupported operation";}
 };
 class ARITHMETICS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ARITHMETICS",{{"class","ARITHMETICS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARITHMETICS"}}}};
+
  REGISTRATION registry;
 public:
  ARITHMETICS(){registry.add("status","ARITHMETICS","invocation-bound foundation");registry.add("calculate","ARITHMETICS","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ARITHMETICS: passive invocation-bound foundation; limited local operation";if(a.size()>=2&&a[0]=="calculate"){long double total=0;for(std::size_t i=1;i<a.size();++i){std::istringstream in(a[i]);in.imbue(std::locale::classic());long double v;if(!(in>>std::noskipws>>v)||!in.eof()||!std::isfinite(v))return "Invalid number";total+=v;if(!std::isfinite(total))return "Overflow";}std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<long double>::max_digits10)<<total;return out.str();}return "Unsupported operation";}
 };
 class QUALIFIER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUALIFIER",{{"class","QUALIFIER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFIER"}}}};
+
  REGISTRATION registry;
 public:
  QUALIFIER(){registry.add("status","QUALIFIER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "QUALIFIER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class IDENTIFICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IDENTIFICATION",{{"class","IDENTIFICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFICATION"}}}};
+
  REGISTRATION registry;
 public:
  IDENTIFICATION(){registry.add("status","IDENTIFICATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IDENTIFICATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class IDENTIFIER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IDENTIFIER",{{"class","IDENTIFIER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFIER"}}}};
+
  REGISTRATION registry;
 public:
  IDENTIFIER(){registry.add("status","IDENTIFIER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IDENTIFIER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class QUANTIFIER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"QUANTIFIER",{{"class","QUANTIFIER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUANTIFIER"}}}};
+
  REGISTRATION registry;
 public:
  QUANTIFIER(){registry.add("status","QUANTIFIER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "QUANTIFIER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class JAVASCRIPT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JAVASCRIPT",{{"class","JAVASCRIPT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVASCRIPT"}}}};
+
  REGISTRATION registry;
 public:
  JAVASCRIPT(){registry.add("status","JAVASCRIPT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JAVASCRIPT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class R {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"R",{{"class","R"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","R"}}}};
+
  REGISTRATION registry;
 public:
  R(){registry.add("status","R","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "R: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class C {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"C",{{"class","C"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","C"}}}};
+
  REGISTRATION registry;
 public:
  C(){registry.add("status","C","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "C: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ASSEMBLY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ASSEMBLY",{{"class","ASSEMBLY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLY"}}}};
+
  REGISTRATION registry;
 public:
  ASSEMBLY(){registry.add("status","ASSEMBLY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ASSEMBLY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LUA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LUA",{{"class","LUA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LUA"}}}};
+
  REGISTRATION registry;
 public:
  LUA(){registry.add("status","LUA","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LUA: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CSS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CSS",{{"class","CSS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSS"}}}};
+
  REGISTRATION registry;
 public:
  CSS(){registry.add("status","CSS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CSS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class HTML {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HTML",{{"class","HTML"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTML"}}}};
+
  REGISTRATION registry;
 public:
  HTML(){registry.add("status","HTML","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HTML: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BLUETOOTH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BLUETOOTH",{{"class","BLUETOOTH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLUETOOTH"}}}};
+
  REGISTRATION registry;
 public:
  BLUETOOTH(){registry.add("status","BLUETOOTH","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BLUETOOTH: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class NFC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NFC",{{"class","NFC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NFC"}}}};
+
  REGISTRATION registry;
 public:
  NFC(){registry.add("status","NFC","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NFC: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MICROSD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MICROSD",{{"class","MICROSD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MICROSD"}}}};
+
  REGISTRATION registry;
 public:
  MICROSD(){registry.add("status","MICROSD","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MICROSD: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class STORAGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"STORAGE",{{"class","STORAGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STORAGE"}}}};
+
  REGISTRATION registry;
 public:
  STORAGE(){registry.add("status","STORAGE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "STORAGE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DISK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DISK",{{"class","DISK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISK"}}}};
+
  REGISTRATION registry;
 public:
  DISK(){registry.add("status","DISK","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DISK: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class REST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REST",{{"class","REST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REST"}}}};
+
  REGISTRATION registry;
 public:
  REST(){registry.add("status","REST","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "REST: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DIRECTORY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DIRECTORY",{{"class","DIRECTORY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIRECTORY"}}}};
+
  REGISTRATION registry;
 public:
  DIRECTORY(){registry.add("status","DIRECTORY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DIRECTORY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FILE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FILE",{{"class","FILE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILE"}}}};
+
  REGISTRATION registry;
 public:
  FILE(){registry.add("status","FILE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FILE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MANAGEMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MANAGEMENT",{{"class","MANAGEMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGEMENT"}}}};
+
  REGISTRATION registry;
 public:
  MANAGEMENT(){registry.add("status","MANAGEMENT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MANAGEMENT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MANAGER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MANAGER",{{"class","MANAGER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGER"}}}};
+
  REGISTRATION registry;
 public:
  MANAGER(){registry.add("status","MANAGER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MANAGER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OPERATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OPERATOR",{{"class","OPERATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPERATOR"}}}};
+
  REGISTRATION registry;
 public:
  OPERATOR(){registry.add("status","OPERATOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OPERATOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class TRANSPORT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRANSPORT",{{"class","TRANSPORT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPORT"}}}};
+
  REGISTRATION registry;
 public:
  TRANSPORT(){registry.add("status","TRANSPORT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSPORT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CLOCK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLOCK",{{"class","CLOCK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOCK"}}}};
+
  REGISTRATION registry;
 public:
  CLOCK(){registry.add("status","CLOCK","invocation-bound foundation");registry.add("now","CLOCK","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLOCK: passive invocation-bound foundation; limited local operation";if(a.size()==1&&a[0]=="now")return std::to_string(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());return "Unsupported operation";}
 };
 class INFO {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INFO",{{"class","INFO"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INFO"}}}};
+
  REGISTRATION registry;
 public:
  INFO(){registry.add("status","INFO","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INFO: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DASHBOARD {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DASHBOARD",{{"class","DASHBOARD"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DASHBOARD"}}}};
+
  REGISTRATION registry;
 public:
  DASHBOARD(){registry.add("status","DASHBOARD","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DASHBOARD: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class AVERAGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AVERAGE",{{"class","AVERAGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AVERAGE"}}}};
+
  REGISTRATION registry;
 public:
  AVERAGE(){registry.add("status","AVERAGE","invocation-bound foundation");registry.add("calculate","AVERAGE","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AVERAGE: passive invocation-bound foundation; limited local operation";if(a.size()>=2&&a[0]=="calculate"){long double total=0;for(std::size_t i=1;i<a.size();++i){std::istringstream in(a[i]);in.imbue(std::locale::classic());long double v;if(!(in>>std::noskipws>>v)||!in.eof()||!std::isfinite(v))return "Invalid number";total+=v;if(!std::isfinite(total))return "Overflow";}std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<long double>::max_digits10)<<total/(a.size()-1);return out.str();}return "Unsupported operation";}
 };
 class SUM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SUM",{{"class","SUM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUM"}}}};
+
  REGISTRATION registry;
 public:
  SUM(){registry.add("status","SUM","invocation-bound foundation");registry.add("calculate","SUM","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUM: passive invocation-bound foundation; limited local operation";if(a.size()>=2&&a[0]=="calculate"){long double total=0;for(std::size_t i=1;i<a.size();++i){std::istringstream in(a[i]);in.imbue(std::locale::classic());long double v;if(!(in>>std::noskipws>>v)||!in.eof()||!std::isfinite(v))return "Invalid number";total+=v;if(!std::isfinite(total))return "Overflow";}std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<long double>::max_digits10)<<total;return out.str();}return "Unsupported operation";}
 };
 class SUMMARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SUMMARY",{{"class","SUMMARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARY"}}}};
+
  REGISTRATION registry;
 public:
  SUMMARY(){registry.add("status","SUMMARY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUMMARY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SUMMARISATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SUMMARISATION",{{"class","SUMMARISATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARISATION"}}}};
+
  REGISTRATION registry;
 public:
  SUMMARISATION(){registry.add("status","SUMMARISATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUMMARISATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GLOSSARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GLOSSARY",{{"class","GLOSSARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOSSARY"}}}};
+
  REGISTRATION registry;
 public:
  GLOSSARY(){registry.add("status","GLOSSARY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GLOSSARY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DOCUMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DOCUMENT",{{"class","DOCUMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENT"}}}};
+
  REGISTRATION registry;
 public:
  DOCUMENT(){registry.add("status","DOCUMENT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DOCUMENT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DOCUMENTATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DOCUMENTATION",{{"class","DOCUMENTATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENTATION"}}}};
+
  REGISTRATION registry;
 public:
  DOCUMENTATION(){registry.add("status","DOCUMENTATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DOCUMENTATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class RECORDING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RECORDING",{{"class","RECORDING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECORDING"}}}};
+
  REGISTRATION registry;
 public:
  RECORDING(){registry.add("status","RECORDING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RECORDING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BLACKBOX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BLACKBOX",{{"class","BLACKBOX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLACKBOX"}}}};
+
  REGISTRATION registry;
 public:
  BLACKBOX(){registry.add("status","BLACKBOX","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BLACKBOX: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WHITEBOX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WHITEBOX",{{"class","WHITEBOX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHITEBOX"}}}};
+
  REGISTRATION registry;
 public:
  WHITEBOX(){registry.add("status","WHITEBOX","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WHITEBOX: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LEGEND {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LEGEND",{{"class","LEGEND"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEGEND"}}}};
+
  REGISTRATION registry;
 public:
  LEGEND(){registry.add("status","LEGEND","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEGEND: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BOUNDARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BOUNDARY",{{"class","BOUNDARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOUNDARY"}}}};
+
  REGISTRATION registry;
 public:
  BOUNDARY(){registry.add("status","BOUNDARY","invocation-bound foundation");registry.add("check","BOUNDARY","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BOUNDARY: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="check")return a[1].size()<=4096?"Within local byte boundary":"Outside local byte boundary";return "Unsupported operation";}
 };
 class RULE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RULE",{{"class","RULE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RULE"}}}};
+
  REGISTRATION registry;
 public:
  RULE(){registry.add("status","RULE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RULE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class REGULATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REGULATOR",{{"class","REGULATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATOR"}}}};
+
  REGISTRATION registry;
 public:
  REGULATOR(){registry.add("status","REGULATOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "REGULATOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class REGULATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REGULATION",{{"class","REGULATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATION"}}}};
+
  REGISTRATION registry;
 public:
  REGULATION(){registry.add("status","REGULATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "REGULATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LOOP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LOOP",{{"class","LOOP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOOP"}}}};
+
  REGISTRATION registry;
 public:
  LOOP(){registry.add("status","LOOP","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LOOP: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WHILE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WHILE",{{"class","WHILE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHILE"}}}};
+
  REGISTRATION registry;
 public:
  WHILE(){registry.add("status","WHILE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WHILE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FOR",{{"class","FOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOR"}}}};
+
  REGISTRATION registry;
 public:
  FOR(){registry.add("status","FOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class IF {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IF",{{"class","IF"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IF"}}}};
+
  REGISTRATION registry;
 public:
  IF(){registry.add("status","IF","invocation-bound foundation");registry.add("evaluate","IF","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IF: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="evaluate"&&(a[1]=="true"||a[1]=="false"))return a[1];return "Unsupported operation";}
 };
 class ELSE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ELSE",{{"class","ELSE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSE"}}}};
+
  REGISTRATION registry;
 public:
  ELSE(){registry.add("status","ELSE","invocation-bound foundation");registry.add("evaluate","ELSE","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ELSE: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="evaluate"&&(a[1]=="true"||a[1]=="false"))return a[1]=="true"?"false":"true";return "Unsupported operation";}
 };
 class ELSEIF {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ELSEIF",{{"class","ELSEIF"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSEIF"}}}};
+
  REGISTRATION registry;
 public:
  ELSEIF(){registry.add("status","ELSEIF","invocation-bound foundation");registry.add("evaluate","ELSEIF","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ELSEIF: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="evaluate"&&(a[1]=="true"||a[1]=="false"))return a[1];return "Unsupported operation";}
 };
 class INJECTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INJECTION",{{"class","INJECTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INJECTION"}}}};
+
  REGISTRATION registry;
 public:
  INJECTION(){registry.add("status","INJECTION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INJECTION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FUNCTOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FUNCTOR",{{"class","FUNCTOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTOR"}}}};
+
  REGISTRATION registry;
 public:
  FUNCTOR(){registry.add("status","FUNCTOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FUNCTOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FUNCTIONAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FUNCTIONAL",{{"class","FUNCTIONAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTIONAL"}}}};
+
  REGISTRATION registry;
 public:
  FUNCTIONAL(){registry.add("status","FUNCTIONAL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FUNCTIONAL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VECTOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VECTOR",{{"class","VECTOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VECTOR"}}}};
+
  REGISTRATION registry;
 public:
  VECTOR(){registry.add("status","VECTOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VECTOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GRAPHICS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GRAPHICS",{{"class","GRAPHICS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAPHICS"}}}};
+
  REGISTRATION registry;
 public:
  GRAPHICS(){registry.add("status","GRAPHICS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GRAPHICS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GDT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GDT",{{"class","GDT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GDT"}}}};
+
  REGISTRATION registry;
 public:
  GDT(){registry.add("status","GDT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GDT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MBR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MBR",{{"class","MBR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MBR"}}}};
+
  REGISTRATION registry;
 public:
  MBR(){registry.add("status","MBR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MBR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class BOOTSECTOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BOOTSECTOR",{{"class","BOOTSECTOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSECTOR"}}}};
+
  REGISTRATION registry;
 public:
  BOOTSECTOR(){registry.add("status","BOOTSECTOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BOOTSECTOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SUPERBLOCK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SUPERBLOCK",{{"class","SUPERBLOCK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUPERBLOCK"}}}};
+
  REGISTRATION registry;
 public:
  SUPERBLOCK(){registry.add("status","SUPERBLOCK","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SUPERBLOCK: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CHUNK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CHUNK",{{"class","CHUNK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHUNK"}}}};
+
  REGISTRATION registry;
 public:
  CHUNK(){registry.add("status","CHUNK","invocation-bound foundation");registry.add("size","CHUNK","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CHUNK: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="size")return std::to_string(a[1].size());return "Unsupported operation";}
 };
 class BITRATE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BITRATE",{{"class","BITRATE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BITRATE"}}}};
+
  REGISTRATION registry;
 public:
  BITRATE(){registry.add("status","BITRATE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BITRATE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SAMPLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SAMPLE",{{"class","SAMPLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAMPLE"}}}};
+
  REGISTRATION registry;
 public:
  SAMPLE(){registry.add("status","SAMPLE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SAMPLE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class EXAMINATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXAMINATION",{{"class","EXAMINATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXAMINATION"}}}};
+
  REGISTRATION registry;
 public:
  EXAMINATION(){registry.add("status","EXAMINATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXAMINATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class INSPECTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INSPECTION",{{"class","INSPECTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSPECTION"}}}};
+
  REGISTRATION registry;
 public:
  INSPECTION(){registry.add("status","INSPECTION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSPECTION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FORENSICS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORENSICS",{{"class","FORENSICS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSICS"}}}};
+
  REGISTRATION registry;
 public:
  FORENSICS(){registry.add("status","FORENSICS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FORENSICS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANALYTICS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANALYTICS",{{"class","ANALYTICS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICS"}}}};
+
  REGISTRATION registry;
 public:
  ANALYTICS(){registry.add("status","ANALYTICS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANALYTICS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FORECAST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORECAST",{{"class","FORECAST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORECAST"}}}};
+
  REGISTRATION registry;
 public:
  FORECAST(){registry.add("status","FORECAST","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FORECAST: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WEATHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WEATHER",{{"class","WEATHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WEATHER"}}}};
+
  REGISTRATION registry;
 public:
  WEATHER(){registry.add("status","WEATHER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WEATHER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ALERT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALERT",{{"class","ALERT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALERT"}}}};
+
  REGISTRATION registry;
 public:
  ALERT(){registry.add("status","ALERT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALERT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ALARM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALARM",{{"class","ALARM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALARM"}}}};
+
  REGISTRATION registry;
 public:
  ALARM(){registry.add("status","ALARM","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALARM: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CALENDAR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CALENDAR",{{"class","CALENDAR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALENDAR"}}}};
+
  REGISTRATION registry;
 public:
  CALENDAR(){registry.add("status","CALENDAR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CALENDAR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class EPHEMERAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EPHEMERAL",{{"class","EPHEMERAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EPHEMERAL"}}}};
+
  REGISTRATION registry;
 public:
  EPHEMERAL(){registry.add("status","EPHEMERAL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EPHEMERAL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class TEMPORARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TEMPORARY",{{"class","TEMPORARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TEMPORARY"}}}};
+
  REGISTRATION registry;
 public:
  TEMPORARY(){registry.add("status","TEMPORARY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TEMPORARY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DEPLOYMENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DEPLOYMENT",{{"class","DEPLOYMENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEPLOYMENT"}}}};
+
  REGISTRATION registry;
 public:
  DEPLOYMENT(){registry.add("status","DEPLOYMENT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEPLOYMENT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FLAG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FLAG",{{"class","FLAG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAG"}}}};
+
  REGISTRATION registry;
 public:
  FLAG(){registry.add("status","FLAG","invocation-bound foundation");registry.add("validate","FLAG","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FLAG: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="validate")return a[1]=="true"||a[1]=="false"?"Valid boolean flag":"Invalid flag";return "Unsupported operation";}
 };
 class TESTING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TESTING",{{"class","TESTING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTING"}}}};
+
  REGISTRATION registry;
 public:
  TESTING(){registry.add("status","TESTING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TESTING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MOCKING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MOCKING",{{"class","MOCKING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKING"}}}};
+
  REGISTRATION registry;
 public:
  MOCKING(){registry.add("status","MOCKING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MOCKING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class TESTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TESTER",{{"class","TESTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTER"}}}};
+
  REGISTRATION registry;
 public:
  TESTER(){registry.add("status","TESTER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TESTER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MOCKER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MOCKER",{{"class","MOCKER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKER"}}}};
+
  REGISTRATION registry;
 public:
  MOCKER(){registry.add("status","MOCKER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MOCKER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANTIPENETRATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANTIPENETRATION",{{"class","ANTIPENETRATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIPENETRATION"}}}};
+
  REGISTRATION registry;
 public:
  ANTIPENETRATION(){registry.add("status","ANTIPENETRATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANTIPENETRATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANTICORRUPTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANTICORRUPTION",{{"class","ANTICORRUPTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTICORRUPTION"}}}};
+
  REGISTRATION registry;
 public:
  ANTICORRUPTION(){registry.add("status","ANTICORRUPTION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANTICORRUPTION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ANTIVIRUS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ANTIVIRUS",{{"class","ANTIVIRUS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIVIRUS"}}}};
+
  REGISTRATION registry;
 public:
  ANTIVIRUS(){registry.add("status","ANTIVIRUS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ANTIVIRUS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SELF {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SELF",{{"class","SELF"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SELF"}}}};
+
  REGISTRATION registry;
 public:
  SELF(){registry.add("status","SELF","invocation-bound foundation");registry.add("describe","SELF","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SELF: passive invocation-bound foundation; limited local operation";if(a.size()==1&&a[0]=="describe")return "Tool: invocation-bound C++ architecture";return "Unsupported operation";}
 };
 class HEADER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HEADER",{{"class","HEADER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEADER"}}}};
+
  REGISTRATION registry;
 public:
  HEADER(){registry.add("status","HEADER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEADER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class METADATA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"METADATA",{{"class","METADATA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","METADATA"}}}};
+
  REGISTRATION registry;
 public:
  METADATA(){registry.add("status","METADATA","invocation-bound foundation");registry.add("size","METADATA","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "METADATA: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="size")return std::to_string(a[1].size());return "Unsupported operation";}
 };
 class CONSTANT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONSTANT",{{"class","CONSTANT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSTANT"}}}};
+
  REGISTRATION registry;
 public:
  CONSTANT(){registry.add("status","CONSTANT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONSTANT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MUTABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MUTABLE",{{"class","MUTABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MUTABLE"}}}};
+
  REGISTRATION registry;
 public:
  MUTABLE(){registry.add("status","MUTABLE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MUTABLE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class IMMUTABLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IMMUTABLE",{{"class","IMMUTABLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMMUTABLE"}}}};
+
  REGISTRATION registry;
 public:
  IMMUTABLE(){registry.add("status","IMMUTABLE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMMUTABLE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CLASSIFICATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLASSIFICATION",{{"class","CLASSIFICATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFICATION"}}}};
+
  REGISTRATION registry;
 public:
  CLASSIFICATION(){registry.add("status","CLASSIFICATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLASSIFICATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CLASSIFIER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLASSIFIER",{{"class","CLASSIFIER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFIER"}}}};
+
  REGISTRATION registry;
 public:
  CLASSIFIER(){registry.add("status","CLASSIFIER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLASSIFIER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SAVER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SAVER",{{"class","SAVER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAVER"}}}};
+
  REGISTRATION registry;
 public:
  SAVER(){registry.add("status","SAVER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SAVER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class AUTOMATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTOMATOR",{{"class","AUTOMATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATOR"}}}};
+
  REGISTRATION registry;
 public:
  AUTOMATOR(){registry.add("status","AUTOMATOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTOMATOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GENERATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GENERATOR",{{"class","GENERATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATOR"}}}};
+
  REGISTRATION registry;
 public:
  GENERATOR(){registry.add("status","GENERATOR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GENERATOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PNG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PNG",{{"class","PNG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PNG"}}}};
+
  REGISTRATION registry;
 public:
  PNG(){registry.add("status","PNG","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PNG: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SVG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SVG",{{"class","SVG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SVG"}}}};
+
  REGISTRATION registry;
 public:
  SVG(){registry.add("status","SVG","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SVG: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MP4 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MP4",{{"class","MP4"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP4"}}}};
+
  REGISTRATION registry;
 public:
  MP4(){registry.add("status","MP4","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MP4: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class WAV {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WAV",{{"class","WAV"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAV"}}}};
+
  REGISTRATION registry;
 public:
  WAV(){registry.add("status","WAV","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "WAV: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MP3 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MP3",{{"class","MP3"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP3"}}}};
+
  REGISTRATION registry;
 public:
  MP3(){registry.add("status","MP3","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "MP3: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OGG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OGG",{{"class","OGG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OGG"}}}};
+
  REGISTRATION registry;
 public:
  OGG(){registry.add("status","OGG","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OGG: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OPUS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OPUS",{{"class","OPUS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPUS"}}}};
+
  REGISTRATION registry;
 public:
  OPUS(){registry.add("status","OPUS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OPUS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FLAC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FLAC",{{"class","FLAC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAC"}}}};
+
  REGISTRATION registry;
 public:
  FLAC(){registry.add("status","FLAC","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FLAC: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class JPEG {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JPEG",{{"class","JPEG"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JPEG"}}}};
+
  REGISTRATION registry;
 public:
  JPEG(){registry.add("status","JPEG","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JPEG: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class TXT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TXT",{{"class","TXT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TXT"}}}};
+
  REGISTRATION registry;
 public:
  TXT(){registry.add("status","TXT","invocation-bound foundation");registry.add("size","TXT","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TXT: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="size")return std::to_string(a[1].size());return "Unsupported operation";}
 };
 class SH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SH",{{"class","SH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SH"}}}};
+
  REGISTRATION registry;
 public:
  SH(){registry.add("status","SH","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SH: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class JS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JS",{{"class","JS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JS"}}}};
+
  REGISTRATION registry;
 public:
  JS(){registry.add("status","JS","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JS: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class JAVA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"JAVA",{{"class","JAVA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVA"}}}};
+
  REGISTRATION registry;
 public:
  JAVA(){registry.add("status","JAVA","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "JAVA: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GRADLE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GRADLE",{{"class","GRADLE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRADLE"}}}};
+
  REGISTRATION registry;
 public:
  GRADLE(){registry.add("status","GRADLE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GRADLE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SWIFT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SWIFT",{{"class","SWIFT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWIFT"}}}};
+
  REGISTRATION registry;
 public:
  SWIFT(){registry.add("status","SWIFT","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SWIFT: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OBJECTIVE_C {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OBJECTIVE_C",{{"class","OBJECTIVE_C"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_C"}}}};
+
  REGISTRATION registry;
 public:
  OBJECTIVE_C(){registry.add("status","OBJECTIVE_C","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OBJECTIVE_C: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class OBJECTIVE_CPP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OBJECTIVE_CPP",{{"class","OBJECTIVE_CPP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_CPP"}}}};
+
  REGISTRATION registry;
 public:
  OBJECTIVE_CPP(){registry.add("status","OBJECTIVE_CPP","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "OBJECTIVE_CPP: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class RUST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RUST",{{"class","RUST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUST"}}}};
+
  REGISTRATION registry;
 public:
  RUST(){registry.add("status","RUST","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "RUST: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DART {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DART",{{"class","DART"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DART"}}}};
+
  REGISTRATION registry;
 public:
  DART(){registry.add("status","DART","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DART: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class PYTHON {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PYTHON",{{"class","PYTHON"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PYTHON"}}}};
+
  REGISTRATION registry;
 public:
  PYTHON(){registry.add("status","PYTHON","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PYTHON: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class HAL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HAL",{{"class","HAL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HAL"}}}};
+
  REGISTRATION registry;
 public:
  HAL(){registry.add("status","HAL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HAL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SYNTAX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SYNTAX",{{"class","SYNTAX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYNTAX"}}}};
+
  REGISTRATION registry;
 public:
  SYNTAX(){registry.add("status","SYNTAX","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SYNTAX: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LANGUAGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LANGUAGE",{{"class","LANGUAGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANGUAGE"}}}};
+
  REGISTRATION registry;
 public:
  LANGUAGE(){registry.add("status","LANGUAGE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LANGUAGE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SQL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SQL",{{"class","SQL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SQL"}}}};
+
  REGISTRATION registry;
 public:
  SQL(){registry.add("status","SQL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SQL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class NOSQL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"NOSQL",{{"class","NOSQL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NOSQL"}}}};
+
  REGISTRATION registry;
 public:
  NOSQL(){registry.add("status","NOSQL","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NOSQL: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class GRAMMAR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GRAMMAR",{{"class","GRAMMAR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAMMAR"}}}};
+
  REGISTRATION registry;
 public:
  GRAMMAR(){registry.add("status","GRAMMAR","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GRAMMAR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class VOCABULARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VOCABULARY",{{"class","VOCABULARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOCABULARY"}}}};
+
  REGISTRATION registry;
 public:
  VOCABULARY(){registry.add("status","VOCABULARY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "VOCABULARY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DICTIONARY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DICTIONARY",{{"class","DICTIONARY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DICTIONARY"}}}};
+
  REGISTRATION registry;
 public:
  DICTIONARY(){registry.add("status","DICTIONARY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DICTIONARY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SYMBOL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SYMBOL",{{"class","SYMBOL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYMBOL"}}}};
+
  REGISTRATION registry;
 public:
  SYMBOL(){registry.add("status","SYMBOL","invocation-bound foundation");registry.add("size","SYMBOL","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SYMBOL: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="size")return std::to_string(a[1].size());return "Unsupported operation";}
 };
 class ALPHABET {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ALPHABET",{{"class","ALPHABET"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALPHABET"}}}};
+
  REGISTRATION registry;
 public:
  ALPHABET(){registry.add("status","ALPHABET","invocation-bound foundation");registry.add("ascii","ALPHABET","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALPHABET: passive invocation-bound foundation; limited local operation";if(a.size()==1&&a[0]=="ascii")return "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";return "Unsupported operation";}
 };
 class LETTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LETTER",{{"class","LETTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LETTER"}}}};
+
  REGISTRATION registry;
 public:
  LETTER(){registry.add("status","LETTER","invocation-bound foundation");registry.add("validate","LETTER","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LETTER: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="validate")return a[1].size()==1&&((a[1][0]>='A'&&a[1][0]<='Z')||(a[1][0]>='a'&&a[1][0]<='z'))?"true":"false";return "Unsupported operation";}
 };
 class DIGIT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DIGIT",{{"class","DIGIT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIGIT"}}}};
+
  REGISTRATION registry;
 public:
  DIGIT(){registry.add("status","DIGIT","invocation-bound foundation");registry.add("validate","DIGIT","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DIGIT: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="validate")return a[1].size()==1&&a[1][0]>='0'&&a[1][0]<='9'?"true":"false";return "Unsupported operation";}
 };
 class FORMATSTRING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORMATSTRING",{{"class","FORMATSTRING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATSTRING"}}}};
+
  REGISTRATION registry;
 public:
  FORMATSTRING(){registry.add("status","FORMATSTRING","invocation-bound foundation");registry.add("literal","FORMATSTRING","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FORMATSTRING: passive invocation-bound foundation; limited local operation";if(a.size()==2&&a[0]=="literal")return a[1];return "Unsupported operation";}
 };
 class FORMATTING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FORMATTING",{{"class","FORMATTING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATTING"}}}};
+
  REGISTRATION registry;
 public:
  FORMATTING(){registry.add("status","FORMATTING","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FORMATTING: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class FRAGMENTATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FRAGMENTATION",{{"class","FRAGMENTATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAGMENTATION"}}}};
+
  REGISTRATION registry;
 public:
  FRAGMENTATION(){registry.add("status","FRAGMENTATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FRAGMENTATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SEGMENTATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SEGMENTATION",{{"class","SEGMENTATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTATION"}}}};
+
  REGISTRATION registry;
 public:
  SEGMENTATION(){registry.add("status","SEGMENTATION","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEGMENTATION: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SEQUENCING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SEQUENCING",{{"class","SEQUENCING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCING"}}}};
+
  REGISTRATION registry;
 public:
  SEQUENCING(){registry.add("status","SEQUENCING","invocation-bound foundation");registry.add("count","SEQUENCING","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEQUENCING: passive invocation-bound foundation; limited local operation";if(!a.empty()&&a[0]=="count")return std::to_string(a.size()-1);return "Unsupported operation";}
 };
 class SEQUENCER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SEQUENCER",{{"class","SEQUENCER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCER"}}}};
+
  REGISTRATION registry;
 public:
  SEQUENCER(){registry.add("status","SEQUENCER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEQUENCER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class SEGMENTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SEGMENTER",{{"class","SEGMENTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTER"}}}};
+
  REGISTRATION registry;
 public:
  SEGMENTER(){registry.add("status","SEGMENTER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEGMENTER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class CAPTURER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CAPTURER",{{"class","CAPTURER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPTURER"}}}};
+
  REGISTRATION registry;
 public:
  CAPTURER(){registry.add("status","CAPTURER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CAPTURER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class EXPLORER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"EXPLORER",{{"class","EXPLORER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPLORER"}}}};
+
  REGISTRATION registry;
 public:
  EXPLORER(){registry.add("status","EXPLORER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXPLORER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class DISCOVERER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DISCOVERER",{{"class","DISCOVERER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISCOVERER"}}}};
+
  REGISTRATION registry;
 public:
  DISCOVERER(){registry.add("status","DISCOVERER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DISCOVERER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class LISTENER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LISTENER",{{"class","LISTENER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LISTENER"}}}};
+
  REGISTRATION registry;
 public:
  LISTENER(){registry.add("status","LISTENER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LISTENER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class INTERPRETER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INTERPRETER",{{"class","INTERPRETER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERPRETER"}}}};
+
  REGISTRATION registry;
 public:
  INTERPRETER(){registry.add("status","INTERPRETER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INTERPRETER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class ITERATOR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ITERATOR",{{"class","ITERATOR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ITERATOR"}}}};
+
  REGISTRATION registry;
 public:
  ITERATOR(){registry.add("status","ITERATOR","invocation-bound foundation");registry.add("count","ITERATOR","local operation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ITERATOR: passive invocation-bound foundation; limited local operation";if(!a.empty()&&a[0]=="count")return std::to_string(a.size()-1);return "Unsupported operation";}
 };
 class REPRESENTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REPRESENTER",{{"class","REPRESENTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTER"}}}};
+
  REGISTRATION registry;
 public:
  REPRESENTER(){registry.add("status","REPRESENTER","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "REPRESENTER: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class REPRESENTATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REPRESENTATION",{{"class","REPRESENTATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTATION"}}}};
+
  REGISTRATION registry;
 public:
  REPRESENTATION(){registry.add("status","REPRESENTATION","invocation-bound foundation");registry.add("size","REPRESENTATION","local operation");}
@@ -3865,16 +11417,64 @@ public:
 };
 class REQUEST {
 public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REQUEST",{{"class","REQUEST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REQUEST"}}}};
+
+public:
     std::string method;
     TOOL::Arguments arguments;
 };
 
 class RESPONSE {
 public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RESPONSE",{{"class","RESPONSE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESPONSE"}}}};
+
+public:
     std::string value;
 };
 
 class DISPATCHER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"DISPATCHER",{{"class","DISPATCHER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISPATCHER"}}}};
+
     TOOL& tool;
     REGISTRATION registry;
 public:
@@ -3885,6 +11485,22 @@ public:
 };
 
 class SERVER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SERVER",{{"class","SERVER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVER"}}}};
+
     DISPATCHER& dispatcher;
     REGISTRATION registry;
 public:
@@ -3895,6 +11511,22 @@ public:
 };
 
 class CLIENT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLIENT",{{"class","CLIENT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIENT"}}}};
+
     SERVER& server;
     REGISTRATION registry;
 public:
@@ -3913,6 +11545,22 @@ public:
     explicit APICLIENT(APISERVER& s): CLIENT(s,"API") {}
 };
 class API {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"API",{{"class","API"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","API"}}}};
+
     REGISTRATION registry;
 public:
     APISERVER server;
@@ -3932,6 +11580,22 @@ public:
     explicit CLICLIENT(CLISERVER& s): CLIENT(s,"CLI") {}
 };
 class CLI {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CLI",{{"class","CLI"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLI"}}}};
+
     REGISTRATION registry;
 public:
     CLISERVER server;
@@ -3951,6 +11615,22 @@ public:
     explicit MCPCLIENT(MCPSERVER& s): CLIENT(s,"MCP") {}
 };
 class MCP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MCP",{{"class","MCP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MCP"}}}};
+
     REGISTRATION registry;
 public:
     MCPSERVER server;
@@ -3970,6 +11650,22 @@ public:
     explicit SSHCLIENT(SSHSERVER& s): CLIENT(s,"SSH") {}
 };
 class SSH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SSH",{{"class","SSH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSH"}}}};
+
     REGISTRATION registry;
 public:
     SSHSERVER server;
@@ -3981,6 +11677,22 @@ public:
 };
 
 class URI {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"URI",{{"class","URI"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URI"}}}};
+
     REGISTRATION registry;
 public:
     URI() { registry.add("validate","kind","scheme"); }
@@ -3995,6 +11707,22 @@ public:
 };
 
 class URL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"URL",{{"class","URL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URL"}}}};
+
     URI& uri;
     REGISTRATION registry;
 public:
@@ -4011,6 +11739,22 @@ public:
 };
 
 class CONFIGURATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CONFIGURATION",{{"class","CONFIGURATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIGURATION"}}}};
+
     URI& uri;
     URL& url;
     REGISTRATION registry;
@@ -4048,6 +11792,22 @@ public:
 };
 
 class SESSION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SESSION",{{"class","SESSION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SESSION"}}}};
+
     REGISTRATION registry;
     std::string identity;
     std::string parent;
@@ -4091,6 +11851,22 @@ public:
 };
 
 class MESH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MESH",{{"class","MESH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MESH"}}}};
+
     REGISTRATION registry;
     std::map<std::string,std::set<std::string>> edges;
     std::mutex guard;
@@ -4103,6 +11879,22 @@ public:
     auto snapshot(){std::lock_guard<std::mutex> lock(guard);return edges;}
 };
 class CHAIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CHAIN",{{"class","CHAIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHAIN"}}}};
+
     MESH& mesh;
     REGISTRATION registry;
 public:
@@ -4112,6 +11904,22 @@ public:
     }
 };
 class RING {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RING",{{"class","RING"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RING"}}}};
+
     CHAIN& chain;
     MESH& mesh;
     REGISTRATION registry;
@@ -4123,6 +11931,22 @@ public:
     }
 };
 class MATRIX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"MATRIX",{{"class","MATRIX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MATRIX"}}}};
+
     REGISTRATION registry;
     std::map<std::vector<std::string>,std::string> cells;
     std::mutex guard;
@@ -4137,6 +11961,22 @@ public:
     }
 };
 class GRID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GRID",{{"class","GRID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRID"}}}};
+
     MATRIX& matrix;
     REGISTRATION registry;
 public:
@@ -4145,6 +11985,22 @@ public:
     std::string get(const std::string& x,const std::string& y){return matrix.get({x,y});}
 };
 class PATH {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PATH",{{"class","PATH"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATH"}}}};
+
     MESH& mesh;
     REGISTRATION registry;
 public:
@@ -4166,6 +12022,22 @@ public:
     }
 };
 class ROUTE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ROUTE",{{"class","ROUTE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTE"}}}};
+
     PATH& path;
     REGISTRATION registry;
 public:
@@ -4177,6 +12049,22 @@ public:
     }
 };
 class LANE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LANE",{{"class","LANE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANE"}}}};
+
     ROUTE& route;
     REGISTRATION registry;
     std::map<std::string,std::pair<std::string,std::string>> lanes;
@@ -4194,6 +12082,22 @@ public:
 };
 
 class BRIDGE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BRIDGE",{{"class","BRIDGE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BRIDGE"}}}};
+
     MESH& mesh;
     ROUTE& route;
     REGISTRATION registry;
@@ -4221,6 +12125,22 @@ public:
 };
 
 class RPC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RPC",{{"class","RPC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RPC"}}}};
+
     DISPATCHER& dispatcher;
     REGISTRATION registry;
 public:
@@ -4246,6 +12166,22 @@ public:
     explicit RDPCLIENT(RDPSERVER& s): CLIENT(s,"RDP") {}
 };
 class RDP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RDP",{{"class","RDP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RDP"}}}};
+
     REGISTRATION registry;
 public:
     RDPSERVER server;
@@ -4266,6 +12202,22 @@ public:
     explicit VNCCLIENT(VNCSERVER& s): CLIENT(s,"VNC") {}
 };
 class VNC {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"VNC",{{"class","VNC"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VNC"}}}};
+
     REGISTRATION registry;
 public:
     VNCSERVER server;
@@ -4278,6 +12230,22 @@ public:
 };
 
 class AST {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AST",{{"class","AST"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AST"}}}};
+
     REGISTRATION registry;
 public:
     struct Node {
@@ -4293,6 +12261,22 @@ public:
     }
 };
 class IR {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"IR",{{"class","IR"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IR"}}}};
+
     AST& ast;
     REGISTRATION registry;
 public:
@@ -4309,6 +12293,22 @@ public:
     REQUEST normalize(const REQUEST& r) const {return lower(ast.parse(r));}
 };
 class CPP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CPP",{{"class","CPP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPP"}}}};
+
     IR& ir;
     REGISTRATION registry;
 public:
@@ -4322,6 +12322,22 @@ public:
     }
 };
 class WASM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WASM",{{"class","WASM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WASM"}}}};
+
     CPP& cpp;
     IR& ir;
     REGISTRATION registry;
@@ -4336,6 +12352,22 @@ public:
     }
 };
 class CODE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CODE",{{"class","CODE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODE"}}}};
+
     REGISTRATION registry;
 public:
     CODE(){registry.add("validate","scope","source record");}
@@ -4344,6 +12376,22 @@ public:
     }
 };
 class CODEBASE {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"CODEBASE",{{"class","CODEBASE"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODEBASE"}}}};
+
     CODE& code;
     REGISTRATION registry;
     std::map<std::string,std::pair<std::string,std::string>> records;
@@ -4369,6 +12417,22 @@ public:
     }
 };
 class SANDBOX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SANDBOX",{{"class","SANDBOX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SANDBOX"}}}};
+
     IR& ir;
     REGISTRATION registry;
 public:
@@ -4381,6 +12445,22 @@ public:
     }
 };
 class SDK {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SDK",{{"class","SDK"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SDK"}}}};
+
     CPP& cpp;
     WASM& wasm;
     SANDBOX& sandbox;
@@ -4401,6 +12481,22 @@ public:
     }
 };
 class AES {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AES",{{"class","AES"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AES"}}}};
+
     REGISTRATION registry;
 public:
     AES(){registry.add("encrypt","standard","FIPS 197");registry.add("decrypt","backend","unavailable");}
@@ -4411,6 +12507,22 @@ public:
     }
 };
 class GCM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"GCM",{{"class","GCM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GCM"}}}};
+
     AES& aes;
     REGISTRATION registry;
 public:
@@ -4424,6 +12536,22 @@ public:
     }
 };
 class RSA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"RSA",{{"class","RSA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RSA"}}}};
+
     REGISTRATION registry;
 public:
     RSA(){registry.add("encrypt","scheme","RSA-OAEP");registry.add("sign","scheme","RSA-PSS");}
@@ -4434,6 +12562,22 @@ public:
     }
 };
 class SHA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"SHA",{{"class","SHA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHA"}}}};
+
     REGISTRATION registry;
     const std::map<std::string,unsigned> profiles{
         {"sha224",224},{"sha256",256},{"sha384",384},{"sha512",512},
@@ -4450,6 +12594,22 @@ public:
     }
 };
 class OAEP {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"OAEP",{{"class","OAEP"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAEP"}}}};
+
     RSA& rsa;
     SHA& sha;
     REGISTRATION registry;
@@ -4466,6 +12626,22 @@ public:
     }
 };
 class PSS {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"PSS",{{"class","PSS"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSS"}}}};
+
     RSA& rsa;
     SHA& sha;
     REGISTRATION registry;
@@ -4483,6 +12659,22 @@ public:
     }
 };
 class BASE64 {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"BASE64",{{"class","BASE64"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASE64"}}}};
+
     REGISTRATION registry;
     const std::string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 public:
@@ -4534,12 +12726,44 @@ public:
     }
 };
 class AUTHORIZATION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"AUTHORIZATION",{{"class","AUTHORIZATION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORIZATION"}}}};
+
     REGISTRATION registry;
 public:
     AUTHORIZATION(){registry.add("permit","scope","local read-only fusion");}
     bool permit(const REQUEST& r) const {return r.method=="echo" || r.method=="help";}
 };
 class COMPATIBILITY {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"COMPATIBILITY",{{"class","COMPATIBILITY"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPATIBILITY"}}}};
+
     MATRIX& matrix;
     REGISTRATION registry;
 public:
@@ -4552,6 +12776,22 @@ public:
     }
 };
 class ADAPTER {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ADAPTER",{{"class","ADAPTER"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ADAPTER"}}}};
+
     REGISTRATION registry;
     std::function<RESPONSE(const REQUEST&)> endpoint;
 public:
@@ -4562,6 +12802,22 @@ public:
     RESPONSE invoke(const REQUEST& r){return endpoint(r);}
 };
 class FUSION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FUSION",{{"class","FUSION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUSION"}}}};
+
     PATH& path;
     COMPATIBILITY& compatibility;
     AUTHORIZATION& authorization;
@@ -4593,6 +12849,22 @@ public:
     }
 };
 class TRACEROBIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"TRACEROBIN",{{"class","TRACEROBIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRACEROBIN"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     struct Entry {unsigned long long sequence;std::chrono::system_clock::time_point time;std::string target,event;};
@@ -4625,6 +12897,22 @@ public:
     }
 };
 class WAVEROBIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WAVEROBIN",{{"class","WAVEROBIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAVEROBIN"}}}};
+
     REGISTRATION registry;
     HEARTBEAT& heartbeat;
     std::mutex guard;
@@ -4644,6 +12932,22 @@ public:
     }
 };
 class ROUNDROBIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"ROUNDROBIN",{{"class","ROUNDROBIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUNDROBIN"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::size_t cursor=0;
@@ -4662,6 +12966,22 @@ public:
     }
 };
 class HEARTBEAT {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HEARTBEAT",{{"class","HEARTBEAT"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEARTBEAT"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::chrono::steady_clock::time_point> pulses;
@@ -4680,6 +13000,22 @@ public:
     }
 };
 class FLOW {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FLOW",{{"class","FLOW"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOW"}}}};
+
     FUSION& fusion;
     ROUNDROBIN& robin;
     HEARTBEAT& heartbeat;
@@ -4703,6 +13039,22 @@ public:
     }
 };
 class LAMBDA {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"LAMBDA",{{"class","LAMBDA"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAMBDA"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,TOOL::Invocation> functions;
@@ -4738,6 +13090,22 @@ public:
     }
 };
 class INDEX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"INDEX",{{"class","INDEX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INDEX"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::map<std::string,std::string>> entries;
@@ -4768,6 +13136,22 @@ public:
     }
 };
 class POOL {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"POOL",{{"class","POOL"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POOL"}}}};
+
     REGISTRATION registry;
     std::mutex guard;
     std::map<std::string,std::map<std::string,bool>> resources;
@@ -4807,6 +13191,22 @@ public:
     }
 };
 class FARM {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"FARM",{{"class","FARM"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FARM"}}}};
+
     POOL& pool;
     ROUNDROBIN& robin;
     HEARTBEAT& heartbeat;
@@ -4845,6 +13245,22 @@ public:
     }
 };
 class REFLEX {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REFLEX",{{"class","REFLEX"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFLEX"}}}};
+
     SIGNAL& signal;
     HEARTBEAT& heartbeat;
     REGISTRATION registry;
@@ -4858,6 +13274,22 @@ public:
     }
 };
 class REACTION {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"REACTION",{{"class","REACTION"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REACTION"}}}};
+
     SIGNAL& signal;
     REFLEX& reflex;
     ROUNDROBIN& robin;
@@ -4880,6 +13312,22 @@ public:
     }
 };
 class HYBRID {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"HYBRID",{{"class","HYBRID"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HYBRID"}}}};
+
     TOOL tool;
     SESSION session;
     MESH mesh;
