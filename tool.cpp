@@ -1385,6 +1385,265 @@ public:
         return "Expected record id success|failure value, get, list or remove";
     }
 };
+class COMPILER {
+ REGISTRATION registry;
+ 
+public:
+ COMPILER(){registry.add("status","compiler","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COMPILER: backend unavailable";return "Backend not implemented";}
+};
+class DECOMPILER {
+ REGISTRATION registry;
+ 
+public:
+ DECOMPILER(){registry.add("status","decompiler","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECOMPILER: backend unavailable";return "Backend not implemented";}
+};
+class HEX {
+ REGISTRATION registry;
+ 
+public:
+ HEX(){registry.add("status","hex","foundation");registry.add("encode","hex","foundation");registry.add("decode","hex","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEX: local foundation";if(a.size()!=2)return "Expected operation and value";const std::string digits="0123456789abcdef";if(a[0]=="encode"){std::string out;for(unsigned char ch:a[1]){out+=digits[ch>>4];out+=digits[ch&15];}return out;}if(a[0]=="decode"){if(a[1].size()%2)return "Invalid hex length";std::string out;for(std::size_t i=0;i<a[1].size();i+=2){auto x=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i])))),y=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i+1]))));if(x==std::string::npos||y==std::string::npos)return "Invalid hex";out+=static_cast<char>(x*16+y);}return out;}return "Unknown operation";}
+};
+class HEXADECIMAL {
+ REGISTRATION registry;
+ 
+public:
+ HEXADECIMAL(){registry.add("status","hexadecimal","foundation");registry.add("encode","hexadecimal","foundation");registry.add("decode","hexadecimal","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEXADECIMAL: local foundation";if(a.size()!=2)return "Expected operation and value";const std::string digits="0123456789abcdef";if(a[0]=="encode"){std::string out;for(unsigned char ch:a[1]){out+=digits[ch>>4];out+=digits[ch&15];}return out;}if(a[0]=="decode"){if(a[1].size()%2)return "Invalid hex length";std::string out;for(std::size_t i=0;i<a[1].size();i+=2){auto x=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i])))),y=digits.find(static_cast<char>(std::tolower(static_cast<unsigned char>(a[1][i+1]))));if(x==std::string::npos||y==std::string::npos)return "Invalid hex";out+=static_cast<char>(x*16+y);}return out;}return "Unknown operation";}
+};
+class HEXTABLE {
+ REGISTRATION registry;
+ 
+public:
+ HEXTABLE(){registry.add("status","hextable","foundation");registry.add("list","hextable","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HEXTABLE: local foundation";if(a.size()==1&&a[0]=="list")return "0 1 2 3 4 5 6 7 8 9 a b c d e f";return "Expected list";}
+};
+class AUTOMATION {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit AUTOMATION(TOOL& ref):tool(ref){registry.add("status","automation","foundation");registry.add("run","automation","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTOMATION: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
+};
+class GENERATION {
+ REGISTRATION registry;
+ 
+public:
+ GENERATION(){registry.add("status","generation","foundation");registry.add("repeat","generation","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GENERATION: local foundation";if(a.size()!=3||a[0]!="repeat")return "Expected repeat count text";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);if(p.ec!=std::errc{}||p.ptr!=a[1].data()+a[1].size()||n>256||a[2].size()>256)return "Generation limit";std::string out;for(unsigned i=0;i<n;++i)out+=a[2];return out;}
+};
+class ENCRYPTION {
+ REGISTRATION registry;
+ 
+public:
+ ENCRYPTION(){registry.add("status","encryption","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENCRYPTION: backend unavailable";return "Backend not implemented";}
+};
+class DECRYPTION {
+ REGISTRATION registry;
+ 
+public:
+ DECRYPTION(){registry.add("status","decryption","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECRYPTION: backend unavailable";return "Backend not implemented";}
+};
+class ENCODING {
+ REGISTRATION registry;
+ HEX& hex;
+public:
+ explicit ENCODING(HEX& ref):hex(ref){registry.add("status","encoding","foundation");registry.add("hex","encoding","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ENCODING: local foundation";if(a.size()==2&&a[0]=="hex")return hex.invoke({"encode",a[1]});return "Expected hex value";}
+};
+class DECODING {
+ REGISTRATION registry;
+ HEX& hex;
+public:
+ explicit DECODING(HEX& ref):hex(ref){registry.add("status","decoding","foundation");registry.add("hex","decoding","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DECODING: local foundation";if(a.size()==2&&a[0]=="hex")return hex.invoke({"decode",a[1]});return "Expected hex value";}
+};
+class LEXER {
+ REGISTRATION registry;
+ 
+public:
+ LEXER(){registry.add("status","lexer","foundation");registry.add("split","lexer","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEXER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
+};
+class DELEXER {
+ REGISTRATION registry;
+ 
+public:
+ DELEXER(){registry.add("status","delexer","foundation");registry.add("join","delexer","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DELEXER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
+};
+class LEXICALISER {
+ REGISTRATION registry;
+ 
+public:
+ LEXICALISER(){registry.add("status","lexicaliser","foundation");registry.add("split","lexicaliser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LEXICALISER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
+};
+class DELEXICALISER {
+ REGISTRATION registry;
+ 
+public:
+ DELEXICALISER(){registry.add("status","delexicaliser","foundation");registry.add("join","delexicaliser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DELEXICALISER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
+};
+class TOKENISER {
+ REGISTRATION registry;
+ 
+public:
+ TOKENISER(){registry.add("status","tokeniser","foundation");registry.add("split","tokeniser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TOKENISER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";std::istringstream in(a[1]);std::string token,out;for(;in>>token;)out+=token+"\n";return out;}
+};
+class DETOKENISER {
+ REGISTRATION registry;
+ 
+public:
+ DETOKENISER(){registry.add("status","detokeniser","foundation");registry.add("join","detokeniser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DETOKENISER: local foundation";if(a.empty()||a[0]!="join")return "Expected join tokens";std::string out;for(std::size_t i=1;i<a.size();++i){if(i>1)out+=" ";out+=a[i];}return out;}
+};
+class PARSER {
+ REGISTRATION registry;
+ LEXER& lexer;
+public:
+ explicit PARSER(LEXER& ref):lexer(ref){registry.add("status","parser","foundation");registry.add("split","parser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
+};
+class TRANSPARSER {
+ REGISTRATION registry;
+ LEXER& lexer;
+public:
+ explicit TRANSPARSER(LEXER& ref):lexer(ref){registry.add("status","transparser","foundation");registry.add("split","transparser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSPARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
+};
+class CROSSPARSER {
+ REGISTRATION registry;
+ LEXER& lexer;
+public:
+ explicit CROSSPARSER(LEXER& ref):lexer(ref){registry.add("status","crossparser","foundation");registry.add("split","crossparser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CROSSPARSER: local foundation";if(a.size()!=2||a[0]!="split")return "Expected split text";return lexer.invoke({"split",a[1]});}
+};
+class PROCESS {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit PROCESS(TOOL& ref):tool(ref){registry.add("status","process","foundation");registry.add("run","process","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROCESS: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
+};
+class PROCESSOR {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit PROCESSOR(TOOL& ref):tool(ref){registry.add("status","processor","foundation");registry.add("run","processor","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PROCESSOR: local foundation";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run registered command";}
+};
+class ALLOCATOR {
+ REGISTRATION registry;
+ 
+public:
+ ALLOCATOR(){registry.add("status","allocator","foundation");registry.add("check","allocator","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "ALLOCATOR: local foundation";if(a.size()!=2||a[0]!="check")return "Expected check bytes";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()&&n<=65536?"Within local size limit":"Outside local size limit";}
+};
+class SERIALISER {
+ REGISTRATION registry;
+ 
+public:
+ SERIALISER(){registry.add("status","serialiser","foundation");registry.add("pack","serialiser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SERIALISER: local foundation";if(a.empty()||a[0]!="pack")return "Expected pack values";std::ostringstream out;for(std::size_t i=1;i<a.size();++i)out<<std::quoted(a[i])<<" ";return out.str();}
+};
+class DESERIALISER {
+ REGISTRATION registry;
+ 
+public:
+ DESERIALISER(){registry.add("status","deserialiser","foundation");registry.add("unpack","deserialiser","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DESERIALISER: local foundation";if(a.size()!=2||a[0]!="unpack")return "Expected unpack text";std::istringstream in(a[1]);std::string item,out;for(;in>>std::quoted(item);)out+=item+"\n";if(!in.eof())return "Invalid quoted data";return out;}
+};
+class HASHER {
+ REGISTRATION registry;
+ 
+public:
+ HASHER(){registry.add("status","hasher","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "HASHER: backend unavailable";return "Backend not implemented";}
+};
+class SALTER {
+ REGISTRATION registry;
+ 
+public:
+ SALTER(){registry.add("status","salter","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SALTER: backend unavailable";return "Backend not implemented";}
+};
+class LOCKMAKER {
+ REGISTRATION registry;
+ 
+public:
+ LOCKMAKER(){registry.add("status","lockmaker","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LOCKMAKER: backend unavailable";return "Backend not implemented";}
+};
+class KEYMAKER {
+ REGISTRATION registry;
+ 
+public:
+ KEYMAKER(){registry.add("status","keymaker","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "KEYMAKER: backend unavailable";return "Backend not implemented";}
+};
+class BUILDER {
+ REGISTRATION registry;
+ 
+public:
+ BUILDER(){registry.add("status","builder","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BUILDER: backend unavailable";return "Backend not implemented";}
+};
+class LINKER {
+ REGISTRATION registry;
+ 
+public:
+ LINKER(){registry.add("status","linker","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "LINKER: backend unavailable";return "Backend not implemented";}
+};
+class DEBUGGER {
+ REGISTRATION registry;
+ 
+public:
+ DEBUGGER(){registry.add("status","debugger","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEBUGGER: backend unavailable";return "Backend not implemented";}
+};
+class SCANNER {
+ REGISTRATION registry;
+ 
+public:
+ SCANNER(){registry.add("status","scanner","foundation");registry.add("find","scanner","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SCANNER: local foundation";if(a.size()!=3||a[0]!="find")return "Expected find text pattern";auto p=a[1].find(a[2]);return p==std::string::npos?"Not found":std::to_string(p);}
+};
+class PRINTER {
+ REGISTRATION registry;
+ 
+public:
+ PRINTER(){registry.add("status","printer","foundation");registry.add("format","printer","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PRINTER: local foundation";if(a.size()==2&&a[0]=="format")return a[1];return "Expected format text";}
+};
+class PORT {
+ REGISTRATION registry;
+ 
+public:
+ PORT(){registry.add("status","port","foundation");registry.add("validate","port","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "PORT: local foundation";if(a.size()!=2||a[0]!="validate")return "Expected validate port";unsigned n=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),n);return p.ec==std::errc{}&&p.ptr==a[1].data()+a[1].size()&&n<=65535?"Valid port number":"Invalid port";}
+};
+class FINDER {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit FINDER(TOOL& ref):tool(ref){registry.add("status","finder","foundation");registry.add("find","finder","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FINDER: local foundation";if(a.size()==2&&a[0]=="find")return tool.catalogue(a[1]);return "Expected find prefix";}
+};
+class SEARCH {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit SEARCH(TOOL& ref):tool(ref){registry.add("status","search","foundation");registry.add("find","search","foundation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEARCH: local foundation";if(a.size()==2&&a[0]=="find")return tool.catalogue(a[1]);return "Expected find prefix";}
+};
 class REQUEST {
 public:
     std::string method;
@@ -2475,6 +2734,43 @@ class HYBRID {
     CALLABLE callable{tool};
     INVOKABLE invokable{callable};
     RETURNABLE returnable;
+    COMPILER compiler;
+    DECOMPILER decompiler;
+    HEX hex;
+    HEXADECIMAL hexadecimal;
+    HEXTABLE hextable;
+    AUTOMATION automation{tool};
+    GENERATION generation;
+    ENCRYPTION encryption;
+    DECRYPTION decryption;
+    ENCODING encoding{hex};
+    DECODING decoding{hex};
+    LEXER lexer;
+    DELEXER delexer;
+    LEXICALISER lexicaliser;
+    DELEXICALISER delexicaliser;
+    TOKENISER tokeniser;
+    DETOKENISER detokeniser;
+    PARSER parser{lexer};
+    TRANSPARSER transparser{lexer};
+    CROSSPARSER crossparser{lexer};
+    PROCESS process{tool};
+    PROCESSOR processor{tool};
+    ALLOCATOR allocator;
+    SERIALISER serialiser;
+    DESERIALISER deserialiser;
+    HASHER hasher;
+    SALTER salter;
+    LOCKMAKER lockmaker;
+    KEYMAKER keymaker;
+    BUILDER builder;
+    LINKER linker;
+    DEBUGGER debugger;
+    SCANNER scanner;
+    PRINTER printer;
+    PORT port;
+    FINDER finder{tool};
+    SEARCH search{tool};
     DETECTION detection{tool};
     HOTCODE hotcode{tool};
     QR qr;
@@ -2646,11 +2942,48 @@ public:
         tool.inject("callable","runtime",[this](const TOOL::Arguments& a){return callable.invoke(a);});
         tool.inject("invokable","runtime",[this](const TOOL::Arguments& a){return invokable.invoke(a);});
         tool.inject("returnable","runtime",[this](const TOOL::Arguments& a){return returnable.invoke(a);});
+        tool.inject("compiler","runtime",[this](const TOOL::Arguments& a){return compiler.invoke(a);});
+        tool.inject("decompiler","runtime",[this](const TOOL::Arguments& a){return decompiler.invoke(a);});
+        tool.inject("hex","runtime",[this](const TOOL::Arguments& a){return hex.invoke(a);});
+        tool.inject("hexadecimal","runtime",[this](const TOOL::Arguments& a){return hexadecimal.invoke(a);});
+        tool.inject("hextable","runtime",[this](const TOOL::Arguments& a){return hextable.invoke(a);});
+        tool.inject("automation","runtime",[this](const TOOL::Arguments& a){return automation.invoke(a);});
+        tool.inject("generation","runtime",[this](const TOOL::Arguments& a){return generation.invoke(a);});
+        tool.inject("encryption","runtime",[this](const TOOL::Arguments& a){return encryption.invoke(a);});
+        tool.inject("decryption","runtime",[this](const TOOL::Arguments& a){return decryption.invoke(a);});
+        tool.inject("encoding","runtime",[this](const TOOL::Arguments& a){return encoding.invoke(a);});
+        tool.inject("decoding","runtime",[this](const TOOL::Arguments& a){return decoding.invoke(a);});
+        tool.inject("lexer","runtime",[this](const TOOL::Arguments& a){return lexer.invoke(a);});
+        tool.inject("delexer","runtime",[this](const TOOL::Arguments& a){return delexer.invoke(a);});
+        tool.inject("lexicaliser","runtime",[this](const TOOL::Arguments& a){return lexicaliser.invoke(a);});
+        tool.inject("delexicaliser","runtime",[this](const TOOL::Arguments& a){return delexicaliser.invoke(a);});
+        tool.inject("tokeniser","runtime",[this](const TOOL::Arguments& a){return tokeniser.invoke(a);});
+        tool.inject("detokeniser","runtime",[this](const TOOL::Arguments& a){return detokeniser.invoke(a);});
+        tool.inject("parser","runtime",[this](const TOOL::Arguments& a){return parser.invoke(a);});
+        tool.inject("transparser","runtime",[this](const TOOL::Arguments& a){return transparser.invoke(a);});
+        tool.inject("crossparser","runtime",[this](const TOOL::Arguments& a){return crossparser.invoke(a);});
+        tool.inject("process","runtime",[this](const TOOL::Arguments& a){return process.invoke(a);});
+        tool.inject("processor","runtime",[this](const TOOL::Arguments& a){return processor.invoke(a);});
+        tool.inject("allocator","runtime",[this](const TOOL::Arguments& a){return allocator.invoke(a);});
+        tool.inject("serialiser","runtime",[this](const TOOL::Arguments& a){return serialiser.invoke(a);});
+        tool.inject("deserialiser","runtime",[this](const TOOL::Arguments& a){return deserialiser.invoke(a);});
+        tool.inject("hasher","runtime",[this](const TOOL::Arguments& a){return hasher.invoke(a);});
+        tool.inject("salter","runtime",[this](const TOOL::Arguments& a){return salter.invoke(a);});
+        tool.inject("lockmaker","runtime",[this](const TOOL::Arguments& a){return lockmaker.invoke(a);});
+        tool.inject("keymaker","runtime",[this](const TOOL::Arguments& a){return keymaker.invoke(a);});
+        tool.inject("builder","runtime",[this](const TOOL::Arguments& a){return builder.invoke(a);});
+        tool.inject("linker","runtime",[this](const TOOL::Arguments& a){return linker.invoke(a);});
+        tool.inject("debugger","runtime",[this](const TOOL::Arguments& a){return debugger.invoke(a);});
+        tool.inject("scanner","runtime",[this](const TOOL::Arguments& a){return scanner.invoke(a);});
+        tool.inject("printer","runtime",[this](const TOOL::Arguments& a){return printer.invoke(a);});
+        tool.inject("port","runtime",[this](const TOOL::Arguments& a){return port.invoke(a);});
+        tool.inject("finder","runtime",[this](const TOOL::Arguments& a){return finder.invoke(a);});
+        tool.inject("search","runtime",[this](const TOOL::Arguments& a){return search.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2723,7 +3056,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"compiler",{"status"}},{"decompiler",{"status"}},{"hex",{"status","encode","decode"}},{"hexadecimal",{"status","encode","decode"}},{"hextable",{"status","list"}},{"automation",{"status","run"}},{"generation",{"status","repeat"}},{"encryption",{"status"}},{"decryption",{"status"}},{"encoding",{"status","hex"}},{"decoding",{"status","hex"}},{"lexer",{"status","split"}},{"delexer",{"status","join"}},{"lexicaliser",{"status","split"}},{"delexicaliser",{"status","join"}},{"tokeniser",{"status","split"}},{"detokeniser",{"status","join"}},{"parser",{"status","split"}},{"transparser",{"status","split"}},{"crossparser",{"status","split"}},{"process",{"status","run"}},{"processor",{"status","run"}},{"allocator",{"status","check"}},{"serialiser",{"status","pack"}},{"deserialiser",{"status","unpack"}},{"hasher",{"status"}},{"salter",{"status"}},{"lockmaker",{"status"}},{"keymaker",{"status"}},{"builder",{"status"}},{"linker",{"status"}},{"debugger",{"status"}},{"scanner",{"status","find"}},{"printer",{"status","format"}},{"port",{"status","validate"}},{"finder",{"status","find"}},{"search",{"status","find"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
