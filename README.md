@@ -6,6 +6,24 @@ Tool is an independent architectural standardization project by Daniel Alexander
 
 License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
+## Reconciled mandatory architecture — superseding earlier conventions
+
+All primary classes shall be independently instantiable multi-argument, multiparameterized functors containing parameterized functional objects. Each class shall retain ARCHITECTURE, DESIGN, MODEL, VERSION and SPECIFICATION nested associative arrays, its functional registry, MODELER, COMMANDER and SPECIFIER helpers, and a logical subprocess identifier distinct from an OS PID. Each primary class shall contain SERVICE, PROTOCOL, SOCKET and INTERFACE, each with its own TYPE, MODE, CONDITION and STATE subordinate types. This is a finite two-level hierarchy, not recursive replication.
+
+### Comprehensive operator and argument coverage
+
+Every functor shall provide comprehensive overload coverage for all applicable overloadable C++ operators, including operator(), and all supported datatype and argument-entry combinations. Accept zero or more arguments where the operator permits, heterogeneous and homogeneous variadic packs, native and user-defined types, composites, references, pointers and compatible callable objects. Use templates, constrained overloads or C++17 SFINAE, forwarding and runtime type erasure rather than enumerating unbounded permutations. Operators must respect C++ arity, syntax and semantic constraints; non-overloadable operators and unsupported combinations must receive explicit diagnostic resolution through the functional dispatch boundary. No claim is made that arbitrary C++ types or every mathematical combination can be instantiated or converted.
+
+### Live datatype replacement and conversion
+
+At every instantiation and subsequent regulated invocation, datatype bindings shall be live replaceable or convertible through registered typed conversion and replacement contracts. Preserve instance identity, ownership, lifetime, version and provenance. Runtime replacement changes a dynamic value or binding, not the static C++ type of an existing object; use variant, type erasure or reconstruction where appropriate. Validate conversions, range, precision, ownership and compatibility before atomic publication; reject unsupported or unsafe conversions, retain the previous binding on failure, and synchronize concurrent readers. Existing invocations retain a consistent snapshot unless an explicitly regulated safe transition is supported.
+
+### Runtime and integration
+
+Each class retains reconcile, automate, generate, copy, dump, delete (registered operation; reserved C++ keyword), create, construct, reconstruct, deliver, serve, obtain, retain, resume and service functional operations. The runtime circulates Await -> Preprocess -> Postprocess -> Await, concurrently and in parallel where dependencies permit. Execute is a resolution option for external binaries only. While-loop bodies delegate to parameterized calls. Individual and grouped regulation supports preconfiguration and live configuration through <uuid>.configuration.tool, including reactive/nonreactive and active/passive modes. Each concerned class individually testifies integration; FUSION and fuse are obsolete target-architecture elements and must be migrated and removed. Earlier references below are historical baseline documentation, not current requirements.
+
+All these requirements are specifications pending source reconciliation, compilation and testing.
+
 ## Development status
 
 Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **116 classes and 84 original commands, plus 334 generated registrations (474 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
