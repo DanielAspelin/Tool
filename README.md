@@ -154,6 +154,10 @@ ENVIRONMENT maintains up to 64 volatile logical contexts with up to 64 settings 
 
 AUDIT stores up to 1024 manually submitted volatile category/text records. FORENSIC traces matching records in insertion order; ANALYTICAL counts categories and compares text exactly. STATISTICAL calculates count, mean, minimum and maximum of up to 256 finite numeric inputs. STATUS stores up to 256 manually declared named states. These classes do not automatically collect invocation telemetry, establish forensic chain of custody, certify integrity, or measure live health. Expected total: 126 classes and 559 registrations, pending compilation and runtime verification.
 
+## QR and EAN foundations
+
+QR provides nominal byte-mode capacity lookup for versions 1–40 and correction levels L/M/Q/H, plus payload byte counting. EAN calculates and validates EAN-8 and EAN-13 check digits, preserving leading zeros. Checksum validity does not establish GS1 assignment or authenticity. Neither class renders or scans symbols yet. Expected total: 128 classes and 572 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
