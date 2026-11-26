@@ -605,6 +605,50 @@ public:
     }
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
+class CHARACTER {
+    REGISTRATION registry;
+    const char32_t value;
+public:
+    explicit CHARACTER(char32_t v):value(v){
+        if(v>0x10ffff||(v>=0xd800&&v<=0xdfff))throw std::invalid_argument("Invalid Unicode scalar");
+        registry.add("get","type","Unicode scalar");
+    }
+    char32_t get() const{return value;}
+    static std::pair<char32_t,std::size_t> decode(const std::string& text,std::size_t offset){
+        if(offset>=text.size())throw std::invalid_argument("Missing character");
+        auto b=static_cast<unsigned char>(text[offset]);char32_t v;std::size_t n;
+        if(b<0x80){v=b;n=1;}else if(b>=0xc2&&b<=0xdf){v=b&31;n=2;}else if(b>=0xe0&&b<=0xef){v=b&15;n=3;}else if(b>=0xf0&&b<=0xf4){v=b&7;n=4;}else throw std::invalid_argument("Invalid UTF-8");
+        if(n>text.size()-offset)throw std::invalid_argument("Truncated UTF-8");
+        for(std::size_t i=1;i<n;++i){auto c=static_cast<unsigned char>(text[offset+i]);if((c&0xc0)!=0x80)throw std::invalid_argument("Invalid UTF-8");v=(v<<6)|(c&63);}
+        if((n==2&&v<0x80)||(n==3&&v<0x800)||(n==4&&v<0x10000)||v>0x10ffff||(v>=0xd800&&v<=0xdfff))throw std::invalid_argument("Invalid Unicode scalar");
+        return {v,n};
+    }
+    static char32_t parse(const std::string& text){auto d=decode(text,0);if(d.second!=text.size())throw std::invalid_argument("Expected one Unicode scalar");return d.first;}
+    std::string utf8() const{
+        std::string out;auto v=value;
+        if(v<0x80)out.push_back(static_cast<char>(v));
+        else if(v<0x800){out.push_back(static_cast<char>(0xc0|(v>>6)));out.push_back(static_cast<char>(0x80|(v&63)));}
+        else if(v<0x10000){out.push_back(static_cast<char>(0xe0|(v>>12)));out.push_back(static_cast<char>(0x80|((v>>6)&63)));out.push_back(static_cast<char>(0x80|(v&63)));}
+        else{out.push_back(static_cast<char>(0xf0|(v>>18)));out.push_back(static_cast<char>(0x80|((v>>12)&63)));out.push_back(static_cast<char>(0x80|((v>>6)&63)));out.push_back(static_cast<char>(0x80|(v&63)));}
+        return out;
+    }
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{utf8()});}
+};
+class STRING {
+    REGISTRATION registry;
+    const std::string value;
+    std::size_t scalars=0;
+public:
+    explicit STRING(std::string v):value(std::move(v)){
+        if(value.size()>65536)throw std::invalid_argument("String capacity exceeded");
+        for(std::size_t i=0;i<value.size();){auto d=CHARACTER::decode(value,i);i+=d.second;++scalars;}
+        registry.add("get","type","validated UTF-8");
+    }
+    const std::string& get() const{return value;}
+    std::size_t bytes() const{return value.size();}
+    std::size_t length() const{return scalars;}
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1689,6 +1733,8 @@ public:
         tool.inject("integer","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: integer number");INTEGER v(INTEGER::parse(a[0]));return std::to_string(v.get());});
         tool.inject("float","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: float number");FLOAT v(FLOAT::parse(a[0]));std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<float>::max_digits10)<<v.get();return out.str();});
         tool.inject("double","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: double number");DOUBLE v(DOUBLE::parse(a[0]));std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<double>::max_digits10)<<v.get();return out.str();});
+        tool.inject("character","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: character scalar");CHARACTER c(CHARACTER::parse(a[0]));return c.utf8();});
+        tool.inject("string","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: string text");STRING v(a[0]);return v.get();});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
