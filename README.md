@@ -158,6 +158,10 @@ AUDIT stores up to 1024 manually submitted volatile category/text records. FOREN
 
 QR provides nominal byte-mode capacity lookup for versions 1–40 and correction levels L/M/Q/H, plus payload byte counting. EAN calculates and validates EAN-8 and EAN-13 check digits, preserving leading zeros. Checksum validity does not establish GS1 assignment or authenticity. Neither class renders or scans symbols yet. Expected total: 128 classes and 572 registrations, pending compilation and runtime verification.
 
+## Wave Robin
+
+WAVEROBIN receives SIGNAL emissions through a callback outside the signal mutex and pulses HEARTBEAT for the wave and its target. A thread-local guard prevents recursive callback propagation on the same thread. Manual echo and status commands are available; ordinary command instrumentation also emits signals, including status queries. This is synchronous local stimulation, not distributed wave propagation or automatic heartbeat-to-round-robin dispatch. Robin Round and Robin Through remain proposed. Expected total: 129 classes and 578 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
