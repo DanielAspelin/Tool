@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **114 classes and 82 original commands, plus 334 generated registrations (457 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **116 classes and 84 original commands, plus 334 generated registrations (474 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -124,7 +124,7 @@ GPL, GNU, RFC, ISO and IEC provide independent invocable reference classes with 
 
 ## Universal invocation coverage — first stage
 
-Every class has generated CLASS.describe and CLASS.status commands for discovery and registration inspection (not runtime health). 77 class names map to existing command handlers through CLASS.invoke; TOOL and HYBRID map to help only. 32 operation aliases forward to existing handlers, e.g. gpl.source and heartbeat.pulse. The coverage command lists classes, filters registered commands by prefix, and inspects candidate class passages without claiming compatibility. Expected registrations: 457, including the 80 original commands. Aliases reuse functionality, not new independent implementations. No arbitrary class-to-class execution is enabled. Runtime counts and compilation remain unverified.
+Every class has generated CLASS.describe and CLASS.status commands for discovery and registration inspection (not runtime health). 77 class names map to existing command handlers through CLASS.invoke; TOOL and HYBRID map to help only. 32 operation aliases forward to existing handlers, e.g. gpl.source and heartbeat.pulse. The coverage command lists classes, filters registered commands by prefix, and inspects candidate class passages without claiming compatibility. Expected registrations: 474, including the 80 original commands. Aliases reuse functionality, not new independent implementations. No arbitrary class-to-class execution is enabled. Runtime counts and compilation remain unverified.
 
 ## Specialized data invocation expansion
 
@@ -132,7 +132,11 @@ Every class has generated CLASS.describe and CLASS.status commands for discovery
 
 ## Assembler and disassembler foundations
 
-ASSEMBLER and DISASSEMBLER share a bounded x86_64 instruction encoding table (12 exact instruction forms). The assemble command accepts one quoted instruction per argument and returns hexadecimal bytes; disassemble accepts contiguous hexadecimal bytes and returns one instruction per line. Unsupported instructions or encodings are rejected. No machine code is executed. Both classes have independent registries and generated coverage commands. This is a subset codec, not a complete assembler, disassembler, linker or object-file tool. Other architectures, labels, relocations, operands beyond the table, and native/WASM testing remain pending. Expected total: 114 classes and 457 command registrations.
+ASSEMBLER and DISASSEMBLER share a bounded x86_64 instruction encoding table (12 exact instruction forms). The assemble command accepts one quoted instruction per argument and returns hexadecimal bytes; disassemble accepts contiguous hexadecimal bytes and returns one instruction per line. Unsupported instructions or encodings are rejected. No machine code is executed. Both classes have independent registries and generated coverage commands. This is a subset codec, not a complete assembler, disassembler, linker or object-file tool. Other architectures, labels, relocations, operands beyond the table, and native/WASM testing remain pending. Expected total: 116 classes and 474 command registrations.
+
+## Socket and service foundations
+
+SOCKET maintains up to 256 named TCP/UDP port definitions in memory, with define, inspect, remove and list operations. It does not open or bind operating-system sockets. SERVICE maintains up to 256 named local command definitions, with define, run, inspect, remove and list operations. Run dispatches synchronously through TOOL. Definitions survive within an interactive process only. Neither class establishes background daemons, network listeners or remote access. Expected total: 116 classes and 474 registrations, pending compilation and runtime verification.
 
 ## Invocation lifecycle
 
