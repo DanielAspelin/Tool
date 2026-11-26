@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <iomanip>
 #include <atomic>
 #include <future>
 #include <utility>
@@ -55,14 +56,15 @@ public:
         }
         return call(args);
     }
-    bool active() const { return running; }
+    bool active() const { return running.load(); }
     void roundtrip() {
         std::string line, name, arg;
         if (!std::getline(std::cin, line)) { running = false; return; }
         std::istringstream input(line);
         if (!(input >> name)) return;
         Arguments args;
-        for (; input >> arg;) args.push_back(arg);
+        for (; input >> std::quoted(arg);) args.push_back(arg);
+        if(!input.eof() && input.fail()){std::cerr << "Invalid arguments" << std::endl;return;}
         try { std::cout << invoke(name, args) << std::endl; }
         catch (const std::exception& e) { std::cerr << e.what() << std::endl; }
     }
@@ -73,8 +75,10 @@ public:
 };
 class REGISTRATION {
     std::map<std::string, std::map<std::string, std::string>> records;
+    mutable std::mutex guard;
 public:
     void add(const std::string& method, const std::string& key, const std::string& value) {
+        std::lock_guard<std::mutex> lock(guard);
         records[method][key] = value;
     }
 };
@@ -234,7 +238,7 @@ class CONFIGURATION {
     std::mutex guard;
 public:
     CONFIGURATION(URI& u, URL& l): uri(u), url(l) {
-        for (const auto* name : {"api","cli","mcp","ssh","rdp","vnc"}) {
+        for (const auto* name : {"api","cli","mcp","ssh","rdp","vnc","rpc"}) {
             settings[name]["mode"]="hybrid";
             settings[name]["endpoint"]="";
         }
@@ -365,7 +369,7 @@ class PATH {
     REGISTRATION registry;
 public:
     explicit PATH(MESH& m):mesh(m){registry.add("find","kind","breadth-first");}
-    TOOL::Arguments find(const std::string& a,const std::string& b){
+    TOOL::Arguments find(const std::string& a,const std::string& b, const std::function<bool(const std::string&,const std::string&)>& allowed = {}){
         auto graph=mesh.snapshot();
         if(!graph.count(a)||!graph.count(b))return {};
         std::queue<TOOL::Arguments> pending;
@@ -374,7 +378,7 @@ public:
         for(;!pending.empty();){
             auto path=pending.front();pending.pop();
             if(path.back()==b)return path;
-            for(const auto& n:graph[path.back()])if(seen.insert(n).second){
+            for(const auto& n:graph[path.back()])if((!allowed || allowed(path.back(),n)) && seen.insert(n).second){
                 auto next=path;next.push_back(n);pending.push(std::move(next));
             }
         }
@@ -774,6 +778,7 @@ public:
     explicit ADAPTER(std::function<RESPONSE(const REQUEST&)> e):endpoint(std::move(e)){
         registry.add("invoke","transport","local");
     }
+    REQUEST transit(const REQUEST& r, const IR& ir) const {return ir.normalize(r);}
     RESPONSE invoke(const REQUEST& r){return endpoint(r);}
 };
 class FUSION {
@@ -796,11 +801,13 @@ public:
         r=ir.normalize(r);
         if(!authorization.permit(r))return "Denied: method not authorized for fusion";
         if(!endpoints.count(args[0])||!endpoints.count(args[1]))return "Unknown interface";
-        auto nodes=path.find(args[0],args[1]);
+        auto nodes=path.find(args[0],args[1],[this](const std::string& a,const std::string& b){return endpoints.count(a)&&endpoints.count(b)&&compatibility.accept(a,b);});
         if(nodes.empty())return "No passage";
         for(std::size_t i=0;i<nodes.size();++i){
             if(!endpoints.count(nodes[i]))return "Unregistered passage";
             if(i && !compatibility.accept(nodes[i-1],nodes[i]))return "Incompatible passage";
+            r=endpoints.at(nodes[i])->transit(r,ir);
+            if(!authorization.permit(r))return "Denied after transit";
         }
         return endpoints.at(nodes.back())->invoke(r).value;
     }
@@ -858,6 +865,8 @@ public:
         fusion.attach("rpc",[this](const REQUEST& r){return rpc.call(r);});
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
         ring.connect(names);
+        for(std::size_t i=0;i<names.size();++i)grid.set("interface",std::to_string(i),names[i]);
+        lane.assign("default","api","rpc");
         for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
         tool.inject("cpp","development",[this](const TOOL::Arguments& a){return cpp.invoke(a);});
         tool.inject("wasm","development",[this](const TOOL::Arguments& a){return wasm.invoke(a);});
@@ -909,8 +918,8 @@ public:
         if (argc<=1) return tool.run();
         TOOL::Arguments args;
         for (int i=2;i<argc;++i) args.emplace_back(argv[i]);
-        std::cout << tool.invoke(argv[1],args) << std::endl;
-        return 0;
+        try {std::cout << tool.invoke(argv[1],args) << std::endl;return 0;}
+        catch(const std::exception& e){std::cerr << e.what() << std::endl;return 1;}
     }
 };
 
