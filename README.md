@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **89 classes and 57 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **96 classes and 64 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -94,6 +94,10 @@ VALUE holds a typed null, boolean, integer, floating-point or string value. PARA
 
 The registered value, parameter, argument and reference commands demonstrate string-valued operations. Full typed command parsing, persistent reference identity, and integration into REQUEST and every invocation remain pending. Compilation has not been verified.
 
+## Callable and object foundations
+
+CALL delegates to the existing TOOL invocation boundary. RETURN carries an explicit boolean and result string; CALL currently marks normal returns successful even when TOOL returns an error string, so typed outcome reconciliation is pending. FUNCTION wraps a callable. VARIABLE synchronizes replacement of immutable shared values. CLASS represents runtime class metadata, OBJECT stores up to 64 named fields against a shared class definition, and INSTANCE associates a caller-supplied identity with an owned object. Each has an individual registry. These are runtime abstractions, not dynamic C++ class compilation or persistent instance management. Demonstration commands are registered; universal typed integration and compilation verification remain pending.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -110,7 +114,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
