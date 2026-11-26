@@ -904,6 +904,36 @@ public:
         return fn(TOOL::Arguments(a.begin()+1,a.end()));
     }
 };
+class INDEX {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,std::map<std::string,std::string>> entries;
+public:
+    INDEX(){registry.add("set","structure","namespace/key/value");registry.add("get","policy","exact lookup");}
+    bool set(const std::string& space,const std::string& key,const std::string& value){
+        if(space.empty()||key.empty())return false;
+        std::lock_guard<std::mutex> lock(guard);
+        entries[space][key]=value;
+        return true;
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==4&&a[0]=="set")return set(a[1],a[2],a[3])?"Indexed":"Invalid index key";
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==3&&a[0]=="get"){
+            auto ns=entries.find(a[1]);
+            if(ns==entries.end())return "Index namespace not found";
+            auto it=ns->second.find(a[2]);
+            return it==ns->second.end()?"Index key not found":it->second;
+        }
+        if(a.empty()||a[0]=="list"){
+            std::string out;
+            for(const auto& ns:entries)if(a.size()<2||a[1]==ns.first)
+                for(const auto& item:ns.second)out+=ns.first+"/"+item.first+" = "+item.second+"\n";
+            return out;
+        }
+        return "Usage: index list [namespace] | index get namespace key | index set namespace key value";
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -949,6 +979,7 @@ class HYBRID {
     HEARTBEAT heartbeat;
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
+    INDEX index;
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
@@ -961,6 +992,7 @@ public:
         fusion.attach("rpc",[this](const REQUEST& r){return rpc.call(r);});
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
         ring.connect(names);
+        for(const auto& name:names)index.set("interfaces",name,"local");
         for(std::size_t i=0;i<names.size();++i)grid.set("interface",std::to_string(i),names[i]);
         lane.assign("default","api","rpc");
         for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
@@ -983,6 +1015,10 @@ public:
         lambda.bind("flow",[this](const TOOL::Arguments& a){return flow.invoke(a);});
         lambda.bind("fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         tool.inject("lambda","runtime",[this](const TOOL::Arguments& a){return lambda.invoke(a);});
+        index.set("runtime","lambda","callable registry");
+        index.set("runtime","flow","operational circulation");
+        lambda.bind("index",[this](const TOOL::Arguments& a){return index.invoke(a);});
+        tool.inject("index","runtime",[this](const TOOL::Arguments& a){return index.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
