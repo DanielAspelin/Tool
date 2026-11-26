@@ -404,6 +404,33 @@ public:
     }
 };
 
+class BRIDGE {
+    MESH& mesh;
+    ROUTE& route;
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,std::pair<std::string,std::string>> bridges;
+public:
+    BRIDGE(MESH& m, ROUTE& r):mesh(m),route(r){
+        registry.add("connect","kind","bidirectional");
+        registry.add("resolve","kind","route");
+    }
+    std::string connect(const std::string& name,const std::string& a,const std::string& b){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a==b || bridges.count(name)) return "Invalid or duplicate bridge";
+        mesh.connect(a,b);
+        mesh.connect(b,a);
+        bridges.emplace(name,std::make_pair(a,b));
+        return "Bridge registered";
+    }
+    std::string resolve(const std::string& name){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=bridges.find(name);
+        if(it==bridges.end()) return "Unknown bridge";
+        return route.select(it->second.first,it->second.second);
+    }
+};
+
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -415,6 +442,7 @@ class HYBRID {
     PATH path{mesh};
     ROUTE routeSelector{path};
     LANE lane{routeSelector};
+    BRIDGE bridge{mesh,routeSelector};
     URI uri;
     URL url;
     CONFIGURATION configuration;
@@ -430,6 +458,7 @@ public:
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
         registry.add("route","SSH","local");
+        tool.inject("bridge","topology",[this](const TOOL::Arguments& a){if(a.size()==3)return bridge.connect(a[0],a[1],a[2]);if(a.size()==1)return bridge.resolve(a[0]);return std::string("Usage: bridge name [from to]");});
         tool.inject("mesh","topology",[this](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: mesh from to");mesh.connect(a[0],a[1]);return std::string("Connected");});
         tool.inject("chain","topology",[this](const TOOL::Arguments& a){chain.connect(a);return std::string("Chain registered");});
         tool.inject("ring","topology",[this](const TOOL::Arguments& a){ring.connect(a);return std::string("Ring registered");});
