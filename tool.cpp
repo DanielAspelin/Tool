@@ -698,6 +698,57 @@ public:
         return "PSS operation unavailable: no cryptographic backend";
     }
 };
+class BASE64 {
+    REGISTRATION registry;
+    const std::string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+public:
+    BASE64(){registry.add("encode","standard","RFC 4648");registry.add("decode","policy","strict canonical padding");}
+    std::string encode(const std::string& input) const {
+        std::string out;
+        for(std::size_t i=0;i<input.size();i+=3){
+            unsigned a=static_cast<unsigned char>(input[i]);
+            unsigned b=i+1<input.size()?static_cast<unsigned char>(input[i+1]):0;
+            unsigned c=i+2<input.size()?static_cast<unsigned char>(input[i+2]):0;
+            unsigned v=(a<<16)|(b<<8)|c;
+            out+=alphabet[(v>>18)&63];out+=alphabet[(v>>12)&63];
+            out+=i+1<input.size()?alphabet[(v>>6)&63]:'=';
+            out+=i+2<input.size()?alphabet[v&63]:'=';
+        }
+        return out;
+    }
+    std::string decode(const std::string& input) const {
+        if(input.size()%4)throw std::invalid_argument("Invalid Base64 length");
+        std::string out;
+        for(std::size_t i=0;i<input.size();i+=4){
+            unsigned v=0,pad=0;
+            for(unsigned j=0;j<4;++j){
+                char c=input[i+j];
+                if(c=='='){
+                    if(j<2||i+4!=input.size())throw std::invalid_argument("Invalid Base64 padding");
+                    ++pad;v<<=6;
+                }else{
+                    auto p=alphabet.find(c);
+                    if(pad||p==std::string::npos)throw std::invalid_argument("Invalid Base64 character");
+                    v=(v<<6)|static_cast<unsigned>(p);
+                }
+            }
+            if((pad==2&&(v&65535))||(pad==1&&(v&255)))throw std::invalid_argument("Noncanonical Base64");
+            out+=static_cast<char>((v>>16)&255);
+            if(pad<2)out+=static_cast<char>((v>>8)&255);
+            if(pad<1)out+=static_cast<char>(v&255);
+        }
+        return out;
+    }
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "BASE64: RFC 4648 standard alphabet, strict padding";
+        if(a.size()!=2)return "Usage: base64 encode|decode value";
+        try{
+            if(a[0]=="encode")return encode(a[1]);
+            if(a[0]=="decode")return decode(a[1]);
+        }catch(const std::invalid_argument& e){return e.what();}
+        return "Unknown Base64 operation";
+    }
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -777,6 +828,7 @@ class HYBRID {
     SSH ssh;
     RDP rdp{dispatcher};
     VNC vnc{dispatcher};
+    BASE64 base64;
     AES aes;
     GCM gcm{aes};
     RSA rsa;
@@ -819,6 +871,7 @@ public:
         tool.inject("oaep","cryptography",[this](const TOOL::Arguments& a){return oaep.invoke(a);});
         tool.inject("pss","cryptography",[this](const TOOL::Arguments& a){return pss.invoke(a);});
         tool.inject("sha","cryptography",[this](const TOOL::Arguments& a){return sha.invoke(a);});
+        tool.inject("base64","encoding",[this](const TOOL::Arguments& a){return base64.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
