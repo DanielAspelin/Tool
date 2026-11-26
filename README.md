@@ -222,7 +222,7 @@ All 528 primary classes now declare a private SPECIFICATION nested associative m
 
 Tool is invocation-bound: the invoker owns the runtime duration until resolution. Runtime is optional for engine, constructive system or systems platform deployment. Persistent artifacts do not imply persistent execution.
 
-The source now contains 566 primary class declarations (38 added). Each primary class owns nested ARCHITECTURE, DESIGN, COMMANDER and SPECIFIER classes and associative arrays SPECIFICATION, VERSION, INFORMATION, DESCRIPTION, MODELS and COMMANDS. MODELER is nested exclusively in MODELING. Specification snapshots project the arrays and expose a class-local logical subprocess identity (SPID), not an operating-system PID. Actual subprocess allocation and invocation correlation remain pending.
+The source now contains 566 primary class declarations (38 added). Each primary class owns five principal associative arrays: ARCHITECTURE, DESIGN, MODEL, VERSION and SPECIFICATION. INFORMATION, DESCRIPTION and COMMANDS are supplementary associative arrays. COMMANDER and SPECIFIER remain nested classes. ARCHITECTURE and DESIGN are arrays rather than nested classes. All eight arrays are represented in specification snapshots (SPECIFICATION is the snapshot base). MODELER is nested exclusively in MODELING. Specification snapshots project the arrays and expose a class-local logical subprocess identity (SPID), not an operating-system PID. Actual subprocess allocation and invocation correlation remain pending.
 
 The naming convention is ION → R → VERB → ING, with natural English exceptions and established technical abbreviations preserved. Concept and activity delegate to the executor while retaining the original invocation identity.
 
