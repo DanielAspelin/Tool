@@ -20,6 +20,24 @@
 #include <vector>
 #include <sstream>
 
+class TIMESTAMP {
+    std::map<std::string,std::map<std::string,std::string>> registry;
+public:
+    struct Snapshot {
+        std::chrono::system_clock::time_point utc;
+        std::chrono::steady_clock::time_point monotonic;
+    };
+    TIMESTAMP(){registry["capture"]["source"]="system and steady clocks";}
+    Snapshot capture() const {
+        return {std::chrono::system_clock::now(),std::chrono::steady_clock::now()};
+    }
+    std::string format(const Snapshot& s) const {
+        return std::to_string(std::chrono::duration_cast<std::chrono::nanoseconds>(s.utc.time_since_epoch()).count());
+    }
+    long long elapsed(const Snapshot& s) const {
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now()-s.monotonic).count();
+    }
+};
 class SIGNAL {
     std::mutex guard;
     std::map<std::string,std::map<std::string,unsigned long long>> registry;
@@ -53,8 +71,15 @@ private:
     std::map<std::string, Entry> registry;
     std::mutex guard;
     std::atomic<bool> running{true};
+    TIMESTAMP timestamp;
     SIGNAL signal;
     TRIGGER trigger{signal};
+    std::mutex timingGuard;
+    std::map<std::string,std::pair<std::string,long long>> timings;
+    void recordTiming(const std::string& name,const TIMESTAMP::Snapshot& snapshot){
+        std::lock_guard<std::mutex> lock(timingGuard);
+        timings[name]={timestamp.format(snapshot),timestamp.elapsed(snapshot)};
+    }
     std::mutex lifecycleGuard;
     std::map<std::string,std::pair<std::string,Arguments>> volatileCalls;
     const std::string invocationFile="tool.invocations";
@@ -134,6 +159,7 @@ public:
         inject("invoke","core",[this](const Arguments& a){return lifecycle(a);});
         inject("signal","runtime",[this](const Arguments&){return signal.status();});
         inject("trigger","runtime",[this](const Arguments& a){if(a.size()!=1)return std::string("Usage: trigger name");trigger.fire(a[0]);return std::string("Signal emitted");});
+        inject("timestamp","core",[this](const Arguments& a){if(a.empty()||a[0]=="now")return timestamp.format(timestamp.capture());if(a.size()==2&&a[0]=="last"){std::lock_guard<std::mutex> lock(timingGuard);auto it=timings.find(a[1]);if(it==timings.end())return std::string("No timing record");return it->second.first+" epoch ns; "+std::to_string(it->second.second)+" elapsed ns";}return std::string("Usage: timestamp now | timestamp last method");});
         inject("help", "core", [this](const Arguments&) {
             std::lock_guard<std::mutex> lock(guard);
             std::string result;
@@ -153,16 +179,17 @@ public:
         return registry.emplace(name, Entry{std::move(call), origin}).second;
     }
     std::string invoke(const std::string& name, const Arguments& args) {
+        const auto snapshot=timestamp.capture();
         trigger.fire(name);
         Invocation call;
         {
             std::lock_guard<std::mutex> lock(guard);
             auto it = registry.find(name);
-            if (it == registry.end()) {signal.emit(name,"unresolved");return "Unknown invocation";}
+            if (it == registry.end()) {signal.emit(name,"unresolved");recordTiming(name,snapshot);return "Unknown invocation";}
             call = it->second.call;
         }
-        try {auto result=call(args);trigger.complete(name,true);return result;}
-        catch(...){trigger.complete(name,false);throw;}
+        try {auto result=call(args);trigger.complete(name,true);recordTiming(name,snapshot);return result;}
+        catch(...){trigger.complete(name,false);recordTiming(name,snapshot);throw;}
     }
     SIGNAL& signals(){return signal;}
     bool active() const { return running.load(); }
