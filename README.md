@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **112 classes and 80 original commands, plus 334 generated registrations (449 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **114 classes and 82 original commands, plus 334 generated registrations (457 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -124,11 +124,15 @@ GPL, GNU, RFC, ISO and IEC provide independent invocable reference classes with 
 
 ## Universal invocation coverage — first stage
 
-Every class has generated CLASS.describe and CLASS.status commands for discovery and registration inspection (not runtime health). 77 class names map to existing command handlers through CLASS.invoke; TOOL and HYBRID map to help only. 32 operation aliases forward to existing handlers, e.g. gpl.source and heartbeat.pulse. The coverage command lists classes, filters registered commands by prefix, and inspects candidate class passages without claiming compatibility. Expected registrations: 449, including the 80 original commands. Aliases reuse functionality, not new independent implementations. No arbitrary class-to-class execution is enabled. Runtime counts and compilation remain unverified.
+Every class has generated CLASS.describe and CLASS.status commands for discovery and registration inspection (not runtime health). 77 class names map to existing command handlers through CLASS.invoke; TOOL and HYBRID map to help only. 32 operation aliases forward to existing handlers, e.g. gpl.source and heartbeat.pulse. The coverage command lists classes, filters registered commands by prefix, and inspects candidate class passages without claiming compatibility. Expected registrations: 457, including the 80 original commands. Aliases reuse functionality, not new independent implementations. No arbitrary class-to-class execution is enabled. Runtime counts and compilation remain unverified.
 
 ## Specialized data invocation expansion
 
-35 additional registrations expose integer, float and double add/subtract/multiply/divide/compare/min/max; string bytes/length/empty/compare/contains/append; character codepoint/bytes; boolean not/and/or/xor; and array count/contains. Integer arithmetic checks overflow and division by zero. Floating point rejects nonfinite results and float range overflow, but rounding and underflow remain native. String comparison is bytewise, not locale collation. Boolean operations reuse the existing handler. These operations are registered in HYBRID rather than fully decomposed into their respective classes; that refactoring and native/WASM compilation tests remain pending. Expected total: 449 registrations, not runtime verified.
+35 additional registrations expose integer, float and double add/subtract/multiply/divide/compare/min/max; string bytes/length/empty/compare/contains/append; character codepoint/bytes; boolean not/and/or/xor; and array count/contains. Integer arithmetic checks overflow and division by zero. Floating point rejects nonfinite results and float range overflow, but rounding and underflow remain native. String comparison is bytewise, not locale collation. Boolean operations reuse the existing handler. These operations are registered in HYBRID rather than fully decomposed into their respective classes; that refactoring and native/WASM compilation tests remain pending. Expected total after assembler expansion: 457 registrations, not runtime verified.
+
+## Assembler and disassembler foundations
+
+ASSEMBLER and DISASSEMBLER share a bounded x86_64 instruction encoding table (12 exact instruction forms). The assemble command accepts one quoted instruction per argument and returns hexadecimal bytes; disassemble accepts contiguous hexadecimal bytes and returns one instruction per line. Unsupported instructions or encodings are rejected. No machine code is executed. Both classes have independent registries and generated coverage commands. This is a subset codec, not a complete assembler, disassembler, linker or object-file tool. Other architectures, labels, relocations, operands beyond the table, and native/WASM testing remain pending. Expected total: 114 classes and 457 command registrations.
 
 ## Invocation lifecycle
 
