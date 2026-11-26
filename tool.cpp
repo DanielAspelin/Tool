@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <fstream>
 #include <chrono>
 #include <iomanip>
 #include <atomic>
@@ -27,8 +28,83 @@ private:
     std::map<std::string, Entry> registry;
     std::mutex guard;
     std::atomic<bool> running{true};
+    std::mutex lifecycleGuard;
+    std::map<std::string,std::pair<std::string,Arguments>> volatileCalls;
+    const std::string invocationFile="tool.invocations";
+    using Plans=std::map<std::string,std::pair<std::string,Arguments>>;
+    Plans loadPlans(){
+        Plans plans;
+        std::ifstream in(invocationFile);
+        std::string line,id,name,arg;
+        for(;std::getline(in,line);){
+            std::istringstream row(line);
+            if(!(row>>std::quoted(id)>>std::quoted(name)))throw std::runtime_error("Invalid invocation record");
+            Arguments args;
+            for(;row>>std::quoted(arg);)args.push_back(arg);
+            if(!row.eof())throw std::runtime_error("Invalid invocation arguments");
+            plans[id]={name,args};
+        }
+        return plans;
+    }
+    void savePlans(const Plans& plans){
+        std::ofstream out(invocationFile,std::ios::trunc);
+        if(!out)throw std::runtime_error("Cannot open invocation store");
+        for(const auto& p:plans){
+            out<<std::quoted(p.first)<<" "<<std::quoted(p.second.first);
+            for(const auto& arg:p.second.second)out<<" "<<std::quoted(arg);
+            out<<"\n";
+        }
+        out.close();
+        if(!out)throw std::runtime_error("Cannot save invocation store");
+    }
+    bool validPlan(const std::string& name,const Arguments& args){
+        if(name=="invoke"||name=="exit"||name.find_first_of("\r\n")!=std::string::npos)return false;
+        for(const auto& a:args)if(a.find_first_of("\r\n")!=std::string::npos)return false;
+        std::lock_guard<std::mutex> lock(guard);
+        return registry.count(name)!=0;
+    }
+    std::string lifecycle(const Arguments& a){
+        if(a.size()>=2&&a[0]=="direct")return invoke(a[1],Arguments(a.begin()+2,a.end()));
+        std::unique_lock<std::mutex> lock(lifecycleGuard);
+        if(a.size()>=4&&a[0]=="define"){
+            if(a[1]!="volatile"&&a[1]!="persistent")return "Invalid lifecycle";
+            Arguments args(a.begin()+4,a.end());
+            if(a[2].empty()||a[2].find_first_of("\r\n")!=std::string::npos||!validPlan(a[3],args))return "Invalid invocation plan";
+            auto plans=loadPlans();
+            if(plans.count(a[2])||volatileCalls.count(a[2]))return "Invocation ID exists";
+            if(a[1]=="volatile")volatileCalls[a[2]]={a[3],args};
+            else {plans[a[2]]={a[3],args};savePlans(plans);}
+            return "Invocation defined";
+        }
+        if(a.size()==3&&a[0]=="transition"){
+            auto plans=loadPlans();
+            if(a[2]=="persistent"&&volatileCalls.count(a[1])&&!plans.count(a[1])){
+                plans[a[1]]=volatileCalls.at(a[1]);savePlans(plans);volatileCalls.erase(a[1]);return "Persistent";
+            }
+            if(a[2]=="volatile"&&plans.count(a[1])&&!volatileCalls.count(a[1])){
+                auto plan=plans.at(a[1]);plans.erase(a[1]);savePlans(plans);volatileCalls[a[1]]=plan;return "Volatile";
+            }
+            return "Invalid transition";
+        }
+        if(a.size()==2&&a[0]=="run"){
+            auto plans=loadPlans();
+            if(!volatileCalls.count(a[1])&&!plans.count(a[1]))return "Unknown invocation ID";
+            auto plan=volatileCalls.count(a[1])?volatileCalls.at(a[1]):plans.at(a[1]);
+            lock.unlock();
+            if(!validPlan(plan.first,plan.second))return "Invocation unavailable";
+            return invoke(plan.first,plan.second);
+        }
+        if(a.size()==1&&a[0]=="list"){
+            std::string out;
+            for(const auto& p:volatileCalls)out+=p.first+" volatile\n";
+            for(const auto& p:loadPlans())out+=p.first+" persistent\n";
+            return out;
+        }
+        return "Usage: invoke direct method ... | define volatile|persistent id method ... | transition id volatile|persistent | run id | list";
+    }
 public:
     TOOL() {
+        inject("invoke","core",[this](const Arguments& a){return lifecycle(a);});
         inject("help", "core", [this](const Arguments&) {
             std::lock_guard<std::mutex> lock(guard);
             std::string result;
