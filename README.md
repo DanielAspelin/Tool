@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **104 classes and 72 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **107 classes and 75 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -114,6 +114,10 @@ CHARACTER represents one Unicode scalar value, with strict UTF-8 decoding and en
 
 TOKEN represents bounded, immutable, nonsecret metadata for lexical, invocation, session, instance, reference, access, resource and execution categories. It validates category and UTF-8 metadata, retains origin, scope and creation time, supports a caller-supplied expiry duration and converts its identity to VALUE. Access-category metadata is not an authentication credential; no secrets should be passed to the token command. No credential issuance, authorization, uniqueness, revocation or full lexical analysis is implemented. Expiry currently uses the system clock. Automatic lifecycle integration and compilation verification remain pending.
 
+## Time and date foundations
+
+TIME projects a TIMESTAMP snapshot into UTC time (HH:MM:SS). DATE projects it into a UTC calendar date (YYYY-MM-DD). TIMEDATE composes both from the same immutable snapshot into an ISO 8601 UTC representation (YYYY-MM-DDTHH:MM:SSZ), retaining the original system and monotonic clock readings. Each has an independent registry. UTC is the default to avoid ambiguous local times; timezone conversion, trusted clock synchronization and fractional-second formatting are pending. The commands capture their own snapshots, not yet the original TOOL invocation context. Compilation remains unverified.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -130,7 +134,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`time`, `date`, `timedate`, `token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
