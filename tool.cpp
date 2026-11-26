@@ -1122,6 +1122,41 @@ public:
         return "Usage: farm define name pool... | farm acquire name | farm list";
     }
 };
+class REFLEX {
+    SIGNAL& signal;
+    HEARTBEAT& heartbeat;
+    REGISTRATION registry;
+public:
+    REFLEX(SIGNAL& s,HEARTBEAT& h):signal(s),heartbeat(h){
+        registry.add("respond","policy","immediate acknowledgement");
+    }
+    void respond(const std::string& target){
+        heartbeat.pulse(target);
+        signal.emit(target,"reflex");
+    }
+};
+class REACTION {
+    SIGNAL& signal;
+    REFLEX& reflex;
+    ROUNDROBIN& robin;
+    REGISTRATION registry;
+public:
+    REACTION(SIGNAL& s,REFLEX& r,ROUNDROBIN& rr):signal(s),reflex(r),robin(rr){
+        registry.add("react","policy","bounded cyclic notification");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.empty())return "Usage: reaction target [destination...]";
+        signal.emit(a[0],"reaction");
+        reflex.respond(a[0]);
+        TOOL::Arguments candidates(a.begin()+1,a.end());
+        auto destination=robin.select(candidates);
+        if(!destination.empty()){
+            signal.emit(destination,"reaction-notice");
+            return "Reaction acknowledged; notified "+destination;
+        }
+        return "Reaction acknowledged";
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -1168,6 +1203,8 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    REFLEX reflex{tool.signals(),heartbeat};
+    REACTION reaction{tool.signals(),reflex,roundrobin};
     POOL pool;
     FARM farm{pool,roundrobin,heartbeat};
     REGISTRATION registry;
@@ -1216,6 +1253,10 @@ public:
         lambda.bind("farm",[this](const TOOL::Arguments& a){return farm.invoke(a);});
         tool.inject("pool","runtime",[this](const TOOL::Arguments& a){return pool.invoke(a);});
         tool.inject("farm","runtime",[this](const TOOL::Arguments& a){return farm.invoke(a);});
+        index.set("runtime","reaction","controlled operational response");
+        index.set("runtime","reflex","immediate heartbeat acknowledgement");
+        tool.inject("reaction","runtime",[this](const TOOL::Arguments& a){return reaction.invoke(a);});
+        tool.inject("reflex","runtime",[this](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: reflex target");reflex.respond(a[0]);return std::string("Reflex acknowledged");});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
