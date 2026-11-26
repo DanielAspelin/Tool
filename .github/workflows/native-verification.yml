@@ -1,0 +1,25 @@
+name: Native verification
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - tool.cpp
+      - .github/workflows/native-verification.yml
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compile C++ source
+        run: g++ -std=c++17 -O0 -pthread -Wall -Wextra tool.cpp -o tool
+      - name: Enumerate invocation coverage
+        run: |
+          ./tool coverage classes
+          ./tool coverage commands ""
+      - name: Smoke test
+        run: |
+          test "$(./tool echo test)" = test
+          ./tool help
