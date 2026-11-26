@@ -405,6 +405,14 @@ public:
         try {auto result=call(args);if(watchdog.expired(snapshot))dump.store(snapshot,name,"deadline-exceeded");trigger.complete(name,true);recordTiming(name,snapshot);return result;}
         catch(...){if(!dump.store(snapshot,name,"exception"))std::cerr<<"Dump unavailable\n";trigger.complete(name,false);recordTiming(name,snapshot);throw;}
     }
+    bool registered(const std::string& name){
+        std::lock_guard<std::mutex> lock(guard);return registry.count(name)!=0;
+    }
+    std::string catalogue(const std::string& prefix){
+        std::lock_guard<std::mutex> lock(guard);std::string out;
+        for(const auto& e:registry)if(e.first.compare(0,prefix.size(),prefix)==0)out+=e.first+"\n";
+        return out;
+    }
     SIGNAL& signals(){return signal;}
     bool active() const { return running.load(); }
     void roundtrip() {
@@ -1860,6 +1868,38 @@ public:
         tool.inject("rdp","hybrid",[this](const TOOL::Arguments& a){return route(rdp,a);});
         tool.inject("vnc","hybrid",[this](const TOOL::Arguments& a){return route(vnc,a);});
         tool.inject("ssh","hybrid",[this](const TOOL::Arguments& a){return route(ssh,a);});
+        registerCoverage();
+
+    }
+    void registerCoverage(){
+        const std::map<std::string,std::string> classes{{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        for(const auto& entry:classes){
+            const auto name=entry.first,command=entry.second;
+            tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
+            tool.inject(name+".status","coverage",[this,name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; command registered: "+(!command.empty()&&tool.registered(command)?"yes":"no")+"; runtime health not assessed";});
+            if(!command.empty())tool.inject(name+".invoke","coverage",[this,command](const TOOL::Arguments& a){return tool.invoke(command,a);});
+        }
+        tool.inject("coverage","runtime",[this,classes](const TOOL::Arguments& a){
+            if(a.empty()|| (a.size()==1&&a[0]=="classes")){std::string out;for(const auto& e:classes)out+=e.first+" "+(e.second.empty()?"not exposed":e.second)+"\n";return out;}
+            if(a.size()==2&&a[0]=="commands")return tool.catalogue(a[1]);
+            if(a.size()==3&&a[0]=="passage"){
+                auto from=classes.find(a[1]),to=classes.find(a[2]);
+                if(from==classes.end()||to==classes.end())return std::string("Unknown class");
+                return std::string("Candidate only; no class-to-class compatibility verified; destination command: ")+(to->second.empty()?"not exposed":to->second);
+            }
+            return std::string("Usage: coverage classes | commands prefix | passage FROM TO");
+        });
+        registerOperations();
+    }
+    void registerOperations(){
+        const std::map<std::string,TOOL::Arguments> operations{
+            {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
+            {"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+        };
+        for(const auto& group:operations)for(const auto& op:group.second){
+            auto command=group.first;
+            tool.inject(command+"."+op,"operation",[this,command,op](const TOOL::Arguments& a){TOOL::Arguments args{op};args.insert(args.end(),a.begin(),a.end());return tool.invoke(command,args);});
+        }
     }
     template<class INTERFACE>
     std::string route(INTERFACE& interface, const TOOL::Arguments& args) {
