@@ -649,6 +649,28 @@ public:
     std::size_t length() const{return scalars;}
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
+class TOKEN {
+    REGISTRATION registry;
+    const std::string category,identity,origin,scope;
+    const std::chrono::system_clock::time_point created;
+public:
+    TOKEN(std::string c,std::string id,std::string o,std::string sc):
+        category(std::move(c)),identity(std::move(id)),origin(std::move(o)),scope(std::move(sc)),created(std::chrono::system_clock::now()){
+        if(!validCategory(category)||identity.empty()||identity.size()>256||origin.size()>256||scope.size()>256)throw std::invalid_argument("Invalid token metadata");
+        for(const auto* field:{&identity,&origin,&scope}){STRING validated(*field);for(unsigned char ch:*field)if(ch<32||ch==127)throw std::invalid_argument("Invalid token metadata");}
+        registry.add("validate","policy","bounded nonsecret metadata");
+    }
+    static bool validCategory(const std::string& c){
+        static const std::set<std::string> categories{"lexical","invocation","session","instance","reference","access","resource","execution"};
+        return categories.count(c)!=0;
+    }
+    const std::string& kind() const{return category;}
+    const std::string& id() const{return identity;}
+    const std::string& source() const{return origin;}
+    const std::string& domain() const{return scope;}
+    bool expired(std::chrono::seconds ttl) const{return ttl.count()<=0||std::chrono::system_clock::now()-created>=ttl;}
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{identity});}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1735,6 +1757,7 @@ public:
         tool.inject("double","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: double number");DOUBLE v(DOUBLE::parse(a[0]));std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<double>::max_digits10)<<v.get();return out.str();});
         tool.inject("character","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: character scalar");CHARACTER c(CHARACTER::parse(a[0]));return c.utf8();});
         tool.inject("string","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: string text");STRING v(a[0]);return v.get();});
+        tool.inject("token","runtime",[](const TOOL::Arguments& a){if(a.size()!=4)return std::string("Usage: token category nonsecret-id origin scope");TOKEN t(a[0],a[1],a[2],a[3]);return t.kind()+": metadata validated";});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
