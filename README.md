@@ -162,6 +162,10 @@ QR provides nominal byte-mode capacity lookup for versions 1–40 and correction
 
 WAVEROBIN receives SIGNAL emissions through a callback outside the signal mutex and pulses HEARTBEAT for the wave and its target. A thread-local guard prevents recursive callback propagation on the same thread. Manual echo and status commands are available; ordinary command instrumentation also emits signals, including status queries. This is synchronous local stimulation, not distributed wave propagation or automatic heartbeat-to-round-robin dispatch. Robin Round and Robin Through remain proposed. Expected total: 129 classes and 578 registrations, pending compilation and runtime verification.
 
+## Trace Robin
+
+TRACEROBIN observes SIGNAL callbacks before WAVEROBIN echo and retains the latest 1024 timestamped target/event records with local sequence numbers. Manual record, trace, status, enable and disable operations are available. Records are volatile, truncated to 128 bytes per field and not correlated by invocation ID. Status and trace commands themselves may generate observed signals. This is a local signal observer, not full route reconstruction, distributed tracing or proof of delivery. Expected total: 130 classes and 587 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
