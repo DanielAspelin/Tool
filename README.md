@@ -150,6 +150,10 @@ CAPSULE stores up to 256 named volatile text records, each up to 4096 bytes, wit
 
 ENVIRONMENT maintains up to 64 volatile logical contexts with up to 64 settings each, and create, inspect, set, get, suspend, resume, list and remove operations. FACILITY maintains up to 64 named organizations of environment identities with create, attach, detach, inspect, list and remove operations. Attach checks existence; inspection marks missing references after environment removal. Neither class changes OS environment variables, provisions infrastructure, or controls actual runtime execution. Expected current total: 121 classes and 528 registrations, pending compilation and runtime verification.
 
+## Observation and evaluation foundations
+
+AUDIT stores up to 1024 manually submitted volatile category/text records. FORENSIC traces matching records in insertion order; ANALYTICAL counts categories and compares text exactly. STATISTICAL calculates count, mean, minimum and maximum of up to 256 finite numeric inputs. STATUS stores up to 256 manually declared named states. These classes do not automatically collect invocation telemetry, establish forensic chain of custody, certify integrity, or measure live health. Expected total: 126 classes and 559 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
