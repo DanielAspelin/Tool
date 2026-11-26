@@ -649,6 +649,37 @@ public:
         return "RSA operation unavailable: no cryptographic backend";
     }
 };
+class OAEP {
+    RSA& rsa;
+    REGISTRATION registry;
+public:
+    explicit OAEP(RSA& r):rsa(r){
+        registry.add("encrypt","standard","RFC 8017 RSAES-OAEP");
+        registry.add("encrypt","hash","SHA-256");
+        registry.add("encrypt","mask","MGF1-SHA-256");
+    }
+    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits);}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "OAEP: RSA encryption profile, SHA-256, MGF1-SHA-256; backend unavailable";
+        return "OAEP operation unavailable: no cryptographic backend";
+    }
+};
+class PSS {
+    RSA& rsa;
+    REGISTRATION registry;
+public:
+    explicit PSS(RSA& r):rsa(r){
+        registry.add("sign","standard","RFC 8017 RSASSA-PSS");
+        registry.add("sign","hash","SHA-256");
+        registry.add("sign","mask","MGF1-SHA-256");
+        registry.add("sign","saltBytes","32");
+    }
+    bool validProfile(unsigned bits) const {return rsa.validKeyBits(bits);}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "PSS: RSA signature profile, SHA-256, MGF1-SHA-256, 32-byte salt; backend unavailable";
+        return "PSS operation unavailable: no cryptographic backend";
+    }
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -731,6 +762,8 @@ class HYBRID {
     AES aes;
     GCM gcm{aes};
     RSA rsa;
+    OAEP oaep{rsa};
+    PSS pss{rsa};
     AUTHORIZATION authorization;
     COMPATIBILITY compatibility{matrix};
     AST ast;
@@ -764,6 +797,8 @@ public:
         tool.inject("aes","cryptography",[this](const TOOL::Arguments& a){return aes.invoke(a);});
         tool.inject("gcm","cryptography",[this](const TOOL::Arguments& a){return gcm.invoke(a);});
         tool.inject("rsa","cryptography",[this](const TOOL::Arguments& a){return rsa.invoke(a);});
+        tool.inject("oaep","cryptography",[this](const TOOL::Arguments& a){return oaep.invoke(a);});
+        tool.inject("pss","cryptography",[this](const TOOL::Arguments& a){return pss.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
