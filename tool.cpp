@@ -431,6 +431,23 @@ public:
     }
 };
 
+class RPC {
+    DISPATCHER& dispatcher;
+    REGISTRATION registry;
+public:
+    explicit RPC(DISPATCHER& d):dispatcher(d){
+        registry.add("call","transport","local");
+        registry.add("call","target","DISPATCHER");
+    }
+    RESPONSE call(const REQUEST& request){
+        return dispatcher.dispatch(request);
+    }
+    std::string invoke(const TOOL::Arguments& args){
+        if(args.empty()) return "Usage: rpc method [arguments...]";
+        return call({args.front(),TOOL::Arguments(args.begin()+1,args.end())}).value;
+    }
+};
+
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -447,6 +464,7 @@ class HYBRID {
     URL url;
     CONFIGURATION configuration;
     DISPATCHER dispatcher;
+    RPC rpc{dispatcher};
     API api;
     CLI cli;
     MCP mcp;
@@ -458,6 +476,7 @@ public:
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
         registry.add("route","SSH","local");
+        tool.inject("rpc","rpc",[this](const TOOL::Arguments& a){return rpc.invoke(a);});
         tool.inject("bridge","topology",[this](const TOOL::Arguments& a){if(a.size()==3)return bridge.connect(a[0],a[1],a[2]);if(a.size()==1)return bridge.resolve(a[0]);return std::string("Usage: bridge name [from to]");});
         tool.inject("mesh","topology",[this](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: mesh from to");mesh.connect(a[0],a[1]);return std::string("Connected");});
         tool.inject("chain","topology",[this](const TOOL::Arguments& a){chain.connect(a);return std::string("Chain registered");});
