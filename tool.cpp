@@ -1644,6 +1644,104 @@ public:
  explicit SEARCH(TOOL& ref):tool(ref){registry.add("status","search","foundation");registry.add("find","search","foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SEARCH: local foundation";if(a.size()==2&&a[0]=="find")return tool.catalogue(a[1]);return "Expected find prefix";}
 };
+class CLOAKER {
+ REGISTRATION registry;
+ 
+public:
+ CLOAKER(){registry.add("status","cloaker","passive invocation");registry.add("redact","cloaker","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLOAKER: on-demand local foundation";if(a.size()==2&&a[0]=="redact")return "[redacted]";return "Expected redact value";}
+};
+class CONCEALER {
+ REGISTRATION registry;
+ 
+public:
+ CONCEALER(){registry.add("status","concealer","passive invocation");registry.add("mask","concealer","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONCEALER: on-demand local foundation";if(a.size()==2&&a[0]=="mask")return std::string(a[1].size(),'*');return "Expected mask value";}
+};
+class EXPOSER {
+ REGISTRATION registry;
+ 
+public:
+ EXPOSER(){registry.add("status","exposer","passive invocation");registry.add("inspect","exposer","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXPOSER: on-demand local foundation";if(a.size()==2&&a[0]=="inspect")return "Supplied value bytes="+std::to_string(a[1].size());return "Expected inspect value";}
+};
+class IMPORTER {
+ REGISTRATION registry;
+ 
+public:
+ IMPORTER(){registry.add("status","importer","passive invocation");registry.add("accept","importer","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMPORTER: on-demand local foundation";if(a.size()==2&&a[0]=="accept"&&a[1].size()<=4096)return a[1];return "Expected bounded supplied text";}
+};
+class EXPORTER {
+ REGISTRATION registry;
+ 
+public:
+ EXPORTER(){registry.add("status","exporter","passive invocation");registry.add("format","exporter","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "EXPORTER: on-demand local foundation";if(a.size()==2&&a[0]=="format"&&a[1].size()<=4096){std::ostringstream out;out<<std::quoted(a[1]);return out.str();}return "Expected bounded supplied text";}
+};
+class CLIPBOARD {
+ REGISTRATION registry;
+ std::mutex guard;std::string value;
+public:
+ CLIPBOARD(){registry.add("status","clipboard","passive invocation");registry.add("set","clipboard","passive invocation");registry.add("get","clipboard","passive invocation");registry.add("clear","clipboard","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CLIPBOARD: on-demand local foundation";std::lock_guard<std::mutex> lock(guard);if(a.size()==2&&a[0]=="set"&&a[1].size()<=4096){value=a[1];return "Local clipboard set";}if(a.size()==1&&a[0]=="get")return value;if(a.size()==1&&a[0]=="clear"){value.clear();return "Cleared";}return "Invalid clipboard operation";}
+};
+class CACHER {
+ REGISTRATION registry;
+ std::mutex guard;std::map<std::string,std::string> values;
+public:
+ CACHER(){registry.add("status","cacher","passive invocation");registry.add("set","cacher","passive invocation");registry.add("get","cacher","passive invocation");registry.add("remove","cacher","passive invocation");registry.add("clear","cacher","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CACHER: on-demand local foundation";std::lock_guard<std::mutex> lock(guard);if(a.size()==3&&a[0]=="set"&&a[1].size()<=128&&a[2].size()<=4096){if(!values.count(a[1])&&values.size()>=256)return "Cache capacity reached";values[a[1]]=a[2];return "Cached";}if(a.size()==2&&a[0]=="get"){auto it=values.find(a[1]);return it==values.end()?"Cache miss":it->second;}if(a.size()==2&&a[0]=="remove")return values.erase(a[1])?"Removed":"Cache miss";if(a.size()==1&&a[0]=="clear"){values.clear();return "Cleared";}return "Invalid cache operation";}
+};
+class INTERFACE {
+ REGISTRATION registry;
+ 
+public:
+ INTERFACE(){registry.add("status","interface","passive invocation");registry.add("list","interface","passive invocation");registry.add("check","interface","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INTERFACE: on-demand local foundation";if(a.size()==1&&a[0]=="list")return "API CLI MCP SSH RPC RDP VNC";if(a.size()==2&&a[0]=="check"){const std::set<std::string> supported{"API","CLI","MCP","SSH","RPC","RDP","VNC"};return supported.count(a[1])?"Known interface profile":"Unknown profile";}return "Expected list or check";}
+};
+class DRIVER {
+ REGISTRATION registry;
+ 
+public:
+ DRIVER(){registry.add("status","driver","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DRIVER: backend unavailable";return "Driver backend unavailable";}
+};
+class CONTROLLER {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit CONTROLLER(TOOL& t):tool(t){registry.add("status","controller","passive invocation");registry.add("check","controller","passive invocation");registry.add("run","controller","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "CONTROLLER: on-demand local foundation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown command";if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected check or run";}
+};
+class DEVICE {
+ REGISTRATION registry;
+ 
+public:
+ DEVICE(){registry.add("status","device","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DEVICE: backend unavailable";return "Device discovery backend unavailable";}
+};
+class SYSTEM {
+ REGISTRATION registry;
+ 
+public:
+ SYSTEM(){registry.add("status","system","passive invocation");registry.add("target","system","passive invocation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SYSTEM: on-demand local foundation";if(a.size()==1&&a[0]=="target"){
+#if defined(__wasi__)
+return "WASI";
+#elif defined(__ANDROID__)
+return "Android";
+#elif defined(__linux__)
+return "Linux";
+#elif defined(_WIN32)
+return "Windows";
+#elif defined(__APPLE__)
+return "Apple";
+#else
+return "Unknown build target";
+#endif
+}return "Expected target";}
+};
 class REQUEST {
 public:
     std::string method;
@@ -2771,6 +2869,18 @@ class HYBRID {
     PORT port;
     FINDER finder{tool};
     SEARCH search{tool};
+    CLOAKER cloaker;
+    CONCEALER concealer;
+    EXPOSER exposer;
+    IMPORTER importer;
+    EXPORTER exporter;
+    CLIPBOARD clipboard;
+    CACHER cacher;
+    INTERFACE interface;
+    DRIVER driver;
+    CONTROLLER controller{tool};
+    DEVICE device;
+    SYSTEM system;
     DETECTION detection{tool};
     HOTCODE hotcode{tool};
     QR qr;
@@ -2979,11 +3089,23 @@ public:
         tool.inject("port","runtime",[this](const TOOL::Arguments& a){return port.invoke(a);});
         tool.inject("finder","runtime",[this](const TOOL::Arguments& a){return finder.invoke(a);});
         tool.inject("search","runtime",[this](const TOOL::Arguments& a){return search.invoke(a);});
+        tool.inject("cloaker","runtime",[this](const TOOL::Arguments& a){return cloaker.invoke(a);});
+        tool.inject("concealer","runtime",[this](const TOOL::Arguments& a){return concealer.invoke(a);});
+        tool.inject("exposer","runtime",[this](const TOOL::Arguments& a){return exposer.invoke(a);});
+        tool.inject("importer","runtime",[this](const TOOL::Arguments& a){return importer.invoke(a);});
+        tool.inject("exporter","runtime",[this](const TOOL::Arguments& a){return exporter.invoke(a);});
+        tool.inject("clipboard","runtime",[this](const TOOL::Arguments& a){return clipboard.invoke(a);});
+        tool.inject("cacher","runtime",[this](const TOOL::Arguments& a){return cacher.invoke(a);});
+        tool.inject("interface","runtime",[this](const TOOL::Arguments& a){return interface.invoke(a);});
+        tool.inject("driver","runtime",[this](const TOOL::Arguments& a){return driver.invoke(a);});
+        tool.inject("controller","runtime",[this](const TOOL::Arguments& a){return controller.invoke(a);});
+        tool.inject("device","runtime",[this](const TOOL::Arguments& a){return device.invoke(a);});
+        tool.inject("system","runtime",[this](const TOOL::Arguments& a){return system.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -3056,7 +3178,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"compiler",{"status"}},{"decompiler",{"status"}},{"hex",{"status","encode","decode"}},{"hexadecimal",{"status","encode","decode"}},{"hextable",{"status","list"}},{"automation",{"status","run"}},{"generation",{"status","repeat"}},{"encryption",{"status"}},{"decryption",{"status"}},{"encoding",{"status","hex"}},{"decoding",{"status","hex"}},{"lexer",{"status","split"}},{"delexer",{"status","join"}},{"lexicaliser",{"status","split"}},{"delexicaliser",{"status","join"}},{"tokeniser",{"status","split"}},{"detokeniser",{"status","join"}},{"parser",{"status","split"}},{"transparser",{"status","split"}},{"crossparser",{"status","split"}},{"process",{"status","run"}},{"processor",{"status","run"}},{"allocator",{"status","check"}},{"serialiser",{"status","pack"}},{"deserialiser",{"status","unpack"}},{"hasher",{"status"}},{"salter",{"status"}},{"lockmaker",{"status"}},{"keymaker",{"status"}},{"builder",{"status"}},{"linker",{"status"}},{"debugger",{"status"}},{"scanner",{"status","find"}},{"printer",{"status","format"}},{"port",{"status","validate"}},{"finder",{"status","find"}},{"search",{"status","find"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"compiler",{"status"}},{"decompiler",{"status"}},{"hex",{"status","encode","decode"}},{"hexadecimal",{"status","encode","decode"}},{"hextable",{"status","list"}},{"automation",{"status","run"}},{"generation",{"status","repeat"}},{"encryption",{"status"}},{"decryption",{"status"}},{"encoding",{"status","hex"}},{"decoding",{"status","hex"}},{"lexer",{"status","split"}},{"delexer",{"status","join"}},{"lexicaliser",{"status","split"}},{"delexicaliser",{"status","join"}},{"tokeniser",{"status","split"}},{"detokeniser",{"status","join"}},{"parser",{"status","split"}},{"transparser",{"status","split"}},{"crossparser",{"status","split"}},{"process",{"status","run"}},{"processor",{"status","run"}},{"allocator",{"status","check"}},{"serialiser",{"status","pack"}},{"deserialiser",{"status","unpack"}},{"hasher",{"status"}},{"salter",{"status"}},{"lockmaker",{"status"}},{"keymaker",{"status"}},{"builder",{"status"}},{"linker",{"status"}},{"debugger",{"status"}},{"scanner",{"status","find"}},{"printer",{"status","format"}},{"port",{"status","validate"}},{"finder",{"status","find"}},{"search",{"status","find"}},{"cloaker",{"status","redact"}},{"concealer",{"status","mask"}},{"exposer",{"status","inspect"}},{"importer",{"status","accept"}},{"exporter",{"status","format"}},{"clipboard",{"status","set","get","clear"}},{"cacher",{"status","set","get","remove","clear"}},{"interface",{"status","list","check"}},{"driver",{"status"}},{"controller",{"status","check","run"}},{"device",{"status"}},{"system",{"status","target"}},{"callable",{"check","call"}},{"invokable",{"check","execute"}},{"returnable",{"record","get","list","remove"}},{"detection",{"observe","status","list","registered","remove"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
