@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <memory>
 #include <functional>
 #include <map>
 #include <mutex>
@@ -255,8 +256,52 @@ public:
     }
 };
 
+class SESSION {
+    REGISTRATION registry;
+    std::string identity;
+    std::string parent;
+    unsigned depth;
+    std::map<std::string,std::unique_ptr<SESSION>> children;
+    std::mutex guard;
+public:
+    explicit SESSION(std::string id="root", std::string origin="", unsigned level=0)
+        : identity(std::move(id)), parent(std::move(origin)), depth(level) {
+        registry.add("trigger","identity",identity);
+        registry.add("trigger","parent",parent);
+    }
+    std::string trigger() {
+        std::lock_guard<std::mutex> lock(guard);
+        if (depth>=3 || children.size()>=4) return "Session limit reached";
+        auto id=identity+"."+std::to_string(children.size()+1);
+        children.emplace(id,std::make_unique<SESSION>(id,identity,depth+1));
+        return id;
+    }
+    std::string trigger(const std::string& target) {
+        if (target==identity) return trigger();
+        std::lock_guard<std::mutex> lock(guard);
+        for (auto& child: children) {
+            if (target==child.first || target.rfind(child.first+".",0)==0)
+                return child.second->trigger(target);
+        }
+        return "Unknown session";
+    }
+    std::string list() {
+        std::lock_guard<std::mutex> lock(guard);
+        std::string out=identity+" parent="+parent+"\n";
+        for (auto& child: children) out+=child.second->list();
+        return out;
+    }
+    std::string invoke(const TOOL::Arguments& args) {
+        if (args.empty() || args[0]=="list") return list();
+        if (args[0]=="trigger" && args.size()==1) return trigger();
+        if (args[0]=="trigger" && args.size()==2) return trigger(args[1]);
+        return "Usage: session list | session trigger [id]";
+    }
+};
+
 class HYBRID {
     TOOL tool;
+    SESSION session;
     URI uri;
     URL url;
     CONFIGURATION configuration;
@@ -272,6 +317,7 @@ public:
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
         registry.add("route","SSH","local");
+        tool.inject("session","runtime",[this](const TOOL::Arguments& a){return session.invoke(a);});
         tool.inject("configure","configuration",[this](const TOOL::Arguments& a){return configuration.invoke(a);});
         tool.inject("uri","validation",[this](const TOOL::Arguments& a){return a.size()==1 && uri.validate(a[0]) ? "Valid scheme syntax" : "Invalid URI";});
         tool.inject("url","validation",[this](const TOOL::Arguments& a){return a.size()==1 && url.validate(a[0]) ? "Valid endpoint shape" : "Invalid URL";});
