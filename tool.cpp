@@ -825,6 +825,49 @@ public:
         return "Usage: service define id command | run id [args] | inspect id | remove id | list";
     }
 };
+class RUNTIME {
+    REGISTRATION registry;
+    TOOL& tool;
+    std::mutex guard;
+    struct Environment {
+        bool active=true;
+        std::map<std::string,std::shared_ptr<INSTANCE>> instances;
+    };
+    std::map<std::string,Environment> environments;
+public:
+    explicit RUNTIME(TOOL& t):tool(t){
+        for(const std::string op:{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"})registry.add(op,"runtime","local volatile environment");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        std::unique_lock<std::mutex> lock(guard);
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& e:environments)out+=e.first+"\n";return out;}
+        if(a.size()<2)return "Expected operation and runtime identity";
+        if(a[0]=="create"&&a.size()==2){
+            if(a[1].empty()||environments.size()>=64||environments.count(a[1]))return "Invalid runtime or capacity reached";
+            environments.emplace(a[1],Environment{});return "Runtime created";
+        }
+        auto it=environments.find(a[1]);if(it==environments.end())return "Unknown runtime";
+        auto& e=it->second;
+        if(a[0]=="inspect"&&a.size()==2)return std::string(e.active?"active":"suspended")+"; instances: "+std::to_string(e.instances.size());
+        if(a[0]=="suspend"&&a.size()==2){e.active=false;return "Runtime suspended";}
+        if(a[0]=="resume"&&a.size()==2){e.active=true;return "Runtime resumed";}
+        if(a[0]=="remove"&&a.size()==2){environments.erase(it);return "Runtime removed";}
+        if(a[0]=="instances"&&a.size()==2){std::string out;for(const auto& p:e.instances)out+=p.first+"\n";return out;}
+        if(!e.active)return "Runtime suspended";
+        if(a[0]=="attach"&&a.size()==4){
+            if(a[2].empty()||a[3].empty()||e.instances.size()>=64||e.instances.count(a[2]))return "Invalid instance or capacity reached";
+            e.instances.emplace(a[2],std::make_shared<INSTANCE>(a[2],std::make_shared<OBJECT>(std::make_shared<const CLASS>(a[3]))));return "Instance attached";
+        }
+        if(a[0]=="detach"&&a.size()==3)return e.instances.erase(a[2])?"Instance detached":"Unknown instance";
+        if(a[0]=="run"&&a.size()>=4){
+            auto p=e.instances.find(a[2]);if(p==e.instances.end())return "Unknown instance";
+            auto instance=p->second;auto command=a[3];
+            if(command=="exit"||command=="runtime"||command=="RUNTIME.invoke"||command.compare(0,8,"runtime.")==0)return "Unsupported runtime command";
+            lock.unlock();return tool.invoke(command,TOOL::Arguments(a.begin()+4,a.end()));
+        }
+        return "Invalid runtime operation";
+    }
+};
 class REQUEST {
 public:
     std::string method;
@@ -1836,6 +1879,7 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    RUNTIME runtime{tool};
     SOCKET socket;
     SERVICE service{tool};
     REFLEX reflex{tool.signals(),heartbeat};
@@ -1950,11 +1994,12 @@ public:
         tool.inject("disassemble","development",[](const TOOL::Arguments& a){DISASSEMBLER disassembler;return disassembler.disassemble(a);});
         tool.inject("socket","runtime",[this](const TOOL::Arguments& a){return socket.invoke(a);});
         tool.inject("service","runtime",[this](const TOOL::Arguments& a){return service.invoke(a);});
+        tool.inject("runtime","runtime",[this](const TOOL::Arguments& a){return runtime.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2027,7 +2072,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
