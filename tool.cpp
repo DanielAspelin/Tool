@@ -869,6 +869,41 @@ public:
         return fusion.invoke(request);
     }
 };
+class LAMBDA {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,TOOL::Invocation> functions;
+public:
+    LAMBDA(){
+        registry.add("bind","kind","callable");
+        registry.add("invoke","policy","registered callable only");
+        bind("identity",[](const TOOL::Arguments& a){
+            std::string out;
+            for(std::size_t i=0;i<a.size();++i){if(i)out+=" ";out+=a[i];}
+            return out;
+        });
+    }
+    bool bind(const std::string& name,TOOL::Invocation fn){
+        if(name.empty()||!fn)return false;
+        std::lock_guard<std::mutex> lock(guard);
+        return functions.emplace(name,std::move(fn)).second;
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        TOOL::Invocation fn;
+        {
+            std::lock_guard<std::mutex> lock(guard);
+            if(a.empty()||a[0]=="list"){
+                std::string out;
+                for(const auto& item:functions)out+=item.first+"\n";
+                return out;
+            }
+            auto it=functions.find(a[0]);
+            if(it==functions.end())return "Unknown lambda";
+            fn=it->second;
+        }
+        return fn(TOOL::Arguments(a.begin()+1,a.end()));
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -913,6 +948,7 @@ class HYBRID {
     ROUNDROBIN roundrobin;
     HEARTBEAT heartbeat;
     FLOW flow{fusion,roundrobin,heartbeat};
+    LAMBDA lambda;
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
@@ -944,6 +980,9 @@ public:
         tool.inject("roundrobin","runtime",[this](const TOOL::Arguments& a){return roundrobin.select(a);});
         tool.inject("heartbeat","runtime",[this](const TOOL::Arguments& a){if(a.size()==2&&a[0]=="pulse"){heartbeat.pulse(a[1]);return std::string("Pulse recorded");}if(a.size()==2&&a[0]=="status")return heartbeat.status(a[1]);return std::string("Usage: heartbeat pulse|status name");});
         tool.inject("flow","fusion",[this](const TOOL::Arguments& a){return flow.invoke(a);});
+        lambda.bind("flow",[this](const TOOL::Arguments& a){return flow.invoke(a);});
+        lambda.bind("fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
+        tool.inject("lambda","runtime",[this](const TOOL::Arguments& a){return lambda.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
