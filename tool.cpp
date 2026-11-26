@@ -20,6 +20,30 @@
 #include <vector>
 #include <sstream>
 
+class SIGNAL {
+    std::mutex guard;
+    std::map<std::string,std::map<std::string,unsigned long long>> registry;
+public:
+    void emit(const std::string& target,const std::string& event){
+        std::lock_guard<std::mutex> lock(guard);
+        ++registry[target][event];
+    }
+    std::string status(){
+        std::lock_guard<std::mutex> lock(guard);
+        std::string out;
+        for(const auto& t:registry)for(const auto& e:t.second)out+=t.first+"/"+e.first+" "+std::to_string(e.second)+"\n";
+        return out;
+    }
+};
+class TRIGGER {
+    SIGNAL& signal;
+    std::mutex guard;
+    std::map<std::string,std::map<std::string,std::string>> registry;
+public:
+    explicit TRIGGER(SIGNAL& s):signal(s){registry["fire"]["policy"]="observe invocation";}
+    void fire(const std::string& target){signal.emit(target,"trigger");}
+    void complete(const std::string& target,bool success){signal.emit(target,success?"returned":"exception");}
+};
 class TOOL {
 public:
     using Arguments = std::vector<std::string>;
@@ -29,6 +53,8 @@ private:
     std::map<std::string, Entry> registry;
     std::mutex guard;
     std::atomic<bool> running{true};
+    SIGNAL signal;
+    TRIGGER trigger{signal};
     std::mutex lifecycleGuard;
     std::map<std::string,std::pair<std::string,Arguments>> volatileCalls;
     const std::string invocationFile="tool.invocations";
@@ -106,6 +132,8 @@ private:
 public:
     TOOL() {
         inject("invoke","core",[this](const Arguments& a){return lifecycle(a);});
+        inject("signal","runtime",[this](const Arguments&){return signal.status();});
+        inject("trigger","runtime",[this](const Arguments& a){if(a.size()!=1)return std::string("Usage: trigger name");trigger.fire(a[0]);return std::string("Signal emitted");});
         inject("help", "core", [this](const Arguments&) {
             std::lock_guard<std::mutex> lock(guard);
             std::string result;
@@ -125,15 +153,18 @@ public:
         return registry.emplace(name, Entry{std::move(call), origin}).second;
     }
     std::string invoke(const std::string& name, const Arguments& args) {
+        trigger.fire(name);
         Invocation call;
         {
             std::lock_guard<std::mutex> lock(guard);
             auto it = registry.find(name);
-            if (it == registry.end()) return "Unknown invocation";
+            if (it == registry.end()) {signal.emit(name,"unresolved");return "Unknown invocation";}
             call = it->second.call;
         }
-        return call(args);
+        try {auto result=call(args);trigger.complete(name,true);return result;}
+        catch(...){trigger.complete(name,false);throw;}
     }
+    SIGNAL& signals(){return signal;}
     bool active() const { return running.load(); }
     void roundtrip() {
         std::string line, name, arg;
@@ -894,14 +925,17 @@ class ROUNDROBIN {
     REGISTRATION registry;
     std::mutex guard;
     std::size_t cursor=0;
+    SIGNAL* signal=nullptr;
 public:
     ROUNDROBIN(){registry.add("select","policy","cyclic");}
+    void attach(SIGNAL& s){signal=&s;}
     std::string select(const TOOL::Arguments& candidates){
         std::lock_guard<std::mutex> lock(guard);
         if(candidates.empty())return {};
         cursor%=candidates.size();
         auto result=candidates[cursor];
         cursor=(cursor+1)%candidates.size();
+        if(signal)signal->emit(result,"roundrobin");
         return result;
     }
 };
@@ -1147,6 +1181,7 @@ public:
         fusion.attach("vnc",[this](const REQUEST& r){return vnc.invoke(r);});
         fusion.attach("rpc",[this](const REQUEST& r){return rpc.call(r);});
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
+        roundrobin.attach(tool.signals());
         ring.connect(names);
         for(const auto& name:names)index.set("interfaces",name,"local");
         for(std::size_t i=0;i<names.size();++i)grid.set("interface",std::to_string(i),names[i]);
