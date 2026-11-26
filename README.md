@@ -170,6 +170,10 @@ TRACEROBIN observes SIGNAL callbacks before WAVEROBIN echo and retains the lates
 
 HOTCODE provides up to 256 named volatile bindings to existing registered commands, with bind, replace, inspect, enable, disable, run, list and remove operations. Replacement is synchronized and revisioned; run snapshots the command before dispatch, so existing calls are not redirected mid-execution. This is live invocation rebinding, not compilation, arbitrary code injection, native hot patching or WebAssembly module replacement. Expected total: 131 classes and 599 registrations, pending compilation and runtime verification.
 
+## Availability and resolution foundations
+
+UPTIME and DOWNTIME share up to 256 named availability records and measure cumulative declared up/down intervals using a monotonic clock. TRIGGERED and RESOLVED share up to 1024 named occurrence records, with one recorded resolution and elapsed duration per occurrence. States are manually declared and volatile; automatic heartbeat health detection, invocation correlation, verified outcomes, persistence and retention management remain pending. Expected total: 135 classes and 626 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
