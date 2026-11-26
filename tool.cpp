@@ -616,6 +616,39 @@ public:
         return "Unknown SDK target";
     }
 };
+class AES {
+    REGISTRATION registry;
+public:
+    AES(){registry.add("encrypt","standard","FIPS 197");registry.add("decrypt","backend","unavailable");}
+    bool validKeyBits(unsigned bits) const {return bits==128||bits==192||bits==256;}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "AES: 128/192/256-bit key profiles; cryptographic backend unavailable";
+        return "AES operation unavailable: no cryptographic backend";
+    }
+};
+class GCM {
+    AES& aes;
+    REGISTRATION registry;
+public:
+    explicit GCM(AES& a):aes(a){registry.add("seal","standard","NIST SP 800-38D");registry.add("open","policy","authenticate before release");}
+    bool validProfile(unsigned keyBits,unsigned nonceBytes,unsigned tagBytes) const {
+        return aes.validKeyBits(keyBits)&&nonceBytes==12&&tagBytes==16;
+    }
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "GCM: AES authenticated encryption profile; 96-bit nonce, 128-bit tag; backend unavailable";
+        return "GCM operation unavailable: no cryptographic backend";
+    }
+};
+class RSA {
+    REGISTRATION registry;
+public:
+    RSA(){registry.add("encrypt","scheme","RSA-OAEP");registry.add("sign","scheme","RSA-PSS");}
+    bool validKeyBits(unsigned bits) const {return bits>=2048;}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "RSA: OAEP encryption and PSS signature profiles; backend unavailable";
+        return "RSA operation unavailable: no cryptographic backend";
+    }
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -695,6 +728,9 @@ class HYBRID {
     SSH ssh;
     RDP rdp{dispatcher};
     VNC vnc{dispatcher};
+    AES aes;
+    GCM gcm{aes};
+    RSA rsa;
     AUTHORIZATION authorization;
     COMPATIBILITY compatibility{matrix};
     AST ast;
@@ -725,6 +761,9 @@ public:
         tool.inject("codebase","development",[this](const TOOL::Arguments& a){return codebase.invoke(a);});
         tool.inject("sandbox","development",[this](const TOOL::Arguments& a){return sandbox.invoke(a);});
         tool.inject("sdk","development",[this](const TOOL::Arguments& a){return sdk.invoke(a);});
+        tool.inject("aes","cryptography",[this](const TOOL::Arguments& a){return aes.invoke(a);});
+        tool.inject("gcm","cryptography",[this](const TOOL::Arguments& a){return gcm.invoke(a);});
+        tool.inject("rsa","cryptography",[this](const TOOL::Arguments& a){return rsa.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
