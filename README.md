@@ -1,1 +1,130 @@
 # Tool
+
+**An invocable, cross-functional C++ and WebAssembly runtime architecture.**
+
+Tool is an independent architectural standardization project by Daniel Alexander Aspelin. Its purpose is to establish a decomposed but integrative runtime in which interfaces, classes, functions, instructions, sessions and operational passages can be instantiated, registered, invoked and reconciled across a common operational environment.
+
+License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
+
+## Development status
+
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **73 classes and 52 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+
+## Architectural conventions
+
+- C++ and WebAssembly are the intended foundational implementation and portable execution pair.
+- The monolith is internally decomposed into instantiable, uppercase-named classes with cross-functional relationships.
+- Operational functionality belongs inside classes; the entry point delegates to the hybrid runtime.
+- While loops delegate execution to function calls, enabling controlled roundtrips.
+- Each class should maintain its own nested associative function registry.
+- Every class and relevant function should ultimately be independently invocable, continuously instantiable and capable of controlled concurrent and parallel execution.
+- Each class should ultimately have a pool; invocations should circulate through logically shared, physically distributable pooling environments.
+- Background services and processes, volatile and persistent operation, and transitions between invocation modes are architectural objectives.
+- Reciprocal relationships must be bounded by identity, acknowledgment, completion, cancellation and duplicate detection rather than uncontrolled recursion.
+
+These are design conventions; universal enforcement is not yet implemented.
+
+## Foundational invocation procedure
+
+1. Receive an invocation and capture its original system-clock and monotonic-clock snapshots.
+2. Optionally associate an observed public network egress address through IPIFY, without blocking offline execution.
+3. Initiate signaling and triggering.
+4. Establish the primary reciprocal relationship between HEARTBEAT and REFLEX: detection and immediate response.
+5. Extend immediate response through REACTION.
+6. Determine eligible circulation through ROUNDROBIN and conduct progression through FLOW.
+7. Use POOL as the operational medium for reaching the intended destination, with FARM configuring pooling environments.
+8. Resolve instructions through compatible passages, adapters and cross-fusion.
+9. Acknowledge completion, measure elapsed time and return the result.
+10. Preserve unresolved, unknown or exceptional activity locally through DUMP.
+
+This is the intended operational sequence, not a claim that every stage is already automatically connected.
+
+### Primary reciprocal relationships
+
+| Relationship | Responsibility |
+| --- | --- |
+| SIGNAL / TRIGGER | External and internal stimulation and initiation |
+| HEARTBEAT / REFLEX | Primary reactive detection and immediate acknowledgment |
+| REFLEX / REACTION | Immediate response and extended operational response |
+| ROUNDROBIN / FLOW | Destination selection and circulation feedback |
+| POOL / FARM | Operational passage and pooling configuration |
+
+The signal-blast concept distributes operational awareness to eligible participants; it does not require every recipient to execute the same instruction. Round-robin selection and concurrent notification are distinct mechanisms. Feedback, bounded propagation and acknowledgment remain development objectives.
+
+## Class architecture
+
+| Area | Classes | Current scope |
+| --- | --- | --- |
+| Runtime | TOOL, HYBRID, REGISTRATION, REQUEST, RESPONSE, DISPATCHER, SERVER, CLIENT | Local invocation registry, dispatch and composition |
+| Interfaces | API, APISERVER, APICLIENT, CLI, CLISERVER, CLICLIENT, MCP, MCPSERVER, MCPCLIENT, SSH, SSHSERVER, SSHCLIENT, RPC, RDP, RDPSERVER, RDPCLIENT, VNC, VNCSERVER, VNCCLIENT | Local interface abstractions; not real network protocol implementations |
+| Identification and configuration | URI, URL, CONFIGURATION, SESSION, INDEX | Basic syntax checks, in-memory configuration, bounded session tree and index |
+| Passages | MESH, CHAIN, RING, MATRIX, GRID, PATH, ROUTE, LANE, BRIDGE | Local topology, named passages and route selection |
+| Cross-fusion | AUTHORIZATION, COMPATIBILITY, ADAPTER, FUSION | Limited local authorization, compatibility and adapter-based routing |
+| Reactive circulation | SIGNAL, TRIGGER, HEARTBEAT, REFLEX, REACTION, ROUNDROBIN, FLOW | Event counters, pulse observations, immediate response and cyclic selection; automatic reciprocal propagation pending |
+| Pooling | POOL, FARM | Current resource leasing and pool composition prototype; broader invocation circulation pending |
+| Dynamic invocation | LAMBDA | Registered callable invocation |
+| Code architecture | AST, IR, CPP, WASM, CODE, CODEBASE, SANDBOX, SDK | Request representation and preparation scaffolding; not a compiler or secure execution sandbox |
+| Security | AES, GCM, RSA, SHA, OAEP, PSS, BASE64 | Cryptographic profiles only, except actual Base64 encoding/decoding; Base64 is not encryption |
+| Observation | TIMESTAMP, IPIFY, DUMP | Local time capture, optional native public-IP observation, local anomaly records |
+
+## Invocation lifecycle
+
+The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
+
+Future invocation dimensions include synchronous/asynchronous, concurrent/parallel, foreground/background, temporary/continuous/recurring, direct/indirect/conditional/scheduled, static/dynamic/injected, local/remote/distributed, roundtrip/callback/loopback/fusion and dedicated/pooled allocation.
+
+## Temporal and network snapshots
+
+TIMESTAMP captures system and monotonic clocks at invocation entry. Epoch nanoseconds are a representation, not a guarantee of clock accuracy. The latest timing record per command is retained in memory. Trusted time synchronization, uncertainty reporting and propagation of a common invocation identity and timestamp across nested calls are pending.
+
+IPIFY is optional and disabled by default. On supported native Unix-like systems it uses a bounded asynchronous curl request to https://api64.ipify.org, validating the returned IPv4 or IPv6 address. Enabling it contacts an external service which observes the network egress address. Offline or unsupported environments can continue without an IP. The current snapshot is read at invocation entry but not yet retained in a durable invocation record. Automatic periodic refresh and WASM host integration are pending.
+
+DUMP appends anomaly metadata to `tool.dump` in the execution working directory on supported native Unix-like systems, with restricted permissions and checks against unsafe file types. Unknown invocations and exceptions are captured automatically; unacknowledged activity can be recorded manually. Records contain timestamp, process-local sequence, classification and bounded invocation name; arguments and exception payloads are omitted. This is diagnostic metadata, not a memory dump. Automatic acknowledgment timeouts, rotation, cross-process coordination, crash durability and WASM storage are pending.
+
+## Registered commands
+
+`ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+
+## Build and usage
+
+The supplied [build.bash](build.bash) targets C++17 and WASI SDK. It requires a native C++ compiler, Bash and an installed WASI SDK. Native IP discovery additionally requires curl.
+
+```bash
+export WASI_SDK_PATH=/path/to/wasi-sdk
+bash build.bash
+```
+
+The script is intended to produce `tool` and `tool.wasm` and run a basic native smoke check. These outputs and successful execution have not yet been verified. WASI support for threads, filesystem and networking requires separate validation and host capabilities.
+
+Illustrative commands (subject to build verification):
+
+```bash
+./tool help
+./tool echo hello
+./tool api echo hello
+./tool timestamp now
+./tool reflex session1
+./tool reaction session1 api cli mcp ssh
+./tool dump location
+./tool
+```
+
+In the interactive runtime, enter `ipify enable`, then `ipify status` after the background request completes. Enter `ipify disable` to stop optional observation. In-memory state does not persist across separate executable launches.
+
+## Development priorities
+
+1. Verify native and WASI builds and correct compilation defects.
+2. Establish invocation identity, immutable context and typed outcomes.
+3. Complete reciprocal heartbeat/reflex and roundrobin/flow feedback with bounded signal propagation.
+4. Reconcile pooling around invocation passage rather than resource leasing alone.
+5. Implement acknowledgment deadlines, local diagnostic retention and optional IP context association.
+6. Implement real transport adapters, security primitives and controlled execution environments only after their contracts and tests are established.
+7. Audit concurrency, parallelism, lifecycle transitions, security, performance and recovery.
+
+Tool is an architectural foundation, not a production-ready remote access system, cryptographic library or standards-compliant MCP/SSH/RDP/VNC server.
+
+## Repository
+
+- [tool.cpp](tool.cpp): decomposed C++ monolith.
+- [build.bash](build.bash): native and WASI build preparation.
+- [LICENSE](LICENSE): GNU GPL v3.
