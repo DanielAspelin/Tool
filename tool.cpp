@@ -551,6 +551,71 @@ public:
         return "Prepared WASM invocation: "+r.method+" ("+std::to_string(r.arguments.size())+" arguments)";
     }
 };
+class CODE {
+    REGISTRATION registry;
+public:
+    CODE(){registry.add("validate","scope","source record");}
+    bool validate(const std::string& language,const std::string& source) const {
+        return (language=="cpp" || language=="wasm") && !source.empty() && source.size()<=1048576;
+    }
+};
+class CODEBASE {
+    CODE& code;
+    REGISTRATION registry;
+    std::map<std::string,std::pair<std::string,std::string>> records;
+    std::mutex guard;
+public:
+    explicit CODEBASE(CODE& c):code(c){registry.add("store","scope","in-memory source records");}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.empty()||a[0]=="list"){
+            std::string out;
+            for(const auto& item:records)out+=item.first+" "+item.second.first+"\n";
+            return out;
+        }
+        if(a[0]=="get"&&a.size()==2){
+            auto it=records.find(a[1]);return it==records.end()?"Unknown record":it->second.second;
+        }
+        if(a[0]=="put"&&a.size()==4){
+            if(a[1].empty()||!code.validate(a[2],a[3]))return "Invalid source record";
+            if(records.size()>=64&&!records.count(a[1]))return "Record limit reached";
+            records[a[1]]={a[2],a[3]};return "Stored in session";
+        }
+        return "Usage: codebase list | get name | put name cpp|wasm source";
+    }
+};
+class SANDBOX {
+    IR& ir;
+    REGISTRATION registry;
+public:
+    explicit SANDBOX(IR& i):ir(i){registry.add("prepare","policy","no execution");}
+    std::string invoke(const TOOL::Arguments& a) const {
+        if(a.empty()||a[0]=="status")return "SANDBOX: preparation only; isolation backend unavailable";
+        if(a[0]!="prepare"||a.size()<2)return "Usage: sandbox status | prepare method [arguments...]";
+        auto r=ir.normalize({a[1],TOOL::Arguments(a.begin()+2,a.end())});
+        return "Prepared without execution: "+r.method;
+    }
+};
+class SDK {
+    CPP& cpp;
+    WASM& wasm;
+    SANDBOX& sandbox;
+    CODEBASE& codebase;
+    REGISTRATION registry;
+public:
+    SDK(CPP& c,WASM& w,SANDBOX& s,CODEBASE& b):cpp(c),wasm(w),sandbox(s),codebase(b){
+        registry.add("invoke","targets","cpp,wasm,sandbox,codebase");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.empty()||a[0]=="status")return "SDK: cpp wasm sandbox codebase";
+        TOOL::Arguments rest(a.begin()+1,a.end());
+        if(a[0]=="cpp")return cpp.invoke(rest);
+        if(a[0]=="wasm")return wasm.invoke(rest);
+        if(a[0]=="sandbox")return sandbox.invoke(rest);
+        if(a[0]=="codebase")return codebase.invoke(rest);
+        return "Unknown SDK target";
+    }
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -636,6 +701,10 @@ class HYBRID {
     IR ir{ast};
     CPP cpp{ir};
     WASM wasm{cpp,ir};
+    CODE code;
+    CODEBASE codebase{code};
+    SANDBOX sandbox{ir};
+    SDK sdk{cpp,wasm,sandbox,codebase};
     FUSION fusion{path,compatibility,authorization,ir};
     REGISTRATION registry;
 public:
@@ -652,6 +721,10 @@ public:
         for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
         tool.inject("cpp","development",[this](const TOOL::Arguments& a){return cpp.invoke(a);});
         tool.inject("wasm","development",[this](const TOOL::Arguments& a){return wasm.invoke(a);});
+        tool.inject("code","development",[this](const TOOL::Arguments& a){return a.size()==2&&code.validate(a[0],a[1])?"Valid source record":"Invalid source record";});
+        tool.inject("codebase","development",[this](const TOOL::Arguments& a){return codebase.invoke(a);});
+        tool.inject("sandbox","development",[this](const TOOL::Arguments& a){return sandbox.invoke(a);});
+        tool.inject("sdk","development",[this](const TOOL::Arguments& a){return sdk.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
