@@ -1890,6 +1890,57 @@ public:
             return std::string("Usage: coverage classes | commands prefix | passage FROM TO");
         });
         registerOperations();
+        registerDataOperations();
+    }
+    void registerDataOperations(){
+        const auto numeric=[this](const std::string& kind){
+            for(const std::string op:{"add","subtract","multiply","divide","compare","min","max"}){
+                tool.inject(kind+"."+op,"numeric",[kind,op](const TOOL::Arguments& a){
+                    if(a.size()!=2)return std::string("Expected two operands");
+                    if(kind=="integer"){
+                        const auto x=INTEGER::parse(a[0]),y=INTEGER::parse(a[1]);
+                        const auto lo=std::numeric_limits<std::int64_t>::min(),hi=std::numeric_limits<std::int64_t>::max();
+                        if(op=="compare")return std::to_string((x>y)-(x<y));
+                        if(op=="min")return std::to_string(std::min(x,y));
+                        if(op=="max")return std::to_string(std::max(x,y));
+                        if(op=="add"){if((y>0&&x>hi-y)||(y<0&&x<lo-y))return std::string("Integer overflow");return std::to_string(x+y);}
+                        if(op=="subtract"){if((y>0&&x<lo+y)||(y<0&&x>hi+y))return std::string("Integer overflow");return std::to_string(x-y);}
+                        if(op=="divide"){if(y==0)return std::string("Division by zero");if(x==lo&&y==-1)return std::string("Integer overflow");return std::to_string(x/y);}
+                        if(x>0?(y>0?x>hi/y:y<lo/x):(x<0?(y>0?x<lo/y:(y<0&&x<hi/y)):false))return std::string("Integer overflow");
+                        return std::to_string(x*y);
+                    }
+                    const double x=kind=="float"?FLOAT::parse(a[0]):DOUBLE::parse(a[0]),y=kind=="float"?FLOAT::parse(a[1]):DOUBLE::parse(a[1]);
+                    if(op=="compare")return std::to_string((x>y)-(x<y));
+                    if(op=="divide"&&y==0)return std::string("Division by zero");
+                    double v=op=="add"?x+y:op=="subtract"?x-y:op=="multiply"?x*y:op=="divide"?x/y:op=="min"?std::min(x,y):std::max(x,y);
+                    if(!std::isfinite(v)||(kind=="float"&&std::abs(v)>std::numeric_limits<float>::max()))return std::string("Floating point overflow");
+                    if(kind=="float")v=static_cast<float>(v);
+                    std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(kind=="float"?std::numeric_limits<float>::max_digits10:std::numeric_limits<double>::max_digits10)<<v;return out.str();
+                });
+            }
+        };
+        numeric("integer");numeric("float");numeric("double");
+        for(const std::string op:{"bytes","length","empty","compare","contains","append"}){
+            tool.inject("string."+op,"text",[op](const TOOL::Arguments& a){
+                const bool binary=op=="compare"||op=="contains"||op=="append";
+                if(a.size()!=(binary?2u:1u))return std::string("Invalid operand count");
+                STRING x(a[0]);
+                if(op=="bytes")return std::to_string(x.bytes());
+                if(op=="length")return std::to_string(x.length());
+                if(op=="empty")return std::string(x.bytes()==0?"true":"false");
+                STRING y(a[1]);
+                if(op=="compare")return std::to_string((x.get()>y.get())-(x.get()<y.get()));
+                if(op=="contains")return std::string(x.get().find(y.get())!=std::string::npos?"true":"false");
+                STRING joined(x.get()+y.get());return joined.get();
+            });
+        }
+        tool.inject("character.codepoint","text",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Expected one scalar");return std::to_string(static_cast<unsigned long>(CHARACTER::parse(a[0])));});
+        tool.inject("character.bytes","text",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Expected one scalar");CHARACTER c(CHARACTER::parse(a[0]));return std::to_string(c.utf8().size());});
+        for(const std::string op:{"not","and","or","xor"}){
+            tool.inject("boolean."+op,"logic",[this,op](const TOOL::Arguments& a){if(a.size()!=(op=="not"?1u:2u))return std::string("Invalid operand count");TOOL::Arguments args{a[0],op};if(a.size()==2)args.push_back(a[1]);return tool.invoke("boolean",args);});
+        }
+        tool.inject("array.count","data",[](const TOOL::Arguments& a){ARRAY v;for(const auto& item:a)if(!v.append(std::make_shared<const VALUE>(VALUE::Data{item})))return std::string("Array capacity exceeded");return std::to_string(v.size());});
+        tool.inject("array.contains","data",[](const TOOL::Arguments& a){if(a.empty())return std::string("Expected needle and optional elements");return std::string(std::find(a.begin()+1,a.end(),a[0])!=a.end()?"true":"false");});
     }
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
