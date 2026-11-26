@@ -146,6 +146,10 @@ RUNTIME maintains up to 64 named volatile logical environments, each containing 
 
 CAPSULE stores up to 256 named volatile text records, each up to 4096 bytes, with create, inspect, read, seal, remove and list operations. Seal is a logical marker, not encryption or integrity certification. QUARANTINE shares the capsule registry through synchronized hold, inspect, release and list operations. Held capsules reject ordinary read, seal and removal until manually released. Release does not verify safety or enforce an independent authorization policy. This is logical data containment only, not process isolation, malware analysis, or a security sandbox. Expected current total: 119 classes and 506 registrations, pending compilation and runtime verification.
 
+## Environment and facility foundations
+
+ENVIRONMENT maintains up to 64 volatile logical contexts with up to 64 settings each, and create, inspect, set, get, suspend, resume, list and remove operations. FACILITY maintains up to 64 named organizations of environment identities with create, attach, detach, inspect, list and remove operations. Attach checks existence; inspection marks missing references after environment removal. Neither class changes OS environment variables, provisions infrastructure, or controls actual runtime execution. Expected current total: 121 classes and 528 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
