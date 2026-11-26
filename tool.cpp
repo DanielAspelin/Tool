@@ -1,6 +1,10 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <atomic>
+#include <future>
+#include <utility>
+#include <exception>
 #include <memory>
 #include <set>
 #include <queue>
@@ -19,7 +23,7 @@ private:
     struct Entry { Invocation call; std::string origin; };
     std::map<std::string, Entry> registry;
     std::mutex guard;
-    bool running = true;
+    std::atomic<bool> running{true};
 public:
     TOOL() {
         inject("help", "core", [this](const Arguments&) {
@@ -488,6 +492,60 @@ public:
     RESPONSE invoke(const REQUEST& r) { return client.send(r); }
 };
 
+class AUTHORIZATION {
+    REGISTRATION registry;
+public:
+    AUTHORIZATION(){registry.add("permit","scope","local read-only fusion");}
+    bool permit(const REQUEST& r) const {return r.method=="echo" || r.method=="help";}
+};
+class COMPATIBILITY {
+    MATRIX& matrix;
+    REGISTRATION registry;
+public:
+    explicit COMPATIBILITY(MATRIX& m):matrix(m){registry.add("accept","scope","local procedure");}
+    bool accept(const std::string& a,const std::string& b){
+        return matrix.get({"fusion",a,b})=="local-procedure";
+    }
+    void registerPair(const std::string& a,const std::string& b){
+        matrix.set({"fusion",a,b},"local-procedure");
+    }
+};
+class ADAPTER {
+    REGISTRATION registry;
+    std::function<RESPONSE(const REQUEST&)> endpoint;
+public:
+    explicit ADAPTER(std::function<RESPONSE(const REQUEST&)> e):endpoint(std::move(e)){
+        registry.add("invoke","transport","local");
+    }
+    RESPONSE invoke(const REQUEST& r){return endpoint(r);}
+};
+class FUSION {
+    PATH& path;
+    COMPATIBILITY& compatibility;
+    AUTHORIZATION& authorization;
+    REGISTRATION registry;
+    std::map<std::string,std::unique_ptr<ADAPTER>> endpoints;
+public:
+    FUSION(PATH& p,COMPATIBILITY& c,AUTHORIZATION& a):path(p),compatibility(c),authorization(a){
+        registry.add("invoke","policy","deny unsupported");
+    }
+    void attach(const std::string& name,std::function<RESPONSE(const REQUEST&)> e){
+        endpoints.emplace(name,std::make_unique<ADAPTER>(std::move(e)));
+    }
+    std::string invoke(const TOOL::Arguments& args){
+        if(args.size()<3)return "Usage: fuse origin destination method [arguments...]";
+        REQUEST r{args[2],TOOL::Arguments(args.begin()+3,args.end())};
+        if(!authorization.permit(r))return "Denied: method not authorized for fusion";
+        if(!endpoints.count(args[0])||!endpoints.count(args[1]))return "Unknown interface";
+        auto nodes=path.find(args[0],args[1]);
+        if(nodes.empty())return "No passage";
+        for(std::size_t i=0;i<nodes.size();++i){
+            if(!endpoints.count(nodes[i]))return "Unregistered passage";
+            if(i && !compatibility.accept(nodes[i-1],nodes[i]))return "Incompatible passage";
+        }
+        return endpoints.at(nodes.back())->invoke(r).value;
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -511,9 +569,23 @@ class HYBRID {
     SSH ssh;
     RDP rdp{dispatcher};
     VNC vnc{dispatcher};
+    AUTHORIZATION authorization;
+    COMPATIBILITY compatibility{matrix};
+    FUSION fusion{path,compatibility,authorization};
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
+        fusion.attach("api",[this](const REQUEST& r){return api.invoke(r);});
+        fusion.attach("cli",[this](const REQUEST& r){return cli.invoke(r);});
+        fusion.attach("mcp",[this](const REQUEST& r){return mcp.invoke(r);});
+        fusion.attach("ssh",[this](const REQUEST& r){return ssh.invoke(r);});
+        fusion.attach("rdp",[this](const REQUEST& r){return rdp.invoke(r);});
+        fusion.attach("vnc",[this](const REQUEST& r){return vnc.invoke(r);});
+        fusion.attach("rpc",[this](const REQUEST& r){return rpc.call(r);});
+        TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
+        ring.connect(names);
+        for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
+        tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
