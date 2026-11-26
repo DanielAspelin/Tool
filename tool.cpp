@@ -1179,6 +1179,145 @@ public:
         return "Invalid resolved operation";
     }
 };
+class LOCATOR {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit LOCATOR(TOOL& t):tool(t){registry.add("find","locator","local operation");registry.add("list","locator","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==2&&a[0]=="find")return tool.registered(a[1])?"Registered":"Unknown invocation";if(a.size()==2&&a[0]=="list")return tool.catalogue(a[1]);return "Expected find or list and name";}
+};
+class POSITIONER {
+ REGISTRATION registry;
+ std::mutex guard;std::map<std::string,std::string> positions;
+public:
+ POSITIONER(){registry.add("set","positioner","local operation");registry.add("get","positioner","local operation");registry.add("remove","positioner","local operation");}
+ std::string invoke(const TOOL::Arguments& a){std::lock_guard<std::mutex> lock(guard);if(a.size()==3&&a[0]=="set"){if(!positions.count(a[1])&&positions.size()>=256)return "Capacity reached";positions[a[1]]=a[2];return "Position set";}if(a.size()==2&&a[0]=="get"){auto i=positions.find(a[1]);return i==positions.end()?"Unknown position":i->second;}if(a.size()==2&&a[0]=="remove")return positions.erase(a[1])?"Removed":"Unknown position";return "Invalid position operation";}
+};
+class PREPOSITIONER {
+ REGISTRATION registry;
+ POSITIONER& positioner;
+public:
+ explicit PREPOSITIONER(POSITIONER& p):positioner(p){registry.add("prepare","prepositioner","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==3&&a[0]=="prepare")return positioner.invoke({"set",a[1],a[2]});return "Expected prepare identity position";}
+};
+class PASSTHROUGH {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit PASSTHROUGH(TOOL& t):tool(t){registry.add("forward","passthrough","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()>=2&&a[0]=="forward")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected forward command";}
+};
+class ROUND {
+ REGISTRATION registry;
+ 
+public:
+ ROUND(){registry.add("plan","round","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()<2||a[0]!="plan")return "Expected plan origin [participants]";std::string out;for(std::size_t i=1;i<a.size();++i)out+=a[i]+" -> ";return out+a[1];}
+};
+class THROUGH {
+ REGISTRATION registry;
+ 
+public:
+ THROUGH(){registry.add("plan","through","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()<3||a[0]!="plan")return "Expected plan origin destination [passages]";std::string out;for(std::size_t i=1;i<a.size();++i)out+=(i==1?"":" -> ")+a[i];return out;}
+};
+class VELOCITY {
+ REGISTRATION registry;
+ 
+public:
+ VELOCITY(){registry.add("calculate","velocity","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=3||a[0]!="calculate")return "Expected calculate distance seconds";try{std::size_t x=0,y=0;double n=std::stod(a[1],&x),t=std::stod(a[2],&y);if(x!=a[1].size()||y!=a[2].size()||!std::isfinite(n)||!std::isfinite(t)||n<0||t<=0||!std::isfinite(n/t))return "Invalid measurement";return std::to_string(n/t)+" units/s";}catch(...){return "Invalid measurement";}}
+};
+class FREQUENCY {
+ REGISTRATION registry;
+ 
+public:
+ FREQUENCY(){registry.add("calculate","frequency","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=3||a[0]!="calculate")return "Expected calculate count seconds";try{std::size_t x=0,y=0;double n=std::stod(a[1],&x),t=std::stod(a[2],&y);if(x!=a[1].size()||y!=a[2].size()||!std::isfinite(n)||!std::isfinite(t)||n<0||t<=0||!std::isfinite(n/t))return "Invalid measurement";return std::to_string(n/t)+" Hz";}catch(...){return "Invalid measurement";}}
+};
+class ENTRY {
+ REGISTRATION registry;
+ 
+public:
+ ENTRY(){registry.add("inspect","entry","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("entry bytes=")+std::to_string(a[1].size());}
+};
+class EXIT {
+ REGISTRATION registry;
+ 
+public:
+ EXIT(){registry.add("inspect","exit","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("exit bytes=")+std::to_string(a[1].size());}
+};
+class INPUT {
+ REGISTRATION registry;
+ 
+public:
+ INPUT(){registry.add("inspect","input","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("input bytes=")+std::to_string(a[1].size());}
+};
+class OUTPUT {
+ REGISTRATION registry;
+ 
+public:
+ OUTPUT(){registry.add("inspect","output","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="inspect")return "Expected inspect value";return std::string("output bytes=")+std::to_string(a[1].size());}
+};
+class SHELL {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit SHELL(TOOL& t):tool(t){registry.add("run","shell","local operation");registry.add("list","shell","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
+};
+class TERMINAL {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit TERMINAL(TOOL& t):tool(t){registry.add("run","terminal","local operation");registry.add("list","terminal","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
+};
+class CONSOLE {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit CONSOLE(TOOL& t):tool(t){registry.add("run","console","local operation");registry.add("list","console","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.catalogue("");if(a.size()>=2&&a[0]=="run")return tool.invoke(a[1],TOOL::Arguments(a.begin()+2,a.end()));return "Expected run command or list";}
+};
+class PERSISTENCE {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit PERSISTENCE(TOOL& t):tool(t){registry.add("define","persistence","local operation");registry.add("transition","persistence","local operation");registry.add("list","persistence","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.invoke("invoke",{"list"});if(a.size()==2&&a[0]=="transition")return tool.invoke("invoke",{"transition",a[1],"persistent"});if(a.size()>=3&&a[0]=="define"){TOOL::Arguments args{"define","persistent"};args.insert(args.end(),a.begin()+1,a.end());return tool.invoke("invoke",args);}return "Invalid lifecycle operation";}
+};
+class VOLATILITY {
+ REGISTRATION registry;
+ TOOL& tool;
+public:
+ explicit VOLATILITY(TOOL& t):tool(t){registry.add("define","volatility","local operation");registry.add("transition","volatility","local operation");registry.add("list","volatility","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="list")return tool.invoke("invoke",{"list"});if(a.size()==2&&a[0]=="transition")return tool.invoke("invoke",{"transition",a[1],"volatile"});if(a.size()>=3&&a[0]=="define"){TOOL::Arguments args{"define","volatile"};args.insert(args.end(),a.begin()+1,a.end());return tool.invoke("invoke",args);}return "Invalid lifecycle operation";}
+};
+class IDLE {
+ REGISTRATION registry;
+ 
+public:
+ IDLE(){registry.add("status","idle","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()==1&&a[0]=="status")return "Idle policy: no work requested; actual scheduler idleness not measured";return "Expected status";}
+};
+class SLEEP {
+ REGISTRATION registry;
+ 
+public:
+ SLEEP(){registry.add("wait","sleep","local operation");}
+ std::string invoke(const TOOL::Arguments& a){if(a.size()!=2||a[0]!="wait")return "Expected wait milliseconds";unsigned ms=0;auto p=std::from_chars(a[1].data(),a[1].data()+a[1].size(),ms);if(p.ec!=std::errc{}||p.ptr!=a[1].data()+a[1].size()||ms>1000)return "Expected 0 to 1000 milliseconds";
+#if defined(__wasi__)
+return "Sleep unavailable on this target";
+#else
+std::this_thread::sleep_for(std::chrono::milliseconds(ms));return "Wait completed";
+#endif
+}
+};
 class REQUEST {
 public:
     std::string method;
@@ -2247,6 +2386,25 @@ class HYBRID {
     DOWNTIME downtime{uptime};
     TRIGGERED triggered;
     RESOLVED resolved{triggered};
+    LOCATOR locator{tool};
+    POSITIONER positioner;
+    PREPOSITIONER prepositioner{positioner};
+    PASSTHROUGH passthrough{tool};
+    ROUND round;
+    THROUGH through;
+    VELOCITY velocity;
+    FREQUENCY frequency;
+    ENTRY entry;
+    EXIT exit;
+    INPUT input;
+    OUTPUT output;
+    SHELL shell{tool};
+    TERMINAL terminal{tool};
+    CONSOLE console{tool};
+    PERSISTENCE persistence{tool};
+    VOLATILITY volatility{tool};
+    IDLE idle;
+    SLEEP sleep;
     HOTCODE hotcode{tool};
     QR qr;
     EAN ean;
@@ -2394,11 +2552,30 @@ public:
         tool.inject("downtime","runtime",[this](const TOOL::Arguments& a){return downtime.invoke(a);});
         tool.inject("triggered","runtime",[this](const TOOL::Arguments& a){return triggered.invoke(a);});
         tool.inject("resolved","runtime",[this](const TOOL::Arguments& a){return resolved.invoke(a);});
+        tool.inject("locator","runtime",[this](const TOOL::Arguments& a){return locator.invoke(a);});
+        tool.inject("positioner","runtime",[this](const TOOL::Arguments& a){return positioner.invoke(a);});
+        tool.inject("prepositioner","runtime",[this](const TOOL::Arguments& a){return prepositioner.invoke(a);});
+        tool.inject("passthrough","runtime",[this](const TOOL::Arguments& a){return passthrough.invoke(a);});
+        tool.inject("round","runtime",[this](const TOOL::Arguments& a){return round.invoke(a);});
+        tool.inject("through","runtime",[this](const TOOL::Arguments& a){return through.invoke(a);});
+        tool.inject("velocity","runtime",[this](const TOOL::Arguments& a){return velocity.invoke(a);});
+        tool.inject("frequency","runtime",[this](const TOOL::Arguments& a){return frequency.invoke(a);});
+        tool.inject("entry","runtime",[this](const TOOL::Arguments& a){return entry.invoke(a);});
+        tool.inject("exit.inspect.boundary","runtime",[this](const TOOL::Arguments& a){return exit.invoke(a);});
+        tool.inject("input","runtime",[this](const TOOL::Arguments& a){return input.invoke(a);});
+        tool.inject("output","runtime",[this](const TOOL::Arguments& a){return output.invoke(a);});
+        tool.inject("shell","runtime",[this](const TOOL::Arguments& a){return shell.invoke(a);});
+        tool.inject("terminal","runtime",[this](const TOOL::Arguments& a){return terminal.invoke(a);});
+        tool.inject("console","runtime",[this](const TOOL::Arguments& a){return console.invoke(a);});
+        tool.inject("persistence","runtime",[this](const TOOL::Arguments& a){return persistence.invoke(a);});
+        tool.inject("volatility","runtime",[this](const TOOL::Arguments& a){return volatility.invoke(a);});
+        tool.inject("idle","runtime",[this](const TOOL::Arguments& a){return idle.invoke(a);});
+        tool.inject("sleep","runtime",[this](const TOOL::Arguments& a){return sleep.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2471,7 +2648,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"locator",{"find","list"}},{"positioner",{"set","get","remove"}},{"prepositioner",{"prepare"}},{"passthrough",{"forward"}},{"round",{"plan"}},{"through",{"plan"}},{"velocity",{"calculate"}},{"frequency",{"calculate"}},{"entry",{"inspect"}},{"input",{"inspect"}},{"output",{"inspect"}},{"shell",{"run","list"}},{"terminal",{"run","list"}},{"console",{"run","list"}},{"persistence",{"define","transition","list"}},{"volatility",{"define","transition","list"}},{"idle",{"status"}},{"sleep",{"wait"}},{"session",{"list","trigger"}},{"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
