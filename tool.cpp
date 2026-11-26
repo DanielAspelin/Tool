@@ -868,6 +868,49 @@ public:
         return "Invalid runtime operation";
     }
 };
+class CAPSULE {
+    REGISTRATION registry;
+    std::mutex guard;
+    struct Record {std::string payload;bool sealed=false;bool quarantined=false;std::string reason;};
+    std::map<std::string,Record> records;
+public:
+    CAPSULE(){for(const std::string op:{"create","inspect","read","seal","remove","list"})registry.add(op,"capsule","volatile data");}
+    std::string invoke(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:records)out+=p.first+"\n";return out;}
+        if(a.size()<2)return "Expected operation and capsule identity";
+        if(a[0]=="create"&&a.size()==3){
+            if(a[1].empty()||a[1].size()>128||a[2].size()>4096||records.size()>=256||records.count(a[1]))return "Invalid capsule or capacity reached";
+            records.emplace(a[1],Record{a[2],false,false,{}});return "Capsule created";
+        }
+        auto it=records.find(a[1]);if(it==records.end())return "Unknown capsule";
+        auto& r=it->second;
+        if(a[0]=="inspect"&&a.size()==2)return std::string(r.quarantined?"quarantined":r.sealed?"sealed":"open")+"; bytes: "+std::to_string(r.payload.size());
+        if(r.quarantined)return "Capsule quarantined";
+        if(a[0]=="read"&&a.size()==2)return r.payload;
+        if(a[0]=="seal"&&a.size()==2){r.sealed=true;return "Capsule sealed";}
+        if(a[0]=="remove"&&a.size()==2){records.erase(it);return "Capsule removed";}
+        return "Invalid capsule operation";
+    }
+    std::string quarantine(const TOOL::Arguments& a){
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:records)if(p.second.quarantined)out+=p.first+"\n";return out;}
+        if(a.size()<2)return "Expected operation and capsule identity";
+        auto it=records.find(a[1]);if(it==records.end())return "Unknown capsule";
+        auto& r=it->second;
+        if(a[0]=="hold"&&a.size()==3&&!a[2].empty()&&a[2].size()<=512){if(r.quarantined)return "Already quarantined";r.reason=a[2];r.quarantined=true;return "Capsule quarantined";}
+        if(a[0]=="inspect"&&a.size()==2)return r.quarantined?"Quarantined: "+r.reason:"Not quarantined";
+        if(a[0]=="release"&&a.size()==2&&r.quarantined){r.quarantined=false;r.reason.clear();return "Capsule released by local operator (not verified)";}
+        return "Invalid quarantine operation";
+    }
+};
+class QUARANTINE {
+    REGISTRATION registry;
+    CAPSULE& capsule;
+public:
+    explicit QUARANTINE(CAPSULE& c):capsule(c){for(const std::string op:{"hold","inspect","release","list"})registry.add(op,"quarantine","capsule access restriction");}
+    std::string invoke(const TOOL::Arguments& a){return capsule.quarantine(a);}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1879,6 +1922,8 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    CAPSULE capsule;
+    QUARANTINE quarantine{capsule};
     RUNTIME runtime{tool};
     SOCKET socket;
     SERVICE service{tool};
@@ -1995,11 +2040,13 @@ public:
         tool.inject("socket","runtime",[this](const TOOL::Arguments& a){return socket.invoke(a);});
         tool.inject("service","runtime",[this](const TOOL::Arguments& a){return service.invoke(a);});
         tool.inject("runtime","runtime",[this](const TOOL::Arguments& a){return runtime.invoke(a);});
+        tool.inject("capsule","runtime",[this](const TOOL::Arguments& a){return capsule.invoke(a);});
+        tool.inject("quarantine","runtime",[this](const TOOL::Arguments& a){return quarantine.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2072,7 +2119,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
