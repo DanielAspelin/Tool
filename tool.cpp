@@ -61,10 +61,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -99,6 +102,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TIMESTAMP",{{"class","TIMESTAMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMESTAMP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry;
 public:
@@ -140,10 +153,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -178,6 +194,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IPIFY",{{"class","IPIFY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPIFY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     TIMESTAMP& clock;
     std::mutex guard;
@@ -240,10 +266,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -278,6 +307,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DUMP",{{"class","DUMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DUMP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     TIMESTAMP& clock;
     std::mutex guard;
@@ -328,10 +367,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -366,6 +408,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SIGNAL",{{"class","SIGNAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::mutex guard;
     std::map<std::string,std::map<std::string,unsigned long long>> registry;
@@ -412,10 +464,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -450,6 +505,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRIGGER",{{"class","TRIGGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     SIGNAL& signal;
     std::mutex guard;
@@ -482,10 +547,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -520,6 +588,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CPU",{{"class","CPU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPU"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"capacity",{{"source","hardware concurrency"}}}};
 public:
@@ -548,10 +626,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -586,6 +667,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MEMORY",{{"class","MEMORY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MEMORY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","bounded input"}}}};
 public:
@@ -619,10 +710,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -657,6 +751,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"THERMAL",{{"class","THERMAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THERMAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux thermal zones"}}}};
 public:
@@ -696,10 +800,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -734,6 +841,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CAPACITY",{{"class","CAPACITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPACITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     CPU& cpu;
     std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","bounded concurrency"}}}};
@@ -764,10 +881,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -802,6 +922,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PRESSURE",{{"class","PRESSURE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRESSURE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"observe",{{"source","Linux PSI"}}}};
 public:
@@ -836,10 +966,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -874,6 +1007,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONFLICT",{{"class","CONFLICT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFLICT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","exclusive named operation"}}}};
     std::mutex guard;
@@ -905,10 +1048,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -943,6 +1089,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"THROTTLE",{{"class","THROTTLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROTTLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     THERMAL& thermal; PRESSURE& pressure; CAPACITY& capacity;
     std::map<std::string,std::map<std::string,std::string>> registry{{"limit",{{"policy","conservative adaptive admission"}}}};
@@ -978,10 +1134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1016,6 +1175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GUARD",{{"class","GUARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GUARD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MEMORY& memory;
     std::map<std::string,std::map<std::string,std::string>> registry{{"accept",{{"policy","input and depth limits"}}}};
@@ -1046,10 +1215,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1084,6 +1256,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUEUE",{{"class","QUEUE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUEUE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"submit",{{"policy","bounded FIFO"}}}};
     std::mutex guard;std::queue<std::function<void()>> jobs;
@@ -1114,10 +1296,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1152,6 +1337,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WATCHDOG",{{"class","WATCHDOG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WATCHDOG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"expired",{{"policy","observe elapsed deadline"}}}};
 public:
@@ -1180,10 +1375,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1218,6 +1416,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLEANUP",{{"class","CLEANUP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLEANUP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string,std::map<std::string,std::string>> registry{{"release",{{"policy","scope exit"}}}};
 public:
@@ -1246,10 +1454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1284,6 +1495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SCHEDULER",{{"class","SCHEDULER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCHEDULER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     THROTTLE& throttle;
     std::map<std::string,std::map<std::string,std::string>> registry{{"enter",{{"policy","bounded admission"}}}};
@@ -1316,10 +1537,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1354,6 +1578,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TOOL",{{"class","TOOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOOL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
 public:
     using Arguments = std::vector<std::string>;
@@ -1561,10 +1795,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1599,6 +1836,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REGISTRATION",{{"class","REGISTRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGISTRATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     std::map<std::string, std::map<std::string, std::string>> records;
     mutable std::mutex guard;
@@ -1632,10 +1879,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1670,6 +1920,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VALUE",{{"class","VALUE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALUE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -1703,10 +1963,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1741,6 +2004,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PARAMETER",{{"class","PARAMETER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARAMETER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::string name;
@@ -1777,10 +2050,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1815,6 +2091,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REFERENCE",{{"class","REFERENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFERENCE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::string identity;
@@ -1846,10 +2132,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1884,6 +2173,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ARGUMENT",{{"class","ARGUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARGUMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::shared_ptr<const VALUE> value;
@@ -1915,10 +2214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -1953,6 +2255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VARIABLE",{{"class","VARIABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VARIABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     mutable std::mutex guard;
@@ -1985,10 +2297,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2023,6 +2338,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RETURN",{{"class","RETURN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -2053,10 +2378,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2091,6 +2419,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FUNCTION",{{"class","FUNCTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL::Invocation callable;
@@ -2124,10 +2462,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2162,6 +2503,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CALL",{{"class","CALL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -2194,10 +2545,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2232,6 +2586,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLASS",{{"class","CLASS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::string name;
@@ -2262,10 +2626,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2300,6 +2667,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OBJECT",{{"class","OBJECT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::shared_ptr<const CLASS> definition;
@@ -2339,10 +2716,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2377,6 +2757,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INSTANCE",{{"class","INSTANCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTANCE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::string identity;
@@ -2409,10 +2799,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2447,6 +2840,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ARRAY",{{"class","ARRAY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARRAY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     mutable std::mutex guard;
@@ -2486,10 +2889,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2524,6 +2930,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BOOLEAN",{{"class","BOOLEAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOLEAN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const bool value;
@@ -2559,10 +2975,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2597,6 +3016,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INTEGER",{{"class","INTEGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTEGER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::int64_t value;
@@ -2633,10 +3062,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2671,6 +3103,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FLOAT",{{"class","FLOAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOAT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const float value;
@@ -2707,10 +3149,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2745,6 +3190,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DOUBLE",{{"class","DOUBLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOUBLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const double value;
@@ -2781,10 +3236,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2819,6 +3277,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CHARACTER",{{"class","CHARACTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHARACTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const char32_t value;
@@ -2871,10 +3339,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2909,6 +3380,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STRING",{{"class","STRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STRING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::string value;
@@ -2947,10 +3428,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -2985,6 +3469,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TOKEN",{{"class","TOKEN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKEN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::string category,identity,origin,scope;
@@ -3030,10 +3524,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3068,6 +3565,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TIME",{{"class","TIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
@@ -3103,10 +3610,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3141,6 +3651,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DATE",{{"class","DATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
@@ -3171,10 +3691,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3209,6 +3732,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TIMEDATE",{{"class","TIMEDATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TIMEDATE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const TIMESTAMP::Snapshot snapshot;
@@ -3242,10 +3775,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3280,6 +3816,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GPL",{{"class","GPL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3311,10 +3857,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3349,6 +3898,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GNU",{{"class","GNU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GNU"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3380,10 +3939,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3418,6 +3980,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RFC",{{"class","RFC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3449,10 +4021,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3487,6 +4062,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ISO",{{"class","ISO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ISO"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3518,10 +4103,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3556,6 +4144,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IEC",{{"class","IEC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IEC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3587,10 +4185,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3625,6 +4226,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ASSEMBLER",{{"class","ASSEMBLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3663,10 +4274,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3701,6 +4315,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DISASSEMBLER",{{"class","DISASSEMBLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISASSEMBLER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -3743,10 +4367,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3781,6 +4408,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SOCKET",{{"class","SOCKET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOCKET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -3825,10 +4462,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3863,6 +4503,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SERVICE",{{"class","SERVICE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVICE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -3907,10 +4557,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -3945,6 +4598,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RUNTIME",{{"class","RUNTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUNTIME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -4011,10 +4674,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4049,6 +4715,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CAPSULE",{{"class","CAPSULE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPSULE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -4108,10 +4784,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4146,6 +4825,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUARANTINE",{{"class","QUARANTINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUARANTINE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     CAPSULE& capsule;
@@ -4176,10 +4865,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4214,6 +4906,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENVIRONMENT",{{"class","ENVIRONMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENVIRONMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -4261,10 +4963,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4299,6 +5004,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FACILITY",{{"class","FACILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FACILITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     ENVIRONMENT& environment;
@@ -4343,10 +5058,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4381,6 +5099,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUDIT",{{"class","AUDIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUDIT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -4419,10 +5147,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4457,6 +5188,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORENSIC",{{"class","FORENSIC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSIC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     AUDIT& audit;
@@ -4492,10 +5233,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4530,6 +5274,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STATISTICAL",{{"class","STATISTICAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -4569,10 +5323,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4607,6 +5364,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANALYTICAL",{{"class","ANALYTICAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     AUDIT& audit;
@@ -4641,10 +5408,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4679,6 +5449,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STATUS",{{"class","STATUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATUS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -4717,10 +5497,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4755,6 +5538,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QR",{{"class","QR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -4798,10 +5591,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4836,6 +5632,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EAN",{{"class","EAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EAN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     static bool digits(const std::string& s){return !s.empty()&&s.find_first_not_of("0123456789")==std::string::npos;}
@@ -4873,10 +5679,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -4911,6 +5720,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HOTCODE",{{"class","HOTCODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTCODE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -4963,10 +5782,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5001,6 +5823,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"UPTIME",{{"class","UPTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UPTIME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -5053,10 +5885,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5091,6 +5926,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DOWNTIME",{{"class","DOWNTIME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOWNTIME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     UPTIME& uptime;
@@ -5127,10 +5972,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5165,6 +6013,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRIGGERED",{{"class","TRIGGERED"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRIGGERED"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -5217,10 +6075,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5255,6 +6116,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RESOLVED",{{"class","RESOLVED"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOLVED"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TRIGGERED& triggered;
@@ -5289,10 +6160,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5327,6 +6201,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LOCATOR",{{"class","LOCATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -5357,10 +6241,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5395,6 +6282,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"POSITIONER",{{"class","POSITIONER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POSITIONER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  std::mutex guard;std::map<std::string,std::string> positions;
@@ -5425,10 +6322,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5463,6 +6363,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PREPOSITIONER",{{"class","PREPOSITIONER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PREPOSITIONER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  POSITIONER& positioner;
@@ -5493,10 +6403,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5531,6 +6444,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PASSTHROUGH",{{"class","PASSTHROUGH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSTHROUGH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -5561,10 +6484,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5599,6 +6525,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ROUND",{{"class","ROUND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUND"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5629,10 +6565,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5667,6 +6606,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"THROUGH",{{"class","THROUGH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","THROUGH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5697,10 +6646,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5735,6 +6687,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VELOCITY",{{"class","VELOCITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VELOCITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5765,10 +6727,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5803,6 +6768,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FREQUENCY",{{"class","FREQUENCY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FREQUENCY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5833,10 +6808,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5871,6 +6849,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENTRY",{{"class","ENTRY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTRY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5901,10 +6889,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -5939,6 +6930,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXIT",{{"class","EXIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXIT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -5969,10 +6970,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6007,6 +7011,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INPUT",{{"class","INPUT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INPUT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -6037,10 +7051,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6075,6 +7092,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OUTPUT",{{"class","OUTPUT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OUTPUT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -6105,10 +7132,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6143,6 +7173,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SHELL",{{"class","SHELL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHELL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -6173,10 +7213,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6211,6 +7254,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TERMINAL",{{"class","TERMINAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TERMINAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -6241,10 +7294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6279,6 +7335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONSOLE",{{"class","CONSOLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSOLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -6309,10 +7375,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6347,6 +7416,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PERSISTENCE",{{"class","PERSISTENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PERSISTENCE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -6377,10 +7456,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6415,6 +7497,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VOLATILITY",{{"class","VOLATILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLATILITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -6445,10 +7537,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6483,6 +7578,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IDLE",{{"class","IDLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -6513,10 +7618,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6551,6 +7659,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SLEEP",{{"class","SLEEP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SLEEP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -6587,10 +7705,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6625,6 +7746,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DETECTION",{{"class","DETECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETECTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -6672,10 +7803,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6710,6 +7844,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CALLABLE",{{"class","CALLABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALLABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     TOOL& tool;
@@ -6746,10 +7890,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6784,6 +7931,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INVOKABLE",{{"class","INVOKABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INVOKABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     CALLABLE& callable;
@@ -6818,10 +7975,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6856,6 +8016,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RETURNABLE",{{"class","RETURNABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RETURNABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -6898,10 +8068,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -6936,6 +8109,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"COMPILER",{{"class","COMPILER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPILER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -6966,10 +8149,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7004,6 +8190,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DECOMPILER",{{"class","DECOMPILER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECOMPILER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7034,10 +8230,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7072,6 +8271,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HEX",{{"class","HEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7102,10 +8311,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7140,6 +8352,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HEXADECIMAL",{{"class","HEXADECIMAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXADECIMAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7170,10 +8392,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7208,6 +8433,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HEXTABLE",{{"class","HEXTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEXTABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7238,10 +8473,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7276,6 +8514,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTOMATION",{{"class","AUTOMATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -7306,10 +8554,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7344,6 +8595,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GENERATION",{{"class","GENERATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7374,10 +8635,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7412,6 +8676,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENCRYPTION",{{"class","ENCRYPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCRYPTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7442,10 +8716,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7480,6 +8757,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DECRYPTION",{{"class","DECRYPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECRYPTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7510,10 +8797,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7548,6 +8838,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENCODING",{{"class","ENCODING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENCODING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  HEX& hex;
@@ -7578,10 +8878,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7616,6 +8919,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DECODING",{{"class","DECODING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DECODING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  HEX& hex;
@@ -7646,10 +8959,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7684,6 +9000,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LEXER",{{"class","LEXER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7714,10 +9040,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7752,6 +9081,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DELEXER",{{"class","DELEXER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7782,10 +9121,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7820,6 +9162,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LEXICALISER",{{"class","LEXICALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEXICALISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7850,10 +9202,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7888,6 +9243,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DELEXICALISER",{{"class","DELEXICALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DELEXICALISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7918,10 +9283,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -7956,6 +9324,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TOKENISER",{{"class","TOKENISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TOKENISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -7986,10 +9364,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8024,6 +9405,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DETOKENISER",{{"class","DETOKENISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DETOKENISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8054,10 +9445,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8092,6 +9486,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PARSER",{{"class","PARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PARSER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  LEXER& lexer;
@@ -8122,10 +9526,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8160,6 +9567,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRANSPARSER",{{"class","TRANSPARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPARSER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  LEXER& lexer;
@@ -8190,10 +9607,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8228,6 +9648,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CROSSPARSER",{{"class","CROSSPARSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CROSSPARSER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  LEXER& lexer;
@@ -8258,10 +9688,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8296,6 +9729,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROCESS",{{"class","PROCESS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -8326,10 +9769,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8364,6 +9810,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROCESSOR",{{"class","PROCESSOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -8394,10 +9850,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8432,6 +9891,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALLOCATOR",{{"class","ALLOCATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8462,10 +9931,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8500,6 +9972,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SERIALISER",{{"class","SERIALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERIALISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8530,10 +10012,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8568,6 +10053,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DESERIALISER",{{"class","DESERIALISER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESERIALISER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8598,10 +10093,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8636,6 +10134,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HASHER",{{"class","HASHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HASHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8666,10 +10174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8704,6 +10215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SALTER",{{"class","SALTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SALTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8734,10 +10255,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8772,6 +10296,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LOCKMAKER",{{"class","LOCKMAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCKMAKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8802,10 +10336,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8840,6 +10377,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"KEYMAKER",{{"class","KEYMAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KEYMAKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8870,10 +10417,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8908,6 +10458,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BUILDER",{{"class","BUILDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BUILDER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -8938,10 +10498,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -8976,6 +10539,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LINKER",{{"class","LINKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9006,10 +10579,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9044,6 +10620,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DEBUGGER",{{"class","DEBUGGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBUGGER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9074,10 +10660,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9112,6 +10701,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SCANNER",{{"class","SCANNER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCANNER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9142,10 +10741,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9180,6 +10782,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PRINTER",{{"class","PRINTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PRINTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9210,10 +10822,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9248,6 +10863,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PORT",{{"class","PORT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PORT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9278,10 +10903,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9316,6 +10944,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FINDER",{{"class","FINDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FINDER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -9346,10 +10984,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9384,6 +11025,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SEARCH",{{"class","SEARCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEARCH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -9414,10 +11065,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9452,6 +11106,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLOAKER",{{"class","CLOAKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOAKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9482,10 +11146,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9520,6 +11187,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONCEALER",{{"class","CONCEALER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONCEALER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9550,10 +11227,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9588,6 +11268,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXPOSER",{{"class","EXPOSER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPOSER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9618,10 +11308,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9656,6 +11349,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IMPORTER",{{"class","IMPORTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMPORTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9686,10 +11389,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9724,6 +11430,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXPORTER",{{"class","EXPORTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPORTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9754,10 +11470,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9792,6 +11511,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLIPBOARD",{{"class","CLIPBOARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIPBOARD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  std::mutex guard;std::string value;
@@ -9822,10 +11551,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9860,6 +11592,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CACHER",{{"class","CACHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CACHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  std::mutex guard;std::map<std::string,std::string> values;
@@ -9890,10 +11632,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9928,6 +11673,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INTERFACE",{{"class","INTERFACE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERFACE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -9958,10 +11713,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -9996,6 +11754,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DRIVER",{{"class","DRIVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DRIVER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10026,10 +11794,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10064,6 +11835,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONTROLLER",{{"class","CONTROLLER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONTROLLER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -10094,10 +11875,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10132,6 +11916,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DEVICE",{{"class","DEVICE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEVICE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10162,10 +11956,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10200,6 +11997,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SYSTEM",{{"class","SYSTEM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYSTEM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10244,10 +12051,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10282,6 +12092,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TYPE",{{"class","TYPE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TYPE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10312,10 +12132,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10350,6 +12173,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MODE",{{"class","MODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MODE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10380,10 +12213,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10418,6 +12254,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONDITION",{{"class","CONDITION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONDITION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10448,10 +12294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10486,6 +12335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STATE",{{"class","STATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10516,10 +12375,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10554,6 +12416,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NETWORK",{{"class","NETWORK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NETWORK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10584,10 +12456,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10622,6 +12497,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TCPIP",{{"class","TCPIP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCPIP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10652,10 +12537,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10690,6 +12578,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GPS",{{"class","GPS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10720,10 +12618,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10758,6 +12659,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GSM",{{"class","GSM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GSM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10788,10 +12699,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10826,6 +12740,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IMEI",{{"class","IMEI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMEI"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10856,10 +12780,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10894,6 +12821,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RFID",{{"class","RFID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RFID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10924,10 +12861,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -10962,6 +12902,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RAM",{{"class","RAM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RAM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -10992,10 +12942,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11030,6 +12983,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GPU",{{"class","GPU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GPU"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11060,10 +13023,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11098,6 +13064,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SD",{{"class","SD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11128,10 +13104,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11166,6 +13145,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DEV",{{"class","DEV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEV"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11196,10 +13185,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11234,6 +13226,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LAN",{{"class","LAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11264,10 +13266,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11302,6 +13307,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WAN",{{"class","WAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11332,10 +13347,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11370,6 +13388,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HOST",{{"class","HOST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11400,10 +13428,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11438,6 +13469,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HOSTNAME",{{"class","HOSTNAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTNAME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11468,10 +13509,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11506,6 +13550,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TCP",{{"class","TCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TCP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11536,10 +13590,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11574,6 +13631,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IP",{{"class","IP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11604,10 +13671,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11642,6 +13712,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"UDP",{{"class","UDP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UDP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11672,10 +13752,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11710,6 +13793,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ICMP",{{"class","ICMP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICMP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11740,10 +13833,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11778,6 +13874,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NAT",{{"class","NAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11808,10 +13914,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11846,6 +13955,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MAC",{{"class","MAC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11876,10 +13995,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11914,6 +14036,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FAT",{{"class","FAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -11944,10 +14076,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -11982,6 +14117,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FAT32",{{"class","FAT32"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FAT32"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12012,10 +14157,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12050,6 +14198,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NTFS",{{"class","NTFS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NTFS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12080,10 +14238,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12118,6 +14279,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"APFS",{{"class","APFS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APFS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12148,10 +14319,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12186,6 +14360,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXT4",{{"class","EXT4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXT4"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12216,10 +14400,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12254,6 +14441,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXFAT",{{"class","EXFAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXFAT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12284,10 +14481,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12322,6 +14522,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AARCH",{{"class","AARCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AARCH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12352,10 +14562,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12390,6 +14603,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ARM",{{"class","ARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12420,10 +14643,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12458,6 +14684,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AMR64",{{"class","AMR64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMR64"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12488,10 +14724,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12526,6 +14765,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"X86",{{"class","X86"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12556,10 +14805,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12594,6 +14846,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"X86_64",{{"class","X86_64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","X86_64"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12624,10 +14886,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12662,6 +14927,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AMD64",{{"class","AMD64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AMD64"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12692,10 +14967,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12730,6 +15008,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RISCV",{{"class","RISCV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RISCV"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12760,10 +15048,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12798,6 +15089,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PSU",{{"class","PSU"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSU"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12828,10 +15129,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12866,6 +15170,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"POWER",{{"class","POWER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POWER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12896,10 +15210,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -12934,6 +15251,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OAUTH",{{"class","OAUTH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAUTH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -12964,10 +15291,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13002,6 +15332,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SSL",{{"class","SSL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13032,10 +15372,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13070,6 +15413,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TLS",{{"class","TLS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13100,10 +15453,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13138,6 +15494,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HTTP",{{"class","HTTP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13168,10 +15534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13206,6 +15575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HTTPS",{{"class","HTTPS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTTPS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13236,10 +15615,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13274,6 +15656,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FTP",{{"class","FTP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FTP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13304,10 +15696,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13342,6 +15737,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DNS",{{"class","DNS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DNS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13372,10 +15777,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13410,6 +15818,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DHCP",{{"class","DHCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DHCP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13440,10 +15858,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13478,6 +15899,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VPN",{{"class","VPN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VPN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13508,10 +15939,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13546,6 +15980,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROXY",{{"class","PROXY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13576,10 +16020,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13614,6 +16061,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FIREWALL",{{"class","FIREWALL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIREWALL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13644,10 +16101,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13682,6 +16142,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"UUID",{{"class","UUID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UUID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13712,10 +16182,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13750,6 +16223,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENTER",{{"class","ENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13780,10 +16263,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13818,6 +16304,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ESC",{{"class","ESC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ESC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13848,10 +16344,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13886,6 +16385,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CTRL",{{"class","CTRL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CTRL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13916,10 +16425,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -13954,6 +16466,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALT",{{"class","ALT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -13984,10 +16506,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14022,6 +16547,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SPACE",{{"class","SPACE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SPACE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14052,10 +16587,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14090,6 +16628,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SHIFT",{{"class","SHIFT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHIFT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14120,10 +16668,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14158,6 +16709,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TAB",{{"class","TAB"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TAB"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14188,10 +16749,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14226,6 +16790,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NAME",{{"class","NAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NAME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14256,10 +16830,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14294,6 +16871,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NUMBER",{{"class","NUMBER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NUMBER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14324,10 +16911,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14362,6 +16952,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PID",{{"class","PID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14392,10 +16992,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14430,6 +17033,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"USB",{{"class","USB"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USB"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14460,10 +17073,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14498,6 +17114,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ARPA",{{"class","ARPA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARPA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14528,10 +17154,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14566,6 +17195,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROVIDER",{{"class","PROVIDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROVIDER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14596,10 +17235,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14634,6 +17276,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SMS",{{"class","SMS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SMS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14664,10 +17316,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14702,6 +17357,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TLD",{{"class","TLD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TLD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14732,10 +17397,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14770,6 +17438,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ICANN",{{"class","ICANN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ICANN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14800,10 +17478,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14838,6 +17519,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IANA",{{"class","IANA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IANA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14868,10 +17559,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14906,6 +17600,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IETF",{{"class","IETF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IETF"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -14936,10 +17640,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -14974,6 +17681,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"W3C",{{"class","W3C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","W3C"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15004,10 +17721,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15042,6 +17762,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WWW",{{"class","WWW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WWW"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15072,10 +17802,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15110,6 +17843,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NODE",{{"class","NODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15140,10 +17883,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15178,6 +17924,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NODEJS",{{"class","NODEJS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NODEJS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15208,10 +17964,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15246,6 +18005,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IMAGE",{{"class","IMAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMAGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15276,10 +18045,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15314,6 +18086,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IMG",{{"class","IMG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15344,10 +18126,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15382,6 +18167,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BLOCK",{{"class","BLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLOCK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15412,10 +18207,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15450,6 +18248,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LINE",{{"class","LINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15480,10 +18288,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15518,6 +18329,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ENDOFFILE",{{"class","ENDOFFILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ENDOFFILE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15548,10 +18369,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15586,6 +18410,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SCRIPT",{{"class","SCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCRIPT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15616,10 +18450,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15654,6 +18491,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SOURCECODE",{{"class","SOURCECODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCECODE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15684,10 +18531,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15722,6 +18572,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BINARY",{{"class","BINARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BINARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15752,10 +18612,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15790,6 +18653,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SOURCE",{{"class","SOURCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SOURCE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15820,10 +18693,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15858,6 +18734,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DESTINATION",{{"class","DESTINATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DESTINATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15888,10 +18774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15926,6 +18815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TARGET",{{"class","TARGET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TARGET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -15956,10 +18855,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -15994,6 +18896,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CERTIFICATE",{{"class","CERTIFICATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CERTIFICATE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16024,10 +18936,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16062,6 +18977,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PASSPHRASE",{{"class","PASSPHRASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSPHRASE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16092,10 +19017,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16130,6 +19058,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PASSWORD",{{"class","PASSWORD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PASSWORD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16160,10 +19098,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16198,6 +19139,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"USERNAME",{{"class","USERNAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USERNAME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16228,10 +19179,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16266,6 +19220,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"USER",{{"class","USER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","USER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16296,10 +19260,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16334,6 +19301,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SECRET",{{"class","SECRET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SECRET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16364,10 +19341,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16402,6 +19382,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DATABASE",{{"class","DATABASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATABASE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16432,10 +19422,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16470,6 +19463,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TABLE",{{"class","TABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16500,10 +19503,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16538,6 +19544,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"COLUMN",{{"class","COLUMN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COLUMN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16568,10 +19584,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16606,6 +19625,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ROW",{{"class","ROW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROW"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16636,10 +19665,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16674,6 +19706,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TUPLE",{{"class","TUPLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TUPLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16704,10 +19746,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16742,6 +19787,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUERY",{{"class","QUERY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUERY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16772,10 +19827,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16810,6 +19868,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"POLICY",{{"class","POLICY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POLICY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16840,10 +19908,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16878,6 +19949,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MAP",{{"class","MAP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16908,10 +19989,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -16946,6 +20030,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TREE",{{"class","TREE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TREE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -16976,10 +20070,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17014,6 +20111,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MINDMAP",{{"class","MINDMAP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MINDMAP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17044,10 +20151,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17082,6 +20192,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MARKDOWN",{{"class","MARKDOWN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MARKDOWN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17112,10 +20232,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17150,6 +20273,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PDF",{{"class","PDF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PDF"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17180,10 +20313,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17218,6 +20354,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JSON",{{"class","JSON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JSON"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17248,10 +20394,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17286,6 +20435,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"XML",{{"class","XML"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","XML"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17316,10 +20475,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17354,6 +20516,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CSV",{{"class","CSV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSV"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17384,10 +20556,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17422,6 +20597,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SIGNATURE",{{"class","SIGNATURE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SIGNATURE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17452,10 +20637,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17490,6 +20678,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTHOR",{{"class","AUTHOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17520,10 +20718,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17558,6 +20759,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SENDER",{{"class","SENDER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENDER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17588,10 +20799,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17626,6 +20840,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RECEIVER",{{"class","RECEIVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECEIVER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17656,10 +20880,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17694,6 +20921,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRANSMISSION",{{"class","TRANSMISSION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSMISSION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17724,10 +20961,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17762,6 +21002,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WIFI",{{"class","WIFI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIFI"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17792,10 +21042,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17830,6 +21083,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HOTSPOT",{{"class","HOTSPOT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOTSPOT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17860,10 +21123,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17898,6 +21164,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TETHER",{{"class","TETHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TETHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17928,10 +21204,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -17966,6 +21245,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LEDGER",{{"class","LEDGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEDGER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -17996,10 +21285,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18034,6 +21326,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ROUTER",{{"class","ROUTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18064,10 +21366,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18102,6 +21407,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SWITCH",{{"class","SWITCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWITCH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18132,10 +21447,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18170,6 +21488,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GATEWAY",{{"class","GATEWAY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GATEWAY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18200,10 +21528,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18238,6 +21569,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SUBNET",{{"class","SUBNET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUBNET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18268,10 +21609,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18306,6 +21650,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IPV4",{{"class","IPV4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV4"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18336,10 +21690,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18374,6 +21731,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IPV6",{{"class","IPV6"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IPV6"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18404,10 +21771,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18442,6 +21812,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PAGING",{{"class","PAGING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PAGING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  
@@ -18472,10 +21852,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18510,6 +21893,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"COMMAND",{{"class","COMMAND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMMAND"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -18540,10 +21933,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18578,6 +21974,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INSTRUCTION",{{"class","INSTRUCTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUCTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
  TOOL& tool;
@@ -18608,10 +22014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18646,6 +22055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BASH",{{"class","BASH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -18675,10 +22094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18713,6 +22135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PS1",{{"class","PS1"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PS1"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -18742,10 +22174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18780,6 +22215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"APPLESCRIPT",{{"class","APPLESCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPLESCRIPT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -18809,10 +22254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18847,6 +22295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CMD",{{"class","CMD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CMD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -18876,10 +22334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18914,6 +22375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BATCH",{{"class","BATCH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BATCH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -18943,10 +22414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -18981,6 +22455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WINDOWS",{{"class","WINDOWS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WINDOWS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19010,10 +22494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19048,6 +22535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MACOS",{{"class","MACOS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MACOS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19077,10 +22574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19115,6 +22615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LINUX",{{"class","LINUX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LINUX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19144,10 +22654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19182,6 +22695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANDROID",{{"class","ANDROID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANDROID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19211,10 +22734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19249,6 +22775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IOS",{{"class","IOS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IOS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19278,10 +22814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19316,6 +22855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DEBIAN",{{"class","DEBIAN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEBIAN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19345,10 +22894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19383,6 +22935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FEDORA",{{"class","FEDORA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FEDORA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19412,10 +22974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19450,6 +23015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GENTOO",{{"class","GENTOO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENTOO"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19479,10 +23054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19517,6 +23095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PATCHER",{{"class","PATCHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATCHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19546,10 +23134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19584,6 +23175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WRAPPER",{{"class","WRAPPER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WRAPPER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19613,10 +23214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19651,6 +23255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORKER",{{"class","FORKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19680,10 +23294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19718,6 +23335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WIRING",{{"class","WIRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WIRING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19747,10 +23374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19785,6 +23415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VOLUME",{{"class","VOLUME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOLUME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19814,10 +23454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19852,6 +23495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLUSTER",{{"class","CLUSTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLUSTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19881,10 +23534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19919,6 +23575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REPLICATION",{{"class","REPLICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPLICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -19948,10 +23614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -19986,6 +23655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MIGRATION",{{"class","MIGRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MIGRATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20015,10 +23694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20053,6 +23735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"UNIT",{{"class","UNIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UNIT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20082,10 +23774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20120,6 +23815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INSTALLATION",{{"class","INSTALLATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTALLATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20149,10 +23854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20187,6 +23895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PACKAGING",{{"class","PACKAGING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20216,10 +23934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20254,6 +23975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PACKAGE",{{"class","PACKAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKAGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20283,10 +24014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20321,6 +24055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PACKET",{{"class","PACKET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PACKET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20350,10 +24094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20388,6 +24135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FILTER",{{"class","FILTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20417,10 +24174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20455,6 +24215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SENSOR",{{"class","SENSOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SENSOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20484,10 +24254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20522,6 +24295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROXIMITY",{{"class","PROXIMITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROXIMITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20551,10 +24334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20589,6 +24375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DISTRIBUTION",{{"class","DISTRIBUTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISTRIBUTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20618,10 +24414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20656,6 +24455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GROUPING",{{"class","GROUPING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GROUPING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20685,10 +24494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20723,6 +24535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RESOURCING",{{"class","RESOURCING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESOURCING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20752,10 +24574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20790,6 +24615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HARDWARE",{{"class","HARDWARE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HARDWARE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20819,10 +24654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20857,6 +24695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FIRMWARE",{{"class","FIRMWARE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FIRMWARE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20886,10 +24734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20924,6 +24775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BOOTLOADING",{{"class","BOOTLOADING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTLOADING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -20953,10 +24814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -20991,6 +24855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BOOTSTRAPPING",{{"class","BOOTSTRAPPING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSTRAPPING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21020,10 +24894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21058,6 +24935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HOSTING",{{"class","HOSTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HOSTING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21087,10 +24974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21125,6 +25015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SITE",{{"class","SITE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SITE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21154,10 +25054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21192,6 +25095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DOMAIN",{{"class","DOMAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOMAIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21221,10 +25134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21259,6 +25175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FOREST",{{"class","FOREST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOREST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21288,10 +25214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21326,6 +25255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GLOBAL",{{"class","GLOBAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOBAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21355,10 +25294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21393,6 +25335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LOCAL",{{"class","LOCAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOCAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21422,10 +25374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21460,6 +25415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JOINER",{{"class","JOINER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JOINER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21489,10 +25454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21527,6 +25495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LEAVER",{{"class","LEAVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEAVER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21556,10 +25534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21594,6 +25575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ONLINE",{{"class","ONLINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ONLINE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21623,10 +25614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21661,6 +25655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OFFLINE",{{"class","OFFLINE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OFFLINE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21690,10 +25694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21728,6 +25735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DAEMON",{{"class","DAEMON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DAEMON"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21757,10 +25774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21795,6 +25815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"KERNEL",{{"class","KERNEL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KERNEL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21824,10 +25854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21862,6 +25895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"KO",{{"class","KO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KO"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21891,10 +25934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21929,6 +25975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"KBUILD",{{"class","KBUILD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","KBUILD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -21958,10 +26014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -21996,6 +26055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INSTRUMENT",{{"class","INSTRUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTRUMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22025,10 +26094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22063,6 +26135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLOUD",{{"class","CLOUD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOUD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22092,10 +26174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22130,6 +26215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DATACENTER",{{"class","DATACENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DATACENTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22159,10 +26254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22197,6 +26295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FRAME",{{"class","FRAME"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAME"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22226,10 +26334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22264,6 +26375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MAIN",{{"class","MAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22293,10 +26414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22331,6 +26455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MAINSYSTEM",{{"class","MAINSYSTEM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MAINSYSTEM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22360,10 +26494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22398,6 +26535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALLOCATION",{{"class","ALLOCATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALLOCATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22427,10 +26574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22465,6 +26615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PROCESSING",{{"class","PROCESSING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PROCESSING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22494,10 +26654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22532,6 +26695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VERSIONING",{{"class","VERSIONING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERSIONING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22561,10 +26734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22599,6 +26775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRANSVERSIONING",{{"class","TRANSVERSIONING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSVERSIONING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22628,10 +26814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22666,6 +26855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUALIFICATION",{{"class","QUALIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22695,10 +26894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22733,6 +26935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VERIFICATION",{{"class","VERIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VERIFICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22762,10 +26974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22800,6 +27015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VALIDATION",{{"class","VALIDATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VALIDATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22829,10 +27054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22867,6 +27095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONFIRMATION",{{"class","CONFIRMATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIRMATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22896,10 +27134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -22934,6 +27175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTHENTICATION",{{"class","AUTHENTICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHENTICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -22963,10 +27214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23001,6 +27255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTHORISATION",{{"class","AUTHORISATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORISATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23030,10 +27294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23068,6 +27335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"APPROVAL",{{"class","APPROVAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","APPROVAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23097,10 +27374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23135,6 +27415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MONITORING",{{"class","MONITORING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MONITORING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23164,10 +27454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23202,6 +27495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANALYSIS",{{"class","ANALYSIS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYSIS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23231,10 +27534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23269,6 +27575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STATISTICS",{{"class","STATISTICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STATISTICS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23298,10 +27614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23336,6 +27655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SCIENCE",{{"class","SCIENCE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SCIENCE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23365,10 +27694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23403,6 +27735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CALCULATOR",{{"class","CALCULATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALCULATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23432,10 +27774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23470,6 +27815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ARITHMETICS",{{"class","ARITHMETICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ARITHMETICS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23499,10 +27854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23537,6 +27895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUALIFIER",{{"class","QUALIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUALIFIER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23566,10 +27934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23604,6 +27975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IDENTIFICATION",{{"class","IDENTIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23633,10 +28014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23671,6 +28055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IDENTIFIER",{{"class","IDENTIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IDENTIFIER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23700,10 +28094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23738,6 +28135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"QUANTIFIER",{{"class","QUANTIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","QUANTIFIER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23767,10 +28174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23805,6 +28215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JAVASCRIPT",{{"class","JAVASCRIPT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVASCRIPT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23834,10 +28254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23872,6 +28295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"R",{{"class","R"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","R"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23901,10 +28334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -23939,6 +28375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"C",{{"class","C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","C"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -23968,10 +28414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24006,6 +28455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ASSEMBLY",{{"class","ASSEMBLY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ASSEMBLY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24035,10 +28494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24073,6 +28535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LUA",{{"class","LUA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LUA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24102,10 +28574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24140,6 +28615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CSS",{{"class","CSS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CSS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24169,10 +28654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24207,6 +28695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HTML",{{"class","HTML"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HTML"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24236,10 +28734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24274,6 +28775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BLUETOOTH",{{"class","BLUETOOTH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLUETOOTH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24303,10 +28814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24341,6 +28855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NFC",{{"class","NFC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NFC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24370,10 +28894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24408,6 +28935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MICROSD",{{"class","MICROSD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MICROSD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24437,10 +28974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24475,6 +29015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"STORAGE",{{"class","STORAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","STORAGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24504,10 +29054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24542,6 +29095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DISK",{{"class","DISK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24571,10 +29134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24609,6 +29175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REST",{{"class","REST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24638,10 +29214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24676,6 +29255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DIRECTORY",{{"class","DIRECTORY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIRECTORY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24705,10 +29294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24743,6 +29335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FILE",{{"class","FILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FILE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24772,10 +29374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24810,6 +29415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MANAGEMENT",{{"class","MANAGEMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGEMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24839,10 +29454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24877,6 +29495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MANAGER",{{"class","MANAGER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MANAGER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24906,10 +29534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -24944,6 +29575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OPERATOR",{{"class","OPERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPERATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -24973,10 +29614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25011,6 +29655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRANSPORT",{{"class","TRANSPORT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRANSPORT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25040,10 +29694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25078,6 +29735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLOCK",{{"class","CLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLOCK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25107,10 +29774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25145,6 +29815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INFO",{{"class","INFO"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INFO"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25174,10 +29854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25212,6 +29895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DASHBOARD",{{"class","DASHBOARD"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DASHBOARD"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25241,10 +29934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25279,6 +29975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AVERAGE",{{"class","AVERAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AVERAGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25308,10 +30014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25346,6 +30055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SUM",{{"class","SUM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25375,10 +30094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25413,6 +30135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SUMMARY",{{"class","SUMMARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25442,10 +30174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25480,6 +30215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SUMMARISATION",{{"class","SUMMARISATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUMMARISATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25509,10 +30254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25547,6 +30295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GLOSSARY",{{"class","GLOSSARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GLOSSARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25576,10 +30334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25614,6 +30375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DOCUMENT",{{"class","DOCUMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25643,10 +30414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25681,6 +30455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DOCUMENTATION",{{"class","DOCUMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DOCUMENTATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25710,10 +30494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25748,6 +30535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RECORDING",{{"class","RECORDING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RECORDING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25777,10 +30574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25815,6 +30615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BLACKBOX",{{"class","BLACKBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BLACKBOX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25844,10 +30654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25882,6 +30695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WHITEBOX",{{"class","WHITEBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHITEBOX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25911,10 +30734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -25949,6 +30775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LEGEND",{{"class","LEGEND"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LEGEND"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -25978,10 +30814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26016,6 +30855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BOUNDARY",{{"class","BOUNDARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOUNDARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26045,10 +30894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26083,6 +30935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RULE",{{"class","RULE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RULE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26112,10 +30974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26150,6 +31015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REGULATOR",{{"class","REGULATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26179,10 +31054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26217,6 +31095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REGULATION",{{"class","REGULATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REGULATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26246,10 +31134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26284,6 +31175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LOOP",{{"class","LOOP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LOOP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26313,10 +31214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26351,6 +31255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WHILE",{{"class","WHILE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WHILE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26380,10 +31294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26418,6 +31335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FOR",{{"class","FOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26447,10 +31374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26485,6 +31415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IF",{{"class","IF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IF"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26514,10 +31454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26552,6 +31495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ELSE",{{"class","ELSE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26581,10 +31534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26619,6 +31575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ELSEIF",{{"class","ELSEIF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ELSEIF"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26648,10 +31614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26686,6 +31655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INJECTION",{{"class","INJECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INJECTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26715,10 +31694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26753,6 +31735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FUNCTOR",{{"class","FUNCTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26782,10 +31774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26820,6 +31815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FUNCTIONAL",{{"class","FUNCTIONAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUNCTIONAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26849,10 +31854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26887,6 +31895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VECTOR",{{"class","VECTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VECTOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26916,10 +31934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -26954,6 +31975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GRAPHICS",{{"class","GRAPHICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAPHICS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -26983,10 +32014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27021,6 +32055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GDT",{{"class","GDT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GDT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27050,10 +32094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27088,6 +32135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MBR",{{"class","MBR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MBR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27117,10 +32174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27155,6 +32215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BOOTSECTOR",{{"class","BOOTSECTOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BOOTSECTOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27184,10 +32254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27222,6 +32295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SUPERBLOCK",{{"class","SUPERBLOCK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SUPERBLOCK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27251,10 +32334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27289,6 +32375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CHUNK",{{"class","CHUNK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHUNK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27318,10 +32414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27356,6 +32455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BITRATE",{{"class","BITRATE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BITRATE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27385,10 +32494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27423,6 +32535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SAMPLE",{{"class","SAMPLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAMPLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27452,10 +32574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27490,6 +32615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXAMINATION",{{"class","EXAMINATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXAMINATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27519,10 +32654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27557,6 +32695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INSPECTION",{{"class","INSPECTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSPECTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27586,10 +32734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27624,6 +32775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORENSICS",{{"class","FORENSICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORENSICS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27653,10 +32814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27691,6 +32855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANALYTICS",{{"class","ANALYTICS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANALYTICS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27720,10 +32894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27758,6 +32935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORECAST",{{"class","FORECAST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORECAST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27787,10 +32974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27825,6 +33015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WEATHER",{{"class","WEATHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WEATHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27854,10 +33054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27892,6 +33095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALERT",{{"class","ALERT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALERT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27921,10 +33134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -27959,6 +33175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALARM",{{"class","ALARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALARM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -27988,10 +33214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28026,6 +33255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CALENDAR",{{"class","CALENDAR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CALENDAR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28055,10 +33294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28093,6 +33335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EPHEMERAL",{{"class","EPHEMERAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EPHEMERAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28122,10 +33374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28160,6 +33415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TEMPORARY",{{"class","TEMPORARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TEMPORARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28189,10 +33454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28227,6 +33495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DEPLOYMENT",{{"class","DEPLOYMENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DEPLOYMENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28256,10 +33534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28294,6 +33575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FLAG",{{"class","FLAG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28323,10 +33614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28361,6 +33655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TESTING",{{"class","TESTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28390,10 +33694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28428,6 +33735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MOCKING",{{"class","MOCKING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28457,10 +33774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28495,6 +33815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TESTER",{{"class","TESTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TESTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28524,10 +33854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28562,6 +33895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MOCKER",{{"class","MOCKER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MOCKER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28591,10 +33934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28629,6 +33975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANTIPENETRATION",{{"class","ANTIPENETRATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIPENETRATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28658,10 +34014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28696,6 +34055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANTICORRUPTION",{{"class","ANTICORRUPTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTICORRUPTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28725,10 +34094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28763,6 +34135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ANTIVIRUS",{{"class","ANTIVIRUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ANTIVIRUS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28792,10 +34174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28830,6 +34215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SELF",{{"class","SELF"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SELF"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28859,10 +34254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28897,6 +34295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HEADER",{{"class","HEADER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEADER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28926,10 +34334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -28964,6 +34375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"METADATA",{{"class","METADATA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","METADATA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -28993,10 +34414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29031,6 +34455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONSTANT",{{"class","CONSTANT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONSTANT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29060,10 +34494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29098,6 +34535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MUTABLE",{{"class","MUTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MUTABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29127,10 +34574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29165,6 +34615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IMMUTABLE",{{"class","IMMUTABLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMMUTABLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29194,10 +34654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29232,6 +34695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLASSIFICATION",{{"class","CLASSIFICATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFICATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29261,10 +34734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29299,6 +34775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLASSIFIER",{{"class","CLASSIFIER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLASSIFIER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29328,10 +34814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29366,6 +34855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SAVER",{{"class","SAVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SAVER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29395,10 +34894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29433,6 +34935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTOMATOR",{{"class","AUTOMATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29462,10 +34974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29500,6 +35015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GENERATOR",{{"class","GENERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GENERATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29529,10 +35054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29567,6 +35095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PNG",{{"class","PNG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PNG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29596,10 +35134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29634,6 +35175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SVG",{{"class","SVG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SVG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29663,10 +35214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29701,6 +35255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MP4",{{"class","MP4"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP4"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29730,10 +35294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29768,6 +35335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WAV",{{"class","WAV"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAV"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29797,10 +35374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29835,6 +35415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MP3",{{"class","MP3"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MP3"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29864,10 +35454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29902,6 +35495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OGG",{{"class","OGG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OGG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29931,10 +35534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -29969,6 +35575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OPUS",{{"class","OPUS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OPUS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -29998,10 +35614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30036,6 +35655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FLAC",{{"class","FLAC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLAC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30065,10 +35694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30103,6 +35735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JPEG",{{"class","JPEG"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JPEG"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30132,10 +35774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30170,6 +35815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TXT",{{"class","TXT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TXT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30199,10 +35854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30237,6 +35895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SH",{{"class","SH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30266,10 +35934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30304,6 +35975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JS",{{"class","JS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30333,10 +36014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30371,6 +36055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"JAVA",{{"class","JAVA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","JAVA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30400,10 +36094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30438,6 +36135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GRADLE",{{"class","GRADLE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRADLE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30467,10 +36174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30505,6 +36215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SWIFT",{{"class","SWIFT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SWIFT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30534,10 +36254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30572,6 +36295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OBJECTIVE_C",{{"class","OBJECTIVE_C"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_C"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30601,10 +36334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30639,6 +36375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OBJECTIVE_CPP",{{"class","OBJECTIVE_CPP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OBJECTIVE_CPP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30668,10 +36414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30706,6 +36455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RUST",{{"class","RUST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RUST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30735,10 +36494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30773,6 +36535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DART",{{"class","DART"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DART"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30802,10 +36574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30840,6 +36615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PYTHON",{{"class","PYTHON"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PYTHON"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30869,10 +36654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30907,6 +36695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HAL",{{"class","HAL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HAL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -30936,10 +36734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -30974,6 +36775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SYNTAX",{{"class","SYNTAX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYNTAX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31003,10 +36814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31041,6 +36855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LANGUAGE",{{"class","LANGUAGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANGUAGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31070,10 +36894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31108,6 +36935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SQL",{{"class","SQL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SQL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31137,10 +36974,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31175,6 +37015,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"NOSQL",{{"class","NOSQL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NOSQL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31204,10 +37054,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31242,6 +37095,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GRAMMAR",{{"class","GRAMMAR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRAMMAR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31271,10 +37134,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31309,6 +37175,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VOCABULARY",{{"class","VOCABULARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VOCABULARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31338,10 +37214,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31376,6 +37255,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DICTIONARY",{{"class","DICTIONARY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DICTIONARY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31405,10 +37294,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31443,6 +37335,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SYMBOL",{{"class","SYMBOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SYMBOL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31472,10 +37374,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31510,6 +37415,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ALPHABET",{{"class","ALPHABET"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ALPHABET"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31539,10 +37454,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31577,6 +37495,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LETTER",{{"class","LETTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LETTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31606,10 +37534,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31644,6 +37575,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DIGIT",{{"class","DIGIT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DIGIT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31673,10 +37614,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31711,6 +37655,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORMATSTRING",{{"class","FORMATSTRING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATSTRING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31740,10 +37694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31778,6 +37735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FORMATTING",{{"class","FORMATTING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FORMATTING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31807,10 +37774,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31845,6 +37815,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FRAGMENTATION",{{"class","FRAGMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FRAGMENTATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31874,10 +37854,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31912,6 +37895,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SEGMENTATION",{{"class","SEGMENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -31941,10 +37934,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -31979,6 +37975,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SEQUENCING",{{"class","SEQUENCING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32008,10 +38014,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32046,6 +38055,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SEQUENCER",{{"class","SEQUENCER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEQUENCER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32075,10 +38094,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32113,6 +38135,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SEGMENTER",{{"class","SEGMENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SEGMENTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32142,10 +38174,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32180,6 +38215,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CAPTURER",{{"class","CAPTURER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CAPTURER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32209,10 +38254,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32247,6 +38295,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"EXPLORER",{{"class","EXPLORER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","EXPLORER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32276,10 +38334,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32314,6 +38375,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DISCOVERER",{{"class","DISCOVERER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISCOVERER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32343,10 +38414,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32381,6 +38455,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LISTENER",{{"class","LISTENER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LISTENER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32410,10 +38494,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32448,6 +38535,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INTERPRETER",{{"class","INTERPRETER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INTERPRETER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32477,10 +38574,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32515,6 +38615,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ITERATOR",{{"class","ITERATOR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ITERATOR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32544,10 +38654,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32582,6 +38695,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REPRESENTER",{{"class","REPRESENTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32611,10 +38734,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32649,6 +38775,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REPRESENTATION",{{"class","REPRESENTATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REPRESENTATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
  REGISTRATION registry;
 public:
@@ -32678,10 +38814,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32716,6 +38855,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REQUEST",{{"class","REQUEST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REQUEST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
 public:
     std::string method;
@@ -32745,10 +38894,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32783,6 +38935,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RESPONSE",{{"class","RESPONSE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RESPONSE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
 public:
     std::string value;
@@ -32811,10 +38973,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32849,6 +39014,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"DISPATCHER",{{"class","DISPATCHER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","DISPATCHER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     TOOL& tool;
     REGISTRATION registry;
@@ -32882,10 +39057,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32920,6 +39098,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SERVER",{{"class","SERVER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SERVER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     DISPATCHER& dispatcher;
     REGISTRATION registry;
@@ -32953,10 +39141,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -32991,6 +39182,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLIENT",{{"class","CLIENT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLIENT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     SERVER& server;
     REGISTRATION registry;
@@ -33032,10 +39233,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33070,6 +39274,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"API",{{"class","API"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","API"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -33112,10 +39326,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33150,6 +39367,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CLI",{{"class","CLI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CLI"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -33192,10 +39419,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33230,6 +39460,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MCP",{{"class","MCP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MCP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -33272,10 +39512,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33310,6 +39553,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SSH",{{"class","SSH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SSH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -33344,10 +39597,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33382,6 +39638,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"URI",{{"class","URI"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URI"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -33419,10 +39685,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33457,6 +39726,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"URL",{{"class","URL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","URL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     URI& uri;
     REGISTRATION registry;
@@ -33496,10 +39775,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33534,6 +39816,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CONFIGURATION",{{"class","CONFIGURATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CONFIGURATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     URI& uri;
     URL& url;
@@ -33594,10 +39886,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33632,6 +39927,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SESSION",{{"class","SESSION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SESSION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::string identity;
@@ -33698,10 +40003,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33736,6 +40044,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MESH",{{"class","MESH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MESH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::map<std::string,std::set<std::string>> edges;
@@ -33771,10 +40089,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33809,6 +40130,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CHAIN",{{"class","CHAIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CHAIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MESH& mesh;
     REGISTRATION registry;
@@ -33841,10 +40172,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33879,6 +40213,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RING",{{"class","RING"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RING"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     CHAIN& chain;
     MESH& mesh;
@@ -33913,10 +40257,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -33951,6 +40298,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"MATRIX",{{"class","MATRIX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","MATRIX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::map<std::vector<std::string>,std::string> cells;
@@ -33988,10 +40345,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34026,6 +40386,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GRID",{{"class","GRID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GRID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MATRIX& matrix;
     REGISTRATION registry;
@@ -34057,10 +40427,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34095,6 +40468,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PATH",{{"class","PATH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PATH"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MESH& mesh;
     REGISTRATION registry;
@@ -34139,10 +40522,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34177,6 +40563,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ROUTE",{{"class","ROUTE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUTE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     PATH& path;
     REGISTRATION registry;
@@ -34211,10 +40607,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34249,6 +40648,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LANE",{{"class","LANE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LANE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     ROUTE& route;
     REGISTRATION registry;
@@ -34289,10 +40698,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34327,6 +40739,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BRIDGE",{{"class","BRIDGE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BRIDGE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MESH& mesh;
     ROUTE& route;
@@ -34377,10 +40799,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34415,6 +40840,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RPC",{{"class","RPC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RPC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     DISPATCHER& dispatcher;
     REGISTRATION registry;
@@ -34463,10 +40898,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34501,6 +40939,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RDP",{{"class","RDP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RDP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -34544,10 +40992,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34582,6 +41033,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"VNC",{{"class","VNC"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","VNC"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -34617,10 +41078,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34655,6 +41119,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AST",{{"class","AST"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AST"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -34693,10 +41167,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34731,6 +41208,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"IR",{{"class","IR"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IR"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     AST& ast;
     REGISTRATION registry;
@@ -34770,10 +41257,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34808,6 +41298,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CPP",{{"class","CPP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CPP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     IR& ir;
     REGISTRATION registry;
@@ -34844,10 +41344,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34882,6 +41385,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WASM",{{"class","WASM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WASM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     CPP& cpp;
     IR& ir;
@@ -34919,10 +41432,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -34957,6 +41473,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CODE",{{"class","CODE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -34988,10 +41514,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35026,6 +41555,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"CODEBASE",{{"class","CODEBASE"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODEBASE"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     CODE& code;
     REGISTRATION registry;
@@ -35074,10 +41613,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35112,6 +41654,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SANDBOX",{{"class","SANDBOX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SANDBOX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     IR& ir;
     REGISTRATION registry;
@@ -35147,10 +41699,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35185,6 +41740,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SDK",{{"class","SDK"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SDK"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     CPP& cpp;
     WASM& wasm;
@@ -35228,10 +41793,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35266,6 +41834,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AES",{{"class","AES"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AES"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -35299,10 +41877,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35337,6 +41918,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"GCM",{{"class","GCM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","GCM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     AES& aes;
     REGISTRATION registry;
@@ -35373,10 +41964,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35411,6 +42005,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"RSA",{{"class","RSA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","RSA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -35444,10 +42048,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35482,6 +42089,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"SHA",{{"class","SHA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","SHA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::map<std::string,unsigned> profiles{
@@ -35521,10 +42138,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35559,6 +42179,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"OAEP",{{"class","OAEP"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","OAEP"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     RSA& rsa;
     SHA& sha;
@@ -35598,10 +42228,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35636,6 +42269,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"PSS",{{"class","PSS"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PSS"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     RSA& rsa;
     SHA& sha;
@@ -35676,10 +42319,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35714,6 +42360,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"BASE64",{{"class","BASE64"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASE64"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     const std::string alphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -35788,10 +42444,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35826,6 +42485,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"AUTHORIZATION",{{"class","AUTHORIZATION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTHORIZATION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
 public:
@@ -35855,10 +42524,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35893,6 +42565,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"COMPATIBILITY",{{"class","COMPATIBILITY"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMPATIBILITY"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     MATRIX& matrix;
     REGISTRATION registry;
@@ -35928,10 +42610,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -35966,6 +42651,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ADAPTER",{{"class","ADAPTER"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ADAPTER"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::function<RESPONSE(const REQUEST&)> endpoint;
@@ -35999,10 +42694,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36037,6 +42735,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FUSION",{{"class","FUSION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FUSION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     PATH& path;
     COMPATIBILITY& compatibility;
@@ -36091,10 +42799,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36129,6 +42840,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"TRACEROBIN",{{"class","TRACEROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","TRACEROBIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36184,10 +42905,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36222,6 +42946,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"WAVEROBIN",{{"class","WAVEROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAVEROBIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     HEARTBEAT& heartbeat;
@@ -36264,10 +42998,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36302,6 +43039,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"ROUNDROBIN",{{"class","ROUNDROBIN"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","ROUNDROBIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36343,10 +43090,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36381,6 +43131,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HEARTBEAT",{{"class","HEARTBEAT"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HEARTBEAT"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36422,10 +43182,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36460,6 +43223,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FLOW",{{"class","FLOW"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FLOW"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     FUSION& fusion;
     ROUNDROBIN& robin;
@@ -36506,10 +43279,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36544,6 +43320,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"LAMBDA",{{"class","LAMBDA"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","LAMBDA"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36602,10 +43388,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36640,6 +43429,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"INDEX",{{"class","INDEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INDEX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36693,10 +43492,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36731,6 +43533,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"POOL",{{"class","POOL"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","POOL"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     REGISTRATION registry;
     std::mutex guard;
@@ -36793,10 +43605,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36831,6 +43646,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"FARM",{{"class","FARM"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","FARM"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     POOL& pool;
     ROUNDROBIN& robin;
@@ -36892,10 +43717,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -36930,6 +43758,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REFLEX",{{"class","REFLEX"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REFLEX"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     SIGNAL& signal;
     HEARTBEAT& heartbeat;
@@ -36966,10 +43804,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -37004,6 +43845,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"REACTION",{{"class","REACTION"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","REACTION"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     SIGNAL& signal;
     REFLEX& reflex;
@@ -37049,10 +43900,13 @@ public:
         }
         static std::uint64_t index(std::atomic<std::uint64_t>& counter){
             auto current=counter.load();
-            while(current!=std::numeric_limits<std::uint64_t>::max()){
-                if(counter.compare_exchange_weak(current,current+1))return current+1;
-            }
-            throw std::overflow_error("Instance index exhausted");
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
         }
     };
 private:
@@ -37087,6 +43941,16 @@ public:
 private:
     ToolLocalRegistry MODELS{{"HYBRID",{{"class","HYBRID"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","HYBRID"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
 
     TOOL tool;
     SESSION session;
@@ -38100,7 +44964,7 @@ public:
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"HEADER","header"},{"METADATA","metadata"},{"CONSTANT","constant"},{"MUTABLE","mutable"},{"IMMUTABLE","immutable"},{"CLASSIFICATION","classification"},{"CLASSIFIER","classifier"},{"SAVER","saver"},{"AUTOMATOR","automator"},{"GENERATOR","generator"},{"PNG","png"},{"SVG","svg"},{"MP4","mp4"},{"WAV","wav"},{"MP3","mp3"},{"OGG","ogg"},{"OPUS","opus"},{"FLAC","flac"},{"JPEG","jpeg"},{"TXT","txt"},{"SH","sh"},{"JS","js"},{"JAVA","java"},{"GRADLE","gradle"},{"SWIFT","swift"},{"OBJECTIVE_C","objective_c"},{"OBJECTIVE_CPP","objective_cpp"},{"RUST","rust"},{"DART","dart"},{"PYTHON","python"},{"HAL","hal"},{"SYNTAX","syntax"},{"LANGUAGE","language"},{"SQL","sql"},{"NOSQL","nosql"},{"GRAMMAR","grammar"},{"VOCABULARY","vocabulary"},{"DICTIONARY","dictionary"},{"SYMBOL","symbol"},{"ALPHABET","alphabet"},{"LETTER","letter"},{"DIGIT","digit"},{"FORMATSTRING","formatstring"},{"FORMATTING","formatting"},{"FRAGMENTATION","fragmentation"},{"SEGMENTATION","segmentation"},{"SEQUENCING","sequencing"},{"SEQUENCER","sequencer"},{"SEGMENTER","segmenter"},{"CAPTURER","capturer"},{"EXPLORER","explorer"},{"DISCOVERER","discoverer"},{"LISTENER","listener"},{"INTERPRETER","interpreter"},{"ITERATOR","iterator"},{"REPRESENTER","representer"},{"REPRESENTATION","representation"},{"DAEMON","daemon"},{"KERNEL","kernel"},{"KO","ko"},{"KBUILD","kbuild"},{"INSTRUMENT","instrument"},{"CLOUD","cloud"},{"DATACENTER","datacenter"},{"FRAME","frame"},{"MAIN","main"},{"MAINSYSTEM","mainsystem"},{"ALLOCATION","allocation"},{"PROCESSING","processing"},{"VERSIONING","versioning"},{"TRANSVERSIONING","transversioning"},{"QUALIFICATION","qualification"},{"VERIFICATION","verification"},{"VALIDATION","validation"},{"CONFIRMATION","confirmation"},{"AUTHENTICATION","authentication"},{"AUTHORISATION","authorisation"},{"APPROVAL","approval"},{"MONITORING","monitoring"},{"ANALYSIS","analysis"},{"STATISTICS","statistics"},{"SCIENCE","science"},{"CALCULATOR","calculator"},{"ARITHMETICS","arithmetics"},{"QUALIFIER","qualifier"},{"IDENTIFICATION","identification"},{"IDENTIFIER","identifier"},{"QUANTIFIER","quantifier"},{"JAVASCRIPT","javascript"},{"R","r"},{"C","c"},{"ASSEMBLY","assembly"},{"LUA","lua"},{"CSS","css"},{"HTML","html"},{"BLUETOOTH","bluetooth"},{"NFC","nfc"},{"MICROSD","microsd"},{"STORAGE","storage"},{"DISK","disk"},{"REST","rest"},{"DIRECTORY","directory"},{"FILE","file"},{"MANAGEMENT","management"},{"MANAGER","manager"},{"OPERATOR","operator"},{"TRANSPORT","transport"},{"CLOCK","clock"},{"INFO","info"},{"DASHBOARD","dashboard"},{"AVERAGE","average"},{"SUM","sum"},{"SUMMARY","summary"},{"SUMMARISATION","summarisation"},{"GLOSSARY","glossary"},{"DOCUMENT","document"},{"DOCUMENTATION","documentation"},{"RECORDING","recording"},{"BLACKBOX","blackbox"},{"WHITEBOX","whitebox"},{"LEGEND","legend"},{"BOUNDARY","boundary"},{"RULE","rule"},{"REGULATOR","regulator"},{"REGULATION","regulation"},{"LOOP","loop"},{"WHILE","while"},{"FOR","for"},{"IF","if"},{"ELSE","else"},{"ELSEIF","elseif"},{"INJECTION","injection"},{"FUNCTOR","functor"},{"FUNCTIONAL","functional"},{"VECTOR","vector"},{"GRAPHICS","graphics"},{"GDT","gdt"},{"MBR","mbr"},{"BOOTSECTOR","bootsector"},{"SUPERBLOCK","superblock"},{"CHUNK","chunk"},{"BITRATE","bitrate"},{"SAMPLE","sample"},{"EXAMINATION","examination"},{"INSPECTION","inspection"},{"FORENSICS","forensics"},{"ANALYTICS","analytics"},{"FORECAST","forecast"},{"WEATHER","weather"},{"ALERT","alert"},{"ALARM","alarm"},{"CALENDAR","calendar"},{"EPHEMERAL","ephemeral"},{"TEMPORARY","temporary"},{"DEPLOYMENT","deployment"},{"FLAG","flag"},{"TESTING","testing"},{"MOCKING","mocking"},{"TESTER","tester"},{"MOCKER","mocker"},{"ANTIPENETRATION","antipenetration"},{"ANTICORRUPTION","anticorruption"},{"ANTIVIRUS","antivirus"},{"SELF","self"},{"BASH","bash"},{"PS1","ps1"},{"APPLESCRIPT","applescript"},{"CMD","cmd"},{"BATCH","batch"},{"WINDOWS","windows"},{"MACOS","macos"},{"LINUX","linux"},{"ANDROID","android"},{"IOS","ios"},{"DEBIAN","debian"},{"FEDORA","fedora"},{"GENTOO","gentoo"},{"PATCHER","patcher"},{"WRAPPER","wrapper"},{"FORKER","forker"},{"WIRING","wiring"},{"VOLUME","volume"},{"CLUSTER","cluster"},{"REPLICATION","replication"},{"MIGRATION","migration"},{"UNIT","unit"},{"INSTALLATION","installation"},{"PACKAGING","packaging"},{"PACKAGE","package"},{"PACKET","packet"},{"FILTER","filter"},{"SENSOR","sensor"},{"PROXIMITY","proximity"},{"DISTRIBUTION","distribution"},{"GROUPING","grouping"},{"RESOURCING","resourcing"},{"HARDWARE","hardware"},{"FIRMWARE","firmware"},{"BOOTLOADING","bootloading"},{"BOOTSTRAPPING","bootstrapping"},{"HOSTING","hosting"},{"SITE","site"},{"DOMAIN","domain"},{"FOREST","forest"},{"GLOBAL","global"},{"LOCAL","local"},{"JOINER","joiner"},{"LEAVER","leaver"},{"ONLINE","online"},{"OFFLINE","offline"},{"TYPE","type"},{"MODE","mode"},{"CONDITION","condition"},{"STATE","state"},{"NETWORK","network"},{"TCPIP","tcpip"},{"GPS","gps"},{"GSM","gsm"},{"IMEI","imei"},{"RFID","rfid"},{"RAM","ram"},{"GPU","gpu"},{"SD","sd"},{"DEV","dev"},{"LAN","lan"},{"WAN","wan"},{"HOST","host"},{"HOSTNAME","hostname"},{"TCP","tcp"},{"IP","ip"},{"UDP","udp"},{"ICMP","icmp"},{"NAT","nat"},{"MAC","mac"},{"FAT","fat"},{"FAT32","fat32"},{"NTFS","ntfs"},{"APFS","apfs"},{"EXT4","ext4"},{"EXFAT","exfat"},{"AARCH","aarch"},{"ARM","arm"},{"AMR64","amr64"},{"X86","x86"},{"X86_64","x86_64"},{"AMD64","amd64"},{"RISCV","riscv"},{"PSU","psu"},{"POWER","power"},{"OAUTH","oauth"},{"SSL","ssl"},{"TLS","tls"},{"HTTP","http"},{"HTTPS","https"},{"FTP","ftp"},{"DNS","dns"},{"DHCP","dhcp"},{"VPN","vpn"},{"PROXY","proxy"},{"FIREWALL","firewall"},{"UUID","uuid"},{"ENTER","enter"},{"ESC","esc"},{"CTRL","ctrl"},{"ALT","alt"},{"SPACE","space"},{"SHIFT","shift"},{"TAB","tab"},{"NAME","name"},{"NUMBER","number"},{"PID","pid"},{"USB","usb"},{"ARPA","arpa"},{"PROVIDER","provider"},{"SMS","sms"},{"TLD","tld"},{"ICANN","icann"},{"IANA","iana"},{"IETF","ietf"},{"W3C","w3c"},{"WWW","www"},{"NODE","node"},{"NODEJS","nodejs"},{"IMAGE","image"},{"IMG","img"},{"BLOCK","block"},{"LINE","line"},{"EOF","eof"},{"SCRIPT","script"},{"SOURCECODE","sourcecode"},{"BINARY","binary"},{"SOURCE","source"},{"DESTINATION","destination"},{"TARGET","target"},{"CERTIFICATE","certificate"},{"PASSPHRASE","passphrase"},{"PASSWORD","password"},{"USERNAME","username"},{"USER","user"},{"SECRET","secret"},{"DATABASE","database"},{"TABLE","table"},{"COLUMN","column"},{"ROW","row"},{"TUPLE","tuple"},{"QUERY","query"},{"POLICY","policy"},{"MAP","map"},{"TREE","tree"},{"MINDMAP","mindmap"},{"MARKDOWN","markdown"},{"PDF","pdf"},{"JSON","json"},{"XML","xml"},{"CSV","csv"},{"SIGNATURE","signature"},{"AUTHOR","author"},{"SENDER","sender"},{"RECEIVER","receiver"},{"TRANSMISSION","transmission"},{"WIFI","wifi"},{"HOTSPOT","hotspot"},{"TETHER","tether"},{"LEDGER","ledger"},{"ROUTER","router"},{"SWITCH","switch"},{"GATEWAY","gateway"},{"SUBNET","subnet"},{"IPV4","ipv4"},{"IPV6","ipv6"},{"PAGING","paging"},{"COMMAND","command"},{"INSTRUCTION","instruction"},{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"HEADER","header"},{"METADATA","metadata"},{"CONSTANT","constant"},{"MUTABLE","mutable"},{"IMMUTABLE","immutable"},{"CLASSIFICATION","classification"},{"CLASSIFIER","classifier"},{"SAVER","saver"},{"AUTOMATOR","automator"},{"GENERATOR","generator"},{"PNG","png"},{"SVG","svg"},{"MP4","mp4"},{"WAV","wav"},{"MP3","mp3"},{"OGG","ogg"},{"OPUS","opus"},{"FLAC","flac"},{"JPEG","jpeg"},{"TXT","txt"},{"SH","sh"},{"JS","js"},{"JAVA","java"},{"GRADLE","gradle"},{"SWIFT","swift"},{"OBJECTIVE_C","objective_c"},{"OBJECTIVE_CPP","objective_cpp"},{"RUST","rust"},{"DART","dart"},{"PYTHON","python"},{"HAL","hal"},{"SYNTAX","syntax"},{"LANGUAGE","language"},{"SQL","sql"},{"NOSQL","nosql"},{"GRAMMAR","grammar"},{"VOCABULARY","vocabulary"},{"DICTIONARY","dictionary"},{"SYMBOL","symbol"},{"ALPHABET","alphabet"},{"LETTER","letter"},{"DIGIT","digit"},{"FORMATSTRING","formatstring"},{"FORMATTING","formatting"},{"FRAGMENTATION","fragmentation"},{"SEGMENTATION","segmentation"},{"SEQUENCING","sequencing"},{"SEQUENCER","sequencer"},{"SEGMENTER","segmenter"},{"CAPTURER","capturer"},{"EXPLORER","explorer"},{"DISCOVERER","discoverer"},{"LISTENER","listener"},{"INTERPRETER","interpreter"},{"ITERATOR","iterator"},{"REPRESENTER","representer"},{"REPRESENTATION","representation"},{"DAEMON","daemon"},{"KERNEL","kernel"},{"KO","ko"},{"KBUILD","kbuild"},{"INSTRUMENT","instrument"},{"CLOUD","cloud"},{"DATACENTER","datacenter"},{"FRAME","frame"},{"MAIN","main"},{"MAINSYSTEM","mainsystem"},{"ALLOCATION","allocation"},{"PROCESSING","processing"},{"VERSIONING","versioning"},{"TRANSVERSIONING","transversioning"},{"QUALIFICATION","qualification"},{"VERIFICATION","verification"},{"VALIDATION","validation"},{"CONFIRMATION","confirmation"},{"AUTHENTICATION","authentication"},{"AUTHORISATION","authorisation"},{"APPROVAL","approval"},{"MONITORING","monitoring"},{"ANALYSIS","analysis"},{"STATISTICS","statistics"},{"SCIENCE","science"},{"CALCULATOR","calculator"},{"ARITHMETICS","arithmetics"},{"QUALIFIER","qualifier"},{"IDENTIFICATION","identification"},{"IDENTIFIER","identifier"},{"QUANTIFIER","quantifier"},{"JAVASCRIPT","javascript"},{"R","r"},{"C","c"},{"ASSEMBLY","assembly"},{"LUA","lua"},{"CSS","css"},{"HTML","html"},{"BLUETOOTH","bluetooth"},{"NFC","nfc"},{"MICROSD","microsd"},{"STORAGE","storage"},{"DISK","disk"},{"REST","rest"},{"DIRECTORY","directory"},{"FILE","file"},{"MANAGEMENT","management"},{"MANAGER","manager"},{"OPERATOR","operator"},{"TRANSPORT","transport"},{"CLOCK","clock"},{"INFO","info"},{"DASHBOARD","dashboard"},{"AVERAGE","average"},{"SUM","sum"},{"SUMMARY","summary"},{"SUMMARISATION","summarisation"},{"GLOSSARY","glossary"},{"DOCUMENT","document"},{"DOCUMENTATION","documentation"},{"RECORDING","recording"},{"BLACKBOX","blackbox"},{"WHITEBOX","whitebox"},{"LEGEND","legend"},{"BOUNDARY","boundary"},{"RULE","rule"},{"REGULATOR","regulator"},{"REGULATION","regulation"},{"LOOP","loop"},{"WHILE","while"},{"FOR","for"},{"IF","if"},{"ELSE","else"},{"ELSEIF","elseif"},{"INJECTION","injection"},{"FUNCTOR","functor"},{"FUNCTIONAL","functional"},{"VECTOR","vector"},{"GRAPHICS","graphics"},{"GDT","gdt"},{"MBR","mbr"},{"BOOTSECTOR","bootsector"},{"SUPERBLOCK","superblock"},{"CHUNK","chunk"},{"BITRATE","bitrate"},{"SAMPLE","sample"},{"EXAMINATION","examination"},{"INSPECTION","inspection"},{"FORENSICS","forensics"},{"ANALYTICS","analytics"},{"FORECAST","forecast"},{"WEATHER","weather"},{"ALERT","alert"},{"ALARM","alarm"},{"CALENDAR","calendar"},{"EPHEMERAL","ephemeral"},{"TEMPORARY","temporary"},{"DEPLOYMENT","deployment"},{"FLAG","flag"},{"TESTING","testing"},{"MOCKING","mocking"},{"TESTER","tester"},{"MOCKER","mocker"},{"ANTIPENETRATION","antipenetration"},{"ANTICORRUPTION","anticorruption"},{"ANTIVIRUS","antivirus"},{"SELF","self"},{"BASH","bash"},{"PS1","ps1"},{"APPLESCRIPT","applescript"},{"CMD","cmd"},{"BATCH","batch"},{"WINDOWS","windows"},{"MACOS","macos"},{"LINUX","linux"},{"ANDROID","android"},{"IOS","ios"},{"DEBIAN","debian"},{"FEDORA","fedora"},{"GENTOO","gentoo"},{"PATCHER","patcher"},{"WRAPPER","wrapper"},{"FORKER","forker"},{"WIRING","wiring"},{"VOLUME","volume"},{"CLUSTER","cluster"},{"REPLICATION","replication"},{"MIGRATION","migration"},{"UNIT","unit"},{"INSTALLATION","installation"},{"PACKAGING","packaging"},{"PACKAGE","package"},{"PACKET","packet"},{"FILTER","filter"},{"SENSOR","sensor"},{"PROXIMITY","proximity"},{"DISTRIBUTION","distribution"},{"GROUPING","grouping"},{"RESOURCING","resourcing"},{"HARDWARE","hardware"},{"FIRMWARE","firmware"},{"BOOTLOADING","bootloading"},{"BOOTSTRAPPING","bootstrapping"},{"HOSTING","hosting"},{"SITE","site"},{"DOMAIN","domain"},{"FOREST","forest"},{"GLOBAL","global"},{"LOCAL","local"},{"JOINER","joiner"},{"LEAVER","leaver"},{"ONLINE","online"},{"OFFLINE","offline"},{"TYPE","type"},{"MODE","mode"},{"CONDITION","condition"},{"STATE","state"},{"NETWORK","network"},{"TCPIP","tcpip"},{"GPS","gps"},{"GSM","gsm"},{"IMEI","imei"},{"RFID","rfid"},{"RAM","ram"},{"GPU","gpu"},{"SD","sd"},{"DEV","dev"},{"LAN","lan"},{"WAN","wan"},{"HOST","host"},{"HOSTNAME","hostname"},{"TCP","tcp"},{"IP","ip"},{"UDP","udp"},{"ICMP","icmp"},{"NAT","nat"},{"MAC","mac"},{"FAT","fat"},{"FAT32","fat32"},{"NTFS","ntfs"},{"APFS","apfs"},{"EXT4","ext4"},{"EXFAT","exfat"},{"AARCH","aarch"},{"ARM","arm"},{"AMR64","amr64"},{"X86","x86"},{"X86_64","x86_64"},{"AMD64","amd64"},{"RISCV","riscv"},{"PSU","psu"},{"POWER","power"},{"OAUTH","oauth"},{"SSL","ssl"},{"TLS","tls"},{"HTTP","http"},{"HTTPS","https"},{"FTP","ftp"},{"DNS","dns"},{"DHCP","dhcp"},{"VPN","vpn"},{"PROXY","proxy"},{"FIREWALL","firewall"},{"UUID","uuid"},{"ENTER","enter"},{"ESC","esc"},{"CTRL","ctrl"},{"ALT","alt"},{"SPACE","space"},{"SHIFT","shift"},{"TAB","tab"},{"NAME","name"},{"NUMBER","number"},{"PID","pid"},{"USB","usb"},{"ARPA","arpa"},{"PROVIDER","provider"},{"SMS","sms"},{"TLD","tld"},{"ICANN","icann"},{"IANA","iana"},{"IETF","ietf"},{"W3C","w3c"},{"WWW","www"},{"NODE","node"},{"NODEJS","nodejs"},{"IMAGE","image"},{"IMG","img"},{"BLOCK","block"},{"LINE","line"},{"EOF","eof"},{"SCRIPT","script"},{"SOURCECODE","sourcecode"},{"BINARY","binary"},{"SOURCE","source"},{"DESTINATION","destination"},{"TARGET","target"},{"CERTIFICATE","certificate"},{"PASSPHRASE","passphrase"},{"PASSWORD","password"},{"USERNAME","username"},{"USER","user"},{"SECRET","secret"},{"DATABASE","database"},{"TABLE","table"},{"COLUMN","column"},{"ROW","row"},{"TUPLE","tuple"},{"QUERY","query"},{"POLICY","policy"},{"MAP","map"},{"TREE","tree"},{"MINDMAP","mindmap"},{"MARKDOWN","markdown"},{"PDF","pdf"},{"JSON","json"},{"XML","xml"},{"CSV","csv"},{"SIGNATURE","signature"},{"AUTHOR","author"},{"SENDER","sender"},{"RECEIVER","receiver"},{"TRANSMISSION","transmission"},{"WIFI","wifi"},{"HOTSPOT","hotspot"},{"TETHER","tether"},{"LEDGER","ledger"},{"ROUTER","router"},{"SWITCH","switch"},{"GATEWAY","gateway"},{"SUBNET","subnet"},{"IPV4","ipv4"},{"IPV6","ipv6"},{"PAGING","paging"},{"COMMAND","command"},{"INSTRUCTION","instruction"},{"CLOAKER","cloaker"},{"CONCEALER","concealer"},{"EXPOSER","exposer"},{"IMPORTER","importer"},{"EXPORTER","exporter"},{"CLIPBOARD","clipboard"},{"CACHER","cacher"},{"INTERFACE","interface"},{"DRIVER","driver"},{"CONTROLLER","controller"},{"DEVICE","device"},{"SYSTEM","system"},{"COMPILER","compiler"},{"DECOMPILER","decompiler"},{"HEX","hex"},{"HEXADECIMAL","hexadecimal"},{"HEXTABLE","hextable"},{"AUTOMATION","automation"},{"GENERATION","generation"},{"ENCRYPTION","encryption"},{"DECRYPTION","decryption"},{"ENCODING","encoding"},{"DECODING","decoding"},{"LEXER","lexer"},{"DELEXER","delexer"},{"LEXICALISER","lexicaliser"},{"DELEXICALISER","delexicaliser"},{"TOKENISER","tokeniser"},{"DETOKENISER","detokeniser"},{"PARSER","parser"},{"TRANSPARSER","transparser"},{"CROSSPARSER","crossparser"},{"PROCESS","process"},{"PROCESSOR","processor"},{"ALLOCATOR","allocator"},{"SERIALISER","serialiser"},{"DESERIALISER","deserialiser"},{"HASHER","hasher"},{"SALTER","salter"},{"LOCKMAKER","lockmaker"},{"KEYMAKER","keymaker"},{"BUILDER","builder"},{"LINKER","linker"},{"DEBUGGER","debugger"},{"SCANNER","scanner"},{"PRINTER","printer"},{"PORT","port"},{"FINDER","finder"},{"SEARCH","search"},{"CALLABLE","callable"},{"INVOKABLE","invokable"},{"RETURNABLE","returnable"},{"DETECTION","detection"},{"LOCATOR","locator"},{"POSITIONER","positioner"},{"PREPOSITIONER","prepositioner"},{"PASSTHROUGH","passthrough"},{"ROUND","round"},{"THROUGH","through"},{"VELOCITY","velocity"},{"FREQUENCY","frequency"},{"ENTRY","entry"},{"EXIT","exit.inspect.boundary"},{"INPUT","input"},{"OUTPUT","output"},{"SHELL","shell"},{"TERMINAL","terminal"},{"CONSOLE","console"},{"PERSISTENCE","persistence"},{"VOLATILITY","volatility"},{"IDLE","idle"},{"SLEEP","sleep"},{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"API","api"},{"CLI","cli"},{"MCP","mcp"},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDP","rdp"},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
