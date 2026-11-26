@@ -524,6 +524,33 @@ public:
     }
     REQUEST normalize(const REQUEST& r) const {return lower(ast.parse(r));}
 };
+class CPP {
+    IR& ir;
+    REGISTRATION registry;
+public:
+    explicit CPP(IR& i):ir(i){registry.add("prepare","target","C++");}
+    REQUEST prepare(const REQUEST& r) const {return ir.normalize(r);}
+    std::string invoke(const TOOL::Arguments& args) const {
+        if(args.empty() || args[0]=="status")return "CPP: native source preparation; compiler pending";
+        if(args[0]!="prepare" || args.size()<2)return "Usage: cpp status | cpp prepare method [arguments...]";
+        auto r=prepare({args[1],TOOL::Arguments(args.begin()+2,args.end())});
+        return "Prepared C++ invocation: "+r.method+" ("+std::to_string(r.arguments.size())+" arguments)";
+    }
+};
+class WASM {
+    CPP& cpp;
+    IR& ir;
+    REGISTRATION registry;
+public:
+    WASM(CPP& c,IR& i):cpp(c),ir(i){registry.add("prepare","target","WebAssembly");}
+    REQUEST prepare(const REQUEST& r) const {return ir.normalize(cpp.prepare(r));}
+    std::string invoke(const TOOL::Arguments& args) const {
+        if(args.empty() || args[0]=="status")return "WASM: portable invocation preparation; emitter and runtime pending";
+        if(args[0]!="prepare" || args.size()<2)return "Usage: wasm status | wasm prepare method [arguments...]";
+        auto r=prepare({args[1],TOOL::Arguments(args.begin()+2,args.end())});
+        return "Prepared WASM invocation: "+r.method+" ("+std::to_string(r.arguments.size())+" arguments)";
+    }
+};
 class AUTHORIZATION {
     REGISTRATION registry;
 public:
@@ -607,6 +634,8 @@ class HYBRID {
     COMPATIBILITY compatibility{matrix};
     AST ast;
     IR ir{ast};
+    CPP cpp{ir};
+    WASM wasm{cpp,ir};
     FUSION fusion{path,compatibility,authorization,ir};
     REGISTRATION registry;
 public:
@@ -621,6 +650,8 @@ public:
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
         ring.connect(names);
         for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
+        tool.inject("cpp","development",[this](const TOOL::Arguments& a){return cpp.invoke(a);});
+        tool.inject("wasm","development",[this](const TOOL::Arguments& a){return wasm.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
