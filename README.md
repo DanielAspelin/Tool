@@ -8,7 +8,7 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 ## Development status
 
-Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **103 classes and 71 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
+Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **104 classes and 72 registered commands** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.
 
 ## Architectural conventions
 
@@ -110,6 +110,10 @@ INTEGER represents signed 64-bit integers; FLOAT and DOUBLE represent native sin
 
 CHARACTER represents one Unicode scalar value, with strict UTF-8 decoding and encoding. STRING represents immutable validated UTF-8 text bounded to 64 KiB, with byte and Unicode scalar counts. Both maintain independent registries and convert to the existing string alternative of VALUE. The character and string commands demonstrate validation and representation. Scalar counts are not grapheme counts; normalization, grapheme segmentation, distinct character typing in VALUE, universal integration and compilation verification remain pending.
 
+## Token foundation
+
+TOKEN represents bounded, immutable, nonsecret metadata for lexical, invocation, session, instance, reference, access, resource and execution categories. It validates category and UTF-8 metadata, retains origin, scope and creation time, supports a caller-supplied expiry duration and converts its identity to VALUE. Access-category metadata is not an authentication credential; no secrets should be passed to the token command. No credential issuance, authorization, uniqueness, revocation or full lexical analysis is implemented. Expiry currently uses the system clock. Automatic lifecycle integration and compilation verification remain pending.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
@@ -126,7 +130,7 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
+`token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
