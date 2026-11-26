@@ -1,6 +1,7 @@
 // Copyright (C) 2026 Daniel Alexander Aspelin
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
+#include <chrono>
 #include <iomanip>
 #include <atomic>
 #include <future>
@@ -812,6 +813,62 @@ public:
         return endpoints.at(nodes.back())->invoke(r).value;
     }
 };
+class ROUNDROBIN {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::size_t cursor=0;
+public:
+    ROUNDROBIN(){registry.add("select","policy","cyclic");}
+    std::string select(const TOOL::Arguments& candidates){
+        std::lock_guard<std::mutex> lock(guard);
+        if(candidates.empty())return {};
+        cursor%=candidates.size();
+        auto result=candidates[cursor];
+        cursor=(cursor+1)%candidates.size();
+        return result;
+    }
+};
+class HEARTBEAT {
+    REGISTRATION registry;
+    std::mutex guard;
+    std::map<std::string,std::chrono::steady_clock::time_point> pulses;
+public:
+    HEARTBEAT(){registry.add("pulse","clock","monotonic");}
+    void pulse(const std::string& name){
+        std::lock_guard<std::mutex> lock(guard);
+        pulses[name]=std::chrono::steady_clock::now();
+    }
+    std::string status(const std::string& name){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=pulses.find(name);
+        if(it==pulses.end())return "No heartbeat";
+        auto age=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-it->second).count();
+        return name+" last pulse "+std::to_string(age)+" ms ago";
+    }
+};
+class FLOW {
+    FUSION& fusion;
+    ROUNDROBIN& robin;
+    HEARTBEAT& heartbeat;
+    REGISTRATION registry;
+public:
+    FLOW(FUSION& f,ROUNDROBIN& r,HEARTBEAT& h):fusion(f),robin(r),heartbeat(h){
+        registry.add("invoke","policy","cyclic destination selection");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()<4)return "Usage: flow origin method destination1,destination2 argument...";
+        TOOL::Arguments destinations;
+        std::istringstream input(a[2]);
+        std::string name;
+        for(;std::getline(input,name,',');)if(!name.empty())destinations.push_back(name);
+        auto destination=robin.select(destinations);
+        if(destination.empty())return "No destination";
+        TOOL::Arguments request{a[0],destination,a[1]};
+        request.insert(request.end(),a.begin()+3,a.end());
+        heartbeat.pulse("flow");
+        return fusion.invoke(request);
+    }
+};
 class HYBRID {
     TOOL tool;
     SESSION session;
@@ -853,6 +910,9 @@ class HYBRID {
     SANDBOX sandbox{ir};
     SDK sdk{cpp,wasm,sandbox,codebase};
     FUSION fusion{path,compatibility,authorization,ir};
+    ROUNDROBIN roundrobin;
+    HEARTBEAT heartbeat;
+    FLOW flow{fusion,roundrobin,heartbeat};
     REGISTRATION registry;
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
@@ -881,6 +941,9 @@ public:
         tool.inject("pss","cryptography",[this](const TOOL::Arguments& a){return pss.invoke(a);});
         tool.inject("sha","cryptography",[this](const TOOL::Arguments& a){return sha.invoke(a);});
         tool.inject("base64","encoding",[this](const TOOL::Arguments& a){return base64.invoke(a);});
+        tool.inject("roundrobin","runtime",[this](const TOOL::Arguments& a){return roundrobin.select(a);});
+        tool.inject("heartbeat","runtime",[this](const TOOL::Arguments& a){if(a.size()==2&&a[0]=="pulse"){heartbeat.pulse(a[1]);return std::string("Pulse recorded");}if(a.size()==2&&a[0]=="status")return heartbeat.status(a[1]);return std::string("Usage: heartbeat pulse|status name");});
+        tool.inject("flow","fusion",[this](const TOOL::Arguments& a){return flow.invoke(a);});
         tool.inject("fuse","fusion",[this](const TOOL::Arguments& a){return fusion.invoke(a);});
         registry.add("route","API","local");
         registry.add("route","CLI","local");
