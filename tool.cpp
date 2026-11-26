@@ -23,6 +23,9 @@
 #include <cstdio>
 #include <thread>
 #include <variant>
+#include <cmath>
+#include <charconv>
+#include <locale>
 #include <cstdint>
 #include <condition_variable>
 #include <limits>
@@ -561,6 +564,45 @@ public:
     bool conjunction(const BOOLEAN& other) const{return value&&other.value;}
     bool disjunction(const BOOLEAN& other) const{return value||other.value;}
     bool exclusive(const BOOLEAN& other) const{return value!=other.value;}
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
+};
+class INTEGER {
+    REGISTRATION registry;
+    const std::int64_t value;
+public:
+    explicit INTEGER(std::int64_t v):value(v){registry.add("get","type","int64");}
+    std::int64_t get() const{return value;}
+    static std::int64_t parse(const std::string& text){
+        std::int64_t v=0;auto r=std::from_chars(text.data(),text.data()+text.size(),v);
+        if(r.ec!=std::errc{}||r.ptr!=text.data()+text.size())throw std::invalid_argument("Invalid or out-of-range integer");
+        return v;
+    }
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
+};
+class FLOAT {
+    REGISTRATION registry;
+    const float value;
+public:
+    explicit FLOAT(float v):value(v){if(!std::isfinite(v))throw std::invalid_argument("Nonfinite float");registry.add("get","type","float");}
+    float get() const{return value;}
+    static float parse(const std::string& text){
+        std::istringstream in(text);in.imbue(std::locale::classic());float v=0;
+        if(!(in>>std::noskipws>>v)||in.peek()!=std::char_traits<char>::eof()||!std::isfinite(v))throw std::invalid_argument("Invalid or out-of-range float");
+        return v;
+    }
+    std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{static_cast<double>(value)});}
+};
+class DOUBLE {
+    REGISTRATION registry;
+    const double value;
+public:
+    explicit DOUBLE(double v):value(v){if(!std::isfinite(v))throw std::invalid_argument("Nonfinite double");registry.add("get","type","double");}
+    double get() const{return value;}
+    static double parse(const std::string& text){
+        std::istringstream in(text);in.imbue(std::locale::classic());double v=0;
+        if(!(in>>std::noskipws>>v)||in.peek()!=std::char_traits<char>::eof()||!std::isfinite(v))throw std::invalid_argument("Invalid or out-of-range double");
+        return v;
+    }
     std::shared_ptr<const VALUE> asValue() const{return std::make_shared<const VALUE>(VALUE::Data{value});}
 };
 class REQUEST {
@@ -1644,6 +1686,9 @@ public:
         tool.inject("instance","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: instance id class");INSTANCE i(a[0],std::make_shared<OBJECT>(std::make_shared<const CLASS>(a[1])));return i.id();});
         tool.inject("array","runtime",[](const TOOL::Arguments& a){ARRAY array;for(const auto& item:a){if(!array.append(std::make_shared<const VALUE>(VALUE::Data{item})))return std::string("Array capacity exceeded");}return std::to_string(array.size());});
         tool.inject("boolean","runtime",[](const TOOL::Arguments& a){if(a.empty()||a.size()>3)return std::string("Usage: boolean true|false [not|and|or|xor [true|false]]");auto valid=[](const std::string& x){return x=="true"||x=="false";};if(!valid(a[0]))return std::string("Invalid boolean");BOOLEAN b(a[0]=="true");bool result=b.evaluate();if(a.size()==2&&a[1]=="not")result=b.negate();else if(a.size()==3&&valid(a[2])){BOOLEAN other(a[2]=="true");if(a[1]=="and")result=b.conjunction(other);else if(a[1]=="or")result=b.disjunction(other);else if(a[1]=="xor")result=b.exclusive(other);else return std::string("Invalid operation");}else if(a.size()!=1)return std::string("Invalid operation");return std::string(result?"true":"false");});
+        tool.inject("integer","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: integer number");INTEGER v(INTEGER::parse(a[0]));return std::to_string(v.get());});
+        tool.inject("float","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: float number");FLOAT v(FLOAT::parse(a[0]));std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<float>::max_digits10)<<v.get();return out.str();});
+        tool.inject("double","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: double number");DOUBLE v(DOUBLE::parse(a[0]));std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<double>::max_digits10)<<v.get();return out.str();});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
