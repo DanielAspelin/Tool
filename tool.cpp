@@ -19,6 +19,14 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <filesystem>
+#include <cstdio>
+#if defined(__unix__) && !defined(__wasi__)
+#include <arpa/inet.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
+#endif
 
 class TIMESTAMP {
     std::map<std::string,std::map<std::string,std::string>> registry;
@@ -37,6 +45,72 @@ public:
     long long elapsed(const Snapshot& s) const {
         return std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now()-s.monotonic).count();
     }
+};
+class IPIFY {
+    TIMESTAMP& clock;
+    std::mutex guard;
+    std::future<void> worker;
+    std::map<std::string,std::map<std::string,std::string>> registry;
+    std::string address, observed;
+    bool enabled=false;
+    void refresh(){
+        std::string value;
+#if defined(__unix__) && !defined(__wasi__)
+        if(auto* pipe=popen("curl -q -fsS --proto '=https' --connect-timeout 2 --max-time 4 --max-filesize 128 https://api64.ipify.org 2>/dev/null","r")){
+            char buffer[128]={};
+            if(fgets(buffer,sizeof(buffer),pipe))value=buffer;
+            if(pclose(pipe)!=0)value.clear();
+        }
+        unsigned char bytes[16];
+        if(inet_pton(AF_INET,value.c_str(),bytes)!=1 && inet_pton(AF_INET6,value.c_str(),bytes)!=1)value.clear();
+#endif
+        std::lock_guard<std::mutex> lock(guard);
+        if(enabled){address=value;observed=clock.format(clock.capture());}
+    }
+public:
+    explicit IPIFY(TIMESTAMP& t):clock(t){registry["refresh"]["endpoint"]="https://api64.ipify.org";}
+    ~IPIFY(){if(worker.valid())worker.wait();}
+    std::string snapshot(){
+        std::lock_guard<std::mutex> lock(guard);
+        return enabled&&!address.empty()?address+" observed "+observed:"unavailable";
+    }
+    std::string invoke(const std::vector<std::string>& a){
+        if(a.empty()||a[0]=="status")return snapshot();
+        std::lock_guard<std::mutex> lock(guard);
+        if(a[0]=="disable"){enabled=false;address.clear();return "IPIFY disabled";}
+        if(a[0]!="enable"&&a[0]!="refresh")return "Usage: ipify enable|refresh|disable|status";
+        if(worker.valid()&&worker.wait_for(std::chrono::seconds(0))!=std::future_status::ready)return "Refresh pending";
+        enabled=true;
+        worker=std::async(std::launch::async,[this]{refresh();});
+        return "Optional IP refresh scheduled";
+    }
+};
+class DUMP {
+    TIMESTAMP& clock;
+    std::mutex guard;
+    std::map<std::string,std::map<std::string,std::string>> registry;
+    std::atomic<unsigned long long> sequence{0};
+public:
+    explicit DUMP(TIMESTAMP& t):clock(t){registry["store"]["location"]="execution working directory";}
+    bool store(const TIMESTAMP::Snapshot& stamp,const std::string& method,const std::string& reason) noexcept {
+        try {
+            std::lock_guard<std::mutex> lock(guard);
+            std::string safe;
+            for(unsigned char c:method.substr(0,128))safe+=(c>=32&&c<127)?char(c):'?';
+            std::string row=clock.format(stamp)+" "+std::to_string(++sequence)+" "+reason+" "+safe+"\n";
+#if defined(__unix__) && !defined(__wasi__)
+            int fd=open("tool.dump",O_WRONLY|O_CREAT|O_APPEND|O_NOFOLLOW|O_NONBLOCK,0600);
+            if(fd<0)return false;
+            struct stat st{};
+            bool ok=fstat(fd,&st)==0&&S_ISREG(st.st_mode)&&st.st_uid==geteuid()&&(st.st_mode&077)==0;
+            if(ok)ok=write(fd,row.data(),row.size())==static_cast<ssize_t>(row.size());
+            close(fd);return ok;
+#else
+            return false;
+#endif
+        }catch(...){return false;}
+    }
+    std::string location() const {return (std::filesystem::current_path()/"tool.dump").string();}
 };
 class SIGNAL {
     std::mutex guard;
@@ -72,6 +146,8 @@ private:
     std::mutex guard;
     std::atomic<bool> running{true};
     TIMESTAMP timestamp;
+    IPIFY ipify{timestamp};
+    DUMP dump{timestamp};
     SIGNAL signal;
     TRIGGER trigger{signal};
     std::mutex timingGuard;
@@ -156,6 +232,8 @@ private:
     }
 public:
     TOOL() {
+        inject("ipify","core",[this](const Arguments& a){return ipify.invoke(a);});
+        inject("dump","core",[this](const Arguments& a){if(a.empty()||a[0]=="location")return dump.location();if(a[0]=="unacknowledged")return dump.store(timestamp.capture(),"manual","unacknowledged")?std::string("Stored"):std::string("Dump unavailable");return std::string("Usage: dump location|unacknowledged");});
         inject("invoke","core",[this](const Arguments& a){return lifecycle(a);});
         inject("signal","runtime",[this](const Arguments&){return signal.status();});
         inject("trigger","runtime",[this](const Arguments& a){if(a.size()!=1)return std::string("Usage: trigger name");trigger.fire(a[0]);return std::string("Signal emitted");});
@@ -180,16 +258,18 @@ public:
     }
     std::string invoke(const std::string& name, const Arguments& args) {
         const auto snapshot=timestamp.capture();
+        const auto networkSnapshot=ipify.snapshot();
+        (void)networkSnapshot;
         trigger.fire(name);
         Invocation call;
         {
             std::lock_guard<std::mutex> lock(guard);
             auto it = registry.find(name);
-            if (it == registry.end()) {signal.emit(name,"unresolved");recordTiming(name,snapshot);return "Unknown invocation";}
+            if (it == registry.end()) {signal.emit(name,"unresolved");if(!dump.store(snapshot,name,"unresolved"))std::cerr<<"Dump unavailable\n";recordTiming(name,snapshot);return "Unknown invocation";}
             call = it->second.call;
         }
         try {auto result=call(args);trigger.complete(name,true);recordTiming(name,snapshot);return result;}
-        catch(...){trigger.complete(name,false);recordTiming(name,snapshot);throw;}
+        catch(...){if(!dump.store(snapshot,name,"exception"))std::cerr<<"Dump unavailable\n";trigger.complete(name,false);recordTiming(name,snapshot);throw;}
     }
     SIGNAL& signals(){return signal;}
     bool active() const { return running.load(); }
