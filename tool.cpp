@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-only
 #include <iostream>
 #include <memory>
+#include <set>
+#include <queue>
 #include <functional>
 #include <map>
 #include <mutex>
@@ -299,9 +301,120 @@ public:
     }
 };
 
+class MESH {
+    REGISTRATION registry;
+    std::map<std::string,std::set<std::string>> edges;
+    std::mutex guard;
+public:
+    MESH(){registry.add("connect","kind","directed");}
+    void connect(const std::string& a,const std::string& b){
+        std::lock_guard<std::mutex> lock(guard);
+        edges[a].insert(b); edges.try_emplace(b);
+    }
+    auto snapshot(){std::lock_guard<std::mutex> lock(guard);return edges;}
+};
+class CHAIN {
+    MESH& mesh;
+    REGISTRATION registry;
+public:
+    explicit CHAIN(MESH& m):mesh(m){registry.add("connect","kind","sequential");}
+    void connect(const TOOL::Arguments& nodes){
+        for(std::size_t i=1;i<nodes.size();++i) mesh.connect(nodes[i-1],nodes[i]);
+    }
+};
+class RING {
+    CHAIN& chain;
+    MESH& mesh;
+    REGISTRATION registry;
+public:
+    RING(CHAIN& c,MESH& m):chain(c),mesh(m){registry.add("connect","kind","circular");}
+    void connect(const TOOL::Arguments& nodes){
+        chain.connect(nodes);
+        if(nodes.size()>1) mesh.connect(nodes.back(),nodes.front());
+    }
+};
+class MATRIX {
+    REGISTRATION registry;
+    std::map<std::vector<std::string>,std::string> cells;
+    std::mutex guard;
+public:
+    MATRIX(){registry.add("set","kind","multidimensional");}
+    void set(const std::vector<std::string>& coordinates,const std::string& value){
+        std::lock_guard<std::mutex> lock(guard);cells[coordinates]=value;
+    }
+    std::string get(const std::vector<std::string>& coordinates){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=cells.find(coordinates);return it==cells.end()?"Unassigned":it->second;
+    }
+};
+class GRID {
+    MATRIX& matrix;
+    REGISTRATION registry;
+public:
+    explicit GRID(MATRIX& m):matrix(m){registry.add("set","kind","two-dimensional");}
+    void set(const std::string& x,const std::string& y,const std::string& value){matrix.set({x,y},value);}
+    std::string get(const std::string& x,const std::string& y){return matrix.get({x,y});}
+};
+class PATH {
+    MESH& mesh;
+    REGISTRATION registry;
+public:
+    explicit PATH(MESH& m):mesh(m){registry.add("find","kind","breadth-first");}
+    TOOL::Arguments find(const std::string& a,const std::string& b){
+        auto graph=mesh.snapshot();
+        if(!graph.count(a)||!graph.count(b))return {};
+        std::queue<TOOL::Arguments> pending;
+        std::set<std::string> seen{a};
+        pending.push({a});
+        for(;!pending.empty();){
+            auto path=pending.front();pending.pop();
+            if(path.back()==b)return path;
+            for(const auto& n:graph[path.back()])if(seen.insert(n).second){
+                auto next=path;next.push_back(n);pending.push(std::move(next));
+            }
+        }
+        return {};
+    }
+};
+class ROUTE {
+    PATH& path;
+    REGISTRATION registry;
+public:
+    explicit ROUTE(PATH& p):path(p){registry.add("select","kind","shortest-hop");}
+    std::string select(const std::string& a,const std::string& b){
+        auto nodes=path.find(a,b);std::string out;
+        for(const auto& n:nodes)out+=(out.empty()?"":" -> ")+n;
+        return out.empty()?"No route":out;
+    }
+};
+class LANE {
+    ROUTE& route;
+    REGISTRATION registry;
+    std::map<std::string,std::pair<std::string,std::string>> lanes;
+    std::mutex guard;
+public:
+    explicit LANE(ROUTE& r):route(r){registry.add("assign","kind","named channel");}
+    void assign(const std::string& name,const std::string& a,const std::string& b){
+        std::lock_guard<std::mutex> lock(guard);lanes[name]={a,b};
+    }
+    std::string resolve(const std::string& name){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=lanes.find(name);
+        return it==lanes.end()?"Unknown lane":route.select(it->second.first,it->second.second);
+    }
+};
+
 class HYBRID {
     TOOL tool;
     SESSION session;
+    MESH mesh;
+    CHAIN chain{mesh};
+    RING ring{chain,mesh};
+    MATRIX matrix;
+    GRID grid{matrix};
+    PATH path{mesh};
+    ROUTE routeSelector{path};
+    LANE lane{routeSelector};
     URI uri;
     URL url;
     CONFIGURATION configuration;
@@ -317,6 +430,14 @@ public:
         registry.add("route","CLI","local");
         registry.add("route","MCP","local");
         registry.add("route","SSH","local");
+        tool.inject("mesh","topology",[this](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: mesh from to");mesh.connect(a[0],a[1]);return std::string("Connected");});
+        tool.inject("chain","topology",[this](const TOOL::Arguments& a){chain.connect(a);return std::string("Chain registered");});
+        tool.inject("ring","topology",[this](const TOOL::Arguments& a){ring.connect(a);return std::string("Ring registered");});
+        tool.inject("route","topology",[this](const TOOL::Arguments& a){return a.size()==2?routeSelector.select(a[0],a[1]):"Usage: route from to";});
+        tool.inject("path","topology",[this](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: path from to");std::string out;for(const auto& n:path.find(a[0],a[1]))out+=n+" ";return out;});
+        tool.inject("grid","topology",[this](const TOOL::Arguments& a){if(a.size()==3){grid.set(a[0],a[1],a[2]);return std::string("Assigned");}return a.size()==2?grid.get(a[0],a[1]):"Usage: grid x y [value]";});
+        tool.inject("matrix","topology",[this](const TOOL::Arguments& a){if(a.size()<2)return std::string("Usage: matrix get coordinates... | matrix set coordinates... value");if(a[0]=="get")return matrix.get(TOOL::Arguments(a.begin()+1,a.end()));if(a[0]=="set"&&a.size()>=3){matrix.set(TOOL::Arguments(a.begin()+1,a.end()-1),a.back());return std::string("Assigned");}return std::string("Invalid matrix command");});
+        tool.inject("lane","topology",[this](const TOOL::Arguments& a){if(a.size()==3){lane.assign(a[0],a[1],a[2]);return std::string("Assigned");}return a.size()==1?lane.resolve(a[0]):"Usage: lane name [from to]";});
         tool.inject("session","runtime",[this](const TOOL::Arguments& a){return session.invoke(a);});
         tool.inject("configure","configuration",[this](const TOOL::Arguments& a){return configuration.invoke(a);});
         tool.inject("uri","validation",[this](const TOOL::Arguments& a){return a.size()==1 && uri.validate(a[0]) ? "Valid scheme syntax" : "Invalid URI";});
