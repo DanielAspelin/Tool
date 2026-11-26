@@ -166,6 +166,10 @@ WAVEROBIN receives SIGNAL emissions through a callback outside the signal mutex 
 
 TRACEROBIN observes SIGNAL callbacks before WAVEROBIN echo and retains the latest 1024 timestamped target/event records with local sequence numbers. Manual record, trace, status, enable and disable operations are available. Records are volatile, truncated to 128 bytes per field and not correlated by invocation ID. Status and trace commands themselves may generate observed signals. This is a local signal observer, not full route reconstruction, distributed tracing or proof of delivery. Expected total: 130 classes and 587 registrations, pending compilation and runtime verification.
 
+## Hotcode
+
+HOTCODE provides up to 256 named volatile bindings to existing registered commands, with bind, replace, inspect, enable, disable, run, list and remove operations. Replacement is synchronized and revisioned; run snapshots the command before dispatch, so existing calls are not redirected mid-execution. This is live invocation rebinding, not compilation, arbitrary code injection, native hot patching or WebAssembly module replacement. Expected total: 131 classes and 599 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
