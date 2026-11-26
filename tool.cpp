@@ -468,6 +468,73 @@ public:
     bool bind(const PARAMETER& p) const{return value&&p.accept(*value);}
     std::shared_ptr<const VALUE> get() const{return value;}
 };
+class VARIABLE {
+    REGISTRATION registry;
+    mutable std::mutex guard;
+    std::shared_ptr<const VALUE> value;
+public:
+    explicit VARIABLE(std::shared_ptr<const VALUE> v):value(std::move(v)){registry.add("assign","policy","synchronized immutable replacement");}
+    void assign(std::shared_ptr<const VALUE> v){std::lock_guard<std::mutex> lock(guard);value=std::move(v);}
+    std::shared_ptr<const VALUE> read() const {std::lock_guard<std::mutex> lock(guard);return value;}
+};
+class RETURN {
+    REGISTRATION registry;
+public:
+    const bool success;
+    const std::string result;
+    RETURN(bool ok,std::string r):success(ok),result(std::move(r)){registry.add("result","policy","explicit outcome");}
+};
+class FUNCTION {
+    REGISTRATION registry;
+    TOOL::Invocation callable;
+public:
+    explicit FUNCTION(TOOL::Invocation f):callable(std::move(f)){registry.add("execute","policy","registered callable");}
+    RETURN execute(const TOOL::Arguments& args) const {
+        if(!callable)return RETURN(false,"Unbound function");
+        return RETURN(true,callable(args));
+    }
+};
+class CALL {
+    REGISTRATION registry;
+    TOOL& tool;
+public:
+    explicit CALL(TOOL& t):tool(t){registry.add("invoke","target","TOOL");}
+    RETURN invoke(const std::string& name,const TOOL::Arguments& args){
+        return RETURN(true,tool.invoke(name,args));
+    }
+};
+class CLASS {
+    REGISTRATION registry;
+    const std::string name;
+public:
+    explicit CLASS(std::string n):name(std::move(n)){registry.add("identity","name",name);}
+    const std::string& identity() const{return name;}
+};
+class OBJECT {
+    REGISTRATION registry;
+    std::shared_ptr<const CLASS> definition;
+    std::mutex guard;
+    std::map<std::string,std::shared_ptr<const VALUE>> fields;
+public:
+    explicit OBJECT(std::shared_ptr<const CLASS> c):definition(std::move(c)){registry.add("set","policy","bounded object fields");}
+    bool set(const std::string& key,std::shared_ptr<const VALUE> v){
+        std::lock_guard<std::mutex> lock(guard);
+        if(key.empty()||key.size()>256||(!fields.count(key)&&fields.size()>=64))return false;
+        fields[key]=std::move(v);return true;
+    }
+    std::shared_ptr<const VALUE> get(const std::string& key){
+        std::lock_guard<std::mutex> lock(guard);auto it=fields.find(key);return it==fields.end()?nullptr:it->second;
+    }
+};
+class INSTANCE {
+    REGISTRATION registry;
+    const std::string identity;
+    std::shared_ptr<OBJECT> object;
+public:
+    INSTANCE(std::string id,std::shared_ptr<OBJECT> o):identity(std::move(id)),object(std::move(o)){registry.add("resolve","identity",identity);}
+    std::shared_ptr<OBJECT> resolve() const{return object;}
+    const std::string& id() const{return identity;}
+};
 class REQUEST {
 public:
     std::string method;
@@ -1540,6 +1607,13 @@ public:
         registry.add("route","SSH","local");
         tool.inject("rpc","rpc",[this](const TOOL::Arguments& a){return rpc.invoke(a);});
         tool.inject("bridge","topology",[this](const TOOL::Arguments& a){if(a.size()==3)return bridge.connect(a[0],a[1],a[2]);if(a.size()==1)return bridge.resolve(a[0]);return std::string("Usage: bridge name [from to]");});
+        tool.inject("call","runtime",[this](const TOOL::Arguments& a){if(a.empty())return std::string("Usage: call method [arguments]");CALL c(tool);return c.invoke(a[0],TOOL::Arguments(a.begin()+1,a.end())).result;});
+        tool.inject("return","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: return text");RETURN r(true,a[0]);return r.result;});
+        tool.inject("variable","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: variable text");VARIABLE v(std::make_shared<const VALUE>(VALUE::Data{a[0]}));return std::get<std::string>(v.read()->get());});
+        tool.inject("function","runtime",[](const TOOL::Arguments& a){FUNCTION f([](const TOOL::Arguments& x){return x.empty()?std::string{}:x.front();});return f.execute(a).result;});
+        tool.inject("class","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: class name");CLASS c(a[0]);return c.identity();});
+        tool.inject("object","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: object class text");OBJECT o(std::make_shared<const CLASS>(a[0]));o.set("value",std::make_shared<const VALUE>(VALUE::Data{a[1]}));return std::get<std::string>(o.get("value")->get());});
+        tool.inject("instance","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: instance id class");INSTANCE i(a[0],std::make_shared<OBJECT>(std::make_shared<const CLASS>(a[1])));return i.id();});
         tool.inject("value","runtime",[](const TOOL::Arguments& a){if(a.size()!=1)return std::string("Usage: value text");VALUE v{VALUE::Data{a[0]}};return std::get<std::string>(v.get());});
         tool.inject("parameter","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: parameter name text");PARAMETER p(a[0],4);VALUE v{VALUE::Data{a[1]}};return p.accept(v)?std::string("Accepted"):std::string("Rejected");});
         tool.inject("argument","runtime",[](const TOOL::Arguments& a){if(a.size()!=2)return std::string("Usage: argument parameter text");PARAMETER p(a[0],4);ARGUMENT arg(std::make_shared<const VALUE>(VALUE::Data{a[1]}));return arg.bind(p)?std::string("Bound"):std::string("Rejected");});
