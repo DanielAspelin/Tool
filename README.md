@@ -142,6 +142,10 @@ SOCKET maintains up to 256 named TCP/UDP port definitions in memory, with define
 
 RUNTIME maintains up to 64 named volatile logical environments, each containing up to 64 retained INSTANCE objects. Operations create, inspect, attach, detach, instances, suspend, resume, remove, list and run are independently registered. Run checks active state and instance membership before dispatching an existing command synchronously through TOOL; it does not execute in an isolated instance context. Suspension prevents new direct dispatch but does not interrupt ongoing work. INSTANCE itself is unchanged; subordinate runtimes, reciprocal ownership, background workers, persistence and isolation remain pending. Expected total: 117 classes and 488 registrations, unverified by compilation.
 
+## Capsule and quarantine foundations
+
+CAPSULE stores up to 256 named volatile text records, each up to 4096 bytes, with create, inspect, read, seal, remove and list operations. Seal is a logical marker, not encryption or integrity certification. QUARANTINE shares the capsule registry through synchronized hold, inspect, release and list operations. Held capsules reject ordinary read, seal and removal until manually released. Release does not verify safety or enforce an independent authorization policy. This is logical data containment only, not process isolation, malware analysis, or a security sandbox. Expected current total: 119 classes and 506 registrations, pending compilation and runtime verification.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
