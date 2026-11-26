@@ -1097,6 +1097,88 @@ public:
         return "Invalid hotcode operation";
     }
 };
+class UPTIME {
+    REGISTRATION registry;
+    std::mutex guard;
+    using Clock=std::chrono::steady_clock;
+    struct State {bool up=true;Clock::time_point since=Clock::now();Clock::duration available{},unavailable{};};
+    std::map<std::string,State> states;
+public:
+    UPTIME(){for(const std::string op:{"start","status","list"})registry.add(op,"uptime","declared availability");}
+    std::string transition(const std::string& id,bool up){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=states.find(id);if(it==states.end())return "Unknown entity";
+        auto& r=it->second;if(r.up==up)return "State unchanged";
+        auto now=Clock::now();(r.up?r.available:r.unavailable)+=now-r.since;r.since=now;r.up=up;return up?"Available":"Unavailable";
+    }
+    std::string measure(const std::string& id,bool up){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=states.find(id);if(it==states.end())return "Unknown entity";
+        auto& r=it->second;auto elapsed=up?r.available:r.unavailable;
+        if(r.up==up)elapsed+=Clock::now()-r.since;
+        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count())+" ms; state="+(r.up?"up":"down");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==2&&a[0]=="status")return measure(a[1],true);
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==2&&a[0]=="start"){if(a[1].empty()||a[1].size()>128||states.size()>=256||states.count(a[1]))return "Invalid entity or capacity reached";states.emplace(a[1],State{});return "Availability tracking started";}
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:states)out+=p.first+"\n";return out;}
+        return "Invalid uptime operation";
+    }
+};
+class DOWNTIME {
+    REGISTRATION registry;
+    UPTIME& uptime;
+public:
+    explicit DOWNTIME(UPTIME& u):uptime(u){for(const std::string op:{"begin","end","status"})registry.add(op,"downtime","declared interruption");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()!=2)return "Expected operation and entity";
+        if(a[0]=="begin")return uptime.transition(a[1],false);
+        if(a[0]=="end")return uptime.transition(a[1],true);
+        if(a[0]=="status")return uptime.measure(a[1],false);
+        return "Invalid downtime operation";
+    }
+};
+class TRIGGERED {
+    REGISTRATION registry;
+    std::mutex guard;
+    using Clock=std::chrono::steady_clock;
+    struct Event {Clock::time_point started=Clock::now();bool resolved=false;std::string outcome;Clock::duration elapsed{};};
+    std::map<std::string,Event> events;
+public:
+    TRIGGERED(){for(const std::string op:{"record","status","list"})registry.add(op,"triggered","declared occurrence");}
+    std::string resolve(const std::string& id,const std::string& outcome){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=events.find(id);if(it==events.end())return "Unknown occurrence";
+        auto& e=it->second;if(e.resolved)return "Already resolved";
+        if(outcome.empty()||outcome.size()>1024)return "Invalid outcome";
+        e.outcome=outcome;e.elapsed=Clock::now()-e.started;e.resolved=true;return "Resolution recorded";
+    }
+    std::string inspect(const std::string& id){
+        std::lock_guard<std::mutex> lock(guard);
+        auto it=events.find(id);if(it==events.end())return "Unknown occurrence";
+        const auto& e=it->second;auto elapsed=e.resolved?e.elapsed:Clock::now()-e.started;
+        return std::string(e.resolved?"resolved":"triggered")+"; elapsed="+std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count())+" ms"+(e.resolved?"; outcome="+e.outcome:"");
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==2&&a[0]=="status")return inspect(a[1]);
+        std::lock_guard<std::mutex> lock(guard);
+        if(a.size()==2&&a[0]=="record"){if(a[1].empty()||a[1].size()>128||events.size()>=1024||events.count(a[1]))return "Invalid occurrence or capacity reached";events.emplace(a[1],Event{});return "Occurrence triggered";}
+        if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:events)out+=p.first+(p.second.resolved?" resolved":" triggered")+"\n";return out;}
+        return "Invalid triggered operation";
+    }
+};
+class RESOLVED {
+    REGISTRATION registry;
+    TRIGGERED& triggered;
+public:
+    explicit RESOLVED(TRIGGERED& t):triggered(t){registry.add("record","resolution","declared outcome");registry.add("status","resolution","occurrence state");}
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==3&&a[0]=="record")return triggered.resolve(a[1],a[2]);
+        if(a.size()==2&&a[0]=="status")return triggered.inspect(a[1]);
+        return "Invalid resolved operation";
+    }
+};
 class REQUEST {
 public:
     std::string method;
@@ -2161,6 +2243,10 @@ class HYBRID {
     FLOW flow{fusion,roundrobin,heartbeat};
     LAMBDA lambda;
     INDEX index;
+    UPTIME uptime;
+    DOWNTIME downtime{uptime};
+    TRIGGERED triggered;
+    RESOLVED resolved{triggered};
     HOTCODE hotcode{tool};
     QR qr;
     EAN ean;
@@ -2304,11 +2390,15 @@ public:
         tool.inject("waverobin","runtime",[this](const TOOL::Arguments& a){return waverobin.invoke(a);});
         tool.inject("tracerobin","runtime",[this](const TOOL::Arguments& a){return tracerobin.invoke(a);});
         tool.inject("hotcode","runtime",[this](const TOOL::Arguments& a){return hotcode.invoke(a);});
+        tool.inject("uptime","runtime",[this](const TOOL::Arguments& a){return uptime.invoke(a);});
+        tool.inject("downtime","runtime",[this](const TOOL::Arguments& a){return downtime.invoke(a);});
+        tool.inject("triggered","runtime",[this](const TOOL::Arguments& a){return triggered.invoke(a);});
+        tool.inject("resolved","runtime",[this](const TOOL::Arguments& a){return resolved.invoke(a);});
         registerCoverage();
 
     }
     void registerCoverage(){
-        const std::map<std::string,std::string> classes{{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
+        const std::map<std::string,std::string> classes{{"UPTIME","uptime"},{"DOWNTIME","downtime"},{"TRIGGERED","triggered"},{"RESOLVED","resolved"},{"HOTCODE","hotcode"},{"TRACEROBIN","tracerobin"},{"WAVEROBIN","waverobin"},{"QR","qr"},{"EAN","ean"},{"AUDIT","audit"},{"FORENSIC","forensic"},{"STATISTICAL","statistical"},{"ANALYTICAL","analytical"},{"STATUS","status"},{"ENVIRONMENT","environment"},{"FACILITY","facility"},{"CAPSULE","capsule"},{"QUARANTINE","quarantine"},{"RUNTIME","runtime"},{"SOCKET","socket"},{"SERVICE","service"},{"ASSEMBLER","assemble"},{"DISASSEMBLER","disassemble"},{"TIMESTAMP","timestamp"},{"IPIFY","ipify"},{"DUMP","dump"},{"SIGNAL","signal"},{"TRIGGER","trigger"},{"CPU",""},{"MEMORY",""},{"THERMAL",""},{"CAPACITY",""},{"PRESSURE",""},{"CONFLICT",""},{"THROTTLE",""},{"GUARD",""},{"QUEUE",""},{"WATCHDOG",""},{"CLEANUP",""},{"SCHEDULER",""},{"TOOL","help"},{"REGISTRATION",""},{"VALUE","value"},{"PARAMETER","parameter"},{"REFERENCE","reference"},{"ARGUMENT","argument"},{"VARIABLE","variable"},{"RETURN","return"},{"FUNCTION","function"},{"CALL","call"},{"CLASS","class"},{"OBJECT","object"},{"INSTANCE","instance"},{"ARRAY","array"},{"BOOLEAN","boolean"},{"INTEGER","integer"},{"FLOAT","float"},{"DOUBLE","double"},{"CHARACTER","character"},{"STRING","string"},{"TOKEN","token"},{"TIME","time"},{"DATE","date"},{"TIMEDATE","timedate"},{"GPL","gpl"},{"GNU","gnu"},{"RFC","rfc"},{"ISO","iso"},{"IEC","iec"},{"REQUEST",""},{"RESPONSE",""},{"DISPATCHER",""},{"SERVER",""},{"CLIENT",""},{"APISERVER",""},{"APICLIENT",""},{"API","api"},{"CLISERVER",""},{"CLICLIENT",""},{"CLI","cli"},{"MCPSERVER",""},{"MCPCLIENT",""},{"MCP","mcp"},{"SSHSERVER",""},{"SSHCLIENT",""},{"SSH","ssh"},{"URI","uri"},{"URL","url"},{"CONFIGURATION","configure"},{"SESSION","session"},{"MESH","mesh"},{"CHAIN","chain"},{"RING","ring"},{"MATRIX","matrix"},{"GRID","grid"},{"PATH","path"},{"ROUTE","route"},{"LANE","lane"},{"BRIDGE","bridge"},{"RPC","rpc"},{"RDPSERVER",""},{"RDPCLIENT",""},{"RDP","rdp"},{"VNCSERVER",""},{"VNCCLIENT",""},{"VNC","vnc"},{"AST",""},{"IR",""},{"CPP","cpp"},{"WASM","wasm"},{"CODE","code"},{"CODEBASE","codebase"},{"SANDBOX","sandbox"},{"SDK","sdk"},{"AES","aes"},{"GCM","gcm"},{"RSA","rsa"},{"SHA","sha"},{"OAEP","oaep"},{"PSS","pss"},{"BASE64","base64"},{"AUTHORIZATION",""},{"COMPATIBILITY",""},{"ADAPTER",""},{"FUSION","fuse"},{"ROUNDROBIN","roundrobin"},{"HEARTBEAT","heartbeat"},{"FLOW","flow"},{"LAMBDA","lambda"},{"INDEX","index"},{"POOL","pool"},{"FARM","farm"},{"REFLEX","reflex"},{"REACTION","reaction"},{"HYBRID","help"}};
         for(const auto& entry:classes){
             const auto name=entry.first,command=entry.second;
             tool.inject(name+".describe","coverage",[name,command](const TOOL::Arguments& a){if(!a.empty())return std::string("No arguments expected");return name+"; direct command: "+(command.empty()?"not exposed":command);});
@@ -2381,7 +2471,7 @@ public:
     void registerOperations(){
         const std::map<std::string,TOOL::Arguments> operations{
             {"gpl",{"describe","source","reference"}},{"gnu",{"describe","source","reference"}},{"rfc",{"describe","source","reference"}},{"iso",{"describe","source","reference"}},{"iec",{"describe","source","reference"}},
-            {"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
+            {"uptime",{"start","status","list"}},{"downtime",{"begin","end","status"}},{"triggered",{"record","status","list"}},{"resolved",{"record","status"}},{"hotcode",{"bind","replace","inspect","enable","disable","run","list","remove"}},{"tracerobin",{"record","trace","status","enable","disable"}},{"waverobin",{"echo","status"}},{"qr",{"capacity","inspect"}},{"ean",{"validate","complete","checksum"}},{"audit",{"record","count","inspect"}},{"forensic",{"trace"}},{"statistical",{"summary"}},{"analytical",{"frequency","compare"}},{"status",{"set","get","list","remove"}},{"environment",{"create","inspect","set","get","suspend","resume","list","remove"}},{"facility",{"create","attach","detach","inspect","list","remove"}},{"capsule",{"create","inspect","read","seal","remove","list"}},{"quarantine",{"hold","inspect","release","list"}},{"runtime",{"create","inspect","attach","detach","instances","suspend","resume","remove","list","run"}},{"socket",{"define","inspect","remove","list"}},{"service",{"define","run","inspect","remove","list"}},{"heartbeat",{"pulse","status"}},{"timestamp",{"now","last"}},{"ipify",{"status","enable","refresh","disable"}},{"dump",{"location","unacknowledged"}},{"matrix",{"get","set"}},{"invoke",{"direct","define","transition","run","list"}}
         };
         for(const auto& group:operations)for(const auto& op:group.second){
             auto command=group.first;
