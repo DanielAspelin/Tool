@@ -218,6 +218,20 @@ All 528 top-level class definitions contain their own nested MODELER and COMMAND
 
 All 528 primary classes now declare a private SPECIFICATION nested associative map and nested SPECIFIER helper. Initial class and helper operation versions are 0.1.0. SPECIFIER provides explicit revision replacement with previous revision metadata, array projection and a per-class atomic construction counter. These are foundations only: ordinary functions, functors, variables and all nested arrays are not automatically enumerated or synchronized, instance copying does not allocate a new index, revision updates are not automatically triggered, and no persistent revision history is implemented. The counter retry loop requires reconciliation with the function-call-only loop convention. Specification access, concurrency safety, full callable indexing, compilation and runtime validation remain pending. The intended canonical class array is SPECIFICATION; runtime ownership remains invocation-bound.
 
+## Architectural preadjustment — verification branch
+
+Tool is invocation-bound: the invoker owns the runtime duration until resolution. Runtime is optional for engine, constructive system or systems platform deployment. Persistent artifacts do not imply persistent execution.
+
+The source now contains 566 primary class declarations (38 added). Each primary class owns nested ARCHITECTURE, DESIGN, COMMANDER and SPECIFIER classes and associative arrays SPECIFICATION, VERSION, INFORMATION, DESCRIPTION, MODELS and COMMANDS. MODELER is nested exclusively in MODELING. Specification snapshots project the arrays and expose a class-local logical subprocess identity (SPID), not an operating-system PID. Actual subprocess allocation and invocation correlation remain pending.
+
+The naming convention is ION → R → VERB → ING, with natural English exceptions and established technical abbreviations preserved. Concept and activity delegate to the executor while retaining the original invocation identity.
+
+The 47 foundational operations are registered as planned specification metadata, not implemented universal methods: instantiate, initialize, load, run, execute, finalize, terminate, clean, flush, reconcile, automate, generate, copy, dump, delete, create, construct, reconstruct, deliver, serve, obtain, retain, resume, try, catch, throw, retry, request, respond, negotiate, pidkill, destroy, cleanup, commence, await, preprocess, postprocess, read, write, declare, scale, schedule, allocate, locate, resolve, returnResult, release. Reserved C++ keywords require legal implementation identifiers.
+
+Parameterized function calls alone form operational loop bodies. Each round trip resolves and returns to commence. Optional runtime coordinates concurrent await, preprocess and postprocess cycles through bounded scheduling; nested loops alone do not provide parallelism. Lifecycle enforcement, actual function implementations, synchronized transversioning, and compilation remain unverified.
+
+New functional and startup classes are passive metadata foundations. The larger UNYTEL abbreviation inventory is not yet incorporated. C++ remains canonical; WebAssembly generation on demand remains a target.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
