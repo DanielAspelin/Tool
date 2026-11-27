@@ -66,7 +66,11 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"CODE",{{"class","CODE"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","CODE"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind", "metadata"}, {"owner", "CODE"}}},
+        {"validate", {{"kind", "source record"}, {"owner", "CODE"}}},
+        {"self-test", {{"kind", "verification"}, {"owner", "CODE"}}},
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -97,8 +101,33 @@ private:
 
     REGISTRATION registry;
 public:
-    CODE(){registry.add("validate","scope","source record");}
+    CODE() {
+        registry.add("validate", "scope", "source record");
+        registry.add("self-test", "scope", "source record verification");
+    }
     bool validate(const std::string& language,const std::string& source) const {
         return (language=="cpp" || language=="wasm") && !source.empty() && source.size()<=1048576;
+    }
+
+    std::string selfTest() const {
+        struct Check {
+            std::string_view name;
+            bool passed;
+        };
+        const std::string boundary(1'048'576, 'x');
+        const Check checks[]{
+            {"accept C++ source record", validate("cpp", "int main() {}")},
+            {"accept WASM source record", validate("wasm", "(module)")},
+            {"reject unsupported language", !validate("python", "pass")},
+            {"reject empty record", !validate("cpp", "")},
+            {"accept 1 MiB record", validate("cpp", boundary)},
+            {"reject record over 1 MiB", !validate("wasm", boundary + 'x')},
+        };
+        std::string failures;
+        for (const auto& check : checks) {
+            if (!check.passed) failures += "\nFAIL " + std::string(check.name);
+        }
+        if (!failures.empty()) throw std::runtime_error("CODE self-test failed" + failures);
+        return "CODE self-test passed (" + std::to_string(sizeof(checks) / sizeof(checks[0])) + " checks)";
     }
 };

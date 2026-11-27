@@ -15,6 +15,7 @@ All primary classes shall be independently instantiable multi-argument, multipar
 `tool.cpp` is the sole C++ translation unit. It includes declarations and catalogue data from `units/*.hpp` in source order. The headers are implementation fragments with dependencies on earlier declarations. The native and browser builds use the same entry source with separate target settings.
 
 - Run `bash build.bash native` to build and smoke-test the native CLI with a C++17 compiler.
+- Run `./tool code self-test` to check source-record language, empty input and the 1 MiB size boundary. The native build and CI run this check automatically. The test uses in-memory fixtures and returns a nonzero exit status on failure.
 - Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash browser` to build `tool-route.wasm`. The module contains the browser passage state machine and exports its JavaScript loader. Native process, socket, and filesystem adapters remain in the native target.
 - Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash verify` to build both targets and verify the shared echo passage with Node.js. CI uses GCC 14, Node.js 24.22.3, and WASI SDK 27.0.
 - Run `c++ -std=c++17 -x c++ linguistbridge_test.hpp -o /tmp/linguistbridge-test && /tmp/linguistbridge-test` to check the optional reciprocal bridge.

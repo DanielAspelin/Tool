@@ -6,8 +6,12 @@ output_dir=${OUTPUT_DIR:-.}
 mkdir -p -- "$output_dir"
 
 build_native() {
-    "${CXX:-c++}" -std=c++17 -O0 -pthread tool.cpp -o "$output_dir/tool"
-    test "$("$output_dir/tool" echo test)" = test
+    local self_test
+    "${CXX:-c++}" -std=c++17 -O0 -pthread tool.cpp -o "$output_dir/tool" || return
+    test "$("$output_dir/tool" echo test)" = test || return
+    self_test=$("$output_dir/tool" code self-test) || return
+    printf '%s\n' "$self_test"
+    [[ "$self_test" == "CODE self-test passed ("* ]]
 }
 
 build_browser() {

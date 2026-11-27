@@ -633,7 +633,11 @@ public:
         for(const auto& a:names)for(const auto& b:names)compatibility.registerPair(a,b);
         tool.inject("cpp","development",[this](const TOOL::Arguments& a){return cpp.invoke(a);});
         tool.inject("wasm","development",[this](const TOOL::Arguments& a){return wasm.invoke(a);});
-        tool.inject("code","development",[this](const TOOL::Arguments& a){return a.size()==2&&code.validate(a[0],a[1])?"Valid source record":"Invalid source record";});
+        tool.inject("code", "development", [this](const TOOL::Arguments& args) {
+            if (args.size() == 1 && args[0] == "self-test") return code.selfTest();
+            return std::string(args.size() == 2 && code.validate(args[0], args[1])
+                ? "Valid source record" : "Invalid source record");
+        });
         tool.inject("codebase","development",[this](const TOOL::Arguments& a){return codebase.invoke(a);});
         tool.inject("sandbox","development",[this](const TOOL::Arguments& a){return sandbox.invoke(a);});
         tool.inject("sdk","development",[this](const TOOL::Arguments& a){return sdk.invoke(a);});
