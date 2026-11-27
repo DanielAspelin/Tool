@@ -328,6 +328,21 @@ Illustrative commands (subject to build verification):
 
 In the interactive runtime, enter `ipify enable`, then `ipify status` after the background request completes. Enter `ipify disable` to stop optional observation. In-memory state does not persist across separate executable launches.
 
+### Time counter locking
+
+In one native interactive session, use `uptime start service` to start tracking. Use
+`prepositioner prepare-lock service 250` to arm a lock 250 milliseconds ahead.
+`uptime lock-status service` reports the open, armed or locked phase and, when scheduled,
+the deadline and remaining time in nanoseconds on the process's monotonic clock.
+The delay accepts whole milliseconds from 0 to 86,400,000. Use `uptime lock service`
+for an immediate lock on an open counter. An existing deadline stays in effect until
+you clear it.
+
+At the deadline, both uptime and downtime totals stop accumulating and availability
+transitions are blocked. Each read uses the scheduled cutoff even if the first read
+comes much later. `uptime unlock service` cancels a pending deadline or resumes a
+locked counter in its previous availability state. Time spent locked is excluded.
+
 ### Launch Control
 
 Preflight and startup report the Linux hostname. Set `TOOL_LAUNCH_HOST` to the exact expected hostname in the process environment to require a match before startup opens sockets. The hostname identifies the machine. The workspace URL uses `127.0.0.1`.

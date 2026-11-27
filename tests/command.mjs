@@ -31,6 +31,69 @@ class CommandVerification {
             assert.match(failure.stderr, message);
         }
         if (process.platform === 'linux') this.verifyInstallation(directory, invoke);
+        this.verifyTimeLock(directory);
+    }
+
+    static verifyTimeLock(directory) {
+        const result = spawnSync(resolve(directory, 'tool'), [], {
+            cwd: directory,
+            encoding: 'utf8',
+            timeout: 10_000,
+            input: [
+                'uptime start service',
+                'uptime start other',
+                'prepositioner prepare-lock service 60000',
+                'uptime lock-status service',
+                'prepositioner prepare-lock service 1',
+                'uptime unlock service',
+                'uptime lock-status service',
+                'downtime begin service',
+                'prepositioner.prepare-lock service 25',
+                'sleep wait 250',
+                'uptime lock-status service',
+                'uptime status service',
+                'downtime status service',
+                'downtime end service',
+                'sleep wait 75',
+                'uptime status service',
+                'downtime status service',
+                'uptime lock-status other',
+                'uptime unlock service',
+                'uptime lock-status service',
+                'downtime end service',
+                'uptime lock service',
+                'uptime lock-status service',
+                'downtime begin service',
+                'prepositioner prepare-lock other -1',
+                'uptime lock-status other',
+                'exit',
+            ].join('\n'),
+        });
+        if (result.error) throw result.error;
+        assert.equal(result.status, 0, result.stderr);
+        assert.match(result.stderr, /Lock delay must be a whole number/);
+        const lines = result.stdout.trim().split('\n');
+        assert.deepEqual(lines.slice(0, 3), [
+            'Availability tracking started', 'Availability tracking started',
+            'Time lock armed',
+        ]);
+        assert.match(lines[3], /^phase=armed deadline_ns=\d+ remaining_ns=[1-9]\d*$/);
+        assert.deepEqual(lines.slice(4, 9), [
+            'Time lock already armed', 'Time lock canceled', 'phase=open',
+            'Unavailable', 'Time lock armed',
+        ]);
+        assert.match(lines[10], /^phase=locked deadline_ns=\d+ remaining_ns=0$/);
+        assert.match(lines[11], /^\d+ ms; state=down$/);
+        assert.match(lines[12], /^\d+ ms; state=down$/);
+        const frozenDowntimeMs = Number.parseInt(lines[12], 10);
+        assert.ok(frozenDowntimeMs >= 25 && frozenDowntimeMs < 250, lines[12]);
+        assert.equal(lines[13], 'Time counters locked');
+        assert.deepEqual(lines.slice(15, 22), [
+            lines[11], lines[12], 'phase=open', 'Time counters unlocked',
+            'phase=open', 'Available', 'Time counters locked',
+        ]);
+        assert.match(lines[22], /^phase=locked deadline_ns=\d+ remaining_ns=0$/);
+        assert.deepEqual(lines.slice(23, 25), ['Time counters locked', 'phase=open']);
     }
 
     static verifyInstallation(directory, command) {

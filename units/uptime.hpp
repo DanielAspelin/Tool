@@ -66,7 +66,14 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"UPTIME",{{"class","UPTIME"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","UPTIME"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind","metadata"},{"owner","UPTIME"}}},
+        {"start", {{"kind","availability tracking"},{"owner","UPTIME"}}},
+        {"list", {{"kind","tracked entities"},{"owner","UPTIME"}}},
+        {"lock", {{"kind","immediate counter lock"},{"owner","UPTIME"}}},
+        {"lock-status", {{"kind","counter lock timing"},{"owner","UPTIME"}}},
+        {"unlock", {{"kind","release or cancel counter lock"},{"owner","UPTIME"}}}
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -98,25 +105,99 @@ private:
     REGISTRATION registry;
     std::mutex guard;
     using Clock=std::chrono::steady_clock;
-    struct State {bool up=true;Clock::time_point since=Clock::now();Clock::duration available{},unavailable{};};
+    struct State {
+        bool up = true;
+        Clock::time_point since = Clock::now();
+        Clock::duration available{}, unavailable{};
+        std::optional<Clock::time_point> deadline;
+
+        bool locked(Clock::time_point now) const { return deadline && now >= *deadline; }
+
+        Clock::duration measure(bool availability, Clock::time_point now) const {
+            const auto total = availability ? available : unavailable;
+            return up == availability ? total + ((locked(now) ? *deadline : now) - since) : total;
+        }
+
+        void accrueUntil(Clock::time_point end) {
+            (up ? available : unavailable) += end - since;
+            since = end;
+        }
+    };
     std::map<std::string,State> states;
+
+    static auto nanoseconds(Clock::duration duration) {
+        return std::chrono::duration_cast<std::chrono::nanoseconds>(duration).count();
+    }
+
+    std::string lockStatus(const std::string& id) {
+        const std::lock_guard<std::mutex> lock(guard);
+        const auto it = states.find(id);
+        if (it == states.end()) return "Unknown entity";
+        const auto& state = it->second;
+        if (!state.deadline) return "phase=open";
+        const auto now = Clock::now();
+        return std::string(state.locked(now) ? "phase=locked" : "phase=armed") +
+            " deadline_ns=" + std::to_string(nanoseconds(state.deadline->time_since_epoch())) +
+            " remaining_ns=" + std::to_string(nanoseconds(std::max(Clock::duration::zero(), *state.deadline - now)));
+    }
+
+    std::string unlock(const std::string& id) {
+        const std::lock_guard<std::mutex> lock(guard);
+        const auto it = states.find(id);
+        if (it == states.end()) return "Unknown entity";
+        auto& state = it->second;
+        if (!state.deadline) return "Time counters already open";
+        const auto now = Clock::now();
+        const bool locked = state.locked(now);
+        if (locked) {
+            state.accrueUntil(*state.deadline);
+            state.since = now;
+        }
+        state.deadline.reset();
+        return locked ? "Time counters unlocked" : "Time lock canceled";
+    }
 public:
-    UPTIME(){for(const std::string op:{"start","status","list"})registry.add(op,"uptime","declared availability");}
+    UPTIME() {
+        for (const auto& operation : COMMANDS) {
+            registry.add(operation.first, "uptime", operation.second.at("kind"));
+        }
+    }
+
+    std::string prepareLock(const std::string& id, std::chrono::milliseconds delay) {
+        const std::lock_guard<std::mutex> lock(guard);
+        const auto it = states.find(id);
+        if (it == states.end()) return "Unknown entity";
+        auto& state = it->second;
+        const auto now = Clock::now();
+        if (state.deadline) return state.locked(now) ? "Time counters locked" : "Time lock already armed";
+        state.deadline = now + delay;
+        return delay.count() == 0 ? "Time counters locked" : "Time lock armed";
+    }
+
     std::string transition(const std::string& id,bool up){
         std::lock_guard<std::mutex> lock(guard);
         auto it=states.find(id);if(it==states.end())return "Unknown entity";
-        auto& r=it->second;if(r.up==up)return "State unchanged";
-        auto now=Clock::now();(r.up?r.available:r.unavailable)+=now-r.since;r.since=now;r.up=up;return up?"Available":"Unavailable";
+        auto& state = it->second;
+        const auto now = Clock::now();
+        if (state.locked(now)) return "Time counters locked";
+        if (state.up == up) return "State unchanged";
+        state.accrueUntil(now);
+        state.up = up;
+        return up ? "Available" : "Unavailable";
     }
     std::string measure(const std::string& id,bool up){
         std::lock_guard<std::mutex> lock(guard);
         auto it=states.find(id);if(it==states.end())return "Unknown entity";
-        auto& r=it->second;auto elapsed=up?r.available:r.unavailable;
-        if(r.up==up)elapsed+=Clock::now()-r.since;
-        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count())+" ms; state="+(r.up?"up":"down");
+        const auto& state = it->second;
+        const auto elapsed = state.measure(up, Clock::now());
+        return std::to_string(std::chrono::duration_cast<std::chrono::milliseconds>(elapsed).count()) +
+            " ms; state=" + (state.up ? "up" : "down");
     }
     std::string invoke(const TOOL::Arguments& a){
         if(a.size()==2&&a[0]=="status")return measure(a[1],true);
+        if (a.size() == 2 && a[0] == "lock") return prepareLock(a[1], std::chrono::milliseconds::zero());
+        if (a.size() == 2 && a[0] == "lock-status") return lockStatus(a[1]);
+        if (a.size() == 2 && a[0] == "unlock") return unlock(a[1]);
         std::lock_guard<std::mutex> lock(guard);
         if(a.size()==2&&a[0]=="start"){if(a[1].empty()||a[1].size()>128||states.size()>=256||states.count(a[1]))return "Invalid entity or capacity reached";states.emplace(a[1],State{});return "Availability tracking started";}
         if(a.size()==1&&a[0]=="list"){std::string out;for(const auto& p:states)out+=p.first+"\n";return out;}

@@ -66,7 +66,11 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"PREPOSITIONER",{{"class","PREPOSITIONER"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","PREPOSITIONER"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind","metadata"},{"owner","PREPOSITIONER"}}},
+        {"prepare", {{"kind","local position"},{"owner","PREPOSITIONER"}}},
+        {"prepare-lock", {{"kind","schedule availability counter lock"},{"owner","PREPOSITIONER"}}}
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -95,9 +99,32 @@ public:
 private:
 
 
- REGISTRATION registry;
- POSITIONER& positioner;
+    REGISTRATION registry;
+    POSITIONER& positioner;
+    UPTIME& uptime;
+    static constexpr unsigned maxDelayMs = 86'400'000;
 public:
- explicit PREPOSITIONER(POSITIONER& p):positioner(p){registry.add("prepare","prepositioner","local operation");}
- std::string invoke(const TOOL::Arguments& a){if(a.size()==3&&a[0]=="prepare")return positioner.invoke({"set",a[1],a[2]});return "Expected prepare identity position";}
+    PREPOSITIONER(POSITIONER& p, UPTIME& u) : positioner(p), uptime(u) {
+        for (const char* operation : {"prepare", "prepare-lock"}) {
+            registry.add(operation, "prepositioner", COMMANDS.at(operation).at("kind"));
+        }
+    }
+
+    std::string invoke(const TOOL::Arguments& args) {
+        if (args.size() == 3 && args[0] == "prepare") {
+            return positioner.invoke({"set", args[1], args[2]});
+        }
+        if (!args.empty() && args[0] == "prepare-lock") {
+            if (args.size() != 3) throw std::invalid_argument("Usage: prepositioner prepare-lock <entity> <delay-ms>");
+            const auto& input = args[2];
+            const auto end = input.data() + input.size();
+            unsigned delay{};
+            const auto parsed = std::from_chars(input.data(), end, delay);
+            if (parsed.ec != std::errc{} || parsed.ptr != end || delay > maxDelayMs) {
+                throw std::invalid_argument("Lock delay must be a whole number from 0 to 86400000 milliseconds");
+            }
+            return uptime.prepareLock(args[1], std::chrono::milliseconds(delay));
+        }
+        return "Expected prepare identity position";
+    }
 };
