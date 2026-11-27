@@ -34,6 +34,20 @@ public:
     }
 
 private:
+#if defined(__linux__) && !defined(__wasi__)
+    static std::string launchHost() {
+        char hostname[256]{};
+        if (::gethostname(hostname, sizeof(hostname) - 1) != 0 || hostname[0] == '\0') {
+            throw std::runtime_error("Cannot identify the launch host");
+        }
+        const std::string detected(hostname);
+        if (const char* expected = std::getenv("TOOL_LAUNCH_HOST"); expected && detected != expected) {
+            throw std::runtime_error("Launch host does not match TOOL_LAUNCH_HOST");
+        }
+        return detected;
+    }
+#endif
+
     static INITIATION initiation(const Arguments& args) {
         const auto arrangement = ARRANGEMENT{}(args.size() > 1 ? args[1] : "auto");
         const auto port = args.size() == 3 ? languages::number(args[2]) : entrancePort;
@@ -43,9 +57,11 @@ private:
 
     static std::string preflight(const INITIATION& request) {
 #if defined(__linux__) && !defined(__wasi__)
+        const auto host = launchHost();
         PRELAUNCH{}();
         const auto mode = modes[static_cast<unsigned>(request.arrangement)];
         std::string report = status(DATAMODE::passive, DATASTATE::ready, "launch parameters and inventory verified");
+        report += "\nLaunch host: " + host;
         report += "\nMode: " + std::string(mode);
         report += "\nBind: 127.0.0.1:" + std::to_string(request.port);
         if (request.port == 0) report += " (assigned on start)";
@@ -62,6 +78,7 @@ private:
         static std::mutex launchGuard;
         const std::unique_lock<std::mutex> ownership(launchGuard, std::try_to_lock);
         if (!ownership) throw std::runtime_error("Workspace already running");
+        const auto host = launchHost();
         PRELAUNCH{}();
         auto listener = bindSocket(SOCK_STREAM, request.port);
         sockaddr_in address{};
@@ -116,7 +133,8 @@ private:
             throw;
         }
         starting.unlock();
-        std::cout << POSTLAUNCH{}(workers) << "\nhttp://127.0.0.1:" << port << '/' << std::endl;
+        std::cout << POSTLAUNCH{}(workers) << "\nLaunch host: " << host
+                  << "\nhttp://127.0.0.1:" << port << '/' << std::endl;
         for (auto& worker : pool) worker.join();
         listener.reset();
         udp.reset();
