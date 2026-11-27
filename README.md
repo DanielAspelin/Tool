@@ -16,6 +16,7 @@ All primary classes shall be independently instantiable multi-argument, multipar
 
 - Run `bash build.bash native` to build and smoke-test the native CLI with a C++17 compiler.
 - Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash browser` to build `tool-route.wasm`. The module contains the browser passage state machine and exports its JavaScript loader. Native process, socket, and filesystem adapters remain in the native target.
+- Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash verify` to build both targets and verify the shared echo passage with Node.js. CI uses GCC 14, Node.js 24.22.3, and WASI SDK 27.0.
 - Run `c++ -std=c++17 -x c++ linguistbridge_test.hpp -o /tmp/linguistbridge-test && /tmp/linguistbridge-test` to check the optional reciprocal bridge.
 
 The class-local functor and functional requirements below describe the target architecture. The source split preserves the uploaded definitions and invocation behavior.
@@ -291,7 +292,9 @@ export WASI_SDK_PATH=/path/to/wasi-sdk
 bash build.bash
 ```
 
-The script is intended to produce `tool` and `tool.wasm` and run a basic native smoke check. These outputs and successful execution have not yet been verified. WASI support for threads, filesystem and networking requires separate validation and host capabilities.
+The script builds the native `tool` CLI and browser `tool-route.wasm` module and runs a native smoke check.
+
+The preview operation ID is `1` (`echo`) under WASM ABI v1. It accepts empty input and up to 4,096 UTF-8 bytes. The native preview returns text through the CLI and API path. For multiple native arguments, the limit applies to the exact bytes of the joined echo result. The browser loader validates the lifecycle using the declared byte count, and the caller retains the text. Successful routes progress through enter, input, pass-through, output, exit and close.
 
 Illustrative commands (subject to build verification):
 

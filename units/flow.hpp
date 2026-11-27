@@ -125,11 +125,13 @@ public:
 
         unsigned bytes = 0;
         for (auto arg = args.begin() + 3; arg != args.end(); ++arg) {
-            // Reserve a separator per argument, including empty arguments.
-            if (arg->size() >= maxPayloadBytes - bytes) {
+            // TOOL's echo inserts a space once its result is nonempty.
+            const unsigned separator = bytes == 0 ? 0 : 1;
+            if (separator > maxPayloadBytes - bytes ||
+                arg->size() > maxPayloadBytes - bytes - separator) {
                 throw std::invalid_argument("Platform input exceeds 4096 bytes");
             }
-            bytes += static_cast<unsigned>(arg->size()) + 1;
+            bytes += separator + static_cast<unsigned>(arg->size());
         }
 
         Passage passage;
