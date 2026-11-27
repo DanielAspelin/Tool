@@ -607,6 +607,7 @@ private:
     REFLEX reflex{tool.signals(),heartbeat};
     REACTION reaction{tool.signals(),reflex,roundrobin};
     workspace::LAUNCHCONTROL launchControl;
+    BASECOVERAGE baseCoverage;
     POOL pool;
     FARM farm{pool,roundrobin,heartbeat};
     REGISTRATION registry;
@@ -1249,6 +1250,7 @@ public:
             if(!command.empty())tool.inject(name+".invoke","coverage",[this,command](const TOOL::Arguments& a){return tool.invoke(command,a);});
         }
         tool.inject("coverage","runtime",[this,classes](const TOOL::Arguments& a){
+            if (!a.empty() && a[0] == "base") return baseCoverage(a);
             if(a.empty()|| (a.size()==1&&a[0]=="classes")){std::string out;for(const auto& e:classes)out+=e.first+" "+(e.second.empty()?"not exposed":e.second)+"\n";return out;}
             if(a.size()==2&&a[0]=="commands")return tool.catalogue(a[1]);
             if(a.size()==3&&a[0]=="passage"){
@@ -1259,7 +1261,7 @@ public:
                 }
                 return std::string("Candidate only; no class-to-class compatibility verified; destination command: ")+(to->second.empty()?"not exposed":to->second);
             }
-            return std::string("Usage: coverage classes | commands prefix | passage FROM TO");
+            return std::string("Usage: coverage classes | commands prefix | passage FROM TO | base [selector]");
         });
         registerOperations();
         registerDataOperations();

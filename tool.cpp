@@ -8,6 +8,7 @@
 #include <deque>
 #include <iostream>
 #include <algorithm>
+#include <array>
 #include <fstream>
 #include <iterator>
 #include <chrono>
@@ -1125,6 +1126,7 @@ void WAVEROBIN::echo(const std::string& target, const std::string& event) {
 #include "units/farm.hpp"
 #include "units/reflex.hpp"
 #include "units/reaction.hpp"
+#include "units/basecoverage.hpp"
 #include "units/hybrid.hpp"
 
 int main(int argc, char** argv) {

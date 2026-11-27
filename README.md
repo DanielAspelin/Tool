@@ -388,6 +388,12 @@ The socket protocol sends one ASCII packet per request with tab-separated fields
 
 Verify the native boundary with `python3 tests/base.py /path/to/native-build`. The test verifier simulates decisions over the actual socket. Commissioning still requires a registered verifier, identity provider and workload enrollment, durable lease storage, and a traffic actuator. The native adapter implements the local launch check. The Base verifier owns the approval and lease policy.
 
+#### Base coverage compliance
+
+`tool coverage base` lists compliance codes `BCC-01` through `BCC-08` as tab-separated code, owner, control, and required evidence. Use `tool coverage base information` for Information Control, `tool coverage base systems` for Systems Control, or an individual code to inspect one requirement.
+
+`tool coverage base classification` displays the retained Base Designated Classification for native staging, the existing Tool Base, browser production, and Project System Headquarters. The Headquarters enrollment remains pending independent host verification. The reports define evidence requirements and perimeter designations. An asset report records provenance and verification separately from control results, and a launch decision still comes from the Base verifier.
+
 ## Development priorities
 
 1. Verify native and WASI builds and correct compilation defects.
