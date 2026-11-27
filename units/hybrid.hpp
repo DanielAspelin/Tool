@@ -605,6 +605,7 @@ private:
     SERVICE service{tool};
     REFLEX reflex{tool.signals(),heartbeat};
     REACTION reaction{tool.signals(),reflex,roundrobin};
+    workspace::LAUNCHCONTROL launchControl;
     POOL pool;
     FARM farm{pool,roundrobin,heartbeat};
     REGISTRATION registry;
@@ -1131,7 +1132,7 @@ public:
             if (!a.empty() && languages::validDomain(a[0])) return workspace::CONTENT{}(a);
             return passive_language.invoke(a);
         });
-        tool.inject("launch", "workspace", workspace::LAUNCH{});
+        tool.inject("launch", "workspace", [this](const TOOL::Arguments& args){return launchControl(args);});
         tool.inject("script", "invocation", [this](const TOOL::Arguments& args) {
             if (args.empty() || (args.size() == 1 && args[0] == "status")) return passive_script.invoke(args);
             if (args.size() == 2 && (args[0] == "check" || args[0] == "run")) {
@@ -1160,8 +1161,8 @@ public:
         tool.inject("tool-documentation", "profiles", invocation::describe<invocation::DOCUMENTATION>);
         tool.inject("tool-reference", "profiles", invocation::describe<invocation::REFERENCE>);
         tool.inject("tool-glossary", "profiles", invocation::describe<invocation::GLOSSARY>);
-        tool.inject("workspace", "workspace", workspace::LAUNCH{});
-        tool.inject("server", "workspace", workspace::LAUNCH{});
+        tool.inject("workspace", "workspace", [this](const TOOL::Arguments& args){return launchControl(args);});
+        tool.inject("server", "workspace", [this](const TOOL::Arguments& args){return launchControl(args);});
         tool.inject("position", "workspace", workspace::position);
         tool.inject("measure", "workspace", workspace::measure);
         tool.inject("packages", "workspace", workspace::packageInfo);

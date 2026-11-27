@@ -313,6 +313,10 @@ Illustrative commands (subject to build verification):
 
 In the interactive runtime, enter `ipify enable`, then `ipify status` after the background request completes. Enter `ipify disable` to stop optional observation. In-memory state does not persist across separate executable launches.
 
+### Launch Control
+
+Use `./tool launch plan` to view the startup sequence. On Linux, `./tool launch preflight [auto|desktop|tablet|mobile] [port]` validates the settings and content inventory before any sockets are opened. Use `./tool launch start [mode] [port]` to start the workspace on loopback. The default port is 9966 with handoff on 6699. Port `0` lets the system assign a port and disables handoff. The terminal prints the assigned URL at readiness. Stop the foreground listener with Ctrl+C or SIGTERM. `workspace` and `server` use the same Launch Control commands.
+
 ## Development priorities
 
 1. Verify native and WASI builds and correct compilation defects.

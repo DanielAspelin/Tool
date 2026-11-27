@@ -1,4 +1,16 @@
-struct LAUNCH {
+class LAUNCHCONTROL {
+    using Registry = std::map<std::string, std::map<std::string, std::string>>;
+    const Registry commands{
+        {"inventory", {{"usage", "inventory"}}},
+        {"plan", {{"usage", "plan"}}},
+        {"ports", {{"usage", "ports"}}},
+        {"preflight", {{"usage", "preflight [auto|desktop|tablet|mobile] [port]"}}},
+        {"start", {{"usage", "start [auto|desktop|tablet|mobile] [port]"}}},
+        {"status", {{"usage", "status"}}},
+    };
+    static constexpr std::string_view modes[]{"auto", "desktop", "tablet", "mobile"};
+
+public:
     std::string operator()(const Arguments& args) const {
         if (args.empty() || (args.size() == 1 && args[0] == "plan")) return SEQUENCE{}();
         if (args.size() == 1 && args[0] == "inventory") {
@@ -14,14 +26,37 @@ struct LAUNCH {
             return "Gateway 80/443 → local TCP/UDP 9966 → local handoff TCP/UDP 6699";
         }
         if (args.size() == 1 && args[0] == "status") return status(DATAMODE::passive, DATASTATE::ready, "listener disabled until launch start");
-        if (args.size() > 3 || args[0] != "start") throw std::invalid_argument("Usage: launch plan | status | ports | inventory | start [auto|desktop|tablet|mobile] [port]");
-        const auto arrangement = args.size() > 1 ? args[1] : std::string("auto");
-        const auto port = args.size() == 3 ? languages::number(args[2]) : entrancePort;
-        if (port > 65535) throw std::invalid_argument("Invalid TCP port");
-        return start({ARRANGEMENT{}(arrangement), static_cast<unsigned>(port), port == entrancePort});
+        if (args.size() <= 3 && args[0] == "preflight") return preflight(initiation(args));
+        if (args.size() <= 3 && args[0] == "start") return start(initiation(args));
+        std::string usage = "Usage: launch";
+        for (const auto& command : commands) usage += " | " + command.second.at("usage");
+        throw std::invalid_argument(usage);
     }
 
 private:
+    static INITIATION initiation(const Arguments& args) {
+        const auto arrangement = ARRANGEMENT{}(args.size() > 1 ? args[1] : "auto");
+        const auto port = args.size() == 3 ? languages::number(args[2]) : entrancePort;
+        if (port > 65535) throw std::invalid_argument("Invalid TCP port");
+        return {arrangement, static_cast<unsigned>(port), port == entrancePort};
+    }
+
+    static std::string preflight(const INITIATION& request) {
+#if defined(__linux__) && !defined(__wasi__)
+        PRELAUNCH{}();
+        const auto mode = modes[static_cast<unsigned>(request.arrangement)];
+        std::string report = status(DATAMODE::passive, DATASTATE::ready, "launch parameters and inventory verified");
+        report += "\nMode: " + std::string(mode);
+        report += "\nBind: 127.0.0.1:" + std::to_string(request.port);
+        if (request.port == 0) report += " (assigned on start)";
+        report += request.referral ? "\nHandoff: 127.0.0.1:6699" : "\nHandoff: disabled";
+        return report;
+#else
+        (void)request;
+        throw std::runtime_error("The local workspace listener is available on Linux");
+#endif
+    }
+
     static std::string start(const INITIATION& request) {
 #if defined(__linux__) && !defined(__wasi__)
         static std::mutex launchGuard;
@@ -39,7 +74,6 @@ private:
         auto handoff = request.referral ? bindSocket(SOCK_STREAM, lockedPort) : DESCRIPTOR(-1);
         auto handoffUdp = request.referral ? bindSocket(SOCK_DGRAM, lockedPort) : DESCRIPTOR(-1);
         HANDOFF sessions;
-        constexpr std::string_view modes[]{"auto", "desktop", "tablet", "mobile"};
         const auto arrangement = modes[static_cast<unsigned>(request.arrangement)];
         const unsigned workers = std::clamp(std::thread::hardware_concurrency(), 1u, 4u);
         JOURNAL journal;
