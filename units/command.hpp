@@ -66,7 +66,13 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"COMMAND",{{"class","COMMAND"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","COMMAND"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind", "metadata"}, {"owner", "COMMAND"}}},
+        {"check", {{"kind", "registration lookup"}, {"owner", "COMMAND"}}},
+        {"list", {{"kind", "registry listing"}, {"owner", "COMMAND"}}},
+        {"inspect", {{"kind", "registration metadata"}, {"owner", "COMMAND"}}},
+        {"run", {{"kind", "registered invocation"}, {"owner", "COMMAND"}}},
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -95,9 +101,32 @@ public:
 private:
 
 
- REGISTRATION registry;
- TOOL& tool;
+    REGISTRATION registry;
+    TOOL& tool;
 public:
- explicit COMMAND(TOOL& t):tool(t){registry.add("status","COMMAND","passive foundation");registry.add("check","COMMAND","local operation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "COMMAND: passive foundation; COMMAND profile; limited local operation";if(a.size()==2&&a[0]=="check")return tool.registered(a[1])?"Registered":"Unknown command";return "Unsupported operation";}
+    explicit COMMAND(TOOL& runtime) : tool(runtime) {
+        for (const auto& operation : COMMANDS) {
+            registry.add(operation.first, "COMMAND", operation.second.at("kind"));
+        }
+    }
+
+    std::string invoke(const TOOL::Arguments& args) {
+        if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+            return "Command Control ready\nUsage: command status | check name | list [prefix] | inspect name | run name [arguments...]";
+        }
+        if (args.size() == 2 && args[0] == "check") {
+            return tool.registered(args[1]) ? "Registered" : "Unknown command";
+        }
+        if (args.size() <= 2 && args[0] == "list") {
+            return tool.catalogue(args.size() == 2 ? args[1] : "");
+        }
+        if (args.size() == 2 && args[0] == "inspect") return tool.describeCommand(args[1]);
+        if (args.size() >= 2 && args[0] == "run") {
+            const auto& name = args[1];
+            if (name == "command") throw std::invalid_argument("Command Control cannot dispatch itself");
+            if (!tool.registered(name)) throw std::invalid_argument("Unknown command: " + name);
+            return tool.invoke(name, TOOL::Arguments(args.begin() + 2, args.end()));
+        }
+        return "Unsupported operation";
+    }
 };

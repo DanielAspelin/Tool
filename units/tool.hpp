@@ -283,6 +283,12 @@ public:
     bool registered(const std::string& name){
         std::lock_guard<std::mutex> lock(guard);return registry.count(name)!=0;
     }
+    std::string describeCommand(const std::string& name) {
+        std::lock_guard<std::mutex> lock(guard);
+        const auto entry = registry.find(name);
+        if (entry == registry.end()) throw std::invalid_argument("Unknown command: " + name);
+        return entry->first + " [" + entry->second.origin + "]";
+    }
     std::string catalogue(const std::string& prefix){
         std::lock_guard<std::mutex> lock(guard);std::string out;
         for(const auto& e:registry)if(e.first.compare(0,prefix.size(),prefix)==0)out+=e.first+"\n";

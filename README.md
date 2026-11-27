@@ -288,6 +288,8 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Build and usage
 
+Command Control uses the native command registry. Run `./tool command status` for usage, `./tool command list [prefix]` to discover registered names, `./tool command inspect <name>` to see the registration origin, and `./tool command run <name> [arguments...]` to dispatch through Tool's normal invocation path.
+
 The supplied [build.bash](build.bash) targets C++17 and WASI SDK. It requires a native C++ compiler, Bash and an installed WASI SDK. Native IP discovery additionally requires curl.
 
 ```bash
