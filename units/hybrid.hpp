@@ -608,6 +608,18 @@ private:
     POOL pool;
     FARM farm{pool,roundrobin,heartbeat};
     REGISTRATION registry;
+
+    std::string invokeHeartbeat(const TOOL::Arguments& args) {
+        if (args.size() != 2) return "Usage: heartbeat pulse|status name";
+        const auto& target = args[1];
+        if (args[0] == "status") return heartbeat.status(target);
+        if (args[0] != "pulse") return "Usage: heartbeat pulse|status name";
+        heartbeat.pulse(target);
+        tool.signals().emit(target, "heartbeat");
+        reflex.respond(target);
+        return "Pulse recorded";
+    }
+
 public:
     HYBRID(): url(uri), configuration(uri,url), dispatcher(tool), api(dispatcher), cli(dispatcher), mcp(dispatcher), ssh(dispatcher) {
         TOOL::Arguments names{"api","cli","mcp","ssh","rdp","vnc","rpc"};
@@ -632,7 +644,7 @@ public:
         tool.inject("sha","cryptography",[this](const TOOL::Arguments& a){return sha.invoke(a);});
         tool.inject("base64","encoding",[this](const TOOL::Arguments& a){return base64.invoke(a);});
         tool.inject("roundrobin","runtime",[this](const TOOL::Arguments& a){return roundrobin.select(a);});
-        tool.inject("heartbeat","runtime",[this](const TOOL::Arguments& a){if(a.size()==2&&a[0]=="pulse"){heartbeat.pulse(a[1]);return std::string("Pulse recorded");}if(a.size()==2&&a[0]=="status")return heartbeat.status(a[1]);return std::string("Usage: heartbeat pulse|status name");});
+        tool.inject("heartbeat","runtime",[this](const TOOL::Arguments& a){return invokeHeartbeat(a);});
         tool.inject("flow","integration",[this](const TOOL::Arguments& a){return flow.invoke(a);});
         tool.inject("platform","integration",[this](const TOOL::Arguments& a){return flow.preview(a);});
         tool.inject("catalogue", "integration", toolcatalogue::read);

@@ -7,7 +7,7 @@ on:
       - tool.cpp
       - '**/*.hpp'
       - build.bash
-      - tests/echo.mjs
+      - 'tests/*.mjs'
       - .github/workflows/native-verification.yml
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
           echo "b7d4d944c88503e4f21d84af07ac293e3440b1b6210bfd7fe78e0afd92c23bc2  $RUNNER_TEMP/wasi-sdk.tar.gz" | sha256sum -c -
           tar -xzf "$RUNNER_TEMP/wasi-sdk.tar.gz" -C "$RUNNER_TEMP"
           echo "WASI_SDK_PATH=$RUNNER_TEMP/wasi-sdk-27.0-x86_64-linux" >> "$GITHUB_ENV"
-      - name: Verify native and browser echo
+      - name: Verify native signaling and native and browser echo
         run: CXX=g++-14 bash build.bash verify
       - name: Enumerate invocation coverage
         run: |

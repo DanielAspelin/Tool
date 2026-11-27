@@ -211,6 +211,8 @@ WAVEROBIN receives SIGNAL emissions through a callback outside the signal mutex 
 
 ## Trace Robin
 
+An explicit native `heartbeat pulse <target>` records a pulse, emits one `heartbeat` event and invokes REFLEX once to emit a `reflex` acknowledgment. Both events reach TRACEROBIN in order. Internal heartbeat timestamp updates from WAVEROBIN, REFLEX, FLOW and FARM remain local to prevent feedback loops.
+
 TRACEROBIN observes SIGNAL callbacks before WAVEROBIN echo and retains the latest 1024 timestamped target/event records with local sequence numbers. Manual record, trace, status, enable and disable operations are available. Records are volatile, truncated to 128 bytes per field and not correlated by invocation ID. Status and trace commands themselves may generate observed signals. This is a local signal observer, not full route reconstruction, distributed tracing or proof of delivery. Expected total: 130 classes and 587 registrations, pending compilation and runtime verification.
 
 ## Hotcode

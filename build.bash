@@ -24,6 +24,9 @@ case "${1:-all}" in
     native) build_native ;;
     browser) build_browser ;;
     all) build_native && build_browser ;;
-    verify) build_native && build_browser && node tests/echo.mjs "$output_dir" ;;
+    verify)
+        build_native && build_browser &&
+            node tests/echo.mjs "$output_dir" &&
+            node tests/heartbeat.mjs "$output_dir" ;;
     *) printf 'Usage: %s [all|native|browser|verify]\n' "$0" >&2; exit 2 ;;
 esac
