@@ -66,7 +66,10 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"INSTALLATION",{{"class","INSTALLATION"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","INSTALLATION"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind", "metadata"}, {"owner", "INSTALLATION"}}},
+        {"self-install", {{"kind", "local executable installation"}, {"owner", "INSTALLATION"}}},
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -95,8 +98,71 @@ public:
 private:
 
 
- REGISTRATION registry;
+    REGISTRATION registry;
+#if defined(__linux__) && !defined(__wasi__)
+    static bool sameExecutable(const std::filesystem::path& candidate,
+                               const std::filesystem::path& target) {
+        if (!std::filesystem::is_regular_file(std::filesystem::symlink_status(target))) return false;
+        struct stat info{};
+        if (::stat(target.c_str(), &info) != 0 || info.st_uid != ::geteuid() ||
+            (info.st_mode & 07777) != 0700) return false;
+        if (std::filesystem::file_size(candidate) != std::filesystem::file_size(target)) return false;
+        std::ifstream expected(candidate, std::ios::binary);
+        std::ifstream installed(target, std::ios::binary);
+        expected.exceptions(std::ios::badbit);
+        installed.exceptions(std::ios::badbit);
+        using Byte = std::istreambuf_iterator<char>;
+        return expected && installed && std::equal(Byte(expected), Byte{}, Byte(installed), Byte{});
+    }
+
+    static std::string install(const std::filesystem::path& destination) {
+        namespace fs = std::filesystem;
+        const auto directory = fs::canonical(destination);
+        struct stat info{};
+        if (::stat(directory.c_str(), &info) != 0 || !S_ISDIR(info.st_mode) ||
+            info.st_uid != ::geteuid() || (info.st_mode & (S_IWGRP | S_IWOTH)) != 0) {
+            throw std::invalid_argument("Installation requires an existing directory owned by the current user and writable only by that user");
+        }
+
+        const auto target = directory / "tool";
+        const native::TemporaryDirectory staging(directory);
+        const auto candidate = staging.path() / "tool";
+        fs::copy_file("/proc/self/exe", candidate);
+        fs::permissions(candidate, fs::perms::owner_all);
+        std::error_code error;
+        fs::create_hard_link(candidate, target, error);
+        if (!error) return "Installed Tool at " + target.string();
+        if (error == std::errc::file_exists) {
+            if (sameExecutable(candidate, target)) return "Tool is already installed at " + target.string();
+            throw std::runtime_error("Installation target already exists: " + target.string());
+        }
+        throw fs::filesystem_error("Cannot publish Tool executable", target, error);
+    }
+#endif
 public:
- INSTALLATION(){registry.add("status","INSTALLATION","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "INSTALLATION: passive foundation; specialized backend unavailable";return "Unsupported operation";}
+    INSTALLATION() {
+        for (const auto& operation : COMMANDS) {
+            registry.add(operation.first, "INSTALLATION", operation.second.at("kind"));
+        }
+    }
+
+    std::string invoke(const TOOL::Arguments& args, bool localInstall) {
+        if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+#if defined(__linux__) && !defined(__wasi__)
+            return "Installation ready (native Linux)\nUsage: installation self-install <directory>";
+#else
+            return "Self-installation is available on native Linux";
+#endif
+        }
+        if (args[0] != "self-install") return "Unsupported operation";
+        if (args.size() != 2 || args[1].empty() || args[1].find('\0') != std::string::npos) {
+            throw std::invalid_argument("Usage: installation self-install <directory>");
+        }
+        if (!localInstall) throw std::invalid_argument("Self-installation requires an explicit local CLI invocation");
+#if defined(__linux__) && !defined(__wasi__)
+        return install(args[1]);
+#else
+        throw std::runtime_error("Self-installation is available on native Linux");
+#endif
+    }
 };

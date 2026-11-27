@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>
 #include <fstream>
+#include <iterator>
 #include <chrono>
 #include <ctime>
 #include <iomanip>

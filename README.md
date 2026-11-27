@@ -290,6 +290,18 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 Command Control uses the native command registry. Run `./tool command status` for usage, `./tool command list [prefix]` to discover registered names, `./tool command inspect <name>` to see the registration origin, and `./tool command run <name> [arguments...]` to dispatch through Tool's normal invocation path.
 
+### Linux self-installation
+
+From a native Linux build or extracted release, run the commands below. The release archive targets Linux x86-64 and requires glibc 2.34 or later and libstdc++ with `GLIBCXX_3.4.32`. The destination can be any existing directory owned and writable only by your account.
+
+```bash
+mkdir -p "$HOME/.local/bin"
+./tool installation self-install "$HOME/.local/bin"
+"$HOME/.local/bin/tool" code self-test
+```
+
+The installer runs the CODE self-test and copies the running executable to `tool` in the chosen directory. Repeating the command with the same binary succeeds. An existing file with different contents, permissions, or ownership is preserved. You can also run `./tool command run installation self-install <directory>` from the native command line.
+
 The supplied [build.bash](build.bash) targets C++17 and WASI SDK. It requires a native C++ compiler, Bash and an installed WASI SDK. Native IP discovery additionally requires curl.
 
 ```bash
