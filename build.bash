@@ -34,6 +34,7 @@ case "${1:-all}" in
             node tests/heartbeat.mjs "$output_dir" &&
             node tests/launch.mjs "$output_dir" &&
             node tests/code.mjs "$output_dir" &&
-            node tests/command.mjs "$output_dir" ;;
+            node tests/command.mjs "$output_dir" &&
+            python3 tests/base.py "$output_dir" ;;
     *) printf 'Usage: %s [all|native|browser|verify]\n' "$0" >&2; exit 2 ;;
 esac

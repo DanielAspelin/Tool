@@ -57,6 +57,7 @@
 #include <sys/socket.h>
 #if defined(__linux__)
 #include <sys/random.h>
+#include <sys/un.h>
 #endif
 #include <poll.h>
 #endif
@@ -540,6 +541,7 @@ static_assert(std::atomic<bool>::is_always_lock_free, "Expected lock-free shutdo
 #include "units/bindsocket.hpp"
 
 #include "units/discovery.hpp"
+#include "units/baselaunch.hpp"
 #endif
 
 #include "units/launch.hpp"

@@ -368,7 +368,25 @@ Acquire the target lease at prepositioning and reserve the deployment generation
 
 At activation, the endpoint that changes traffic must enforce the current lease and fencing token, both approvals, their revocation state, and the activation window. A missing or mismatched binding leaves the existing route in service. Record the release digest, generation, approvals, routing policy revision and result for Procedure Control. Recovery uses a new generation with an authorized release and routing policy.
 
-Commissioning evidence must cover a valid staged attempt, repeat submission of its command ID, lease takeover, and rejection of a revoked approval, a stale fencing token, an expired activation window, and a policy for a different generation. The existing native loopback launch implements hostname and listener checks. Base identity, durable lease and traffic activation enforcement require separate implementation and verification before commissioning.
+Commissioning evidence must cover a valid staged attempt, repeat submission of its command ID, lease takeover, and rejection of a revoked approval, a stale fencing token, an expired activation window, and a policy for a different generation.
+
+#### Managed native launch
+
+The managed service starts Tool with `tool launch managed-start [mode] [port]`. Set `TOOL_BASE_MANAGED=1` in the trusted service definition to apply the same gate to ordinary `start` via `launch`, `workspace`, or `server`. Keep the service definition, its environment, and the Base socket directory under administrator control. Use a dedicated Base verifier UID distinct from the Tool service account. The existing unmanaged commands run a local loopback workspace. Manage upstream traffic exclusively through the activation endpoint.
+
+| Service setting | Value |
+| --- | --- |
+| `TOOL_BASE_SOCKET` | Absolute filesystem path to the Base verifier's Linux Unix-domain sequenced-packet socket. |
+| `TOOL_BASE_PEER_UID` | Numeric UID pinned to the Base verifier. |
+| `TOOL_BASE_TARGET`, `TOOL_BASE_ENVIRONMENT` | Enrolled target and environment identifiers. |
+| `TOOL_BASE_RELEASE_SHA256` | Lowercase SHA-256 digest supplied by the trusted release supervisor. |
+| `TOOL_BASE_GENERATION`, `TOOL_BASE_FENCE`, `TOOL_BASE_COMMAND_ID` | Positive generation and fencing token and the command identifier from the current prepositioning attempt. |
+
+Tool verifies the socket peer's kernel-reported UID before sending a request. The verifier must authenticate the caller through the socket peer credentials and bind that identity to the enrolled release supervisor and target. It must validate the staged release digest independently and check the command binding, active lease, revocation state, Operation Control approval, and Traffic Control policy for the generation. It responds only after those checks. The production traffic actuator must enforce its own authorization and fencing check at the point of mutation.
+
+The socket protocol sends one ASCII packet per request with tab-separated fields and no line ending. The field order is `tool-base/1`, `authorize-launch`, command ID, target, environment, hostname, digest, generation, fence, mode, requested port, and `handoff` or `direct`. Port zero requests an ephemeral loopback port. A positive response is precisely `tool-base/1<TAB>allow<TAB><command ID>` in a single packet. Missing settings, an unexpected peer UID, malformed or mismatched responses, and a two-second exchange timeout abort startup before any workspace socket binds.
+
+Verify the native boundary with `python3 tests/base.py /path/to/native-build`. The test verifier simulates decisions over the actual socket. Commissioning still requires a registered verifier, identity provider and workload enrollment, durable lease storage, and a traffic actuator. The native adapter implements the local launch check. The Base verifier owns the approval and lease policy.
 
 ## Development priorities
 
