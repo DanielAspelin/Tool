@@ -317,6 +317,8 @@ In the interactive runtime, enter `ipify enable`, then `ipify status` after the 
 
 Preflight and startup report the Linux hostname. Set `TOOL_LAUNCH_HOST` to the exact expected hostname in the process environment to require a match before startup opens sockets. The hostname identifies the machine. The workspace URL uses `127.0.0.1`.
 
+On start, Prelaunch checks the host and content inventory. Liftoff prepares the loopback listeners and request workers. Postlaunch publishes the readiness URL after setup succeeds. A port-binding failure ends startup before readiness is published.
+
 Use `./tool launch plan` to view the startup sequence. On Linux, `./tool launch preflight [auto|desktop|tablet|mobile] [port]` validates the settings and content inventory before any sockets are opened. Use `./tool launch start [mode] [port]` to start the workspace on loopback. The default port is 9966 with handoff on 6699. Port `0` lets the system assign a port and disables handoff. The terminal prints the assigned URL at readiness. Stop the foreground listener with Ctrl+C or SIGTERM. `workspace` and `server` use the same Launch Control commands.
 
 ## Development priorities

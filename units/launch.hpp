@@ -46,6 +46,36 @@ private:
         }
         return detected;
     }
+
+    static std::string prepare() {
+        auto host = launchHost();
+        PRELAUNCH{}();
+        return host;
+    }
+
+    static void serveReadySockets(const pollfd (&listeners)[4], unsigned port, bool referral,
+                                  const JOURNAL& journal, unsigned workers, std::string_view arrangement,
+                                  HANDOFF& sessions) {
+        pollfd sockets[]{listeners[0], listeners[1], listeners[2], listeners[3]};
+        if (::poll(sockets, 4, 200) <= 0 || stopRequested.load(std::memory_order_relaxed)) return;
+        for (unsigned index = 0; index < 4; ++index) {
+            if (!(sockets[index].revents & POLLIN)) continue;
+            const auto localPort = index % 2 == 0 ? port : lockedPort;
+            const bool refer = referral && index % 2 == 0;
+            try {
+                if (index >= 2) {
+                    discovery(sockets[index].fd, localPort, refer, sessions);
+                    continue;
+                }
+                const DESCRIPTOR client(::accept4(sockets[index].fd, nullptr, nullptr, SOCK_CLOEXEC | SOCK_NONBLOCK));
+                if (client.get() >= 0) {
+                    HTTP::serve(client.get(), localPort, journal, workers, arrangement, refer, sessions);
+                }
+            } catch (const std::exception&) {
+                // A failed request leaves the listeners available.
+            }
+        }
+    }
 #endif
 
     static INITIATION initiation(const Arguments& args) {
@@ -57,8 +87,7 @@ private:
 
     static std::string preflight(const INITIATION& request) {
 #if defined(__linux__) && !defined(__wasi__)
-        const auto host = launchHost();
-        PRELAUNCH{}();
+        const auto host = prepare();
         const auto mode = modes[static_cast<unsigned>(request.arrangement)];
         std::string report = status(DATAMODE::passive, DATASTATE::ready, "launch parameters and inventory verified");
         report += "\nLaunch host: " + host;
@@ -78,8 +107,10 @@ private:
         static std::mutex launchGuard;
         const std::unique_lock<std::mutex> ownership(launchGuard, std::try_to_lock);
         if (!ownership) throw std::runtime_error("Workspace already running");
-        const auto host = launchHost();
-        PRELAUNCH{}();
+        const auto host = prepare();
+        std::cout << NARRATION::NARRATIONS[0] << std::endl;
+        stopRequested.store(false, std::memory_order_relaxed);
+        const SIGNALS signals;
         auto listener = bindSocket(SOCK_STREAM, request.port);
         sockaddr_in address{};
         socklen_t addressSize = sizeof(address);
@@ -94,9 +125,8 @@ private:
         const auto arrangement = modes[static_cast<unsigned>(request.arrangement)];
         const unsigned workers = std::clamp(std::thread::hardware_concurrency(), 1u, 4u);
         JOURNAL journal;
-        LIFTOFF{}(journal);
-        stopRequested.store(false, std::memory_order_relaxed);
-        const SIGNALS signals;
+        const pollfd listeners[]{{listener.get(), POLLIN, 0}, {handoff.get(), POLLIN, 0},
+                                 {udp.get(), POLLIN, 0}, {handoffUdp.get(), POLLIN, 0}};
         std::vector<std::thread> pool;
         std::mutex startGate;
         std::unique_lock<std::mutex> starting(startGate);
@@ -105,27 +135,17 @@ private:
                 pool.emplace_back([&]{
                     { const std::lock_guard<std::mutex> admitted(startGate); }
                     while (!stopRequested.load(std::memory_order_relaxed)) {
-                        pollfd sockets[]{{listener.get(), POLLIN, 0}, {handoff.get(), POLLIN, 0},
-                                         {udp.get(), POLLIN, 0}, {handoffUdp.get(), POLLIN, 0}};
-                        if (::poll(sockets, 4, 200) <= 0) continue;
-                        for (unsigned index = 0; index < 4; ++index) {
-                            if (!(sockets[index].revents & POLLIN)) continue;
-                            const auto localPort = index % 2 == 0 ? port : lockedPort;
-                            const bool refer = request.referral && index % 2 == 0;
-                            if (index >= 2) {
-                                try { discovery(sockets[index].fd, localPort, refer, sessions); }
-                                catch (const std::exception&) { /* A failed datagram does not stop the listener. */ }
-                                continue;
-                            }
-                            const DESCRIPTOR client(::accept4(sockets[index].fd, nullptr, nullptr, SOCK_CLOEXEC | SOCK_NONBLOCK));
-                            if (client.get() < 0) continue;
-                            try { HTTP::serve(client.get(), localPort, journal, workers, arrangement, refer, sessions); }
-                            catch (const std::exception&) { /* A failed request closes its own socket. */ }
-                        }
+                        serveReadySockets(listeners, port, request.referral, journal, workers, arrangement, sessions);
                     }
                 });
             }
-            journal.observe(std::string(NARRATION::NARRATIONS[2]));
+            if (!stopRequested.load(std::memory_order_relaxed)) {
+                LIFTOFF{}(journal);
+                std::cout << NARRATION::NARRATIONS[1] << std::endl;
+                journal.observe(std::string(NARRATION::NARRATIONS[2]));
+                std::cout << POSTLAUNCH{}(workers) << "\nLaunch host: " << host
+                          << "\nhttp://127.0.0.1:" << port << '/' << std::endl;
+            }
         } catch (...) {
             stopRequested.store(true, std::memory_order_relaxed);
             starting.unlock();
@@ -133,8 +153,6 @@ private:
             throw;
         }
         starting.unlock();
-        std::cout << POSTLAUNCH{}(workers) << "\nLaunch host: " << host
-                  << "\nhttp://127.0.0.1:" << port << '/' << std::endl;
         for (auto& worker : pool) worker.join();
         listener.reset();
         udp.reset();

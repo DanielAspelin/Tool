@@ -32,6 +32,13 @@ class LaunchVerification {
             assert.doesNotMatch(mismatch.stdout, /http:\/\/127\.0\.0\.1:/);
         }
 
+        const blocked = await this.checkStartup(tool, directory, env, host);
+        assert.match(blocked.stdout, /^Prelaunch:/m);
+        assert.doesNotMatch(blocked.stdout, /^(Liftoff:|Postlaunch:|http:\/\/)/m);
+        assert.match(blocked.stderr, /Cannot start loopback listener/);
+    }
+
+    static async checkStartup(tool, directory, env, host) {
         const child = spawn(tool, ['launch', 'start', 'mobile', '0'], {
             cwd: directory, stdio: ['ignore', 'pipe', 'inherit'],
             env: { ...env, TOOL_LAUNCH_HOST: host },
@@ -42,7 +49,10 @@ class LaunchVerification {
         try {
             let baseUrl;
             let identifiedHost = false;
+            const stages = [];
             for await (const line of lines) {
+                const stage = /^(Prelaunch|Liftoff|Postlaunch):/.exec(line);
+                if (stage) stages.push(stage[1]);
                 if (line === 'Launch host: ' + host) identifiedHost = true;
                 if (line.startsWith('http://127.0.0.1:')) {
                     baseUrl = line;
@@ -51,11 +61,18 @@ class LaunchVerification {
             }
             assert.ok(baseUrl, 'Expected a loopback readiness URL');
             assert.ok(identifiedHost, 'Expected the detected launch host in startup output');
+            assert.deepEqual(stages, ['Prelaunch', 'Liftoff', 'Postlaunch']);
+            const port = new URL(baseUrl).port;
+            const blocked = spawnSync(tool, ['launch', 'start', 'mobile', port], {
+                cwd: directory, env, encoding: 'utf8', timeout: 5000,
+            });
+            assert.equal(blocked.status, 1, blocked.stderr);
             const response = await fetch(new URL('/api/runtime', baseUrl), { signal: AbortSignal.timeout(4000) });
             assert.equal(response.status, 200);
             assert.equal(await response.text(), 'runtime\trunning\tmobile');
             child.kill('SIGTERM');
             assert.deepEqual(await exit, [0, null]);
+            return blocked;
         } finally {
             clearTimeout(deadline);
             lines.close();
