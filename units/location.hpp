@@ -1,0 +1,6 @@
+struct LOCATION {
+    bool operator()(double latitude, double longitude) const {
+        return std::isfinite(latitude) && std::isfinite(longitude) &&
+               latitude >= -90 && latitude <= 90 && longitude >= -180 && longitude <= 180;
+    }
+};

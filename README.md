@@ -10,11 +10,15 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 All primary classes shall be independently instantiable multi-argument, multiparameterized functors containing parameterized functional objects. Each class shall retain ARCHITECTURE, DESIGN, MODEL, VERSION and SPECIFICATION nested associative arrays, its functional registry, MODELER, COMMANDER and SPECIFIER helpers, and a logical subprocess identifier distinct from an OS PID. Each primary class shall contain SERVICE, PROTOCOL, SOCKET and INTERFACE, each with its own TYPE, MODE, CONDITION and STATE subordinate types. This is a finite two-level hierarchy, not recursive replication.
 
-### Mandatory monolithic composition
+### Source layout and builds
 
-Tool is physically monolithic and internally decomposed. All Tool-owned primary and nested functors, parameterized functionals, applicable operator overloads, associative registries, STACK and HEAP abstractions, TOOLCORE, KERNELISATION and KERNELISER, Linux kernel comprehension, runtime circulation, regulation, datatype conversion and portable fallback mechanisms shall reside in the single tool.cpp translation unit. Internal decomposition uses classes and callable objects, not separate Tool-owned implementation files. Native and WebAssembly binaries are derived build artifacts of that common source, subject to target capabilities. Standard libraries, external toolchains and authorized external dependencies remain external resources rather than additional Tool implementation units.
+`tool.cpp` is the sole C++ translation unit. It includes declarations and catalogue data from `units/*.hpp` in source order. The headers are implementation fragments with dependencies on earlier declarations. The native and browser builds use the same entry source with separate target settings.
 
-README.md is the single comprehensive architectural and implementation-reference document. All current requirements, class inventories, operational contracts, build instructions, compatibility limitations and verification status shall be maintained within it. No separate architectural Markdown documents are required. The existing GPL license file remains a legal artifact, not a split specification. Earlier conflicting conventions are superseded by the reconciled mandatory architecture. This is a target specification; physical source compliance and compilation must be verified separately.
+- Run `bash build.bash native` to build and smoke-test the native CLI with a C++17 compiler.
+- Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash browser` to build `tool-route.wasm`. The module contains the browser passage state machine and exports its JavaScript loader. Native process, socket, and filesystem adapters remain in the native target.
+- Run `c++ -std=c++17 -x c++ linguistbridge_test.hpp -o /tmp/linguistbridge-test && /tmp/linguistbridge-test` to check the optional reciprocal bridge.
+
+The class-local functor and functional requirements below describe the target architecture. The source split preserves the uploaded definitions and invocation behavior.
 
 ### Comprehensive operator and argument coverage
 

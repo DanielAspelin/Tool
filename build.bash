@@ -1,7 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd -- "$(dirname -- "$0")"
-: "${WASI_SDK_PATH:?Set WASI_SDK_PATH to the installed WASI SDK directory}"
-"${CXX:-c++}" -std=c++17 -O2 -pthread tool.cpp -o tool
-"$WASI_SDK_PATH/bin/clang++" -std=c++17 -O2 tool.cpp -o tool.wasm
-printf 'help\necho test\nexit\n' | ./tool
+
+output_dir=${OUTPUT_DIR:-.}
+mkdir -p -- "$output_dir"
+
+build_native() {
+    "${CXX:-c++}" -std=c++17 -O0 -pthread tool.cpp -o "$output_dir/tool"
+    test "$("$output_dir/tool" echo test)" = test
+}
+
+build_browser() {
+    : "${WASI_SDK_PATH:?Set WASI_SDK_PATH to the installed WASI SDK directory}"
+    "$WASI_SDK_PATH/bin/clang++" --target=wasm32-unknown-unknown -std=c++17 -Oz \
+        -nostdlib -fno-exceptions -fno-rtti -DTOOL_BROWSER_WASM \
+        -Wl,--no-entry \
+        -Wl,--export=tool_route_abi -Wl,--export=tool_route_state -Wl,--export=tool_route_step \
+        -Wl,--export=tool_javascript_size -Wl,--export=tool_javascript_byte \
+        tool.cpp -o "$output_dir/tool-route.wasm"
+}
+
+case "${1:-all}" in
+    native) build_native ;;
+    browser) build_browser ;;
+    all) build_native && build_browser ;;
+    *) printf 'Usage: %s [all|native|browser]\n' "$0" >&2; exit 2 ;;
+esac
