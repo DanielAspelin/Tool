@@ -75,7 +75,6 @@ These are design conventions; universal enforcement is not yet implemented.
 5. Extend immediate response through REACTION.
 6. Determine eligible circulation through ROUNDROBIN and conduct progression through FLOW.
 7. Use POOL as the operational medium for reaching the intended destination, with FARM configuring pooling environments.
-8. Resolve instructions through compatible passages, adapters and cross-fusion.
 9. Acknowledge completion, measure elapsed time and return the result.
 10. Preserve unresolved, unknown or exceptional activity locally through DUMP.
 
@@ -101,7 +100,6 @@ The signal-blast concept distributes operational awareness to eligible participa
 | Interfaces | API, APISERVER, APICLIENT, CLI, CLISERVER, CLICLIENT, MCP, MCPSERVER, MCPCLIENT, SSH, SSHSERVER, SSHCLIENT, RPC, RDP, RDPSERVER, RDPCLIENT, VNC, VNCSERVER, VNCCLIENT | Local interface abstractions; not real network protocol implementations |
 | Identification and configuration | URI, URL, CONFIGURATION, SESSION, INDEX | Basic syntax checks, in-memory configuration, bounded session tree and index |
 | Passages | MESH, CHAIN, RING, MATRIX, GRID, PATH, ROUTE, LANE, BRIDGE | Local topology, named passages and route selection |
-| Cross-fusion | AUTHORIZATION, COMPATIBILITY, ADAPTER, FUSION | Limited local authorization, compatibility and adapter-based routing |
 | Reactive circulation | SIGNAL, TRIGGER, HEARTBEAT, REFLEX, REACTION, ROUNDROBIN, FLOW | Event counters, pulse observations, immediate response and cyclic selection; automatic reciprocal propagation pending |
 | Pooling | POOL, FARM | Current resource leasing and pool composition prototype; broader invocation circulation pending |
 | Dynamic invocation | LAMBDA | Registered callable invocation |
@@ -260,11 +258,24 @@ All 528 top-level class definitions contain their own nested MODELER and COMMAND
 
 All 528 primary classes now declare a private SPECIFICATION nested associative map and nested SPECIFIER helper. Initial class and helper operation versions are 0.1.0. SPECIFIER provides explicit revision replacement with previous revision metadata, array projection and a per-class atomic construction counter. These are foundations only: ordinary functions, functors, variables and all nested arrays are not automatically enumerated or synchronized, instance copying does not allocate a new index, revision updates are not automatically triggered, and no persistent revision history is implemented. The counter retry loop requires reconciliation with the function-call-only loop convention. Specification access, concurrency safety, full callable indexing, compilation and runtime validation remain pending. The intended canonical class array is SPECIFICATION; runtime ownership remains invocation-bound.
 
+## Architectural preadjustment — verification branch
+
+Tool is invocation-bound: the invoker owns the runtime duration until resolution. Runtime is optional for engine, constructive system or systems platform deployment. Persistent artifacts do not imply persistent execution.
+
+The source now contains 565 primary class declarations (38 added, one removed). Each primary class owns five principal associative arrays: ARCHITECTURE, DESIGN, MODEL, VERSION and SPECIFICATION. INFORMATION, DESCRIPTION and COMMANDS are supplementary associative arrays. COMMANDER and SPECIFIER remain nested classes. ARCHITECTURE and DESIGN are arrays rather than nested classes. All eight arrays are represented in specification snapshots (SPECIFICATION is the snapshot base). MODELER is nested exclusively in MODELING. Specification snapshots project the arrays and expose a class-local logical subprocess identity (SPID), not an operating-system PID. Actual subprocess allocation and invocation correlation remain pending.
+
+The naming convention is ION → R → VERB → ING, with natural English exceptions and established technical abbreviations preserved. Concept and activity delegate to the executor while retaining the original invocation identity.
+
+The 47 foundational operations are registered as planned specification metadata, not implemented universal methods: instantiate, initialize, load, run, execute, finalize, terminate, clean, flush, reconcile, automate, generate, copy, dump, delete, create, construct, reconstruct, deliver, serve, obtain, retain, resume, try, catch, throw, retry, request, respond, negotiate, pidkill, destroy, cleanup, commence, await, preprocess, postprocess, read, write, declare, scale, schedule, allocate, locate, resolve, returnResult, release. Reserved C++ keywords require legal implementation identifiers.
+
+Parameterized function calls alone form operational loop bodies. Each round trip resolves and returns to commence. Optional runtime coordinates concurrent await, preprocess and postprocess cycles through bounded scheduling; nested loops alone do not provide parallelism. Lifecycle enforcement, actual function implementations, synchronized transversioning, and compilation remain unverified.
+
+New functional and startup classes are passive metadata foundations. The larger UNYTEL abbreviation inventory is not yet incorporated. C++ remains canonical; WebAssembly generation on demand remains a target.
+
 ## Invocation lifecycle
 
 The current registry supports direct invocation, volatile definitions, persistent definitions, transitions and execution of named plans. Persistent definitions are stored in the working directory in `tool.invocations`; this does not imply persistent execution. The file is not encrypted or transactionally updated. Do not store credentials in invocation plans.
 
-Future invocation dimensions include synchronous/asynchronous, concurrent/parallel, foreground/background, temporary/continuous/recurring, direct/indirect/conditional/scheduled, static/dynamic/injected, local/remote/distributed, roundtrip/callback/loopback/fusion and dedicated/pooled allocation.
 
 ## Temporal and network snapshots
 
@@ -276,7 +287,6 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Registered commands
 
-`gpl`, `gnu`, `rfc`, `iso`, `iec`, `time`, `date`, `timedate`, `token`, `character`, `string`, `integer`, `float`, `double`, `array`, `boolean`, `call`, `return`, `variable`, `function`, `class`, `object`, `instance`, `parameter`, `argument`, `reference`, `value`, `regulation`, `ipify`, `dump`, `invoke`, `signal`, `trigger`, `timestamp`, `help`, `echo`, `exit`, `cpp`, `wasm`, `code`, `codebase`, `sandbox`, `sdk`, `aes`, `gcm`, `rsa`, `oaep`, `pss`, `sha`, `base64`, `roundrobin`, `heartbeat`, `flow`, `lambda`, `index`, `pool`, `farm`, `reaction`, `reflex`, `fuse`, `rpc`, `bridge`, `mesh`, `chain`, `ring`, `route`, `path`, `grid`, `matrix`, `lane`, `session`, `configure`, `uri`, `url`, `api`, `cli`, `mcp`, `rdp`, `vnc`, `ssh`.
 
 ## Build and usage
 
@@ -321,3 +331,7 @@ Tool is an architectural foundation, not a production-ready remote access system
 - [tool.cpp](tool.cpp): decomposed C++ monolith.
 - [build.bash](build.bash): native and WASI build preparation.
 - [LICENSE](LICENSE): GNU GPL v3.
+
+## Participant-owned integration
+
+Integration is individually declared and testified by each concerned class. There is no dedicated integration intermediary. Each of the 565 primary classes exposes `testifyIntegration()` using its own architecture, design, model, version and specification identity. These declarations are not proof of reciprocal compatibility; peer verification remains pending. FLOW selects a destination but does not dispatch across an unverified relationship. The previous cross-interface dispatch command has been removed. Compilation and operational verification remain pending.
