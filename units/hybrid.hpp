@@ -634,7 +634,7 @@ public:
         tool.inject("cpp","development",[this](const TOOL::Arguments& a){return cpp.invoke(a);});
         tool.inject("wasm","development",[this](const TOOL::Arguments& a){return wasm.invoke(a);});
         tool.inject("code", "development", [this](const TOOL::Arguments& args) {
-            if (args.size() == 1 && args[0] == "self-test") return code.selfTest();
+            if (!args.empty() && args[0] == "self-test") return code.selfTest(args);
             return std::string(args.size() == 2 && code.validate(args[0], args[1])
                 ? "Valid source record" : "Invalid source record");
         });

@@ -41,6 +41,7 @@
 #include <variant>
 #include <cmath>
 #include <charconv>
+#include <optional>
 #include <locale>
 #include <cstdint>
 #include <condition_variable>

@@ -32,6 +32,7 @@ case "${1:-all}" in
         build_native && build_browser &&
             node tests/echo.mjs "$output_dir" &&
             node tests/heartbeat.mjs "$output_dir" &&
-            node tests/launch.mjs "$output_dir" ;;
+            node tests/launch.mjs "$output_dir" &&
+            node tests/code.mjs "$output_dir" ;;
     *) printf 'Usage: %s [all|native|browser|verify]\n' "$0" >&2; exit 2 ;;
 esac

@@ -100,34 +100,68 @@ private:
 
 
     REGISTRATION registry;
+    static constexpr std::size_t maxSourceBytes = 1'048'576;
 public:
     CODE() {
         registry.add("validate", "scope", "source record");
         registry.add("self-test", "scope", "source record verification");
     }
     bool validate(const std::string& language,const std::string& source) const {
-        return (language=="cpp" || language=="wasm") && !source.empty() && source.size()<=1048576;
+        return (language=="cpp" || language=="wasm") && !source.empty() && source.size()<=maxSourceBytes;
     }
 
-    std::string selfTest() const {
-        struct Check {
-            std::string_view name;
-            bool passed;
-        };
-        const std::string boundary(1'048'576, 'x');
-        const Check checks[]{
-            {"accept C++ source record", validate("cpp", "int main() {}")},
-            {"accept WASM source record", validate("wasm", "(module)")},
-            {"reject unsupported language", !validate("python", "pass")},
-            {"reject empty record", !validate("cpp", "")},
-            {"accept 1 MiB record", validate("cpp", boundary)},
-            {"reject record over 1 MiB", !validate("wasm", boundary + 'x')},
-        };
+    std::string selfTest(const std::vector<std::string>& args) const {
+        std::string language = "both";
+        std::optional<std::size_t> bytes;
+        bool languageSet = false;
+        for (std::size_t i = 1; i < args.size(); i += 2) {
+            if (i + 1 == args.size()) throw std::invalid_argument("Missing value for " + args[i]);
+            const auto& value = args[i + 1];
+            if (args[i] == "--language" && !languageSet) {
+                if (value != "cpp" && value != "wasm" && value != "both") {
+                    throw std::invalid_argument("Expected --language cpp, wasm or both");
+                }
+                language = value;
+                languageSet = true;
+            } else if (args[i] == "--bytes" && !bytes) {
+                const auto size = languages::number(value);
+                if (size > maxSourceBytes + 1) {
+                    throw std::invalid_argument("--bytes must be between 0 and 1048577");
+                }
+                bytes = size;
+            } else {
+                throw std::invalid_argument("Unknown or repeated CODE self-test option: " + args[i]);
+            }
+        }
+
+        unsigned count = 0;
         std::string failures;
-        for (const auto& check : checks) {
-            if (!check.passed) failures += "\nFAIL " + std::string(check.name);
+        const auto check = [&](std::string_view name, bool passed) {
+            ++count;
+            if (!passed) failures += "\nFAIL " + std::string(name);
+        };
+        const bool cpp = language != "wasm";
+        const bool wasm = language != "cpp";
+        const auto first = cpp ? "cpp" : "wasm";
+        const auto last = wasm ? "wasm" : "cpp";
+        const std::string boundary(maxSourceBytes, 'x');
+        if (cpp) check("accept C++ source record", validate("cpp", "int main() {}"));
+        if (wasm) check("accept WASM source record", validate("wasm", "(module)"));
+        check("reject unsupported language", !validate("python", "pass"));
+        check("reject empty record", !validate(first, ""));
+        check("accept 1 MiB record", validate(first, boundary));
+        check("reject record over 1 MiB", !validate(last, boundary + 'x'));
+        const bool expected = bytes && *bytes > 0 && *bytes <= maxSourceBytes;
+        if (bytes) {
+            const std::string sample(*bytes, 'x');
+            if (cpp) check("C++ parameterized byte count", validate("cpp", sample) == expected);
+            if (wasm) check("WASM parameterized byte count", validate("wasm", sample) == expected);
         }
         if (!failures.empty()) throw std::runtime_error("CODE self-test failed" + failures);
-        return "CODE self-test passed (" + std::to_string(sizeof(checks) / sizeof(checks[0])) + " checks)";
+        std::string result = "CODE self-test passed (" + std::to_string(count) + " checks)";
+        if (languageSet) result += "\nLanguages: " + language;
+        if (bytes) result += "\nSample bytes: " + std::to_string(*bytes) +
+            (expected ? " (accepted as expected)" : " (rejected as expected)");
+        return result;
     }
 };
