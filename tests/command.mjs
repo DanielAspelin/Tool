@@ -21,6 +21,8 @@ class CommandVerification {
         assert.equal(echo.status, 0, echo.stderr);
         assert.equal(echo.stdout, 'ää🌱 two words tail\n');
         assert.match(invoke('run', 'code', 'self-test', '--language', 'wasm').stdout, /^CODE self-test passed/);
+        assert.equal(invoke('run', 'automator', 'type').stdout.trim(), 'AUTOMATOR: base type');
+        assert.match(invoke('run', 'automator', 'status').stdout, /^AUTOMATOR: passive invocation-bound foundation/);
         for (const [action, name, message] of [
             ['run', 'absent-command', /Unknown command/],
             ['inspect', 'absent-command', /Unknown command/],
