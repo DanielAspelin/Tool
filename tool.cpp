@@ -1707,6 +1707,8 @@ private:
         return "Usage: invoke direct method ... | define volatile|persistent id method ... | transition id volatile|persistent | run id | list";
     }
 public:
+    unsigned admissionLimit() const { return throttle.limit(); }
+
     TOOL() {
         inject("regulation","core",[this](const Arguments&){return std::string("CPU threads: ")+std::to_string(cpu.capacity())+"; thermal C (-1 unknown): "+std::to_string(thermal.observe())+"; memory PSI (-1 unknown): "+std::to_string(pressure.observe())+"; admission limit: "+std::to_string(throttle.limit());});
         inject("ipify","core",[this](const Arguments& a){return ipify.invoke(a);});
@@ -22068,6 +22070,7 @@ private:
     ToolLocalRegistry MODELS{{"BASH",{{"class","BASH"},{"activation","invocation-bound"}}}};
     ToolLocalRegistry COMMANDS{
         {"status", {{"kind", "metadata"}}}, {"list", {{"kind", "volatile"}}},
+        {"pressure", {{"kind", "admission"}}},
         {"open", {{"kind", "volatile"}}}, {"run", {{"kind", "volatile"}}},
         {"attach", {{"kind", "volatile"}}}, {"logs", {{"kind", "volatile"}}},
         {"wait", {{"kind", "volatile"}}}, {"stop", {{"kind", "volatile"}}},
@@ -22091,21 +22094,30 @@ private:
     static constexpr const char* podman = "/usr/bin/podman";
     static constexpr const char* container = "tool-terminal";
 
+    class DESCRIPTOR {
+        int value;
+    public:
+        explicit DESCRIPTOR(int fd) : value(fd) {}
+        ~DESCRIPTOR() { if (value >= 0) ::close(value); }
+        DESCRIPTOR(const DESCRIPTOR&) = delete;
+        DESCRIPTOR& operator=(const DESCRIPTOR&) = delete;
+        int get() const { return value; }
+    };
+
     class LOCK {
-        int descriptor;
+        DESCRIPTOR descriptor;
+        bool acquired;
     public:
         LOCK(const Path& session, int mode, bool create = false)
             : descriptor(::open((session / "lock").c_str(),
-                                O_NOFOLLOW | O_CLOEXEC | O_RDWR | (create ? O_CREAT | O_EXCL : 0),
-                                0600)) {
-            if (descriptor < 0) throw std::runtime_error("Cannot open the session lock");
-            if (::flock(descriptor, mode | LOCK_NB) == 0) return;
-            ::close(descriptor);
-            throw std::runtime_error("Session is busy. Detach active clients before closing it.");
+                                O_NOFOLLOW | O_CLOEXEC | O_RDWR | (create ? O_CREAT : 0),
+                                0600)), acquired(false) {
+            if (descriptor.get() < 0) throw std::runtime_error("Cannot open the Bash lock");
+            acquired = ::flock(descriptor.get(), mode | LOCK_NB) == 0;
+            if (!acquired && errno != EWOULDBLOCK)
+                throw std::runtime_error("Cannot acquire the Bash lock");
         }
-        ~LOCK() { ::close(descriptor); }
-        LOCK(const LOCK&) = delete;
-        LOCK& operator=(const LOCK&) = delete;
+        explicit operator bool() const { return acquired; }
     };
 
     static bool sessionId(const std::string& id) {
@@ -22155,7 +22167,7 @@ private:
         return result < 0 && errno == EINTR;
     }
 
-    static int engine(const Path& session, const Args& command, bool diagnosticOutput = false) {
+    static int engine(const Path& session, const Args& command, int output = STDOUT_FILENO) {
         Args argv{podman, "--remote=false", "--storage-driver=vfs",
                   "--root=" + (session / "storage").string(),
                   "--runroot=" + (session / "runtime").string(),
@@ -22175,7 +22187,7 @@ private:
         posix_spawn_file_actions_t actions;
         int error = ::posix_spawn_file_actions_init(&actions);
         if (error != 0) throw std::runtime_error("Cannot initialize the Podman launcher");
-        if (diagnosticOutput) error = ::posix_spawn_file_actions_adddup2(&actions, STDERR_FILENO, STDOUT_FILENO);
+        if (output != STDOUT_FILENO) error = ::posix_spawn_file_actions_adddup2(&actions, output, STDOUT_FILENO);
         pid_t child{};
         if (error == 0) error = ::posix_spawn(&child, podman, &actions, nullptr, arguments.data(), env.data());
         ::posix_spawn_file_actions_destroy(&actions);
@@ -22197,16 +22209,48 @@ private:
 
     static int close(const Path& session) {
         if (std::filesystem::exists(session / "storage")) {
-            int result = engine(session, {"container", "rm", "--force", "--ignore", container}, true);
+            int result = engine(session, {"container", "rm", "--force", "--ignore", container}, STDERR_FILENO);
             if (result != 0) return result;
-            result = engine(session, {"image", "rm", "--all", "--force"}, true);
+            result = engine(session, {"image", "rm", "--all", "--force"}, STDERR_FILENO);
             if (result != 0) return result;
         }
         std::filesystem::remove_all(session);
         return 0;
     }
 
-    static int start(const Path& directory, const Args& args) {
+    static bool occupiesSlot(const Path& session) {
+        try {
+            const LOCK lock(session, LOCK_SH);
+            if (!lock || !std::filesystem::exists(session / "storage")) return true;
+            const DESCRIPTOR output(::open(session.c_str(), O_TMPFILE | O_CLOEXEC | O_RDWR, 0600));
+            if (output.get() < 0) return true;
+            if (engine(session, {"inspect", "--type=container", "--format={{.State.Status}}", container},
+                       output.get()) != 0) return true;
+            char text[16];
+            const auto size = ::pread(output.get(), text, sizeof(text), 0);
+            if (size <= 0) return true;
+            const std::string state(text, static_cast<std::size_t>(size));
+            return state != "exited\n" && state != "stopped\n";
+        } catch (const std::runtime_error&) {
+            return std::filesystem::exists(session);
+        }
+    }
+
+    static unsigned occupied(const Path& directory, unsigned limit) {
+        unsigned count = 0;
+        for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+            if (!sessionId(entry.path().filename().string()) || !entry.is_directory()) continue;
+            if (occupiesSlot(entry.path()) && ++count == limit) break;
+        }
+        return count;
+    }
+
+    static int deferred(const char* reason) {
+        std::cerr << "Bash launch deferred: " << reason << '\n';
+        return 75;
+    }
+
+    static int start(const Path& directory, const Args& args, const TOOL& tool) {
         const bool batch = args.front() == "run";
         if ((!batch && args.size() != 3) || (batch && args.size() < 4) || !imageId(args[2]))
             throw std::runtime_error("Expected a local image archive, a full sha256 image ID and, for run, a script");
@@ -22218,18 +22262,26 @@ private:
         if (size > 65536 || args.size() > 259)
             throw std::runtime_error("Bash script and arguments exceed the invocation limit");
 
+        const LOCK admission(directory, LOCK_EX, true);
+        if (!admission) return deferred("another launch is being admitted");
+        const unsigned limit = tool.admissionLimit();
+        if (limit == 0) return deferred("Tool has suspended admission under thermal pressure");
+        if (occupied(directory, limit) >= limit)
+            return deferred("the current detached-session limit is occupied");
+
         auto pattern = (directory / "XXXXXX").string();
         if (::mkdtemp(pattern.data()) == nullptr) throw std::runtime_error("Cannot allocate a Bash session");
         const Path session(pattern);
         try {
             const LOCK lock(session, LOCK_EX, true);
+            if (!lock) throw std::runtime_error("Bash session is busy");
             std::filesystem::create_directory(session / "engine");
             std::filesystem::create_directory(session / "hooks");
             std::ofstream storageConfig(session / "storage.conf");
             storageConfig << "[storage]\ndriver = \"vfs\"\n";
             storageConfig.close();
             if (!storageConfig) throw std::runtime_error("Could not configure volatile image storage");
-            if (engine(session, {"load", "--input=" + archive.string()}, true) != 0)
+            if (engine(session, {"load", "--input=" + archive.string()}, STDERR_FILENO) != 0)
                 throw std::runtime_error("Could not load the image into the volatile store");
 
             Args run{"run", "--detach", "--name=" + std::string(container), "--pull=never",
@@ -22260,13 +22312,19 @@ private:
             } else {
                 run.push_back("-i");
             }
-            if (engine(session, run, true) != 0)
+            const unsigned refreshedLimit = tool.admissionLimit();
+            if (refreshedLimit == 0 || occupied(directory, refreshedLimit + 1) > refreshedLimit) {
+                if (close(session) != 0) throw std::runtime_error("Podman cleanup failed");
+                return deferred("the admission limit dropped while staging the image");
+            }
+            if (engine(session, run, STDERR_FILENO) != 0)
                 throw std::runtime_error("Could not start an isolated Bash session");
             std::cout << session.filename().string() << std::endl;
             return 0;
         } catch (...) {
             try {
                 const LOCK lock(session, LOCK_EX);
+                if (!lock) throw std::runtime_error("Bash session is busy");
                 if (close(session) != 0) throw std::runtime_error("Podman cleanup failed");
             } catch (const std::exception& error) {
                 std::cerr << "Volatile session " << session.filename().string()
@@ -22278,13 +22336,13 @@ private:
 
     static int persist(const Path& session) {
         if (::isatty(STDOUT_FILENO)) throw std::runtime_error("Redirect the workspace archive to a file");
-        const int result = engine(session, {"wait", container}, true);
+        const int result = engine(session, {"wait", container}, STDERR_FILENO);
         if (result != 0) return result;
         return engine(session, {"cp", std::string(container) + ":/workspace/.", "-"});
     }
 
  public:
-    int invoke(const Args& args) const {
+    int invoke(const Args& args, const TOOL& tool) const {
         const auto& operation = args.front();
         if (operation == "list") {
             if (args.size() != 1) throw std::runtime_error("Bash list takes no arguments");
@@ -22296,11 +22354,20 @@ private:
         }
         requireEngine();
         const Path directory = root();
-        if (operation == "open" || operation == "run") return start(directory, args);
+        if (operation == "open" || operation == "run") return start(directory, args, tool);
+        if (operation == "pressure") {
+            if (args.size() != 1) throw std::runtime_error("Bash pressure takes no arguments");
+            const LOCK admission(directory, LOCK_SH, true);
+            if (!admission) return deferred("another launch is being admitted");
+            std::cout << "occupied=" << occupied(directory, std::numeric_limits<unsigned>::max())
+                      << " limit=" << tool.admissionLimit() << '\n';
+            return 0;
+        }
         if (args.size() != 2 || !sessionId(args[1]))
             throw std::runtime_error("Expected one Bash session ID");
         const Path session = directory / args[1];
         const LOCK lock(session, operation == "close" ? LOCK_EX : LOCK_SH);
+        if (!lock) throw std::runtime_error("Bash session is busy. Detach active clients before closing it.");
         if (operation == "close") return close(session);
         if (operation == "attach") return engine(session, {"attach", "--sig-proxy=false", "--detach-keys=ctrl-p,ctrl-q", container});
         if (operation == "logs") return engine(session, {"logs", container});
@@ -22332,11 +22399,11 @@ public:
         return !args.empty() && (args.size() != 1 || args.front() != "status");
     }
 
-    int runCli(const TOOL::Arguments& args) const {
+    int runCli(const TOOL::Arguments& args, [[maybe_unused]] const TOOL& tool) const {
         if (args[0] == "--help") {
             std::cout << "tool bash open ARCHIVE sha256:IMAGE_ID\n"
                       << "tool bash run ARCHIVE sha256:IMAGE_ID 'SCRIPT' [ARG ...]\n"
-                      << "tool bash list\n"
+                      << "tool bash list | pressure\n"
                       << "tool bash {attach|status|logs|wait|stop|close|persist} SESSION\n"
                       << "Detach an attached terminal with Ctrl-P Ctrl-Q. "
                          "Redirect persist to a tar file after the session exits.\n";
@@ -22347,7 +22414,7 @@ public:
             return 2;
         }
 #if defined(__linux__) && !defined(__wasi__)
-        return NATIVE{}.invoke(args);
+        return NATIVE{}.invoke(args, tool);
 #else
         std::cerr << "Bash requires native Linux with rootless Podman\n";
         return 1;
@@ -45342,11 +45409,11 @@ public:
         for (int i=2;i<argc;++i) args.emplace_back(argv[i]);
         try {
             const std::string command(argv[1]);
-            if (command == "bash" && bash.handlesCli(args)) return bash.runCli(args);
+            if (command == "bash" && bash.handlesCli(args)) return bash.runCli(args, tool);
             if ((command == "terminal" || command == "shell") && !args.empty() && args[0] == "bash") {
                 const TOOL::Arguments bashArgs(args.begin() + 1, args.end());
-                if (bashArgs.empty()) return bash.runCli({"--help"});
-                if (bash.handlesCli(bashArgs)) return bash.runCli(bashArgs);
+                if (bashArgs.empty()) return bash.runCli({"--help"}, tool);
+                if (bash.handlesCli(bashArgs)) return bash.runCli(bashArgs, tool);
                 std::cout << bash.invoke(bashArgs) << std::endl;
                 return 0;
             }
