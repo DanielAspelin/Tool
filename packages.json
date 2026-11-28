@@ -1,0 +1,301 @@
+[
+  {
+    "id": "node26",
+    "kind": "runtime",
+    "version": "26.13.1",
+    "filename": "node-v26.13.1-linux-x64.tar.xz",
+    "bytes": 34093052,
+    "sha256": "5c063e46bab0fbc1c17cc445d7ff129cbdcd0471be6ed83b6ab864f8143bc864",
+    "urls": [
+      "https://nodejs.org/dist/v26.13.1/node-v26.13.1-linux-x64.tar.xz",
+      "https://nodejs.org/download/release/v26.13.1/node-v26.13.1-linux-x64.tar.xz"
+    ]
+  },
+  {
+    "id": "node26-source",
+    "kind": "source",
+    "version": "26.13.1",
+    "filename": "node-v26.13.1.tar.xz",
+    "bytes": 63411840,
+    "sha256": "a7f6204ff63b6a2cd274d48903285abb86ed53a99070e532d4c2fd787457d9e6",
+    "urls": [
+      "https://nodejs.org/dist/v26.13.1/node-v26.13.1.tar.xz",
+      "https://nodejs.org/download/release/v26.13.1/node-v26.13.1.tar.xz"
+    ]
+  },
+  {
+    "id": "chromium",
+    "kind": "runtime",
+    "version": "160.0.8189.0 (r1756954)",
+    "filename": "chrome-linux.zip",
+    "bytes": 263245695,
+    "sha256": "8a94309cf9f856de10054bb5ad19ddee782f4dd36e83af666f03828028106b74",
+    "urls": [
+      "https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/1756954/chrome-linux.zip",
+      "https://commondatastorage.googleapis.com/chromium-browser-snapshots/Linux_x64/1756954/chrome-linux.zip"
+    ],
+    "sourceRevision": "3bd7fe5783578d6186fda8b52b419afb6c84359d",
+    "sourceMetadata": "https://storage.googleapis.com/chromium-browser-snapshots/Linux_x64/1756954/REVISIONS"
+  },
+  {
+    "id": "chromium-source",
+    "kind": "source",
+    "version": "158.0.8127.88",
+    "filename": "chromium-158.0.8127.88.tar.xz",
+    "bytes": 4244757976,
+    "sha256": "bb6c43bac6507a7fcc53ddc2e55cd297634d320e633e8148e7998ddf37129644",
+    "urls": [
+      "https://storage.googleapis.com/chromium-browser-official/chromium-158.0.8127.88.tar.xz",
+      "https://commondatastorage.googleapis.com/chromium-browser-official/chromium-158.0.8127.88.tar.xz"
+    ]
+  },
+  {
+    "id": "chrome-testing",
+    "kind": "runtime",
+    "version": "158.0.8127.88",
+    "filename": "chrome-linux64.zip",
+    "bytes": 208082347,
+    "sha256": "59e3b43f8b3aaa292238fbdcfb36a93127debd53e212510dcdc2cc8812b4b57e",
+    "urls": [
+      "https://storage.googleapis.com/chrome-for-testing-public/158.0.8127.88/linux64/chrome-linux64.zip",
+      "https://chrome-for-testing-public.storage.googleapis.com/158.0.8127.88/linux64/chrome-linux64.zip"
+    ]
+  },
+  {
+    "id": "wasi-sdk",
+    "kind": "toolchain",
+    "version": "34.0",
+    "filename": "wasi-sdk-34.0-x86_64-linux.tar.gz",
+    "bytes": 192383077,
+    "sha256": "b761e3a0721dbae9c09a0059e5fdb2bf917d1b4a8a7b430fb3b5aafb0984b2c4",
+    "urls": [
+      "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-34/wasi-sdk-34.0-x86_64-linux.tar.gz",
+      "https://api.github.com/repos/WebAssembly/wasi-sdk/releases/assets/528366474"
+    ]
+  },
+  {
+    "id": "wasi-sdk-29",
+    "kind": "toolchain",
+    "version": "29.0",
+    "filename": "wasi-sdk-29.0-x86_64-linux.tar.gz",
+    "bytes": 119441678,
+    "sha256": "87d1d1a2879d139cdc624b968efad3d4a97b8078cdff95e63ac88ecafd1a0171",
+    "urls": [
+      "https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-29/wasi-sdk-29.0-x86_64-linux.tar.gz",
+      "https://api.github.com/repos/WebAssembly/wasi-sdk/releases/assets/316597213"
+    ]
+  },
+  {
+    "id": "ninja",
+    "kind": "toolchain",
+    "version": "1.13.2",
+    "filename": "ninja-linux.zip",
+    "bytes": 134040,
+    "sha256": "5749cbc4e668273514150a80e387a957f933c6ed3f5f11e03fb30955e2bbead6",
+    "urls": [
+      "https://github.com/ninja-build/ninja/releases/download/v1.13.2/ninja-linux.zip",
+      "https://api.github.com/repos/ninja-build/ninja/releases/assets/318865358"
+    ]
+  },
+  {
+    "id": "cmake",
+    "kind": "toolchain",
+    "version": "4.5.1",
+    "filename": "cmake-4.5.1-linux-x86_64.tar.gz",
+    "bytes": 67009694,
+    "sha256": "83b71181fb62b4fe8f26067a9321448572e7a43bd04ff6c7f54a24c33698f16d",
+    "urls": [
+      "https://github.com/Kitware/CMake/releases/download/v4.5.1/cmake-4.5.1-linux-x86_64.tar.gz",
+      "https://api.github.com/repos/Kitware/CMake/releases/assets/768368919"
+    ]
+  },
+  {
+    "id": "wabt",
+    "kind": "toolchain",
+    "version": "1.0.42",
+    "filename": "wabt-1.0.42-linux-x64.tar.gz",
+    "bytes": 4761911,
+    "sha256": "84895407a6bbb80e918f33b16b2fb2206021c150b6bc9ff6f761263a745ab131",
+    "urls": [
+      "https://github.com/WebAssembly/wabt/releases/download/1.0.42/wabt-1.0.42-linux-x64.tar.gz",
+      "https://api.github.com/repos/WebAssembly/wabt/releases/assets/566466696"
+    ]
+  },
+  {
+    "id": "binaryen",
+    "kind": "toolchain",
+    "version": "133",
+    "filename": "binaryen-version_133-x86_64-linux.tar.gz",
+    "bytes": 111200018,
+    "sha256": "2dc9c7813f5375db93d96ead4b78222fcc3e2677bbb832297af4797782a37489",
+    "urls": [
+      "https://github.com/WebAssembly/binaryen/releases/download/version_133/binaryen-version_133-x86_64-linux.tar.gz",
+      "https://api.github.com/repos/WebAssembly/binaryen/releases/assets/580050094"
+    ]
+  },
+  {
+    "id": "llvm",
+    "kind": "toolchain",
+    "version": "23.1.6",
+    "filename": "LLVM-23.1.6-Linux-X64.tar.zst",
+    "bytes": 1198414275,
+    "sha256": "59e14234f145927f982b50627e8bafaf2fca50151b7d973d6a0b40796ddcfe9a",
+    "urls": [
+      "https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.6/LLVM-23.1.6-Linux-X64.tar.zst",
+      "https://api.github.com/repos/llvm/llvm-project/releases/assets/760398335"
+    ]
+  },
+  {
+    "id": "llvm-source",
+    "kind": "toolchain",
+    "version": "23.1.6",
+    "filename": "llvm-project-23.1.6.src.tar.xz",
+    "bytes": 179172364,
+    "sha256": "d3b86ab29cfb4445a6652e5c2642ccc75e04e38084dde3701d323320f35a31da",
+    "urls": [
+      "https://github.com/llvm/llvm-project/releases/download/llvmorg-23.1.6/llvm-project-23.1.6.src.tar.xz",
+      "https://api.github.com/repos/llvm/llvm-project/releases/assets/759795884"
+    ]
+  },
+  {
+    "id": "wasmtime",
+    "kind": "toolchain",
+    "version": "51.0.0",
+    "filename": "wasmtime-v51.0.0-x86_64-linux.tar.xz",
+    "bytes": 11912508,
+    "sha256": "a18020674fac4107f329bc9ed720ea9c88e4b30a61e8a527787bcce051123d32",
+    "urls": [
+      "https://github.com/bytecodealliance/wasmtime/releases/download/v51.0.0/wasmtime-v51.0.0-x86_64-linux.tar.xz",
+      "https://api.github.com/repos/bytecodealliance/wasmtime/releases/assets/772509947"
+    ]
+  },
+  {
+    "id": "wasm-tools",
+    "kind": "toolchain",
+    "version": "1.263.0",
+    "filename": "wasm-tools-1.263.0-x86_64-linux.tar.gz",
+    "bytes": 5976062,
+    "sha256": "21c036c1740a0552124c79c6e2170cb61c5b016005671a6d5bc06cf642165431",
+    "urls": [
+      "https://github.com/bytecodealliance/wasm-tools/releases/download/v1.263.0/wasm-tools-1.263.0-x86_64-linux.tar.gz",
+      "https://api.github.com/repos/bytecodealliance/wasm-tools/releases/assets/693335313"
+    ]
+  },
+  {
+    "id": "emsdk",
+    "kind": "toolchain",
+    "version": "7.0.1",
+    "filename": "emsdk-7.0.1.tar.gz",
+    "bytes": 179211,
+    "sha256": "bfd13deac54e4cbefac37aec0277a24f46c33823c17004d99caa62b37f122bf3",
+    "urls": [
+      "https://github.com/emscripten-core/emsdk/archive/refs/tags/7.0.1.tar.gz",
+      "https://codeload.github.com/emscripten-core/emsdk/tar.gz/refs/tags/7.0.1"
+    ]
+  },
+  {
+    "id": "emscripten",
+    "kind": "toolchain",
+    "version": "7.0.1",
+    "filename": "emscripten-7.0.1-wasm-binaries.tar.xz",
+    "bytes": 306625968,
+    "sha256": "aebab2ffa9b758d56db9e41adfacb0bf00f95800970c64f5e6a0ae7631066b5c",
+    "urls": [
+      "https://storage.googleapis.com/webassembly/emscripten-releases-builds/linux/9146b21a8350e85c9934cf570f7a6ceb7470623b/wasm-binaries.tar.xz",
+      "https://commondatastorage.googleapis.com/webassembly/emscripten-releases-builds/linux/9146b21a8350e85c9934cf570f7a6ceb7470623b/wasm-binaries.tar.xz"
+    ]
+  },
+  {
+    "id": "gcc-source",
+    "kind": "toolchain",
+    "version": "16.2.0",
+    "filename": "gcc-16.2.0.tar.xz",
+    "bytes": 107200820,
+    "sha256": "e6738e29597f733270731aa90600f37ffdc045079dfc27ec7e8192cc81085c3e",
+    "urls": [
+      "https://ftp.gnu.org/gnu/gcc/gcc-16.2.0/gcc-16.2.0.tar.xz",
+      "https://mirrors.kernel.org/gnu/gcc/gcc-16.2.0/gcc-16.2.0.tar.xz"
+    ]
+  },
+  {
+    "id": "make-source",
+    "kind": "toolchain",
+    "version": "4.4.1",
+    "filename": "make-4.4.1.tar.gz",
+    "bytes": 2348200,
+    "sha256": "dd16fb1d67bfab79a72f5e8390735c49e3e8e70b4945a15ab1f81ddb78658fb3",
+    "urls": [
+      "https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz",
+      "https://mirrors.kernel.org/gnu/make/make-4.4.1.tar.gz"
+    ]
+  },
+  {
+    "id": "binutils-source",
+    "kind": "toolchain",
+    "version": "2.46.1",
+    "filename": "binutils-2.46.1.tar.xz",
+    "bytes": 28636456,
+    "sha256": "e127a709cba24c76de8936cb7083dd768f28cd37eb010492e2f19b71eb1294e4",
+    "urls": [
+      "https://ftp.gnu.org/gnu/binutils/binutils-2.46.1.tar.xz",
+      "https://mirrors.kernel.org/gnu/binutils/binutils-2.46.1.tar.xz"
+    ]
+  },
+  {
+    "id": "python-source",
+    "kind": "toolchain",
+    "version": "3.14.0",
+    "filename": "Python-3.14.0.tar.xz",
+    "bytes": 23595844,
+    "sha256": "2299dae542d395ce3883aca00d3c910307cd68e0b2f7336098c8e7b7eee9f3e9",
+    "urls": [
+      "https://www.python.org/ftp/python/3.14.0/Python-3.14.0.tar.xz",
+      "https://python.org/ftp/python/3.14.0/Python-3.14.0.tar.xz"
+    ]
+  },
+  {
+    "id": "git-source",
+    "kind": "toolchain",
+    "version": "2.54.0",
+    "filename": "git-2.54.0.tar.xz",
+    "bytes": 8126372,
+    "sha256": "f689162364c10de79ef89aa8dbf48731eb057e34edbbd20aca510ce0154681a3",
+    "urls": [
+      "https://www.kernel.org/pub/software/scm/git/git-2.54.0.tar.xz",
+      "https://mirrors.edge.kernel.org/pub/software/scm/git/git-2.54.0.tar.xz"
+    ]
+  },
+  {
+    "id": "depot-tools",
+    "kind": "toolchain",
+    "version": "2e69d2953ddf4a4c671c701773991ff68475db00",
+    "filename": "depot-tools-2e69d295.tar.gz",
+    "bytes": 1864662,
+    "sha256": "e6f348c3ce291b01284da4f31b8c6cf1897dcfb97a66a3ac1c1cec579eb899f5",
+    "urls": [
+      "https://chromium.googlesource.com/chromium/tools/depot_tools/+archive/2e69d2953ddf4a4c671c701773991ff68475db00.tar.gz"
+    ]
+  },
+  {
+    "id": "gn",
+    "kind": "toolchain",
+    "version": "0lJtDNOaKDS0gBA4d2I54iQMhBUOQvL5EP_f0tKeri8C",
+    "filename": "gn-linux-amd64.zip",
+    "bytes": 1470902,
+    "sha256": "d2526d0cd39a2834b4801038776239e2240c84150e42f2f910ffdfd2d29eae2f",
+    "urls": [
+      "https://chrome-infra-packages.appspot.com/dl/gn/gn/linux-amd64/+/0lJtDNOaKDS0gBA4d2I54iQMhBUOQvL5EP_f0tKeri8C"
+    ]
+  },
+  {
+    "id": "siso",
+    "kind": "toolchain",
+    "version": "dfc32e4edca158cff2b64a1658ee3940f0116b3a",
+    "filename": "siso-linux-amd64.zip",
+    "bytes": 31573379,
+    "sha256": "aed78789dcb5bf9b0e006db08d49ec66a36aae4b8f39bdfdae45e94fb74b9e0a",
+    "urls": [
+      "https://chrome-infra-packages.appspot.com/dl/build/siso/linux-amd64/+/git_revision:dfc32e4edca158cff2b64a1658ee3940f0116b3a"
+    ]
+  }
+]

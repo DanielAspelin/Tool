@@ -143,6 +143,44 @@ Flow Pressure Regulation applies TOOL's adaptive admission limit to `open` and `
 
 The writable root filesystem and logs remain in tmpfs after the shell exits so they can be inspected. `close` destroys the session and its store. A reboot discards tmpfs state. `persist` is an explicit export request. It waits for the session to exit and streams the contents of its `/workspace` as a tar archive to standard output. Review archives from untrusted commands before extracting them. Bash execution requires the native CLI. WebAssembly and TOOL protocol dispatch expose capability information.
 
+## Live volatile package loading
+
+`packages.mjs` is TOOL's Linux package-staging and C++ build companion. It uses Node.js and curl 8.4 or newer. The default [pinned catalog](packages.json) contains 3 runtime archives, 2 application source archives, and 20 toolchain or build-tool archives. The stock binary pins target Linux x64. Each pin records compressed bytes, SHA-256, and ordered HTTPS URLs. `list` adds the Base64 byte count for every archive. Platform-specific runtime requirements remain the responsibility of the selected OCI image.
+
+| Package | Compressed bytes | Base64 payload bytes |
+| --- | ---: | ---: |
+| Node.js 26.13.1 Linux x64 | 34,093,052 | 45,457,404 |
+| Chromium 160.0.8189.0 snapshot r1756954 Linux x64 | 263,245,695 | 350,994,260 |
+| Chrome for Testing 158.0.8127.88 Linux x64 | 208,082,347 | 277,443,132 |
+| Node.js 26.13.1 source | 63,411,840 | 84,549,120 |
+| Chromium 158.0.8127.88 source | 4,244,757,976 | 5,659,677,304 |
+
+```bash
+node packages.mjs list
+node packages.mjs stage node26 --base64
+node packages.mjs stage chromium --base64 --timeout 120
+node packages.mjs stage ninja
+node packages.mjs stage chromium-source --runtime /path/to/tmpfs --timeout 900
+```
+
+Each attempt has its own timeout, with a 10-second maximum connection wait and 120 seconds total by default. On timeout, download failure, or a byte-count or digest mismatch, the loader removes the partial file and tries the next URL with the same pin. `--local ARCHIVE` adds a local candidate before the URLs and applies the same checks. `--catalog FILE` selects a trusted JSON catalog in the same format. Use it to pin an exact Chromium revision, a custom Chromium build, or another CPU architecture with an independently verified SHA-256. Keep the active Chromium channel or build pinned for reproducibility. [Chromium downloads](https://www.chromium.org/getting-involved/download-chromium/) · [Chrome for Testing channel and platform discovery](https://googlechromelabs.github.io/chrome-for-testing/) · [Node.js release index](https://nodejs.org/dist/index.json)
+
+Downloads and generated JavaScript stay in a private directory on tmpfs. The tool defaults to `/dev/shm` and accepts `--runtime TMPFS` or `TOOL_BASH_RUNTIME`. With `--base64`, it emits `payload.mjs` and bounded JavaScript parts. The module's `archiveBytes()` reconstructs the archive as an async byte stream and checks its SHA-256 at the end. Base64 counts exclude JavaScript wrapper bytes. Staging Chromium source with Base64 requires roughly 9.9 GB of free tmpfs before filesystem overhead. The archive and its parts remain available until the directory is removed or tmpfs is cleared. Choose a no-swap tmpfs if your host must keep every page off disk.
+
+Use the downloaded runtime archives as inputs to your approved OCI image. Extract and run the packages and source build hooks within the build sandbox. TOOL's detached Bash runtime continues to use its offline image archive as the execution boundary.
+
+### C++ build profiles
+
+```bash
+node packages.mjs build application.cpp
+node packages.mjs build application.cpp --target wasi --compiler /opt/wasi-sdk/bin/clang++
+node packages.mjs build application.cpp --target browser --compiler /opt/emsdk/upstream/emscripten/em++
+```
+
+The native profile uses C++17 and produces a native executable. The WASI profile targets Preview 1 using the selected WASI SDK. The browser profile uses Emscripten to produce `application.mjs` and `application.wasm` for use in Node.js or Chromium. Import the generated module's default factory and await it. Browser runs should serve the module and its Wasm file together over an HTTP origin, and browser profiles should use a disposable user-data directory. The selected compiler and source must already be available in the build sandbox. Build outputs and the Emscripten cache stay in tmpfs. [WASI SDK](https://github.com/WebAssembly/wasi-sdk/releases) · [Emscripten modularized output](https://emscripten.org/docs/compiling/Modularized-Output.html)
+
+Base64 wrapping preserves an archive's native contents. Node.js and Chromium act as native hosts for compatible application WebAssembly. Build modifications to Node.js from its source archive with a supported GCC or Clang, Python and GNU Make, plus Rust when required by the selected Node configuration. Build Chromium with its tagged dependency set and upstream `depot_tools` workflow, GN, Siso or Ninja, and Chromium's pinned Clang. A full Chromium checkout and build needs a substantially larger volume than the compressed source archive. The browser snapshot corresponds to Chromium commit `3bd7fe5783578d6186fda8b52b419afb6c84359d`. The release source archive is pinned separately to 158.0.8127.88. [Node.js 26 build instructions](https://github.com/nodejs/node/blob/v26.13.1/BUILDING.md) · [Chromium Linux build instructions](https://chromium.googlesource.com/chromium/src/+/main/docs/linux/build_instructions.md)
+
 ## Resource regulation and simultaneous invocation
 
 | Class | Current responsibility |
