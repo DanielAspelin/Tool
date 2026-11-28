@@ -38,6 +38,18 @@
 #include <unistd.h>
 #endif
 
+#if defined(__linux__) && !defined(__wasi__)
+#include <cerrno>
+#include <cstdlib>
+#include <cstring>
+#include <linux/magic.h>
+#include <spawn.h>
+#include <sys/file.h>
+#include <sys/statvfs.h>
+#include <sys/vfs.h>
+#include <sys/wait.h>
+#endif
+
 class TIMESTAMP {
 public:
     using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
@@ -22054,7 +22066,13 @@ public:
     };
 private:
     ToolLocalRegistry MODELS{{"BASH",{{"class","BASH"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","BASH"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind", "metadata"}}}, {"list", {{"kind", "volatile"}}},
+        {"open", {{"kind", "volatile"}}}, {"run", {{"kind", "volatile"}}},
+        {"attach", {{"kind", "volatile"}}}, {"logs", {{"kind", "volatile"}}},
+        {"wait", {{"kind", "volatile"}}}, {"stop", {{"kind", "volatile"}}},
+        {"close", {{"kind", "volatile"}}}, {"persist", {{"kind", "user-asserted export"}}}
+    };
 public:
     ToolLocalRegistry specificationSnapshot() const {
         auto result=SPECIFICATION;
@@ -22066,10 +22084,275 @@ public:
 private:
 
 
- REGISTRATION registry;
+#if defined(__linux__) && !defined(__wasi__)
+ class NATIVE {
+    using Args = TOOL::Arguments;
+    using Path = std::filesystem::path;
+    static constexpr const char* podman = "/usr/bin/podman";
+    static constexpr const char* container = "tool-terminal";
+
+    class LOCK {
+        int descriptor;
+    public:
+        LOCK(const Path& session, int mode, bool create = false)
+            : descriptor(::open((session / "lock").c_str(),
+                                O_NOFOLLOW | O_CLOEXEC | O_RDWR | (create ? O_CREAT | O_EXCL : 0),
+                                0600)) {
+            if (descriptor < 0) throw std::runtime_error("Cannot open the session lock");
+            if (::flock(descriptor, mode | LOCK_NB) == 0) return;
+            ::close(descriptor);
+            throw std::runtime_error("Session is busy. Detach active clients before closing it.");
+        }
+        ~LOCK() { ::close(descriptor); }
+        LOCK(const LOCK&) = delete;
+        LOCK& operator=(const LOCK&) = delete;
+    };
+
+    static bool sessionId(const std::string& id) {
+        return id.size() == 6 && id.find_first_not_of(
+            "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz") == std::string::npos;
+    }
+
+    static bool imageId(const std::string& id) {
+        return id.size() == 71 && id.compare(0, 7, "sha256:") == 0 &&
+            id.find_first_not_of("0123456789abcdef", 7) == std::string::npos;
+    }
+
+    static Path root() {
+        const char* configured = std::getenv("TOOL_BASH_RUNTIME");
+        const Path base = std::filesystem::canonical(configured ? configured : "/dev/shm");
+        struct stat parent {};
+        struct statfs storage {};
+        struct statvfs mount {};
+        if (base.string().find_first_of(",\"\r\n") != std::string::npos ||
+            ::stat(base.c_str(), &parent) != 0 || !S_ISDIR(parent.st_mode) ||
+            (parent.st_uid != 0 && parent.st_uid != ::geteuid()) ||
+            ((parent.st_mode & 0022) && !(parent.st_mode & S_ISVTX)) ||
+            ::statfs(base.c_str(), &storage) != 0 || storage.f_type != TMPFS_MAGIC ||
+            ::statvfs(base.c_str(), &mount) != 0 || (mount.f_flag & ST_NOEXEC))
+            throw std::runtime_error("Bash requires a trusted executable tmpfs in TOOL_BASH_RUNTIME or /dev/shm");
+        const Path directory = base / ("tool-bash-" + std::to_string(::geteuid()));
+        if (::mkdir(directory.c_str(), 0700) != 0 && errno != EEXIST)
+            throw std::runtime_error("Cannot create the volatile Bash directory");
+        struct stat attributes {};
+        if (::lstat(directory.c_str(), &attributes) != 0 || !S_ISDIR(attributes.st_mode) ||
+            attributes.st_uid != ::geteuid() || (attributes.st_mode & 0777) != 0700 ||
+            ::statfs(directory.c_str(), &storage) != 0 || storage.f_type != TMPFS_MAGIC)
+            throw std::runtime_error("Bash requires a private, user-owned tmpfs directory");
+        return directory;
+    }
+
+    static std::vector<char*> pointers(Args& strings) {
+        std::vector<char*> result;
+        result.reserve(strings.size() + 1);
+        for (auto& string : strings) result.push_back(string.data());
+        result.push_back(nullptr);
+        return result;
+    }
+
+    static bool waitAgain(pid_t pid, pid_t& result, int& status) {
+        result = ::waitpid(pid, &status, 0);
+        return result < 0 && errno == EINTR;
+    }
+
+    static int engine(const Path& session, const Args& command, bool diagnosticOutput = false) {
+        Args argv{podman, "--remote=false", "--storage-driver=vfs",
+                  "--root=" + (session / "storage").string(),
+                  "--runroot=" + (session / "runtime").string(),
+                  "--tmpdir=" + (session / "engine").string(), "--events-backend=none",
+                  "--hooks-dir=" + (session / "hooks").string(), "--default-mounts-file=/dev/null"};
+        argv.insert(argv.end(), command.begin(), command.end());
+        Args environment{"PATH=/usr/bin:/bin", "TMPDIR=" + (session / "engine").string(),
+                         "CONTAINERS_CONF=/dev/null",
+                         "CONTAINERS_STORAGE_CONF=" + (session / "storage.conf").string()};
+        for (const char* name : {"HOME", "USER", "LOGNAME", "XDG_RUNTIME_DIR",
+                                 "DBUS_SESSION_BUS_ADDRESS", "TERM"}) {
+            if (const char* value = std::getenv(name))
+                environment.push_back(std::string(name) + "=" + value);
+        }
+        auto arguments = pointers(argv);
+        auto env = pointers(environment);
+        posix_spawn_file_actions_t actions;
+        int error = ::posix_spawn_file_actions_init(&actions);
+        if (error != 0) throw std::runtime_error("Cannot initialize the Podman launcher");
+        if (diagnosticOutput) error = ::posix_spawn_file_actions_adddup2(&actions, STDERR_FILENO, STDOUT_FILENO);
+        pid_t child{};
+        if (error == 0) error = ::posix_spawn(&child, podman, &actions, nullptr, arguments.data(), env.data());
+        ::posix_spawn_file_actions_destroy(&actions);
+        if (error != 0) throw std::runtime_error("Cannot launch Podman: " + std::string(std::strerror(error)));
+        int status{};
+        pid_t result{};
+        while (waitAgain(child, result, status)) {}
+        if (result < 0) throw std::runtime_error("Cannot read the Podman exit status");
+        if (WIFEXITED(status)) return WEXITSTATUS(status);
+        return WIFSIGNALED(status) ? 128 + WTERMSIG(status) : 1;
+    }
+
+    static void requireEngine() {
+        if (::getuid() == 0 || ::geteuid() != ::getuid() || ::getegid() != ::getgid())
+            throw std::runtime_error("Bash requires an unprivileged Linux account");
+        if (::access(podman, X_OK) != 0)
+            throw std::runtime_error("Bash requires rootless Podman at /usr/bin/podman");
+    }
+
+    static int close(const Path& session) {
+        if (std::filesystem::exists(session / "storage")) {
+            int result = engine(session, {"container", "rm", "--force", "--ignore", container}, true);
+            if (result != 0) return result;
+            result = engine(session, {"image", "rm", "--all", "--force"}, true);
+            if (result != 0) return result;
+        }
+        std::filesystem::remove_all(session);
+        return 0;
+    }
+
+    static int start(const Path& directory, const Args& args) {
+        const bool batch = args.front() == "run";
+        if ((!batch && args.size() != 3) || (batch && args.size() < 4) || !imageId(args[2]))
+            throw std::runtime_error("Expected a local image archive, a full sha256 image ID and, for run, a script");
+        const Path archive = std::filesystem::canonical(args[1]);
+        if (!std::filesystem::is_regular_file(archive))
+            throw std::runtime_error("Image archive must be a local regular file");
+        std::size_t size = 0;
+        for (std::size_t i = 3; i < args.size(); ++i) size += args[i].size() + 1;
+        if (size > 65536 || args.size() > 259)
+            throw std::runtime_error("Bash script and arguments exceed the invocation limit");
+
+        auto pattern = (directory / "XXXXXX").string();
+        if (::mkdtemp(pattern.data()) == nullptr) throw std::runtime_error("Cannot allocate a Bash session");
+        const Path session(pattern);
+        try {
+            const LOCK lock(session, LOCK_EX, true);
+            std::filesystem::create_directory(session / "engine");
+            std::filesystem::create_directory(session / "hooks");
+            std::ofstream storageConfig(session / "storage.conf");
+            storageConfig << "[storage]\ndriver = \"vfs\"\n";
+            storageConfig.close();
+            if (!storageConfig) throw std::runtime_error("Could not configure volatile image storage");
+            if (engine(session, {"load", "--input=" + archive.string()}, true) != 0)
+                throw std::runtime_error("Could not load the image into the volatile store");
+
+            Args run{"run", "--detach", "--name=" + std::string(container), "--pull=never",
+                     "--network=none", "--pid=private", "--ipc=private", "--uts=private",
+                     "--cgroupns=private", "--userns=private", "--user=0:0",
+                     "--privileged=false", "--cap-drop=all", "--security-opt=no-new-privileges", "--http-proxy=false",
+                     "--env-host=false", "--no-hosts", "--image-volume=ignore", "--no-healthcheck",
+                     "--memory=256m", "--memory-swap=256m", "--cpus=1", "--pids-limit=128",
+                     "--timeout=3600", "--stop-signal=SIGTERM", "--restart=no", "--systemd=false",
+                     "--log-driver=k8s-file", "--log-opt=max-size=1mb",
+                     "--workdir=/workspace", "--env=HOME=/workspace", "--env=BASH_ENV=/dev/null",
+                     "--entrypoint=/bin/bash"};
+            if (batch) {
+                const Path scriptPath = session / "script";
+                std::ofstream script(scriptPath, std::ios::binary);
+                script << args[3];
+                script.close();
+                if (!script) throw std::runtime_error("Could not stage the script in tmpfs");
+                run.push_back("--mount=type=bind,src=" + scriptPath.string() +
+                              ",target=/tool-invocation,ro,relabel=private");
+            } else {
+                run.insert(run.end(), {"--interactive", "--tty"});
+            }
+            run.insert(run.end(), {args[2].substr(7), "--noprofile", "--norc"});
+            if (batch) {
+                run.insert(run.end(), {"--", "/tool-invocation"});
+                run.insert(run.end(), args.begin() + 4, args.end());
+            } else {
+                run.push_back("-i");
+            }
+            if (engine(session, run, true) != 0)
+                throw std::runtime_error("Could not start an isolated Bash session");
+            std::cout << session.filename().string() << std::endl;
+            return 0;
+        } catch (...) {
+            try {
+                const LOCK lock(session, LOCK_EX);
+                if (close(session) != 0) throw std::runtime_error("Podman cleanup failed");
+            } catch (const std::exception& error) {
+                std::cerr << "Volatile session " << session.filename().string()
+                          << " remains available for cleanup: " << error.what() << '\n';
+            }
+            throw;
+        }
+    }
+
+    static int persist(const Path& session) {
+        if (::isatty(STDOUT_FILENO)) throw std::runtime_error("Redirect the workspace archive to a file");
+        const int result = engine(session, {"wait", container}, true);
+        if (result != 0) return result;
+        return engine(session, {"cp", std::string(container) + ":/workspace/.", "-"});
+    }
+
+ public:
+    int invoke(const Args& args) const {
+        const auto& operation = args.front();
+        if (operation == "list") {
+            if (args.size() != 1) throw std::runtime_error("Bash list takes no arguments");
+            for (const auto& entry : std::filesystem::directory_iterator(root())) {
+                const auto id = entry.path().filename().string();
+                if (sessionId(id) && entry.is_directory()) std::cout << id << '\n';
+            }
+            return 0;
+        }
+        requireEngine();
+        const Path directory = root();
+        if (operation == "open" || operation == "run") return start(directory, args);
+        if (args.size() != 2 || !sessionId(args[1]))
+            throw std::runtime_error("Expected one Bash session ID");
+        const Path session = directory / args[1];
+        const LOCK lock(session, operation == "close" ? LOCK_EX : LOCK_SH);
+        if (operation == "close") return close(session);
+        if (operation == "attach") return engine(session, {"attach", "--sig-proxy=false", "--detach-keys=ctrl-p,ctrl-q", container});
+        if (operation == "logs") return engine(session, {"logs", container});
+        if (operation == "wait") return engine(session, {"wait", container});
+        if (operation == "stop") return engine(session, {"stop", "--time=5", container});
+        if (operation == "persist") return persist(session);
+        return engine(session, {"inspect", "--type=container",
+                               "--format={{.State.Status}} exit={{.State.ExitCode}}", container});
+    }
+ };
+#endif
+
+    REGISTRATION registry;
 public:
- BASH(){registry.add("status","BASH","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "BASH: passive foundation; specialized backend unavailable";return "Unsupported operation";}
+    BASH() { registry.add("status", "BASH", "native terminal capability"); }
+
+    std::string invoke(const TOOL::Arguments& args) const {
+        if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+#if defined(__linux__) && !defined(__wasi__)
+            return "BASH: detached Linux terminal. See tool bash --help";
+#else
+            return "BASH: detached terminal requires native Linux";
+#endif
+        }
+        return "Open a Bash session from the native Tool CLI. See tool bash --help";
+    }
+
+    bool handlesCli(const TOOL::Arguments& args) const {
+        return !args.empty() && (args.size() != 1 || args.front() != "status");
+    }
+
+    int runCli(const TOOL::Arguments& args) const {
+        if (args[0] == "--help") {
+            std::cout << "tool bash open ARCHIVE sha256:IMAGE_ID\n"
+                      << "tool bash run ARCHIVE sha256:IMAGE_ID 'SCRIPT' [ARG ...]\n"
+                      << "tool bash list\n"
+                      << "tool bash {attach|status|logs|wait|stop|close|persist} SESSION\n"
+                      << "Detach an attached terminal with Ctrl-P Ctrl-Q. "
+                         "Redirect persist to a tar file after the session exits.\n";
+            return 0;
+        }
+        if (COMMANDS.count(args[0]) == 0) {
+            std::cerr << "Unknown Bash operation. See tool bash --help\n";
+            return 2;
+        }
+#if defined(__linux__) && !defined(__wasi__)
+        return NATIVE{}.invoke(args);
+#else
+        std::cerr << "Bash requires native Linux with rootless Podman\n";
+        return 1;
+#endif
+    }
 };
 class PS1 {
 public:
@@ -29271,7 +29554,7 @@ public:
  DIRECTORY(){registry.add("status","DIRECTORY","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "DIRECTORY: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
-class FILE {
+class TOOLFILE {
 public:
     using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
     class SPECIFIER {
@@ -29348,7 +29631,7 @@ private:
 
  REGISTRATION registry;
 public:
- FILE(){registry.add("status","FILE","invocation-bound foundation");}
+ TOOLFILE(){registry.add("status","FILE","invocation-bound foundation");}
  std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "FILE: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
 };
 class MANAGEMENT {
@@ -38867,6 +39150,9 @@ private:
 
 
 public:
+    REQUEST() = default;
+    REQUEST(std::string name, TOOL::Arguments args)
+        : method(std::move(name)), arguments(std::move(args)) {}
     std::string method;
     TOOL::Arguments arguments;
 };
@@ -38947,6 +39233,7 @@ private:
 
 
 public:
+    RESPONSE(std::string result) : value(std::move(result)) {}
     std::string value;
 };
 
@@ -42882,99 +43169,6 @@ public:
         return "Usage: tracerobin record target event | trace [target] | status | enable | disable";
     }
 };
-class WAVEROBIN {
-public:
-    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
-    class SPECIFIER {
-    public:
-        static bool transversion(ToolLocalRegistry& specification,const std::string& category,const std::string& identity,const std::string& revision){
-            if(category.empty()||identity.empty()||revision.empty())return false;
-            const auto key=category+":"+identity;
-            auto& record=specification[key];
-            const auto previous=record.find("version");
-            if(previous!=record.end()&&previous->second==revision)return false;
-            if(previous!=record.end())record["previous_version"]=previous->second;
-            record["version"]=revision;
-            return true;
-        }
-        static void generate(ToolLocalRegistry& specification,const std::string& name,const ToolLocalRegistry& array){
-            for(const auto& entry:array){
-                auto& record=specification["array:"+name+":"+entry.first];
-                record=entry.second;
-            }
-        }
-        static std::uint64_t index(std::atomic<std::uint64_t>& counter){
-            auto current=counter.load();
-            bool complete=false;
-            while(!complete){advance(counter,current,complete);}
-            return current+1;
-        }
-        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
-            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
-            complete=counter.compare_exchange_weak(current,current+1);
-        }
-    };
-private:
-    inline static std::atomic<std::uint64_t> specificationInstanceCounter{0};
-    static ToolLocalRegistry initialSpecification(){
-        return {{"class",{{"identity","WAVEROBIN"},{"version","0.1.0"},{"activation","invocation-bound"}}},
-                {"array:MODELS",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:COMMANDS",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:SPECIFICATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"function:MODELER.define",{{"version","0.1.0"}}},
-                {"function:MODELER.inspect",{{"version","0.1.0"}}},
-                {"function:COMMANDER.define",{{"version","0.1.0"}}},
-                {"function:COMMANDER.inspect",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.transversion",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.generate",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.index",{{"version","0.1.0"}}}};
-    }
-    ToolLocalRegistry SPECIFICATION=initialSpecification();
-    std::uint64_t specificationInstanceIndex=SPECIFIER::index(specificationInstanceCounter);
-public:
-
-    class MODELER {
-    public:
-        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
-        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
-    };
-    class COMMANDER {
-    public:
-        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
-        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
-    };
-private:
-    ToolLocalRegistry MODELS{{"WAVEROBIN",{{"class","WAVEROBIN"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAVEROBIN"}}}};
-public:
-    ToolLocalRegistry specificationSnapshot() const {
-        auto result=SPECIFICATION;
-        SPECIFIER::generate(result,"MODELS",MODELS);
-        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
-        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
-        return result;
-    }
-private:
-
-
-    REGISTRATION registry;
-    HEARTBEAT& heartbeat;
-    std::mutex guard;
-    unsigned long long count=0;
-    std::string lastTarget,lastEvent;
-public:
-    explicit WAVEROBIN(HEARTBEAT& h):heartbeat(h){registry.add("echo","signal","heartbeat stimulation");registry.add("status","wave","observed propagation");}
-    void echo(const std::string& target,const std::string& event){
-        {std::lock_guard<std::mutex> lock(guard);++count;lastTarget=target;lastEvent=event;}
-        heartbeat.pulse("waverobin");
-        heartbeat.pulse(target);
-    }
-    std::string invoke(const TOOL::Arguments& a){
-        if(a.size()==1&&a[0]=="status"){std::lock_guard<std::mutex> lock(guard);return "Waves: "+std::to_string(count)+"; last target: "+lastTarget+"; event: "+lastEvent;}
-        if(a.size()==3&&a[0]=="echo"&&!a[1].empty()&&!a[2].empty()){echo(a[1],a[2]);return "Wave echoed to heartbeat";}
-        return "Usage: waverobin status | echo target event";
-    }
-};
 class ROUNDROBIN {
 public:
     using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
@@ -43157,6 +43351,99 @@ public:
         if(it==pulses.end())return "No heartbeat";
         auto age=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::steady_clock::now()-it->second).count();
         return name+" last pulse "+std::to_string(age)+" ms ago";
+    }
+};
+class WAVEROBIN {
+public:
+    using ToolLocalRegistry = std::map<std::string,std::map<std::string,std::string>>;
+    class SPECIFIER {
+    public:
+        static bool transversion(ToolLocalRegistry& specification,const std::string& category,const std::string& identity,const std::string& revision){
+            if(category.empty()||identity.empty()||revision.empty())return false;
+            const auto key=category+":"+identity;
+            auto& record=specification[key];
+            const auto previous=record.find("version");
+            if(previous!=record.end()&&previous->second==revision)return false;
+            if(previous!=record.end())record["previous_version"]=previous->second;
+            record["version"]=revision;
+            return true;
+        }
+        static void generate(ToolLocalRegistry& specification,const std::string& name,const ToolLocalRegistry& array){
+            for(const auto& entry:array){
+                auto& record=specification["array:"+name+":"+entry.first];
+                record=entry.second;
+            }
+        }
+        static std::uint64_t index(std::atomic<std::uint64_t>& counter){
+            auto current=counter.load();
+            bool complete=false;
+            while(!complete){advance(counter,current,complete);}
+            return current+1;
+        }
+        static void advance(std::atomic<std::uint64_t>& counter,std::uint64_t& current,bool& complete){
+            if(current==std::numeric_limits<std::uint64_t>::max())throw std::overflow_error("Instance index exhausted");
+            complete=counter.compare_exchange_weak(current,current+1);
+        }
+    };
+private:
+    inline static std::atomic<std::uint64_t> specificationInstanceCounter{0};
+    static ToolLocalRegistry initialSpecification(){
+        return {{"class",{{"identity","WAVEROBIN"},{"version","0.1.0"},{"activation","invocation-bound"}}},
+                {"array:MODELS",{{"kind","nested associative array"},{"version","0.1.0"}}},
+                {"array:COMMANDS",{{"kind","nested associative array"},{"version","0.1.0"}}},
+                {"array:SPECIFICATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
+                {"function:MODELER.define",{{"version","0.1.0"}}},
+                {"function:MODELER.inspect",{{"version","0.1.0"}}},
+                {"function:COMMANDER.define",{{"version","0.1.0"}}},
+                {"function:COMMANDER.inspect",{{"version","0.1.0"}}},
+                {"function:SPECIFIER.transversion",{{"version","0.1.0"}}},
+                {"function:SPECIFIER.generate",{{"version","0.1.0"}}},
+                {"function:SPECIFIER.index",{{"version","0.1.0"}}}};
+    }
+    ToolLocalRegistry SPECIFICATION=initialSpecification();
+    std::uint64_t specificationInstanceIndex=SPECIFIER::index(specificationInstanceCounter);
+public:
+
+    class MODELER {
+    public:
+        static void define(ToolLocalRegistry& models,const std::string& id,const std::string& key,const std::string& value){models[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& models,const std::string& id){auto it=models.find(id);return it==models.end()?nullptr:&it->second;}
+    };
+    class COMMANDER {
+    public:
+        static void define(ToolLocalRegistry& commands,const std::string& id,const std::string& key,const std::string& value){commands[id][key]=value;}
+        static const ToolLocalRegistry::mapped_type* inspect(const ToolLocalRegistry& commands,const std::string& id){auto it=commands.find(id);return it==commands.end()?nullptr:&it->second;}
+    };
+private:
+    ToolLocalRegistry MODELS{{"WAVEROBIN",{{"class","WAVEROBIN"},{"activation","invocation-bound"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","WAVEROBIN"}}}};
+public:
+    ToolLocalRegistry specificationSnapshot() const {
+        auto result=SPECIFICATION;
+        SPECIFIER::generate(result,"MODELS",MODELS);
+        SPECIFIER::generate(result,"COMMANDS",COMMANDS);
+        result["instance"]["index"]=std::to_string(specificationInstanceIndex);
+        return result;
+    }
+private:
+
+
+    REGISTRATION registry;
+    HEARTBEAT& heartbeat;
+    std::mutex guard;
+    unsigned long long count=0;
+    std::string lastTarget,lastEvent;
+public:
+    explicit WAVEROBIN(HEARTBEAT& h):heartbeat(h){registry.add("echo","signal","heartbeat stimulation");registry.add("status","wave","observed propagation");}
+    void echo(const std::string& target,const std::string& event){
+        {std::lock_guard<std::mutex> lock(guard);++count;lastTarget=target;lastEvent=event;}
+        heartbeat.pulse("waverobin");
+        heartbeat.pulse(target);
+    }
+    std::string invoke(const TOOL::Arguments& a){
+        if(a.size()==1&&a[0]=="status"){std::lock_guard<std::mutex> lock(guard);return "Waves: "+std::to_string(count)+"; last target: "+lastTarget+"; event: "+lastEvent;}
+        if(a.size()==3&&a[0]=="echo"&&!a[1].empty()&&!a[2].empty()){echo(a[1],a[2]);return "Wave echoed to heartbeat";}
+        return "Usage: waverobin status | echo target event";
     }
 };
 class FLOW {
@@ -44197,7 +44484,7 @@ private:
     PAGING passive_paging;
     COMMAND passive_command{tool};
     INSTRUCTION passive_instruction{tool};
-    BASH passive_bash;
+    BASH bash;
     PS1 passive_ps1;
     APPLESCRIPT passive_applescript;
     CMD passive_cmd;
@@ -44288,7 +44575,7 @@ private:
     DISK passive_disk;
     REST passive_rest;
     DIRECTORY passive_directory;
-    FILE passive_file;
+    TOOLFILE passive_file;
     MANAGEMENT passive_management;
     MANAGER passive_manager;
     OPERATOR passive_operator;
@@ -44750,7 +45037,7 @@ public:
         tool.inject("paging","runtime",[this](const TOOL::Arguments& a){return passive_paging.invoke(a);});
         tool.inject("command","runtime",[this](const TOOL::Arguments& a){return passive_command.invoke(a);});
         tool.inject("instruction","runtime",[this](const TOOL::Arguments& a){return passive_instruction.invoke(a);});
-        tool.inject("bash","runtime",[this](const TOOL::Arguments& a){return passive_bash.invoke(a);});
+        tool.inject("bash","runtime",[this](const TOOL::Arguments& a){return bash.invoke(a);});
         tool.inject("ps1","runtime",[this](const TOOL::Arguments& a){return passive_ps1.invoke(a);});
         tool.inject("applescript","runtime",[this](const TOOL::Arguments& a){return passive_applescript.invoke(a);});
         tool.inject("cmd","runtime",[this](const TOOL::Arguments& a){return passive_cmd.invoke(a);});
@@ -45053,7 +45340,19 @@ public:
         if (argc<=1) return tool.run();
         TOOL::Arguments args;
         for (int i=2;i<argc;++i) args.emplace_back(argv[i]);
-        try {std::cout << tool.invoke(argv[1],args) << std::endl;return 0;}
+        try {
+            const std::string command(argv[1]);
+            if (command == "bash" && bash.handlesCli(args)) return bash.runCli(args);
+            if ((command == "terminal" || command == "shell") && !args.empty() && args[0] == "bash") {
+                const TOOL::Arguments bashArgs(args.begin() + 1, args.end());
+                if (bashArgs.empty()) return bash.runCli({"--help"});
+                if (bash.handlesCli(bashArgs)) return bash.runCli(bashArgs);
+                std::cout << bash.invoke(bashArgs) << std::endl;
+                return 0;
+            }
+            std::cout << tool.invoke(command,args) << std::endl;
+            return 0;
+        }
         catch(const std::exception& e){std::cerr << e.what() << std::endl;return 1;}
     }
 };

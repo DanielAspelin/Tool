@@ -109,6 +109,38 @@ The signal-blast concept distributes operational awareness to eligible participa
 | Security | AES, GCM, RSA, SHA, OAEP, PSS, BASE64 | Cryptographic profiles only, except actual Base64 encoding/decoding; Base64 is not encryption |
 | Observation | TIMESTAMP, IPIFY, DUMP | Local time capture, optional native public-IP observation, local anomaly records |
 
+## Detached Linux Bash terminal
+
+`tool bash` provides Bash sessions through native Linux and rootless Podman. Use an unprivileged account with a working Podman installation at `/usr/bin/podman`, cgroup v2 with CPU, memory and PID controllers available to the account, and sufficient space on an executable tmpfs. TOOL uses `/dev/shm` by default. If it is mounted with `noexec`, set `TOOL_BASH_RUNTIME` to an executable tmpfs directory and use the same setting across session commands. Supply a trusted local OCI or Docker image archive containing `/bin/bash` and any required tools or offline packages. Use the full image ID of the image that produced the archive. The archive is opened read-only. For an image already named `tool-runtime` in your local Podman store, prepare it once as follows.
+
+```bash
+raw_id=$(podman image inspect --format '{{.Id}}' tool-runtime)
+image_id="sha256:${raw_id#sha256:}"
+podman save --format oci-archive -o runtime.oci.tar tool-runtime
+
+tool bash --help
+session=$(tool bash open ./runtime.oci.tar "$image_id")
+tool bash attach "$session"
+tool bash status "$session"
+tool bash stop "$session"
+tool bash persist "$session" > workspace.tar
+tool bash close "$session"
+```
+
+`open` allocates a Bash PTY. Use Ctrl-P followed by Ctrl-Q to detach, and `attach` with the same ID to reconnect. `run` starts one detached Bash script and passes any following arguments as Bash positional parameters. Both operations print the session ID after launch. `logs` reads the bounded output log, `wait` prints the Bash exit code once it finishes, and `list` shows the IDs available to the current Linux account. The `tool terminal bash` and `tool shell bash` forms accept the same operations. TOOL's existing `terminal run` and `shell run` operations still dispatch registered TOOL commands.
+
+```bash
+job=$(tool bash run ./runtime.oci.tar "$image_id" 'printf "%s\n" "$1" > result.txt' 'job result')
+tool bash wait "$job"
+tool bash logs "$job"
+tool bash persist "$job" > job-workspace.tar
+tool bash close "$job"
+```
+
+Each launch imports the archive into a separate local Podman store on tmpfs. Bash, its subprocesses, local dependency installation, and output stay within the invocation's root filesystem and namespaces. The container runs with networking disabled, dropped capabilities, no new privileges, a one-hour runtime limit, and CPU, memory and process limits. TOOL supplies only its own read-only staged script mount for a batch invocation. A missing prerequisite or failed sandbox launch results in a CLI error.
+
+The writable root filesystem and logs remain in tmpfs after the shell exits so they can be inspected. `close` destroys the session and its store. A reboot discards tmpfs state. `persist` is an explicit export request. It waits for the session to exit and streams the contents of its `/workspace` as a tar archive to standard output. Review archives from untrusted commands before extracting them. Bash execution requires the native CLI. WebAssembly and TOOL protocol dispatch expose capability information.
+
 ## Resource regulation and simultaneous invocation
 
 | Class | Current responsibility |
