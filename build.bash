@@ -39,6 +39,7 @@ case "${1:-all}" in
             node tests/code.mjs "$output_dir" &&
             node tests/command.mjs "$output_dir" &&
             node tests/nfc.mjs "$output_dir" &&
-            node tests/industry.mjs "$output_dir" ;;
+            node tests/industry.mjs "$output_dir" &&
+            node tests/visual.mjs "$output_dir" ;;
     *) printf 'Usage: %s [all|native|browser|verify]\n' "$0" >&2; exit 2 ;;
 esac

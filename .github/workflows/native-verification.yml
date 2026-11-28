@@ -11,6 +11,8 @@ on:
       - 'browser/nfc.mjs'
       - 'browser/nfc.R'
       - 'industry/**'
+      - 'visual/**'
+      - 'platform/**'
       - .github/workflows/native-verification.yml
 permissions:
   contents: read

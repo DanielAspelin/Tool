@@ -63,6 +63,41 @@ operation envelope and the browser component pairs each request with local R
 audit counters. Native Tool exposes IMEI checksum validation with
 `tool imei validate DIGITS`.
 
+## Vector visualization and service pools
+
+Run `TOOL_WEBR_DIST=/absolute/path/to/webr/dist node visual/server.mjs` and
+open `http://127.0.0.1:4780`. The foreground renders vector paths and pool
+topology in Canvas. JavaScript loads `visual/index.R` with webR and renders
+live-socket and completion statistics. The foreground reports runtime
+availability when opened without local webR assets.
+
+Each background system owns two services, vector geometry and worker
+telemetry. The system opens two to four authenticated loopback TCP sockets,
+one per detached worker, and assigns at least one worker to each service.
+The same sockets carry job requests, results, and independent worker
+heartbeats. Each service regulates dispatch with pause/resume and regulates
+parallelism with a worker limit. A pause lets existing work finish.
+The manager limits the local instance to four systems. A failed worker is
+reported as failed and retired. Closing the manager closes the sockets
+and terminates the supervised processes.
+
+## Platform and media
+
+Tool's identifier for ISO/IEC joint standards is `ISOIEC`.
+`tool isoiec reference` returns the identifier in the native CLI.
+
+| Profile | Entry point and behavior |
+|---|---|
+| KVM | `node platform/cli.mjs kvm` checks local `/dev/kvm` accessibility and reads the local libvirt domain inventory via `virsh --readonly`. [Linux KVM API](https://docs.kernel.org/virt/kvm/api.html) |
+| Hyper-V | `node platform/cli.mjs hyperv` reads local VM names and states via PowerShell `Get-VM` on Windows. [Microsoft Get-VM](https://learn.microsoft.com/en-us/powershell/module/hyper-v/get-vm) |
+| BIN | `TOOL_IMAGE_ROOT=/absolute/media node platform/cli.mjs bin example.bin` reports file size, SHA-256, and any recognized magic signature. |
+| ISO | `TOOL_IMAGE_ROOT=/absolute/media node platform/cli.mjs iso example.iso` checks ISO 9660 volume descriptors and returns the volume ID and logical blocks. [ISO/IEC 9660](https://www.iso.org/standard/81979.html) · [ECMA-119](https://ecma-international.org/publications-and-standards/standards/ecma-119/) |
+
+The platform adapters also register through the Industry Communication
+Control when the host sets `providers.platform`. File inspection is limited
+to regular files under the configured image root. Operations inspect the
+host and images without creating or starting VMs, mounting, or writing images.
+
 ## NFC system
 
 Tool uses NFC Forum NDEF records as the application data format. The NFC system exposes capabilities and operations, the adapter handles the platform API, and the controller owns the scan lifecycle. The controller operates at application level. Hardware controllers use interfaces such as [NCI](https://nfc-forum.org/build/specifications/controller-interface-nci-technical-specification/).

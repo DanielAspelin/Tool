@@ -2,6 +2,7 @@
 import { CommunicationControl, ConnectionControl, TransmissionControl } from './controls.mjs';
 import { PaymentAdapters, PaymentContract } from './payment.mjs';
 import { TelecomAdapters } from './telecom-adapter.mjs';
+import { PlatformSystem } from '../platform/system.mjs';
 
 export class IndustrySystem {
     #communications = new CommunicationControl();
@@ -71,6 +72,9 @@ export class IndustrySystem {
         }
         new PaymentAdapters(connections, providers).register(this.#communications);
         new TelecomAdapters(connections, providers, exec).register(this.#communications);
+        if (providers.platform) {
+            new PlatformSystem({ root: providers.platform.imageRoot, exec }).register(this.#communications);
+        }
         if (providers.internet) {
             const request = connections.open('internet');
             const { statusPath } = providers.internet;
