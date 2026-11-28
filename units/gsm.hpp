@@ -99,5 +99,5 @@ private:
  
 public:
  GSM(){registry.add("status","GSM","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GSM: passive foundation; GSM profile; specialized backend unavailable";return "Unsupported operation";}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "GSM: mobile-network profile; optional ModemManager adapter in Tool Industry";return "Unsupported operation";}
 };

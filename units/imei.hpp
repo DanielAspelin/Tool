@@ -66,7 +66,8 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"IMEI",{{"class","IMEI"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMEI"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","IMEI"}}},
+                               {"validate",{{"kind","local checksum"},{"owner","IMEI"}}}};
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -96,8 +97,28 @@ private:
 
 
  REGISTRATION registry;
+
+ static bool valid(const std::string& imei) {
+     if (imei.size() != 15 || imei == "000000000000000") return false;
+     unsigned sum = 0;
+     for (std::size_t i = 0; i < imei.size(); ++i) {
+         if (imei[i] < '0' || imei[i] > '9') return false;
+         const unsigned digit = static_cast<unsigned>(imei[i] - '0') * (i % 2 ? 2u : 1u);
+         sum += digit > 9 ? digit - 9 : digit;
+     }
+     return sum % 10 == 0;
+ }
  
 public:
- IMEI(){registry.add("status","IMEI","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "IMEI: passive foundation; IMEI profile; specialized backend unavailable";return "Unsupported operation";}
+ IMEI(){
+     registry.add("status","IMEI","equipment identity");
+     registry.add("validate","IMEI","local 15-digit checksum");
+ }
+ std::string invoke(const TOOL::Arguments& args) {
+     if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+         return "IMEI: local 15-digit checksum; carrier identity attestation requires an operator";
+     }
+     if (args.size() == 2 && args[0] == "validate") return valid(args[1]) ? "valid" : "invalid";
+     return "Usage: imei [status|validate digits]";
+ }
 };

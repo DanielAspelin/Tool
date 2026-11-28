@@ -99,5 +99,5 @@ private:
  
 public:
  SMS(){registry.add("status","SMS","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SMS: passive foundation; SMS profile; specialized backend unavailable";return "Unsupported operation";}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "SMS: message planning and optional provider delivery via Tool Industry";return "Unsupported operation";}
 };

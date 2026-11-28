@@ -55,6 +55,14 @@ Each class retains reconcile, automate, generate, copy, dump, delete (registered
 All these requirements are specifications pending source reconciliation, compilation and testing.
 
 
+## Industry systems
+
+[Industry Systems Specification](INDUSTRY.md) defines the hosted payment adapters,
+telecom profiles, and Internet controls. The server module provides a common
+operation envelope and the browser component pairs each request with local R
+audit counters. Native Tool exposes IMEI checksum validation with
+`tool imei validate DIGITS`.
+
 ## NFC system
 
 Tool uses NFC Forum NDEF records as the application data format. The NFC system exposes capabilities and operations, the adapter handles the platform API, and the controller owns the scan lifecycle. The controller operates at application level. Hardware controllers use interfaces such as [NCI](https://nfc-forum.org/build/specifications/controller-interface-nci-technical-specification/).

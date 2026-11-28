@@ -22,7 +22,9 @@ build_browser() {
         -Wl,--export=tool_route_abi -Wl,--export=tool_route_state -Wl,--export=tool_route_step \
         -Wl,--export=tool_javascript_size -Wl,--export=tool_javascript_byte \
         tool.cpp -o "$output_dir/tool-route.wasm" || return
-    cp -- browser/nfc.mjs browser/nfc.R "$output_dir"
+    cp -- browser/nfc.mjs browser/nfc.R "$output_dir" &&
+        mkdir -p -- "$output_dir/industry" &&
+        cp -- industry/client.mjs industry/industry.R industry/telecom.mjs "$output_dir/industry"
 }
 
 case "${1:-all}" in
@@ -36,6 +38,7 @@ case "${1:-all}" in
             node tests/launch.mjs "$output_dir" &&
             node tests/code.mjs "$output_dir" &&
             node tests/command.mjs "$output_dir" &&
-            node tests/nfc.mjs "$output_dir" ;;
+            node tests/nfc.mjs "$output_dir" &&
+            node tests/industry.mjs "$output_dir" ;;
     *) printf 'Usage: %s [all|native|browser|verify]\n' "$0" >&2; exit 2 ;;
 esac

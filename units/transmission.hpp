@@ -99,5 +99,5 @@ private:
  
 public:
  TRANSMISSION(){registry.add("status","TRANSMISSION","passive foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSMISSION: passive foundation; TRANSMISSION profile; specialized backend unavailable";return "Unsupported operation";}
+ std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "TRANSMISSION: Tool Industry supports authorized HTTPS routes through Transmission, Connection and Communication Control";return "Unsupported operation";}
 };
