@@ -174,6 +174,23 @@ The registered value, parameter, argument and reference commands demonstrate str
 
 CALL delegates to the existing TOOL invocation boundary. RETURN carries an explicit boolean and result string; CALL currently marks normal returns successful even when TOOL returns an error string, so typed outcome reconciliation is pending. FUNCTION wraps a callable. VARIABLE synchronizes replacement of immutable shared values. CLASS represents runtime class metadata, OBJECT stores up to 64 named fields against a shared class definition, and INSTANCE associates a caller-supplied identity with an owned object. Each has an individual registry. These are runtime abstractions, not dynamic C++ class compilation or persistent instance management. Demonstration commands are registered; universal typed integration and compilation verification remain pending.
 
+### Callable sites and functions with return passages
+
+A function callable resolves to a registered TOOL command. A site callable is a local name bound to a registered command with `site bind NAME COMMAND` or `callable bind site NAME COMMAND`. Bindings and topology live in the current TOOL process. Use its interactive session for multiple commands.
+
+`invokable dispatch site|function NAME lane|path TARGET [-- ARGS...]` resolves the callable and checks the directed return passage before executing it. A return path starts at `site:NAME` or `function:COMMAND` and ends at the supplied destination node. A named lane must start at the same callable node. The invocation returns the resolved hops followed by the command's result. `returnable check lane NAME` and `returnable check path FROM TO` inspect passages on their own.
+
+```text
+site bind greeting echo
+mesh site:greeting caller
+lane reply site:greeting caller
+invokable dispatch site greeting lane reply -- "hello from site"
+mesh function:echo caller
+invokable dispatch function echo path caller -- "hello from function"
+```
+
+Both examples return through the local mesh. Existing `callable call`, `invokable execute`, and manual `returnable record` forms remain available.
+
 ## Array and boolean foundations
 
 ARRAY provides synchronized indexed storage of up to 256 immutable shared VALUE objects, with checked retrieval. BOOLEAN provides immutable truth values, negation, conjunction, disjunction, exclusive OR and conversion to VALUE. Both maintain independent registries. The array command demonstrates bounded string collection and returns its size; the boolean command evaluates explicit true/false operands. Nested arrays, universal invocation integration and compilation verification remain pending.
