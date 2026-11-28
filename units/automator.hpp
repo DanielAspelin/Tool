@@ -33,7 +33,7 @@ public:
 private:
     inline static std::atomic<std::uint64_t> specificationInstanceCounter{0};
     static ToolLocalRegistry initialSpecification(){
-        return {{"class",{{"identity","AUTOMATOR"},{"version","0.1.0"},{"activation","invocation-bound"}}},
+        return {{"class",{{"identity","AUTOMATOR"},{"type","base"},{"version","0.1.0"},{"activation","invocation-bound"}}},
                 {"array:ARCHITECTURE",{{"kind","nested associative array"},{"version","0.1.0"}}},
                 {"array:DESIGN",{{"kind","nested associative array"},{"version","0.1.0"}}},
                 {"array:VERSION",{{"kind","nested associative array"},{"version","0.1.0"}}},
@@ -66,7 +66,10 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"AUTOMATOR",{{"class","AUTOMATOR"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","AUTOMATOR"}}}};
+    ToolLocalRegistry COMMANDS{
+        {"status", {{"kind", "metadata"}, {"owner", "AUTOMATOR"}}},
+        {"type", {{"kind", "metadata"}, {"owner", "AUTOMATOR"}}},
+    };
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -95,8 +98,23 @@ public:
 private:
 
 
- REGISTRATION registry;
+    REGISTRATION registry;
 public:
- AUTOMATOR(){registry.add("status","AUTOMATOR","invocation-bound foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "AUTOMATOR: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
+    AUTOMATOR() {
+        registry.add("status", "AUTOMATOR", "invocation-bound foundation");
+        registry.add("type", "AUTOMATOR", "base type declaration");
+    }
+
+    virtual ~AUTOMATOR() = default;
+
+    virtual std::string invoke(const TOOL::Arguments& args) {
+        if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+            return "AUTOMATOR: passive invocation-bound foundation; specialized backend unavailable";
+        }
+        if (args.size() == 1 && args[0] == "type") {
+            return SPECIFICATION.at("class").at("identity") + ": " +
+                   SPECIFICATION.at("class").at("type") + " type";
+        }
+        return "Unsupported operation";
+    }
 };

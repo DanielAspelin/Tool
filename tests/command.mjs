@@ -21,6 +21,8 @@ class CommandVerification {
         assert.equal(echo.status, 0, echo.stderr);
         assert.equal(echo.stdout, 'ää🌱 two words tail\n');
         assert.match(invoke('run', 'code', 'self-test', '--language', 'wasm').stdout, /^CODE self-test passed/);
+        assert.equal(invoke('run', 'automator', 'type').stdout.trim(), 'AUTOMATOR: base type');
+        assert.match(invoke('run', 'automator', 'status').stdout, /^AUTOMATOR: passive invocation-bound foundation/);
         for (const [action, name, message] of [
             ['run', 'absent-command', /Unknown command/],
             ['inspect', 'absent-command', /Unknown command/],
@@ -32,6 +34,33 @@ class CommandVerification {
         }
         if (process.platform === 'linux') this.verifyInstallation(directory, invoke);
         this.verifyTimeLock(directory);
+        this.verifyBaseCoverage(invoke);
+    }
+
+    static verifyBaseCoverage(invoke) {
+        const report = (...args) => {
+            const result = invoke('run', 'coverage', 'base', ...args);
+            assert.equal(result.status, 0, result.stderr);
+            return result.stdout.trimEnd().split('\n').map(line => line.split('\t'));
+        };
+        const [header, ...requirements] = report();
+        assert.deepEqual(header, ['Code', 'Owner', 'Control', 'Required evidence']);
+        assert.deepEqual(requirements.map(row => row[0]),
+            ['BCC-01', 'BCC-02', 'BCC-03', 'BCC-04', 'BCC-05', 'BCC-06', 'BCC-07', 'BCC-08']);
+        assert.deepEqual(report('information').slice(1), requirements.filter(row => row[1] === 'Information Control'));
+        assert.deepEqual(report('systems').slice(1), requirements.filter(row => row[1] === 'Systems Control'));
+        assert.deepEqual(report('BCC-05'), [header, requirements[4]]);
+        assert.deepEqual(report('classification'), [
+            ['Perimeter', 'Base Designated Classification'],
+            ['Native staging', 'Installation and verification perimeter'],
+            ['Existing Tool Base', 'Reference installation'],
+            ['Browser production', 'Browser deployment perimeter'],
+            ['Project System Headquarters', 'Intended native deployment perimeter. Registered target pending identification'],
+        ]);
+        const invalid = invoke('run', 'coverage', 'base', 'BCC-99');
+        assert.equal(invalid.status, 1);
+        assert.match(invalid.stderr, /Usage: coverage base/);
+        assert.match(invoke('run', 'coverage', 'classes').stdout, /\bCLI cli\b/);
     }
 
     static verifyTimeLock(directory) {

@@ -351,6 +351,49 @@ On start, Prelaunch checks the host and content inventory. Liftoff prepares the 
 
 Use `./tool launch plan` to view the startup sequence. On Linux, `./tool launch preflight [auto|desktop|tablet|mobile] [port]` validates the settings and content inventory before any sockets are opened. Use `./tool launch start [mode] [port]` to start the workspace on loopback. The default port is 9966 with handoff on 6699. Port `0` lets the system assign a port and disables handoff. The terminal prints the assigned URL at readiness. Stop the foreground listener with Ctrl+C or SIGTERM. `workspace` and `server` use the same Launch Control commands.
 
+### Base launch authorization request
+
+**Requested decision.** Operation Control to authorize prepositioning and activation of a signed Tool native release on an enrolled Base target. Traffic Control to issue the Hybrid-Recentralised Traffic policy for the same deployment generation. This request defines the configuration under review. Approval requires the target, release digest, activation window, and routing policy to be recorded by their respective authorities.
+
+| Configuration | Required binding |
+| --- | --- |
+| Operator authentication | Environment-specific OpenID Connect issuer and client. Authorization Code with PKCE and fresh WebAuthn authentication for activation approval. |
+| Installer authentication | Enrolled workload identity bound to one target and environment. Short-lived, audience-restricted OAuth access token bound to the workload's mutual TLS certificate. |
+| Release verification | Approved manifest signing identity, immutable artifact digest, and target environment. |
+| Operation Control approval | Permitted action, target, environment, release digest and UTC validity window. Activation approval also binds the deployment generation. |
+| Traffic Control policy | Target, environment, deployment generation, release digest, policy revision, approved destinations and UTC validity window. |
+| Deployment state | Authoritative target lease and generation counter, current fencing token, idempotent command ID and audit journal. |
+
+Acquire the target lease at prepositioning and reserve the deployment generation in the same transaction. Retries of one attempt reuse the generation. Lease takeover issues a fresh fencing token. The release version remains the identity of the software artifact. The process-local availability counters measure elapsed uptime and downtime independently of the durable deployment generation.
+
+At activation, the endpoint that changes traffic must enforce the current lease and fencing token, both approvals, their revocation state, and the activation window. A missing or mismatched binding leaves the existing route in service. Record the release digest, generation, approvals, routing policy revision and result for Procedure Control. Recovery uses a new generation with an authorized release and routing policy.
+
+Commissioning evidence must cover a valid staged attempt, repeat submission of its command ID, lease takeover, and rejection of a revoked approval, a stale fencing token, an expired activation window, and a policy for a different generation.
+
+#### Managed native launch
+
+The managed service starts Tool with `tool launch managed-start [mode] [port]`. Set `TOOL_BASE_MANAGED=1` in the trusted service definition to apply the same gate to ordinary `start` via `launch`, `workspace`, or `server`. Keep the service definition, its environment, and the Base socket directory under administrator control. Use a dedicated Base verifier UID distinct from the Tool service account. The existing unmanaged commands run a local loopback workspace. Manage upstream traffic exclusively through the activation endpoint.
+
+| Service setting | Value |
+| --- | --- |
+| `TOOL_BASE_SOCKET` | Absolute filesystem path to the Base verifier's Linux Unix-domain sequenced-packet socket. |
+| `TOOL_BASE_PEER_UID` | Numeric UID pinned to the Base verifier. |
+| `TOOL_BASE_TARGET`, `TOOL_BASE_ENVIRONMENT` | Enrolled target and environment identifiers. |
+| `TOOL_BASE_RELEASE_SHA256` | Lowercase SHA-256 digest supplied by the trusted release supervisor. |
+| `TOOL_BASE_GENERATION`, `TOOL_BASE_FENCE`, `TOOL_BASE_COMMAND_ID` | Positive generation and fencing token and the command identifier from the current prepositioning attempt. |
+
+Tool verifies the socket peer's kernel-reported UID before sending a request. The verifier must authenticate the caller through the socket peer credentials and bind that identity to the enrolled release supervisor and target. It must validate the staged release digest independently and check the command binding, active lease, revocation state, Operation Control approval, and Traffic Control policy for the generation. It responds only after those checks. The production traffic actuator must enforce its own authorization and fencing check at the point of mutation.
+
+The socket protocol sends one ASCII packet per request with tab-separated fields and no line ending. The field order is `tool-base/1`, `authorize-launch`, command ID, target, environment, hostname, digest, generation, fence, mode, requested port, and `handoff` or `direct`. Port zero requests an ephemeral loopback port. A positive response is precisely `tool-base/1<TAB>allow<TAB><command ID>` in a single packet. Missing settings, an unexpected peer UID, malformed or mismatched responses, and a two-second exchange timeout abort startup before any workspace socket binds.
+
+Verify the native boundary with `python3 tests/base.py /path/to/native-build`. The test verifier simulates decisions over the actual socket. Commissioning still requires a registered verifier, identity provider and workload enrollment, durable lease storage, and a traffic actuator. The native adapter implements the local launch check. The Base verifier owns the approval and lease policy.
+
+#### Base coverage compliance
+
+`tool coverage base` lists compliance codes `BCC-01` through `BCC-08` as tab-separated code, owner, control, and required evidence. Use `tool coverage base information` for Information Control, `tool coverage base systems` for Systems Control, or an individual code to inspect one requirement.
+
+`tool coverage base classification` displays the retained Base Designated Classification for native staging, the existing Tool Base, browser production, and Project System Headquarters. The Headquarters enrollment remains pending independent host verification. The reports define evidence requirements and perimeter designations. An asset report records provenance and verification separately from control results, and a launch decision still comes from the Base verifier.
+
 ## Development priorities
 
 1. Verify native and WASI builds and correct compilation defects.

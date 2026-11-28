@@ -2,6 +2,7 @@ class LAUNCHCONTROL {
     using Registry = std::map<std::string, std::map<std::string, std::string>>;
     const Registry commands{
         {"inventory", {{"usage", "inventory"}}},
+        {"managed-start", {{"usage", "managed-start [auto|desktop|tablet|mobile] [port]"}}},
         {"plan", {{"usage", "plan"}}},
         {"ports", {{"usage", "ports"}}},
         {"preflight", {{"usage", "preflight [auto|desktop|tablet|mobile] [port]"}}},
@@ -28,6 +29,7 @@ public:
         if (args.size() == 1 && args[0] == "status") return status(DATAMODE::passive, DATASTATE::ready, "listener disabled until launch start");
         if (args.size() <= 3 && args[0] == "preflight") return preflight(initiation(args));
         if (args.size() <= 3 && args[0] == "start") return start(initiation(args));
+        if (args.size() <= 3 && args[0] == "managed-start") return start(initiation(args), true);
         std::string usage = "Usage: launch";
         for (const auto& command : commands) usage += " | " + command.second.at("usage");
         throw std::invalid_argument(usage);
@@ -102,12 +104,16 @@ private:
 #endif
     }
 
-    static std::string start(const INITIATION& request) {
+    static std::string start(const INITIATION& request, bool managed = false) {
 #if defined(__linux__) && !defined(__wasi__)
         static std::mutex launchGuard;
         const std::unique_lock<std::mutex> ownership(launchGuard, std::try_to_lock);
         if (!ownership) throw std::runtime_error("Workspace already running");
         const auto host = prepare();
+        const auto arrangement = modes[static_cast<unsigned>(request.arrangement)];
+        const auto policy = std::getenv("TOOL_BASE_MANAGED");
+        if (policy && std::string_view(policy) != "1") throw std::runtime_error("Invalid TOOL_BASE_MANAGED policy");
+        if (managed || policy) BASELAUNCH{}.authorize(host, arrangement, request);
         std::cout << NARRATION::NARRATIONS[0] << std::endl;
         stopRequested.store(false, std::memory_order_relaxed);
         const SIGNALS signals;
@@ -122,7 +128,6 @@ private:
         auto handoff = request.referral ? bindSocket(SOCK_STREAM, lockedPort) : DESCRIPTOR(-1);
         auto handoffUdp = request.referral ? bindSocket(SOCK_DGRAM, lockedPort) : DESCRIPTOR(-1);
         HANDOFF sessions;
-        const auto arrangement = modes[static_cast<unsigned>(request.arrangement)];
         const unsigned workers = std::clamp(std::thread::hardware_concurrency(), 1u, 4u);
         JOURNAL journal;
         const pollfd listeners[]{{listener.get(), POLLIN, 0}, {handoff.get(), POLLIN, 0},
@@ -164,6 +169,7 @@ private:
             "\nLogs\n" + journal.read("log") + "\nReports\n" + journal.read("report");
 #else
         (void)request;
+        (void)managed;
         throw std::runtime_error("The local workspace listener is available on Linux");
 #endif
     }

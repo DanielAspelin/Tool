@@ -8,6 +8,7 @@
 #include <deque>
 #include <iostream>
 #include <algorithm>
+#include <array>
 #include <fstream>
 #include <iterator>
 #include <chrono>
@@ -57,6 +58,7 @@
 #include <sys/socket.h>
 #if defined(__linux__)
 #include <sys/random.h>
+#include <sys/un.h>
 #endif
 #include <poll.h>
 #endif
@@ -540,6 +542,7 @@ static_assert(std::atomic<bool>::is_always_lock_free, "Expected lock-free shutdo
 #include "units/bindsocket.hpp"
 
 #include "units/discovery.hpp"
+#include "units/baselaunch.hpp"
 #endif
 
 #include "units/launch.hpp"
@@ -1123,6 +1126,7 @@ void WAVEROBIN::echo(const std::string& target, const std::string& event) {
 #include "units/farm.hpp"
 #include "units/reflex.hpp"
 #include "units/reaction.hpp"
+#include "units/basecoverage.hpp"
 #include "units/hybrid.hpp"
 
 int main(int argc, char** argv) {
