@@ -104,7 +104,7 @@ private:
 public:
     FLOW(CLI& cli, API& api, AUTHORIZATION& authorization, ROUNDROBIN& robin, HEARTBEAT& heartbeat)
         : cli(cli), api(api), authorization(authorization), robin(robin), heartbeat(heartbeat) {
-        registry.add("invoke","policy","cyclic destination selection");
+        registry.add("invoke","policy","cyclic selection among reachable destinations");
     }
     std::string preview(const TOOL::Arguments& args) {
         constexpr std::string_view suffix = ".sessions.mainframes.digital";
@@ -158,12 +158,22 @@ public:
         std::istringstream input(a[2]);
         std::string name;
         for(;std::getline(input,name,',');)if(!name.empty())destinations.push_back(name);
-        auto destination=robin.select(destinations);
-        if(destination.empty())return "No destination";
-        heartbeat.pulse("flow");
+        if (destinations.empty()) return "No destination";
         REQUEST instruction{a[1],TOOL::Arguments(a.begin()+3,a.end())};
         if (!authorization.permit(instruction)) return "Denied: method not authorized";
-        if (a[0] == "cli" && destination == "api" && cli.canReach(api, instruction.method)) {
+
+        bool dispatch = false;
+        if (a[0] == "cli" && cli.canReach(api, instruction.method)) {
+            const auto end = std::remove_if(destinations.begin(), destinations.end(),
+                                           [](const auto& candidate) { return candidate != "api"; });
+            if (end != destinations.begin()) {
+                destinations.erase(end, destinations.end());
+                dispatch = true;
+            }
+        }
+        const auto destination = robin.select(destinations);
+        heartbeat.pulse("flow");
+        if (dispatch) {
             const auto response = cli.invokePeer(api, std::move(instruction), deadline);
             if (response.status != TOOL::InvocationStatus::completed) {
                 throw std::runtime_error(response.value);

@@ -20,6 +20,7 @@ class CommandVerification {
         const echo = invoke('run', 'echo', 'ää🌱', 'two words', 'tail');
         assert.equal(echo.status, 0, echo.stderr);
         assert.equal(echo.stdout, 'ää🌱 two words tail\n');
+        this.verifyPassThrough(directory);
         assert.match(invoke('run', 'code', 'self-test', '--language', 'wasm').stdout, /^CODE self-test passed/);
         for (const [action, name, message] of [
             ['run', 'absent-command', /Unknown command/],
@@ -32,6 +33,34 @@ class CommandVerification {
         }
         if (process.platform === 'linux') this.verifyInstallation(directory, invoke);
         this.verifyTimeLock(directory);
+    }
+
+    static verifyPassThrough(directory) {
+        const result = spawnSync(resolve(directory, 'tool'), [], {
+            cwd: directory, encoding: 'utf8', timeout: 10000,
+            input: [
+                'flow cli echo unavailable,api first',
+                'flow cli echo api,unavailable second',
+                'flow cli echo unavailable,api,api once',
+                'flow cli echo unavailable',
+                'flow cli absent-command unavailable,api denied',
+                'flow cli echo ,',
+                'signal',
+                'exit',
+                '',
+            ].join('\n'),
+        });
+        if (result.error) throw result.error;
+        assert.equal(result.status, 0, result.stderr);
+        const lines = result.stdout.split('\n');
+        for (const message of [
+            'first', 'second', 'once',
+            'Destination selected: unavailable; reciprocal participant testimony required',
+            'Denied: method not authorized', 'No destination',
+            'api/roundrobin 3', 'unavailable/roundrobin 1',
+        ]) {
+            assert.equal(lines.filter(line => line === message).length, 1, result.stdout);
+        }
     }
 
     static verifyTimeLock(directory) {
