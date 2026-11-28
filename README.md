@@ -54,6 +54,18 @@ Each class retains reconcile, automate, generate, copy, dump, delete (registered
 
 All these requirements are specifications pending source reconciliation, compilation and testing.
 
+
+## NFC system
+
+Tool uses NFC Forum NDEF records as the application data format. The NFC system exposes capabilities and operations, the adapter handles the platform API, and the controller owns the scan lifecycle. The controller operates at application level. Hardware controllers use interfaces such as [NCI](https://nfc-forum.org/build/specifications/controller-interface-nci-technical-specification/).
+
+- **Native CLI.** Run `tool nfc status` for a readable status or `tool nfc capabilities` for the `tool.nfc.v1` JSON envelope. The native adapter reports NFC devices exposed through the Linux kernel NFC class. Native operation support is metadata-only. A device reported as present does not establish that a tag is readable.
+- **Browser.** The browser build produces `nfc.mjs` and `nfc.R`. Serve them together and call `await NFCSystem.create(webR)` using the application's initialized webR runtime. Use `capabilities()` to select supported controls, call `scan()` directly from the user's gesture, and call `stop()` on cancellation or when leaving the view. [Web NFC](https://developer.chrome.com/docs/capabilities/nfc) requires a secure top-level page and compatible browser and hardware.
+- **Scan result.** One scan returns one message containing up to 32 top-level records and 4096 payload bytes. It ends on a read, an error, cancellation, or a 30-second timeout. Records are untrusted input. Applications should render or decode them explicitly for the expected record type.
+- **Audit.** `statistics()` returns per-instance counts reduced in R. The audit receives operation categories, record counts, and byte counts. NFC serial numbers are omitted from the interface.
+
+Native iOS and Android app integrations and additional desktop readers require their own platform adapters. A unified interface can branch on the capability envelope's `operations` list. See the [NDEF specification](https://nfc-forum.org/build/specifications/data-exchange-format-ndef-technical-specification/).
+
 ## Development status
 
 Architectural foundation / experimental prototype. Source inventory as of 2026-11-26: **116 classes and 84 original commands, plus 334 generated registrations (474 expected total)** in [tool.cpp](tool.cpp). These counts describe source declarations, not independently verified working features. Native compilation, WebAssembly compilation and end-to-end testing have not yet been verified.

@@ -33,22 +33,25 @@ public:
 private:
     inline static std::atomic<std::uint64_t> specificationInstanceCounter{0};
     static ToolLocalRegistry initialSpecification(){
-        return {{"class",{{"identity","NFC"},{"version","0.1.0"},{"activation","invocation-bound"}}},
-                {"array:ARCHITECTURE",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:DESIGN",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:VERSION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:INFORMATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:DESCRIPTION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:MODEL",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:COMMANDS",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"array:SPECIFICATION",{{"kind","nested associative array"},{"version","0.1.0"}}},
-                {"function:COMMANDER.define",{{"version","0.1.0"}}},
-                {"function:COMMANDER.inspect",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.transversion",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.generate",{{"version","0.1.0"}}},
-                {"function:SPECIFIER.index",{{"version","0.1.0"}}}};
+        return {{"class",{{"identity","NFC"},{"version","0.2.0"},{"activation","invocation-bound"}}},
+                {"array:ARCHITECTURE",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:DESIGN",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:VERSION",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:INFORMATION",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:DESCRIPTION",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:MODEL",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:COMMANDS",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"array:SPECIFICATION",{{"kind","nested associative array"},{"version","0.2.0"}}},
+                {"function:COMMANDER.define",{{"version","0.2.0"}}},
+                {"function:COMMANDER.inspect",{{"version","0.2.0"}}},
+                {"function:SPECIFIER.transversion",{{"version","0.2.0"}}},
+                {"function:SPECIFIER.generate",{{"version","0.2.0"}}},
+                {"function:SPECIFIER.index",{{"version","0.2.0"}}},
+                {"function:invoke",{{"role","system dispatch"}}},
+                {"function:CONTROLLER.status",{{"role","capability projection"}}},
+                {"function:ADAPTER.discover",{{"role","reader discovery"}}}};
     }
-    ToolLocalRegistry VERSION{{"class",{{"version","0.1.0"}}}};
+    ToolLocalRegistry VERSION{{"class",{{"version","0.2.0"}}}};
     ToolLocalRegistry INFORMATION{{"lifecycle",{{"ownership","invoker"},{"runtime","optional"}}}};
     ToolLocalRegistry DESCRIPTION{{"structure",{{"architecture","reciprocal"},{"design","invocation-bound"}}}};
     ToolLocalRegistry SPECIFICATION=initialSpecification();
@@ -66,7 +69,8 @@ public:
     };
 private:
     ToolLocalRegistry MODEL{{"NFC",{{"class","NFC"},{"activation","invocation-bound"}}}};
-    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NFC"}}}};
+    ToolLocalRegistry COMMANDS{{"status",{{"kind","metadata"},{"owner","NFC"}}},
+                               {"capabilities",{{"kind","metadata"},{"owner","NFC"}}}};
 public:
     ToolLocalRegistry testifyIntegration() const {
         ToolLocalRegistry testimony;
@@ -95,8 +99,45 @@ public:
 private:
 
 
- REGISTRATION registry;
+    class ADAPTER {
+        const ToolLocalRegistry operations{{"discover",{{"scope","local NFC class"}}}};
+
+    public:
+        std::string_view discover() const {
+#if defined(__linux__) && !defined(__wasi__)
+            std::error_code error;
+            const std::filesystem::directory_iterator readers("/sys/class/nfc", error);
+            if (!error) {
+                return readers == std::filesystem::directory_iterator{} ? "not-detected" : "present";
+            }
+            if (error == std::errc::no_such_file_or_directory) return "not-detected";
+#endif
+            return "unknown";
+        }
+    };
+
+    class CONTROLLER {
+        const ToolLocalRegistry operations{{"status",{{"adapter","native"}}},
+                                           {"capabilities",{{"format","tool.nfc.v1"}}}};
+        ADAPTER adapter;
+
+    public:
+        std::string status(bool structured) const {
+            const std::string reader(adapter.discover());
+            if (!structured) return "NFC: metadata-only; native kernel NFC reader " + reader;
+            return R"({"schema":"tool.nfc.v1","adapter":"native","state":"metadata-only","reader":")"
+                   + reader + R"(","operations":["status","capabilities"]})";
+        }
+    };
+
+    CONTROLLER controller;
+
 public:
- NFC(){registry.add("status","NFC","invocation-bound foundation");}
- std::string invoke(const TOOL::Arguments& a){if(a.empty()||(a.size()==1&&a[0]=="status"))return "NFC: passive invocation-bound foundation; specialized backend unavailable";return "Unsupported operation";}
+    std::string invoke(const TOOL::Arguments& args) const {
+        if (args.empty() || (args.size() == 1 && args[0] == "status")) {
+            return controller.status(false);
+        }
+        if (args.size() == 1 && args[0] == "capabilities") return controller.status(true);
+        return "Usage: nfc [status|capabilities]";
+    }
 };

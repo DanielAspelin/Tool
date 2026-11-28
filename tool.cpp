@@ -338,7 +338,7 @@ using WINDPRESSURE = LENGTH;
 #include "units/package.hpp"
 constexpr Package packages[] {
     {"gps", "GPS · GNSS · NMEA · RMC · GGA · UTC · WGS84 · DOP · HDOP", "https://www.gps.gov/interface-control-documents-icds-interface-specifications-iss", "Local coordinate validation; receiver and NMEA adapter pending."},
-    {"nfc", "NFC · NDEF · RTD · TNEP · APDU · NCI · LLCP · HCE", "https://nfc-forum.org/build/specifications/", "Reference profile; tag, reader and card-emulation adapters pending."},
+    {"nfc", "NFC · NDEF · RTD · TNEP · APDU · NCI · LLCP · HCE", "https://nfc-forum.org/build/specifications/", "NDEF read on supported browsers; native NFC reader discovery."},
     {"gsm", "GSM · SIM · SMS · USSD · GPRS · EDGE · PLMN · AT", "https://portal.3gpp.org/desktopmodules/Specifications/SpecificationDetails.aspx?specificationId=1515", "Reference profile; modem and carrier adapters pending."},
     {"tcpip", "TCP · UDP · IPv4 · IPv6 · ICMP · DNS · DHCP · TLS · HTTP", "https://www.rfc-editor.org/rfc/rfc9293", "Loopback HTTP/TCP in the workspace; other protocols require adapters."},
     {"rfid", "RFID · EPC · UHF · HF · LF · TID · LLRP · RAIN", "https://ref.gs1.org/architecture/system-architecture/", "Reference profile; reader and tag inventory adapters pending."},
