@@ -10,11 +10,17 @@ License: GNU GPL version 3 only (GPL-3.0-only). See [LICENSE](LICENSE).
 
 All primary classes shall be independently instantiable multi-argument, multiparameterized functors containing parameterized functional objects. Each class shall retain ARCHITECTURE, DESIGN, MODEL, VERSION and SPECIFICATION nested associative arrays, its functional registry, MODELER, COMMANDER and SPECIFIER helpers, and a logical subprocess identifier distinct from an OS PID. Each primary class shall contain SERVICE, PROTOCOL, SOCKET and INTERFACE, each with its own TYPE, MODE, CONDITION and STATE subordinate types. This is a finite two-level hierarchy, not recursive replication.
 
-### Mandatory monolithic composition
+### Source layout and builds
 
-Tool is physically monolithic and internally decomposed. All Tool-owned primary and nested functors, parameterized functionals, applicable operator overloads, associative registries, STACK and HEAP abstractions, TOOLCORE, KERNELISATION and KERNELISER, Linux kernel comprehension, runtime circulation, regulation, datatype conversion and portable fallback mechanisms shall reside in the single tool.cpp translation unit. Internal decomposition uses classes and callable objects, not separate Tool-owned implementation files. Native and WebAssembly binaries are derived build artifacts of that common source, subject to target capabilities. Standard libraries, external toolchains and authorized external dependencies remain external resources rather than additional Tool implementation units.
+`tool.cpp` is the sole C++ translation unit. It includes declarations and catalogue data from `units/*.hpp` in source order. The headers are implementation fragments with dependencies on earlier declarations. The native and browser builds use the same entry source with separate target settings.
 
-README.md is the single comprehensive architectural and implementation-reference document. All current requirements, class inventories, operational contracts, build instructions, compatibility limitations and verification status shall be maintained within it. No separate architectural Markdown documents are required. The existing GPL license file remains a legal artifact, not a split specification. Earlier conflicting conventions are superseded by the reconciled mandatory architecture. This is a target specification; physical source compliance and compilation must be verified separately.
+- Run `bash build.bash native` to build and smoke-test the native CLI with a C++17 compiler.
+- Run `./tool code self-test [--language cpp|wasm|both] [--bytes N]` to check source-record language, empty input and the 1 MiB size boundary. Both languages are checked by default. An optional sample from 0 through 1,048,577 bytes exercises the expected acceptance or rejection for the selected languages without changing validation policy. The native build runs the default checks. Invalid parameters and failed checks return a nonzero exit status.
+- Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash browser` to build `tool-route.wasm`. The module contains the browser passage state machine and exports its JavaScript loader. Native process, socket, and filesystem adapters remain in the native target.
+- Run `WASI_SDK_PATH=/path/to/wasi-sdk bash build.bash verify` to build both targets and verify the shared echo passage with Node.js. CI uses GCC 14, Node.js 24.22.3, and WASI SDK 27.0.
+- Run `c++ -std=c++17 -x c++ linguistbridge_test.hpp -o /tmp/linguistbridge-test && /tmp/linguistbridge-test` to check the optional reciprocal bridge.
+
+The class-local functor and functional requirements below describe the target architecture. The source split preserves the uploaded definitions and invocation behavior.
 
 ### Comprehensive operator and argument coverage
 
@@ -206,6 +212,8 @@ WAVEROBIN receives SIGNAL emissions through a callback outside the signal mutex 
 
 ## Trace Robin
 
+An explicit native `heartbeat pulse <target>` records a pulse, emits one `heartbeat` event and invokes REFLEX once to emit a `reflex` acknowledgment. Both events reach TRACEROBIN in order. Internal heartbeat timestamp updates from WAVEROBIN, REFLEX, FLOW and FARM remain local to prevent feedback loops.
+
 TRACEROBIN observes SIGNAL callbacks before WAVEROBIN echo and retains the latest 1024 timestamped target/event records with local sequence numbers. Manual record, trace, status, enable and disable operations are available. Records are volatile, truncated to 128 bytes per field and not correlated by invocation ID. Status and trace commands themselves may generate observed signals. This is a local signal observer, not full route reconstruction, distributed tracing or proof of delivery. Expected total: 130 classes and 587 registrations, pending compilation and runtime verification.
 
 ## Hotcode
@@ -280,6 +288,20 @@ DUMP appends anomaly metadata to `tool.dump` in the execution working directory 
 
 ## Build and usage
 
+Command Control uses the native command registry. Run `./tool command status` for usage, `./tool command list [prefix]` to discover registered names, `./tool command inspect <name>` to see the registration origin, and `./tool command run <name> [arguments...]` to dispatch through Tool's normal invocation path.
+
+### Linux self-installation
+
+From a native Linux build or extracted release, run the commands below. The release archive targets Linux x86-64 and requires glibc 2.34 or later and libstdc++ with `GLIBCXX_3.4.32`. The destination can be any existing directory owned and writable only by your account.
+
+```bash
+mkdir -p "$HOME/.local/bin"
+./tool installation self-install "$HOME/.local/bin"
+"$HOME/.local/bin/tool" code self-test
+```
+
+The installer runs the CODE self-test and copies the running executable to `tool` in the chosen directory. Repeating the command with the same binary succeeds. An existing file with different contents, permissions, or ownership is preserved. You can also run `./tool command run installation self-install <directory>` from the native command line.
+
 The supplied [build.bash](build.bash) targets C++17 and WASI SDK. It requires a native C++ compiler, Bash and an installed WASI SDK. Native IP discovery additionally requires curl.
 
 ```bash
@@ -287,7 +309,9 @@ export WASI_SDK_PATH=/path/to/wasi-sdk
 bash build.bash
 ```
 
-The script is intended to produce `tool` and `tool.wasm` and run a basic native smoke check. These outputs and successful execution have not yet been verified. WASI support for threads, filesystem and networking requires separate validation and host capabilities.
+The script builds the native `tool` CLI and browser `tool-route.wasm` module and runs a native smoke check.
+
+The preview operation ID is `1` (`echo`) under WASM ABI v1. It accepts empty input and up to 4,096 UTF-8 bytes. The native preview returns text through the CLI and API path. For multiple native arguments, the limit applies to the exact bytes of the joined echo result. The browser loader validates the lifecycle using the declared byte count, and the caller retains the text. Successful routes progress through enter, input, pass-through, output, exit and close.
 
 Illustrative commands (subject to build verification):
 
@@ -303,6 +327,29 @@ Illustrative commands (subject to build verification):
 ```
 
 In the interactive runtime, enter `ipify enable`, then `ipify status` after the background request completes. Enter `ipify disable` to stop optional observation. In-memory state does not persist across separate executable launches.
+
+### Time counter locking
+
+In one native interactive session, use `uptime start service` to start tracking. Use
+`prepositioner prepare-lock service 250` to arm a lock 250 milliseconds ahead.
+`uptime lock-status service` reports the open, armed or locked phase and, when scheduled,
+the deadline and remaining time in nanoseconds on the process's monotonic clock.
+The delay accepts whole milliseconds from 0 to 86,400,000. Use `uptime lock service`
+for an immediate lock on an open counter. An existing deadline stays in effect until
+you clear it.
+
+At the deadline, both uptime and downtime totals stop accumulating and availability
+transitions are blocked. Each read uses the scheduled cutoff even if the first read
+comes much later. `uptime unlock service` cancels a pending deadline or resumes a
+locked counter in its previous availability state. Time spent locked is excluded.
+
+### Launch Control
+
+Preflight and startup report the Linux hostname. Set `TOOL_LAUNCH_HOST` to the exact expected hostname in the process environment to require a match before startup opens sockets. The hostname identifies the machine. The workspace URL uses `127.0.0.1`.
+
+On start, Prelaunch checks the host and content inventory. Liftoff prepares the loopback listeners and request workers. Postlaunch publishes the readiness URL after setup succeeds. A port-binding failure ends startup before readiness is published.
+
+Use `./tool launch plan` to view the startup sequence. On Linux, `./tool launch preflight [auto|desktop|tablet|mobile] [port]` validates the settings and content inventory before any sockets are opened. Use `./tool launch start [mode] [port]` to start the workspace on loopback. The default port is 9966 with handoff on 6699. Port `0` lets the system assign a port and disables handoff. The terminal prints the assigned URL at readiness. Stop the foreground listener with Ctrl+C or SIGTERM. `workspace` and `server` use the same Launch Control commands.
 
 ## Development priorities
 

@@ -1,25 +1,35 @@
 name: Native verification
 on:
   workflow_dispatch:
+  pull_request:
   push:
     paths:
       - tool.cpp
+      - '**/*.hpp'
+      - build.bash
+      - 'tests/*.mjs'
       - .github/workflows/native-verification.yml
 permissions:
   contents: read
 jobs:
   native:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Compile C++ source
-        run: g++ -std=c++17 -O0 -pthread -Wall -Wextra tool.cpp -o tool
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.22.3'
+      - name: Install pinned WASI SDK
+        run: |
+          curl -fLsS https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-27/wasi-sdk-27.0-x86_64-linux.tar.gz -o "$RUNNER_TEMP/wasi-sdk.tar.gz"
+          echo "b7d4d944c88503e4f21d84af07ac293e3440b1b6210bfd7fe78e0afd92c23bc2  $RUNNER_TEMP/wasi-sdk.tar.gz" | sha256sum -c -
+          tar -xzf "$RUNNER_TEMP/wasi-sdk.tar.gz" -C "$RUNNER_TEMP"
+          echo "WASI_SDK_PATH=$RUNNER_TEMP/wasi-sdk-27.0-x86_64-linux" >> "$GITHUB_ENV"
+      - name: Verify native signaling and native and browser echo
+        run: CXX=g++-14 bash build.bash verify
       - name: Enumerate invocation coverage
         run: |
           ./tool coverage classes
           ./tool coverage commands ""
-      - name: Smoke test
-        run: |
-          test "$(./tool echo test)" = test
           ./tool help
